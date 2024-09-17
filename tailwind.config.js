@@ -1,8 +1,42 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,js}"],
+export default {
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        dateFont: ["Six Caps", "sans-serif"],
+      },
+      animation: {
+        move: "move 2s ease-in-out infinite",
+      },
+      keyframes: {
+        move: {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(100%)",
+          },
+          "80%": {
+            opacity: "1",
+            transform: "translateY(-80%)",
+          },
+          "100%": {
+            opacity: "0",
+            transform: "translateY(-120%)",
+          },
+        },
+      },
+    },
+    colors: {
+      none: "rgba(0, 0, 0, 0.0)",
+      tranparent: "rgba(0, 0, 0, 0.5)",
+      // 60% color
+      containerColor: "#151515",
+      containerColorDarker: "#a5a5a5",
+      // 30% color
+      cThirtyOff: "#FAF9F6",
+      // 10% color
+      LittleDetail: "#ff5404",
+    },
   },
   plugins: [],
-}
+};

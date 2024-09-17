@@ -1,12 +1,15 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import Navbar from './components/Navbar.vue'
 </script>
 
 <template>
-  <!-- Mobile novigation -->
+  <!-- Navbar -->
   <header>
-    <!-- Create a navbar to a mobile navigation -->
+     <Navbar />
   </header>
   <!-- Content  -->
   <RouterView />
 </template>
+
+<!-- Add the pathj to the navigation item -->
