@@ -29,13 +29,16 @@ export default {
     colors: {
       none: "rgba(0, 0, 0, 0.0)",
       tranparent: "rgba(0, 0, 0, 0.5)",
+      borderColor: "#7d7d7d",
       // 60% color
       containerColor: "#151515",
       containerColorDarker: "#a5a5a5",
+      containerColorSecondary: "#262626",
       // 30% color
       cThirtyOff: "#FAF9F6",
       // 10% color
-      LittleDetail: "#ff5404",
+      LittleDetail: "#e65d1e",
+      LittleDetailAction: "#ff5404",
     },
   },
   plugins: [],
