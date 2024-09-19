@@ -6,14 +6,14 @@ import AboutContainer from "./components/AboutContainer.vue";
 
 <template>
   <!-- Device size -->
-  <div class="flex flex-col lg:flex-row lg:gap-2 w-screen lg:p-2">
+  <div class="flex flex-col lg:flex-row lg:gap-3 lg:p-2">
     <!-- Navbar -->
-    <header class="h-full">
+    <header class="h-full lg:sticky lg:top-2">
       <Navbar />
       <AboutContainer />
     </header>
     <!-- Content  -->
-    <div class="">
+    <div class="h-full w-full">
       <RouterView />
     </div>
   </div>
