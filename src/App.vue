@@ -7,12 +7,15 @@ import AboutContainer from "./components/AboutContainer.vue";
 <template>
   <!-- Device size -->
   <div class="flex flex-col lg:flex-row lg:gap-3 lg:p-2">
-    <!-- Navbar -->
+    <!-- Navbar / About Card-->
     <header class="h-full w-auto lg:sticky lg:top-2">
       <Navbar />
-      <AboutContainer />
+      <!-- About Card, show only in lg size -->
+      <div class="hidden lg:flex">
+        <AboutContainer />
+      </div>
     </header>
-    <!-- Content  -->
+    <!-- Content Change  -->
     <div class="h-full w-full">
       <RouterView />
     </div>
