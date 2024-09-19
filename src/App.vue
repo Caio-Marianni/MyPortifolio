@@ -25,3 +25,6 @@ import AboutContainer from "./components/AboutContainer.vue";
 <!-- Add the path to the navigation item -->
 <!-- Add the path to the hire me -->
 <!-- Add the path to the CV donwload, and dowload function -->
+
+<!-- Create the text to the service card -->
+<!-- Fix the Icon from the service card -->

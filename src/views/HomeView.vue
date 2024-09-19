@@ -1,6 +1,7 @@
 <script setup>
 import AboutContainer from "@/components/AboutContainer.vue";
 import BorderEffect from "@/components/BorderEffect.vue";
+import ProjectContainer from "@/components/ProjectContainer.vue";
 import ServicesContainer from "@/components/ServicesContainer.vue";
 
 // import TheWelcome from '../components/TheWelcome.vue'
@@ -13,6 +14,7 @@ import ServicesContainer from "@/components/ServicesContainer.vue";
       <AboutContainer />
     </div>
     <ServicesContainer />
+    <ProjectContainer />
     <div class="hidden lg:flex">
       <BorderEffect />
     </div>
