@@ -4,7 +4,7 @@ import InfoTemplate from "./InfoTemplate.vue";
 import IconDocument from "./icons/IconDocumentation.vue";
 </script>
 <template>
-  <div class="text-[#ffffff] relative flex flex-col justify-between mt-24 lg:mt-3 px-5 pb-5 w-full lg:max-w-[350px] h-auto lg:border lg:border-borderColor bg-containerColor">
+  <div class="text-[#ffffff] relative flex flex-col justify-between mt-24 lg:mt-3 px-5 pb-5 w-full lg:max-w-[350px] h-auto border-b lg:border lg:border-borderColor bg-containerColor">
     <!-- Cover and Info -->
     <div class="flex flex-col md:flex-row-reverse lg:flex-col justify-between items-center pt-10 lg:pt-5">
       <!-- Cover -->
