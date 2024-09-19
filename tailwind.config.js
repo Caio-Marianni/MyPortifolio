@@ -32,8 +32,10 @@ export default {
       borderColor: "#7d7d7d",
       // 60% color
       containerColor: "#151515",
-      containerColorDarker: "#a5a5a5",
+      containerColorDarker: "#0a0a0a",
       containerColorSecondary: "#262626",
+      cardColor: "#242424",
+      cardColorSec: "#282828",
       // 30% color
       cThirtyOff: "#FAF9F6",
       // 10% color
