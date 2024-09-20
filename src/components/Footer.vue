@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 bg-containerColorSecondary">
+  <div class="p-5 bg-containerColorSecondary border-borderColor border-t lg:border">
     <!-- Heading -->
     <h1 class="text-xl font-bold text-[#ffffff]">Where can you find <span class="text-LittleDetail">me</span> :</h1>
     <!-- Icons Container -->

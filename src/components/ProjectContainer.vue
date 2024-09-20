@@ -3,9 +3,9 @@
     <!-- Title -->
     <h1 class="text-4xl">Web Projects</h1>
     <!-- Card Container -->
-    <div class="flex flex-wrap flex-col lg:flex-row justify-evenly gap-4 w-full px-5">
+    <div class="flex flex-wrap flex-col lg:flex-row justify-evenly gap-8 w-full px-5">
       <!-- Card -->
-      <div v-for="(card, index) in cards" :key="index" class="flex flex-col lg:flex-row items-center border border-containerColorSecondary rounded-md overflow-hidden shadow-md">
+      <div v-for="(card, index) in cards" :key="index" class="flex flex-col lg:flex-row items-center max-w-[1000px] border border-containerColorSecondary rounded-md overflow-hidden shadow-md shadow-cardColorShadow">
         <!-- Part1 (cover, heading and icons) -->
         <div class="flex flex-col lg:w-1/2 lg:border-r">
           <!-- Clicked cover -->

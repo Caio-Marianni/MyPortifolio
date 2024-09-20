@@ -8,8 +8,8 @@ import IconDocument from "./icons/IconDocumentation.vue";
     <!-- Cover and Info -->
     <div class="flex flex-col md:flex-row-reverse lg:flex-col justify-between items-center pt-10 lg:pt-5">
       <!-- Cover -->
-      <div class="relative w-60 h-60 mb-5">
-        <img class="flex object-contain rounded-lg" src="../assets/Profile.webp" alt="">
+      <div class="relative w-60 h-60 mb-5 rounded-lg shadow-md shadow-[#1e383c] overflow-hidden">
+        <img class="flex object-contain" src="../assets/Profile.webp" alt="">
         <!-- <img class="absolute top-0 w-32 h-32" src="../assets/LogoOrange.webp" alt=""> -->
       </div>
       <!-- Info -->

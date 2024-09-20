@@ -27,6 +27,7 @@ export default {
       },
     },
     colors: {
+      black: "#000000",
       none: "rgba(0, 0, 0, 0.0)",
       tranparent: "rgba(0, 0, 0, 0.5)",
       borderColor: "#7d7d7d",
@@ -36,6 +37,7 @@ export default {
       containerColorSecondary: "#262626",
       cardColor: "#242424",
       cardColorSec: "#282828",
+      cardColorShadow: "#282828",
       // 30% color
       cThirtyOff: "#FAF9F6",
       // 10% color
