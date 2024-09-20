@@ -2,6 +2,7 @@
 import { RouterView } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 import AboutContainer from "./components/AboutContainer.vue";
+import Footer from "./components/Footer.vue";
 </script>
 
 <template>
@@ -19,11 +20,12 @@ import AboutContainer from "./components/AboutContainer.vue";
     <div class="h-full w-full">
       <RouterView />
     </div>
+    <Footer />
   </div>
 </template>
 
 <!-- Add the path to the navigation item -->
-<!-- Add the path to the hire me -->
+<!-- Add the path to the hire me (ZAP) -->
 <!-- Add the path to the CV donwload, and dowload function -->
 
 <!-- Create the text to the service card -->

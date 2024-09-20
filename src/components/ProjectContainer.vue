@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center gap-10 w-full mt-6 lg:mt-3">
+  <div class="flex flex-col items-center justify-center gap-10 w-full mt-6 lg:mt-3 pb-10">
     <!-- Title -->
     <h1 class="text-4xl">Web Projects</h1>
     <!-- Card Container -->
@@ -28,7 +28,7 @@
         <!-- Part2 (description and button)-->
          <div class="flex flex-col justify-between items-start w-full h-full lg:w-1/2 p-4 bg-cardColor">
            <p class="font-extralight opacity-70">{{ card.description }}</p>
-           <a :href="card.link" class="text-center mt-5 px-4 py-1 border-2 border-borderColor hover:border-[#ffffff] hover:text-LittleDetailAction bg-containerColorSecondary rounded-full transition-all duration-300">access project</a>
+           <a :href="card.link" class="text-center mt-5 px-4 py-1 text-LittleDetailAction border-2 border-borderColor hover:border-[#ffffff] hover:text-[#ffffff] bg-containerColorSecondary hover:bg-LittleDetail rounded-full transition-all duration-300">access project</a>
           </div>
       </div>
     </div>
