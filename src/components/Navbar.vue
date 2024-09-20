@@ -63,7 +63,7 @@ export default {
         <RouterLink to="/about">
           <p class="md:w-32 md:h-8 text-[#ffffff] font-normal text-base transition-all duration-200" ref="element2" @click="changeHighlight(1)">About me</p>
         </RouterLink>
-        <RouterLink to="">
+        <RouterLink to="/contact">
           <p class="md:w-32 md:h-8 text-[#ffffff] font-normal text-base transition-all duration-200" ref="element3" @click="changeHighlight(2)">Contact me</p>
         </RouterLink>
       </div>

@@ -20,6 +20,7 @@ import IconUpWork from './icons/IconUpWork.vue';
 import IconLinkedin from './icons/IconLinkedin.vue';
 import IconInstagram from './icons/IconInstagram.vue';
 import IconStackOverflow from './icons/IconStackOverflow.vue';
+import IconSoundCloud from '../components/icons/IconSoundcloud.vue';
 
 export default {
   components: { 
@@ -40,16 +41,18 @@ export default {
             IconVercel,
             IconUpWork,
             IconLinkedin,
-            IconInstagram,
-            IconStackOverflow
+            // IconInstagram,
+            IconStackOverflow,
+            IconSoundCloud
           ], 
           link: [
             'https://github.com/Caio-Marianni',
             'https://vercel.com/caiomariannis-projects',
             'https://www.upwork.com/freelancers/~01e15c653dfbed2b29',
             'https://www.linkedin.com/in/caio-marianni-de-morais/',
-            'https://www.instagram.com/caiomarianni/', 
-            'https://stackoverflow.com/users/23487177/caio'
+            // 'https://www.instagram.com/caiomarianni/', 
+            'https://stackoverflow.com/users/23487177/caio',
+            'https://soundcloud.com/cmarianni',
           ]
         },
       ]
