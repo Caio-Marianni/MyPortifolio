@@ -8,16 +8,13 @@ import ServicesContainer from "@/components/ServicesContainer.vue";
 </script>
 
 <template>
-  <div class="relative flex flex-col justify-center items-center gap-4 p-2 text-[#ffffff] lg:border lg:border-borderColor bg-containerColor w-full">
+  <div class="flex flex-col justify-center items-center gap-4 p-2 text-[#ffffff] lg:border lg:border-borderColor bg-containerColor w-full">
     <!-- About Card show only in sm/md size -->
     <div class="flex w-full lg:hidden">
       <AboutContainer />
     </div>
     <ServicesContainer />
     <ProjectContainer />
-    <div class="hidden lg:flex">
-      <BorderEffect />
-    </div>
   </div>
   <!-- <TheWelcome /> -->
   <!-- <div class="flex w-20 h-72 bg-containerColor">teste</div> -->

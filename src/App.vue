@@ -3,6 +3,7 @@ import { RouterView } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 import AboutContainer from "./components/AboutContainer.vue";
 import Footer from "./components/Footer.vue";
+import BorderEffect from "./components/BorderEffect.vue";
 </script>
 
 <template>
@@ -17,10 +18,14 @@ import Footer from "./components/Footer.vue";
       </div>
     </header>
     <!-- Content Change  -->
-    <div class="h-full w-full">
+    <div class="relative h-full w-full">
       <RouterView />
+      <Footer />
+      <!-- Border -->
+      <div class="hidden lg:flex">
+        <BorderEffect />
+      </div>
     </div>
-    <Footer />
   </div>
 </template>
 
