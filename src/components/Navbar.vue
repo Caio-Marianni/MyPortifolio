@@ -42,12 +42,14 @@ export default {
 };
 </script>
 <template>
-  <div class="absolute lg:relative top-0 w-full lg:w-full z-10">
+  <div class="absolute lg:relative top-0 w-full lg:w-full z-10" v-scroll-reveal="{ delay:100, scale: 1, distance: '10px'}">
     <div class="relative w-full h-auto lg:border lg:max-w-[350px] lg:border-borderColor">
       <!-- Mobile navbar -->
-      <div class="absolute lg:hidden flex items-center justify-between px-5 py-2 w-full h-24 z-10 bg-containerColorSecondary shadow-md">
+      <div class="absolute lg:hidden flex items-center justify-between px-5 py-2 w-full z-10 bg-containerColorSecondary shadow-md">
         <!-- Logo -->
-        <div class="w-16 h-16"><img class="object-contain" src="../assets/LogoOrange.webp" alt=""></div>
+         <RouterLink to="/" @click="changeHighlight(0)">
+           <div class="w-16 h-16"><img class="object-contain" src="../assets/LogoOrange.webp" alt=""></div>
+          </RouterLink>
         <!-- Burguer Menu -->
         <div @click="rotateMenu" class="cursor-pointer flex flex-col gap-2 justify-center items-center">
           <div ref="bar1" class="h-2 w-10 bg-[#ffffff] rounded-full transition duration-300 ease-in-out transform"></div>
@@ -56,7 +58,7 @@ export default {
         </div>
       </div>
       <!-- Navigation -->
-      <div ref="navigation" class="flex items-center lg:items-start flex-col md:flex-row lg:flex-col justify-evenly gap-5 -translate-y-full lg:translate-y-0 pt-28 lg:pt-4 pb-4 lg:px-4 md:text-center lg:text-left text-[#ffffff] bg-containerColorDarker lg:bg-containerColor lg:backdrop-blur-lg transition-all duration-500 shadow-md">
+      <div ref="navigation" class="flex items-center lg:items-start flex-col md:flex-row lg:flex-col justify-evenly gap-5 -translate-y-full lg:translate-y-0 pt-24 lg:pt-4 pb-4 lg:px-4 md:text-center lg:text-left text-[#ffffff] bg-containerColorDarker lg:bg-containerColor lg:backdrop-blur-lg transition-all duration-500 shadow-md">
         <RouterLink to="/">
           <p class="md:w-32 md:h-8 text-[#ff5404] font-bold text-xl transition-all duration-200" ref="element1" @click="changeHighlight(0)">Home</p>
         </RouterLink>

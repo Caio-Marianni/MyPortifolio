@@ -32,16 +32,16 @@ export default {
       tranparent: "rgba(0, 0, 0, 0.5)",
       borderColor: "#7d7d7d",
       // 60% color
-      containerColor: "#151515",
+      containerColor: "#0f0f0f",
       containerColorDarker: "#0a0a0a",
-      containerColorSecondary: "#262626",
-      cardColor: "#242424",
-      cardColorSec: "#282828",
+      containerColorSecondary: "#1f1f1f",
+      cardColor: "#1f1f1f",
+      cardColorSec: "rgba(26, 26, 26, 0.25)",
       cardColorShadow: "#282828",
       // 30% color
       cThirtyOff: "#FAF9F6",
       // 10% color
-      LittleDetail: "#e65d1e",
+      LittleDetail: "#cc4100",
       LittleDetailAction: "#ff5404",
     },
   },

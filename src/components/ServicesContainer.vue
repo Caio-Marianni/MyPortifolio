@@ -1,25 +1,26 @@
 <template>
-  <div class="flex flex-col items-center justify-center gap-10 w-full mt-6 lg:mt-3 border-b">
+  <div class="flex flex-col items-center justify-center gap-10 w-full mt-6 lg:mt-3 border-b border-borderColor border-opacity-10">
     <!-- Title -->
-    <h1 class="text-4xl">Services</h1>
+    <h1 class="text-4xl" v-scroll-reveal="{ delay:200, scale: 1, distance: '10px'}">Services</h1>
     <!-- Card Container -->
     <div class="flex flex-wrap flex-col items-center md:flex-row md:justify-evenly gap-8 w-full mb-10 px-5">
       <!-- Card -->
-      <div v-for="(card, index) in cards" :key="index" class="flex flex-col items-center justify-center max-w-[350px] h-auto gap-5 py-8 px-8 border-2 border-borderColor rounded-md bg-cardColor">
+      <div v-for="(card, index) in cards" :key="index" class="flex flex-col items-center justify-center max-w-[350px] h-auto gap-5 py-8 px-8 border-2 border-borderColor rounded-md bg-cardColor shadow-md shadow-cardColorShadow">
         <component :is="card.icon" class="flex items-center justify-center w-20" />
-        <h2 class="font-semibold">{{ card.title }}</h2>
-        <p class="font-extralight text-center">{{ card.description }}</p>
+        <h2 class="font-semibold text-xl">{{ card.title }}</h2>
+        <p class="font-extralight text-center text-sm opacity-70">{{ card.description }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { vScrollReveal } from 'vue-scroll-reveal';
 import IconCode from './icons/IconCode.vue';
 import IconPalette from './icons/IconPalette.vue';
 
 export default {
-  components: { IconCode, IconPalette },
+  components: { vScrollReveal, IconCode, IconPalette },
   props: {
     cards: {
       type: Array,

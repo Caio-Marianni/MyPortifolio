@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-24 lg:mt-0 p-5 bg-containerColor border-borderColor lg:border">
+  <div class="mt-20 lg:mt-0 p-5 bg-containerColor border-borderColor lg:border">
     <!-- Heading -->
     <h1 class="mb-2 text-xl font-bold text-[#ffffff]">Places to contact me :</h1>
     <!-- Content Container -->
