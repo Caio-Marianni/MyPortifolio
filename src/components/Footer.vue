@@ -1,10 +1,10 @@
 <template>
   <div class="p-5 bg-containerColorSecondary">
     <!-- Heading -->
-    <h1 class="text-xl font-bold mb-4 text-[#ffffff]">Where can you find <span class="text-LittleDetail">me</span> :</h1>
+    <h1 class="text-xl font-bold text-[#ffffff]">Where can you find <span class="text-LittleDetail">me</span> :</h1>
     <!-- Icons Container -->
     <div class="flex gap-3">
-      <div v-for="(icon, index) in socials[0].icons" :key="index" class="content-center w-10 h-auto">
+      <div v-for="(icon, index) in socials[0].icons" :key="index" class="content-center w-10 h-auto opacity-70 hover:opacity-100 hover:scale-110">
         <a :href="socials[0].link[index]" target="_blank" rel="noopener noreferrer">
           <component :is="icon" class="w-10" />
         </a>
@@ -38,16 +38,16 @@ export default {
           icons: [
             IconGithub,
             IconVercel,
-            IconLinkedin,
             IconUpWork,
+            IconLinkedin,
             IconInstagram,
             IconStackOverflow
           ], 
           link: [
             'https://github.com/Caio-Marianni',
             'https://vercel.com/caiomariannis-projects',
-            'https://www.linkedin.com/in/caio-marianni-de-morais/',
             'https://www.upwork.com/freelancers/~01e15c653dfbed2b29',
+            'https://www.linkedin.com/in/caio-marianni-de-morais/',
             'https://www.instagram.com/caiomarianni/', 
             'https://stackoverflow.com/users/23487177/caio'
           ]
