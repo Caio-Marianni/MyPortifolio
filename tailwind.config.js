@@ -2,27 +2,6 @@
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      animation: {
-        move: "move 2s ease-in-out infinite",
-      },
-      keyframes: {
-        move: {
-          "0%": {
-            opacity: "0",
-            transform: "translateY(100%)",
-          },
-          "80%": {
-            opacity: "1",
-            transform: "translateY(-80%)",
-          },
-          "100%": {
-            opacity: "0",
-            transform: "translateY(-120%)",
-          },
-        },
-      },
-    },
     colors: {
       black: "#000000",
       none: "rgba(0, 0, 0, 0.0)",
@@ -35,8 +14,6 @@ export default {
       cardColor: "#1f1f1f",
       cardColorSec: "rgba(26, 26, 26, 0.25)",
       cardColorShadow: "#282828",
-      // 30% color
-      cThirtyOff: "#FAF9F6",
       // 10% color
       LittleDetail: "#cc4100",
       LittleDetailAction: "#ff5404",

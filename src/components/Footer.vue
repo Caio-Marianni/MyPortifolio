@@ -30,6 +30,7 @@ export default {
     IconUpWork, 
     IconInstagram, 
     IconStackOverflow,
+    IconSoundCloud,
   },
   props: {
     socials: {
