@@ -20,7 +20,7 @@ import IconUpWork from './icons/IconUpWork.vue';
 import IconLinkedin from './icons/IconLinkedin.vue';
 import IconInstagram from './icons/IconInstagram.vue';
 import IconStackOverflow from './icons/IconStackOverflow.vue';
-import IconSoundCloud from '../components/icons/IconSoundcloud.vue';
+import IconSoundCloud from '../components/icons/IconSoundCloud.vue';
 
 export default {
   components: { 
