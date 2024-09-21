@@ -29,10 +29,3 @@ import BorderEffect from "./components/BorderEffect.vue";
     </div>
   </div>
 </template>
-
-<!-- Add the path to the navigation item -->
-<!-- Add the path to the hire me (ZAP) -->
-<!-- Add the path to the CV donwload, and dowload function -->
-
-<!-- Create the text to the service card -->
-<!-- Fix the Icon from the service card -->

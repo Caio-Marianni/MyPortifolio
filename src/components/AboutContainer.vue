@@ -1,8 +1,20 @@
-<script setup>
+<script>
 import { vScrollReveal } from 'vue-scroll-reveal';
 import BorderEffect from "./BorderEffect.vue";
 import InfoTemplate from "./InfoTemplate.vue";
 import IconDocument from "./icons/IconDocumentation.vue";
+
+export default {
+  components: { BorderEffect, InfoTemplate, IconDocument },
+  methods: {
+    openWhatsApp() {
+      const phoneNumber = '5566981160081'; // Número no formato internacional sem +, espaços ou traços
+      const url = `https://wa.me/${phoneNumber}`;
+      window.open(url, '_blank'); // Abre o link em uma nova aba
+    }
+  }
+};
+
 </script>
 <template>
   <div class="text-[#ffffff] relative flex flex-col justify-between mt-24 lg:mt-3 px-5 pb-5 w-full lg:max-w-[350px] h-auto border-b border-borderColor border-opacity-20 lg:border lg:border-borderColor bg-containerColor" v-scroll-reveal="{ delay:200, scale: 1, distance: '10px'}">
@@ -30,8 +42,8 @@ import IconDocument from "./icons/IconDocumentation.vue";
     </div>
     <!-- Buttom -->
     <div class="flex items-center justify-center gap-4 mt-5 w-full " v-scroll-reveal="{ delay:400, scale: 1, distance: '10px'}">
-      <a href="" class="flex justify-center items-center px-14 w-22 h-10 text-lg border-2 hover:text-LittleDetailAction hover:border-borderColor border-[#ffffff] bg-LittleDetail hover:bg-tranparent text-[#ffffff] rounded-full transition-all duration-300">Hire me</a>
-      <a href="" class="flex justify-center items-center w-20 h-10 border-2 border-borderColor hover:border-[#ffffff] hover:bg-LittleDetail rounded-full transition-all">CV<IconDocument/></a>
+      <div @click="openWhatsApp" class="flex justify-center items-center px-14 w-22 h-10 text-lg border-2 hover:text-LittleDetailAction hover:border-borderColor border-[#ffffff] bg-LittleDetail hover:bg-tranparent text-[#ffffff] cursor-pointer rounded-full transition-all duration-300">Hire me</div>
+      <a href="../assets/Curriculo.pdf" class="flex justify-center items-center w-20 h-10 border-2 border-borderColor hover:border-[#ffffff] hover:bg-LittleDetail rounded-full transition-all" download="Document">CV<IconDocument/></a>
     </div>
     <!-- Border just when is LG view -->
     <div class="hidden lg:flex">
