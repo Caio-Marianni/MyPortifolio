@@ -42,7 +42,7 @@ export default {
 };
 </script>
 <template>
-  <div class="absolute lg:relative top-0 w-full lg:w-full z-10" v-scroll-reveal="{ delay:100, scale: 1, distance: '10px'}">
+  <div class="absolute lg:relative top-0 w-full lg:w-full z-10">
     <div class="relative w-full h-auto lg:border lg:max-w-[350px] lg:border-borderColor">
       <!-- Mobile navbar -->
       <div class="absolute lg:hidden flex items-center justify-between px-5 py-2 w-full z-10 bg-containerColorSecondary shadow-md">

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center gap-10 w-full mt-6 lg:mt-3 border-b border-borderColor border-opacity-10">
     <!-- Title -->
-    <h1 class="text-4xl" v-scroll-reveal="{ delay:200, scale: 1, distance: '10px'}">Services</h1>
+    <h1 class="text-4xl">Services</h1>
     <!-- Card Container -->
     <div class="flex flex-wrap flex-col items-center md:flex-row md:justify-evenly gap-8 w-full mb-10 px-5">
       <!-- Card -->
@@ -15,12 +15,11 @@
 </template>
 
 <script>
-import { vScrollReveal } from 'vue-scroll-reveal';
 import IconCode from './icons/IconCode.vue';
 import IconPalette from './icons/IconPalette.vue';
 
 export default {
-  components: { vScrollReveal, IconCode, IconPalette },
+  components: { IconCode, IconPalette },
   props: {
     cards: {
       type: Array,

@@ -30,8 +30,8 @@ import IconDocument from "./icons/IconDocumentation.vue";
     </div>
     <!-- Buttom -->
     <div class="flex items-center justify-center gap-4 mt-5 w-full " v-scroll-reveal="{ delay:400, scale: 1, distance: '10px'}">
-      <a href="" class="flex justify-center items-center px-14 w-22 h-10 text-lg border-2 text-LittleDetailAction border-borderColor hover:border-[#ffffff] hover:bg-LittleDetail hover:text-[#ffffff] rounded-full transition-all duration-300">Hire me</a>
-      <a href="" class="flex justify-center items-center w-10 h-10 border-2 border-borderColor hover:border-[#ffffff] hover:bg-LittleDetail rounded-full transition-all"><IconDocument/></a>
+      <a href="" class="flex justify-center items-center px-14 w-22 h-10 text-lg border-2 hover:text-LittleDetailAction hover:border-borderColor border-[#ffffff] bg-LittleDetail hover:bg-tranparent text-[#ffffff] rounded-full transition-all duration-300">Hire me</a>
+      <a href="" class="flex justify-center items-center w-20 h-10 border-2 border-borderColor hover:border-[#ffffff] hover:bg-LittleDetail rounded-full transition-all">CV<IconDocument/></a>
     </div>
     <!-- Border just when is LG view -->
     <div class="hidden lg:flex">

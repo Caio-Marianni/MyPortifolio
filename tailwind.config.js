@@ -3,9 +3,6 @@ export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      fontFamily: {
-        dateFont: ["Six Caps", "sans-serif"],
-      },
       animation: {
         move: "move 2s ease-in-out infinite",
       },
