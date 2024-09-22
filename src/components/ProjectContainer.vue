@@ -16,7 +16,7 @@
           <!-- Heading -->
           <div class="flex items-center justify-between px-5 py-1 border-t border-b lg:border-t lg:border-b-none bg-cardColorSec">
             <!-- Title -->
-            <h2 class="font-semibold text-lg md:text-xl">{{ card.title }}</h2>
+            <h2 class="font-semibold text-base md:text-xl">{{ card.title }}</h2>
             <!-- Icons -->
             <div class="flex justify-end gap-1 w-20 opacity-70">
               <div v-for="(icon, iconIndex) in card.icons" :key="iconIndex">

@@ -8,7 +8,7 @@ export default {
   components: { BorderEffect, InfoTemplate, IconDocument },
   methods: {
     openWhatsApp() {
-      const phoneNumber = '5566981160081'; // Número no formato internacional sem +, espaços ou traços
+      const phoneNumber = '5562981160081'; // Número no formato internacional sem +, espaços ou traços
       const url = `https://wa.me/${phoneNumber}`;
       window.open(url, '_blank'); // Abre o link em uma nova aba
     }
