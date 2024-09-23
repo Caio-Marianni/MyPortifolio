@@ -43,7 +43,7 @@ export default {
     <!-- Buttom -->
     <div class="flex items-center justify-center gap-4 mt-5 w-full " v-scroll-reveal="{ delay:400, scale: 1, distance: '10px'}">
       <div @click="openWhatsApp" class="flex justify-center items-center px-14 lg:w-full h-10 text-lg border-2 hover:text-LittleDetailAction hover:border-borderColor border-[#ffffff] bg-LittleDetail hover:bg-tranparent text-[#ffffff] cursor-pointer rounded-full transition-all duration-300">Hire me</div>
-      <a href="../assets/Curriculo.pdf" class="flex justify-center items-center w-20 h-10 border-2 border-borderColor hover:border-[#ffffff] hover:bg-LittleDetail rounded-full transition-all" download="Document">CV<IconDocument/></a>
+      <a href="/Curriculo.pdf" class="flex justify-center items-center w-20 h-10 border-2 border-borderColor hover:border-[#ffffff] hover:bg-LittleDetail rounded-full transition-all" download="Document">CV<IconDocument/></a>
     </div>
     <!-- Border just when is LG view -->
     <div class="hidden lg:flex">
