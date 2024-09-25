@@ -1,5 +1,4 @@
 <script>
-import { vScrollReveal } from 'vue-scroll-reveal';
 import BorderEffect from "./BorderEffect.vue";
 import InfoTemplate from "./InfoTemplate.vue";
 import IconDocument from "./icons/IconDocumentation.vue";
@@ -18,7 +17,7 @@ export default {
 
 </script>
 <template>
-  <div class="text-[#ffffff] relative flex flex-col justify-between mt-24 lg:mt-3 px-5 pb-5 w-full lg:max-w-[350px] h-auto border-b border-borderColor border-opacity-20 lg:border lg:border-borderColor bg-containerColor" v-scroll-reveal="{ delay:200, scale: 1, distance: '10px'}">
+  <div class="text-[#ffffff] relative flex flex-col justify-between mt-24 lg:mt-3 px-5 pb-5 w-full lg:max-w-[350px] h-auto border-b border-borderColor border-opacity-20 lg:border lg:border-borderColor bg-containerColor" >
     <!-- Cover and Info -->
     <div class="flex flex-col md:flex-row-reverse lg:flex-col justify-between items-center pt-10 lg:pt-5">
       <!-- Cover -->
@@ -26,7 +25,7 @@ export default {
         <img class="flex object-contain w-60 h-60" src="../assets/Profile.webp" alt="">
       </div>
       <!-- Info -->
-      <div class="flex flex-col flex-wrap justify-between gap-2" v-scroll-reveal="{ delay:300, scale: 1, distance: '10px'}">
+      <div class="flex flex-col flex-wrap justify-between gap-2">
         <InfoTemplate>
           <template #title>Name</template>
           <template #text>Caio Marianni</template>
