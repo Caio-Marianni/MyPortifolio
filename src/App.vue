@@ -21,7 +21,7 @@ import BorderEffect from "./components/BorderEffect.vue";
     <!-- Content Change  -->
     <div class="relative h-full w-full">
       <RouterView v-scroll-reveal="{ delay:100, scale: 1, distance: '10px', reset: true,}" />
-      <Footer v-scroll-reveal="{ delay:200, scale: 1, distance: '10px', reset: true,}" />
+      <Footer v-scroll-reveal="{ delay:200, scale: 1, distance: '10px',}" />
       <!-- Border -->
       <div class="hidden lg:flex">
         <BorderEffect />

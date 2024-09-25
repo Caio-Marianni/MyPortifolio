@@ -9,18 +9,18 @@
         <!-- Part1 (cover, heading and icons) -->
         <div class="flex flex-col lg:w-1/2 lg:border-r">
           <!-- Clicked cover -->
-          <div class="relative group overflow-hidden h-auto md:h-[350px] lg:h-full">
+          <div class="relative group overflow-hidden w-full h-auto md:h-[350px] lg:h-full">
             <a :href="card.link" target="_blank" class="absolute h-full w-full text-center place-content-center text-xl bg-containerColor opacity-0 hover:opacity-90 hover:text-LittleDetailAction transition-all duration-500 z-10">access project</a>
-            <img :src="card.cover" alt="project_cover" class="w-full h-aut0 object-cover group-hover:scale-110 transition-all duration-500 z-0">
+            <img :src="card.cover" alt="project_cover" class="w-[800px] md:w-[1000px] lg:w-[600px] h-auto object-cover group-hover:scale-110 transition-all duration-500 z-0">
           </div>
           <!-- Heading -->
-          <div class="flex items-center justify-between px-5 py-1 border-t border-b lg:border-t lg:border-b-none bg-cardColorSec">
+          <div class="flex items-center justify-between px-5 py-6 border-t border-b lg:border-t lg:border-b-none bg-cardColorSec">
             <!-- Title -->
             <h2 class="font-semibold text-base md:text-xl">{{ card.title }}</h2>
             <!-- Icons -->
-            <div class="flex justify-end gap-1 w-20 opacity-70">
+            <div class="flex justify-end flex-wrap gap-1 w-40 opacity-70">
               <div v-for="(icon, iconIndex) in card.icons" :key="iconIndex">
-                <component :is="icon" class="w-8" />
+                <component :is="icon" class="w-8 h-8" />
               </div>
             </div>
           </div>
