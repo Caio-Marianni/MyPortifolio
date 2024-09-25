@@ -22,7 +22,7 @@ export default {
     <div class="flex flex-col md:flex-row-reverse lg:flex-col justify-between items-center pt-10 lg:pt-5">
       <!-- Cover -->
       <div class="relative w-60 h-60 mb-5 rounded-lg shadow-md shadow-[#1e383c] overflow-hidden">
-        <img class="flex object-contain w-60 h-60" src="../assets/Profile.webp" alt="">
+        <img class="flex object-contain w-[240px] h-[240px]" src="../assets/Profile.webp" alt="">
       </div>
       <!-- Info -->
       <div class="flex flex-col flex-wrap justify-between gap-2">
