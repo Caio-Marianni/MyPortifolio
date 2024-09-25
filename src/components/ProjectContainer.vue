@@ -11,7 +11,7 @@
           <!-- Clicked cover -->
           <div class="relative group overflow-hidden w-full h-auto md:h-[350px] lg:h-full">
             <a :href="card.link" target="_blank" class="absolute h-full w-full text-center place-content-center text-xl bg-containerColor opacity-0 hover:opacity-90 hover:text-LittleDetailAction transition-all duration-500 z-10">access project</a>
-            <img :src="card.cover" alt="project_cover" class="w-[800px] md:w-[1000px] lg:w-[600px] h-auto object-cover group-hover:scale-110 transition-all duration-500 z-0">
+            <img :src="card.cover" alt="project_cover" class="w-[800px] md:w-[1000px] lg:w-[600px] h-[275px] md:h-[350px] lg:h-[250px] object-cover group-hover:scale-110 transition-all duration-500 z-0">
           </div>
           <!-- Heading -->
           <div class="flex items-center justify-between px-5 py-6 border-t border-b lg:border-t lg:border-b-none bg-cardColorSec">
