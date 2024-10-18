@@ -1,6 +1,5 @@
 <script setup>
 import { RouterView } from "vue-router";
-import { vScrollReveal } from 'vue-scroll-reveal';
 import Navbar from "./components/Navbar.vue";
 import AboutContainer from "./components/AboutContainer.vue";
 import Footer from "./components/Footer.vue";
@@ -19,9 +18,9 @@ import BorderEffect from "./components/BorderEffect.vue";
       </div>
     </header>
     <!-- Content Change  -->
-    <div class="relative h-full w-full">
-      <RouterView v-scroll-reveal="{ delay:100, scale: 1, distance: '10px', reset: true,}" />
-      <Footer v-scroll-reveal="{ delay:200, scale: 1, distance: '10px',}" />
+    <div class="relative h-full w-full reveal">
+      <RouterView />
+      <Footer />
       <!-- Border -->
       <div class="hidden lg:flex">
         <BorderEffect />
