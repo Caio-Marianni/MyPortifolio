@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import IconCode from './icons/IconCode.vue';
-import IconPalette from './icons/IconPalette.vue';
+import IconCode from '../assets/icons/IconCode.vue';
+import IconPalette from '../assets/icons/IconPalette.vue';
 
 export default {
   components: { IconCode, IconPalette },

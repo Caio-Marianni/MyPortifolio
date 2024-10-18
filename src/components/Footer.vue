@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import IconGithub from './icons/IconGithub.vue';
-import IconVercel from './icons/IconVercel.vue';
-import IconUpWork from './icons/IconUpWork.vue';
-import IconLinkedin from './icons/IconLinkedin.vue';
-import IconInstagram from './icons/IconInstagram.vue';
-import IconStackOverflow from './icons/IconStackOverflow.vue';
-import IconSoundCloud from '../components/icons/IconSoundCloud.vue';
+import IconGithub from '../assets/icons/IconGithub.vue';
+import IconVercel from '../assets/icons/IconVercel.vue';
+import IconUpWork from '../assets/icons/IconUpWork.vue';
+import IconLinkedin from '../assets/icons/IconLinkedin.vue';
+import IconInstagram from '../assets/icons/IconInstagram.vue';
+import IconStackOverflow from '../assets/icons/IconStackOverflow.vue';
+import IconSoundCloud from '../assets/icons/IconSoundCloud.vue';
 
 export default {
   components: { 

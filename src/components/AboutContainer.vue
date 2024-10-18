@@ -1,7 +1,7 @@
 <script>
 import BorderEffect from "./BorderEffect.vue";
 import InfoTemplate from "./InfoTemplate.vue";
-import IconDocument from "./icons/IconDocumentation.vue";
+import IconDocument from "../assets/icons/IconDocumentation.vue";
 
 export default {
   components: { BorderEffect, InfoTemplate, IconDocument },

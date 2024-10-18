@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import IconBorderEffect from './icons/IconBorderEffect.vue';
+import IconBorderEffect from '../assets/icons/IconBorderEffect.vue';
 </script>
 
 <template>
