@@ -41,6 +41,10 @@ import IconTailWind from "./icons/IconTailWind.vue";
 import IconFigma from "./icons/IconFigma.vue";
 import IconVercel from "./icons/IconVercel.vue";
 import ProjectVictorLou from "../assets/projects/CoverVictorLou.webp"
+import ProjectHorizonTinyWiki from "../assets/projects/CoverHorizon.webp"
+import IconReact from "./icons/IconReact.vue";
+import IconTypescript from "./icons/IconTypescript.vue";
+import IconNextJs from "./icons/IconNextJs.vue";
 
 export default {
   components: { ProjectVictorLou, IconVue, IconTailWind, IconFigma, IconVercel },
@@ -48,9 +52,15 @@ export default {
     cards: {
       default: () => [
         { cover: ProjectVictorLou,
-          icons: [IconVue, IconTailWind, IconVercel, IconFigma], 
+          icons: [IconVue, IconTailWind], 
           title: 'Victor Lou Landing page',
           link: 'https://victorlou-landing-page.vercel.app', 
+          description: 'Coded with Tailwind CSS and Vue, this redesign for Victor Lou landing page focuses on creating a distinct visual identity that reflects his style while keeping users engaged. The design is fresh, intuitive, and balances creativity with functionality, ensuring a captivating user experience that aligns with his artistic vision.' 
+        },
+        { cover: ProjectHorizonTinyWiki,
+          icons: [IconReact, IconTypescript, IconNextJs, IconTailWind], 
+          title: 'A Tiny wiki from Horizon',
+          link: 'https://horizon-tiny-wiki.vercel.app', 
           description: 'Coded with Tailwind CSS and Vue, this redesign for Victor Lou landing page focuses on creating a distinct visual identity that reflects his style while keeping users engaged. The design is fresh, intuitive, and balances creativity with functionality, ensuring a captivating user experience that aligns with his artistic vision.' 
         },
       ]
