@@ -15,8 +15,15 @@ export function useScrollReveal() {
           reset: true,
           interval: 200,
         });
+        sr.reveal('.reveal-no-reset', {
+          distance: '20px',
+          duration: 500,
+          easing: 'ease-in-out',
+          origin: 'bottom',
+          reset: false,
+          interval: 200,
+        });
       }, 0);
-      // CountDown
     }
   });
 }
