@@ -1,22 +1,22 @@
 <template>
-  <div class="flex flex-col gap-6 pb-10 border-b border-borderColor border-opacity-10">
+  <div class="flex flex-col gap-6 lg:pt-2 pb-10 border-b border-borderColor border-opacity-10">
     <!-- Languages Section -->
     <SkillsDisplay
       skill="Languages"
       :skills="languages"
-      color="0, 0, 255"
+      color="79, 93, 149"
       />
     <!-- Frameworks Section -->
     <SkillsDisplay
       skill="Frameworks"
       :skills="frameworks"
-      color="0, 255, 255"
+      color="66, 184, 131"
     />
     <!-- Softwares Section -->
     <SkillsDisplay
       skill="Softwares"
       :skills="softwares"
-      color="255, 0, 0"
+      color="230, 230, 230"
     />
   </div>
 </template>

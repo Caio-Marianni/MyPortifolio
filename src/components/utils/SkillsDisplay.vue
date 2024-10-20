@@ -1,18 +1,18 @@
 <!-- src/components/utils/SkillDisplay.vue -->
 <template>
   <div>
-    <h1 class="font-semibold text-lg">{{ skill }}</h1>
-    <ul class="flex flex-wrap gap-3 pt-2 pl-4">
+    <h1 class="font-semibold text-lg text-[#d1d1d1]">{{ skill }}</h1>
+    <ul class="flex flex-wrap gap-4 pt-2 pl-4">
       <li
         v-for="(skill, index) in skills"
         :key="index"
         :aria-label="'Skill: ' + skill"
         :style="{
           borderColor: `rgb(${color})`,
-          backgroundColor: `rgb(${color}, .2)`,
+          backgroundColor: `rgba(${color}, 0.2)`,
           color: `rgb(${color})`,
         }"
-        class="reveal-no-reset px-4 py-1 font-bold border rounded-full"
+        class="reveal-no-reset px-4 py-1 font-bold border rounded-lg shadow-[0_4px_10px_rgba(0,0,0,0.2)]"
       >
         {{ skill }}
       </li>

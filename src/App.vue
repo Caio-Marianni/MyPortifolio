@@ -8,7 +8,7 @@ import BorderEffect from "./components/BorderEffect.vue";
 
 <template>
   <!-- Device size -->
-  <div class="flex flex-col lg:flex-row lg:gap-3 lg:p-2 min-h-screen bg-containerColorSecondary lg:bg-black">
+  <div class="flex flex-col lg:flex-row lg:gap-3 lg:p-2 min-h-screen bg-containerColorSecondary lg:bg-black font-sans">
     <!-- Navbar / About Card-->
     <header class="h-full w-auto lg:sticky lg:top-2">
       <Navbar />

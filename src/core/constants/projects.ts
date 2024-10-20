@@ -14,7 +14,10 @@ const projects: Project[] = [
     cover: "/projects/CoverVictorLou.webp",
     description: "Coded with Tailwind CSS and Vue@.",
     tags: ["landing page", "SPA", "Responsive"],
-    technologies: [IconVue, IconTailwind],
+    technologies: [
+      { icon: IconVue, name: "Vue" },
+      { icon: IconTailwind, name: "Tailwind" }
+    ],
   },
   {
     id: 2,
@@ -24,7 +27,12 @@ const projects: Project[] = [
     cover: "/projects/CoverHorizonZeroDawn.webp",
     description: "Ainda vou escrever",
     tags: ["landing page", "SPA", "Responsive"],
-    technologies: [IconReact, IconTypescript, IconNextJs, IconTailwind],
+    technologies: [
+      { icon: IconReact, name: "React" },
+      { icon: IconTypescript, name: "Typescript" },
+      { icon: IconNextJs, name: "Next.js" },
+      { icon: IconTailwind, name: "Tailwind" }
+    ],
   },
 ];
 

@@ -3,10 +3,10 @@
 
 <template>
   <div>
-    <div class="text-sm font-light text-[#f3f3f3]">
+    <div class="text-sm font-semibold text-LittleDetail">
       <slot name="title"></slot>
     </div>
-    <div class="text-xl font-normal text-LittleDetail">
+    <div class="text-xl font-normal text-[#fff]">
       <slot name="text"></slot>
     </div>
   </div>

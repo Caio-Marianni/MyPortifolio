@@ -8,5 +8,5 @@ export default interface Machine {
   cover: string,
   description: string,
   tags: string[],
-  technologies: Component[],
+  technologies: { icon: Component, name: string}[],
 }

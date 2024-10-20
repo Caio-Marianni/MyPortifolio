@@ -2,13 +2,16 @@
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
+    fontFamily: {
+      sans: ['Poppins', 'sans-serif'],
+    },
     colors: {
       black: "#000000",
       none: "rgba(0, 0, 0, 0.0)",
       tranparent: "rgba(0, 0, 0, 0.5)",
       borderColor: "#7d7d7d",
       // 60% color
-      containerColor: "#0f0f0f",
+      containerColor: "#1c1c1e",
       containerColorDarker: "#0a0a0a",
       containerColorSecondary: "#1f1f1f",
       cardColor: "#1f1f1f",
