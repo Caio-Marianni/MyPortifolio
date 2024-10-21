@@ -1,6 +1,6 @@
 <template>
   <div
-    class="reveal w-full lg:w-2/6 border border-[#4e4e4e] rounded-lg shadow-lg text-white transition-transform duration-300 hover:shadow-2xl hover:scale-105 bg-containerColorDarker"
+    class="reveal w-full lg:w-[31%] border border-[#4e4e4e] rounded-lg shadow-lg text-white transition-transform duration-300 hover:shadow-2xl hover:scale-105 bg-containerColorDarker"
   >
     <!-- Exibir a Imagem de Capa do Projeto -->
     <div class="relative w-full h-[200px] md:h-[250px] rounded-t-lg overflow-hidden">
