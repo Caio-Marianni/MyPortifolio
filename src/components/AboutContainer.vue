@@ -55,7 +55,7 @@ export default {
     <div class="flex items-center justify-center gap-4 mt-5 w-full">
       <div
         @click="openWhatsApp"
-        class="flex justify-center items-center px-14 lg:w-full h-10 text-lg border hover:text-LittleDetailAction hover:border-LittleDetail bg-LittleDetail hover:bg-[#3a3a3a] text-[#ffffff] cursor-pointer rounded-lg transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.2)]"
+        class="flex justify-center items-center px-14 lg:w-full h-10 text-base md:text-lg border hover:text-LittleDetailAction hover:border-LittleDetail bg-LittleDetail hover:bg-[#3a3a3a] text-[#ffffff] cursor-pointer rounded-lg transition-all duration-300 shadow-[0_4px_10px_rgba(0,0,0,0.2)]"
       >
         Hire me
       </div>

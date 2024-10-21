@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 text-[#c1c1c1]">
+  <div class="flex flex-col gap-6 pt-20 lg:pt-0 text-[#c1c1c1]">
     <!-- Passe as props corretamente para o ContactDisplay -->
     <ContactDisplay :badges="badges" />
   </div>
