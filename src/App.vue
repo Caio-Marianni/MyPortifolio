@@ -1,5 +1,4 @@
 <script setup>
-import { RouterView } from "vue-router";
 import Navbar from "./components/Navbar.vue";
 import AboutContainer from "./components/AboutContainer.vue";
 import Footer from "./components/Footer.vue";
@@ -19,7 +18,7 @@ import BorderEffect from "./components/BorderEffect.vue";
     </header>
     <!-- Content Change  -->
     <div class="relative h-full w-full reveal">
-      <RouterView />
+      <!-- Content -->
       <Footer />
       <!-- Border -->
       <div class="hidden lg:flex">
@@ -27,4 +26,4 @@ import BorderEffect from "./components/BorderEffect.vue";
       </div>
     </div>
   </div>
-</template>
+</template> 
