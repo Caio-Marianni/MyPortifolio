@@ -1,7 +1,7 @@
 <script setup>
 import { LucideBadge, LucidePackage } from "lucide-vue-next";
 import { ref } from "vue";
-import { RouterLink } from "vue-router";
+// import { RouterLink } from "vue-router";
 
 const activeIndex = ref(0);
 
@@ -23,7 +23,7 @@ defineProps({
 
 <template>
   <nav class="flex flex-col sm:flex-row gap-2">
-    <RouterLink to="/" @click="changeHighlight(0)">
+    <!-- <RouterLink to="/" @click="changeHighlight(0)"> -->
       <p
         class="text-base font-normal transition-all duration-200"
         :class="{
@@ -33,9 +33,8 @@ defineProps({
       >
         Home
       </p>
-    </RouterLink>
-    <RouterLink to="/pacotes" @click="changeHighlight(1)">
-      <LucidePackage/>
+    <!-- </RouterLink> -->
+    <!-- <RouterLink to="/pacotes" @click="changeHighlight(1)"> -->
       <p
         class="text-base font-normal transition-all duration-200"
         :class="{
@@ -45,8 +44,8 @@ defineProps({
       >
         Pacotes
       </p>
-    </RouterLink>
-    <RouterLink to="/contact" @click="changeHighlight(2)">
+    <!-- </RouterLink> -->
+    <!-- <RouterLink to="/contact" @click="changeHighlight(2)"> -->
       <p
         class="text-base font-normal transition-all duration-200"
         :class="{
@@ -56,6 +55,13 @@ defineProps({
       >
         Contact Me
       </p>
-    </RouterLink>
+      <a
+          href="#session1"
+          ref="element1"
+          @click="changeHighlight(0)"
+          class="md:w-32 md:h-8 text-[#ff5404] font-bold text-xl transition-all duration-200"
+          >{{ $t("nav1") }}</a
+        >
+    <!-- </RouterLink> -->
   </nav>
 </template>

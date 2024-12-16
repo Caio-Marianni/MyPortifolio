@@ -7,23 +7,13 @@ import BorderEffect from "./components/BorderEffect.vue";
 
 <template>
   <!-- Device size -->
-  <div class="flex flex-col lg:flex-row lg:gap-3 lg:p-2 min-h-screen bg-containerColorSecondary lg:bg-black font-sans">
-    <!-- Navbar / About Card-->
-    <header class="h-full w-auto lg:sticky lg:top-2">
-      <Navbar />
-      <!-- About Card, show only in lg size -->
-      <div class="hidden lg:flex">
-        <AboutContainer />
-      </div>
-    </header>
+  <div class="bg-containerColorSecondary dark:bg-[#ffffff] font-sans">
+    <Navbar />
     <!-- Content Change  -->
+     <div class="h-screen"></div>
     <div class="relative h-full w-full reveal">
       <!-- Content -->
       <Footer />
-      <!-- Border -->
-      <div class="hidden lg:flex">
-        <BorderEffect />
-      </div>
     </div>
   </div>
 </template> 
