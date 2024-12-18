@@ -5,41 +5,41 @@ import NavElements from "./utils/NavElements.vue";
 import ThemeToggle from "./utils/ThemeToggle.vue";
 import { LucideLanguages } from "lucide-vue-next";
 
-// Estado reativo
-const isMenuOpen = ref(false); // Controle menu (mobile)
-const activeIndex = ref(0); // Índice ativo para destacar o item do menu
+// Reactive states
+const isMenuOpen = ref(false); // Toggle for mobile menu
+const activeIndex = ref(0); // Active menu item index
 
-// Alternar estado do menu (mobile)
+// Toggle (mobile menu)
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
-// Alterar destaque do menu
-const changeHighlight = (index) => {
-  activeIndex.value = index;
-};
+// Vue I18n (setup / language change)
+const { locale } = useI18n();
 
-// Internacionalização (i18n)
-const { t, locale } = useI18n(); // Desestruturação para usar `t` e `locale`
-
-const switchLanguage = (lang) => {
-  locale.value = lang; // Atualiza o idioma
+// Toggle (English / Portuguese)
+const toggleLanguage = () => {
+  locale.value = locale.value === "en" ? "pt" : "en";
+  currentLanguage.value = locale.value;
 };
 </script>
+
 <template>
   <div class="sticky top-0">
     <!-- NavBar -->
-    <div class="sticky top-0 w-full dark:bg-[#ffffff] py-3 shadow-lg transition-all duration-500 z-10">
+    <div
+      class="sticky top-0 bg-slate-50 dark:bg-slate-800 py-3 shadow-lg transition-all duration-500 z-10"
+    >
       <div class="flex items-center justify-between container relative">
         <!-- Left -->
         <div class="flex gap-1 items-center z-30">
-          <!-- Mobile Menu -->
+          <!-- Mobile Menu Button -->
           <button
             @click="toggleMenu"
             class="cursor-pointer flex flex-col justify-center items-center p-2 rounded-lg shadow-sm shadow-slate-400"
           >
             <div
-              class="h-1 w-7 bg-slate-800 rounded-full transition transform"
+              class="h-1 w-7 bg-slate-800 rounded-full transition-transform"
               :class="{
                 '-rotate-45 translate-y-3': isMenuOpen,
               }"
@@ -49,50 +49,68 @@ const switchLanguage = (lang) => {
               :class="{ 'bg-white': isMenuOpen }"
             ></div>
             <div
-              class="h-1 w-7 bg-slate-800 rounded-full transition transform"
+              class="h-1 w-7 bg-slate-800 rounded-full transition-transform"
               :class="{
                 'rotate-45 -translate-y-2': isMenuOpen,
               }"
             ></div>
           </button>
         </div>
+
         <!-- Center -->
-        <div class="absolute inset-0 flex items-center justify-center">
-          <img src="../assets/LogoOrange.webp" alt="" class="w-12" />
+        <div class="absolute inset-0 -left-6 flex items-center justify-center">
+          <img src="../assets/LogoOrange.webp" alt="Logo" class="w-12" />
         </div>
-        <!-- Right -->
-        <div class="flex gap-4 items-center">
-          <!-- contact Button -->
-          <div class="block py-2 px-6 bg-red-400 text-black">
-            {{ $t("btnNav") }}
-          </div>
-        </div>
-        <!-- Extra -->
-        <div
-          class="absolute top-[52px] right-0 flex mr-10 px-10 rounded-b-xl bg-gray-100 shadow-inner border-b border-r border-slate-300"
+
+        <!-- Right / Contact Button-->
+        <a
+          href="#contact"
+          class="group relative overflow-hidden bg-orange-600 focus:ring-4 focus:ring-orange-300 inline-flex items-center px-7 py-2.5 rounded-lg text-white justify-center"
         >
-          <ThemeToggle />
-          <hr
-            className="w-0 h-7 border border-solid border-l border-gray-300 mx-3 opacity-0 sm:opacity-100 transition-opacity"
-          />
-          <div class="flex gap-3 text-[#ffffff]">
-            <button @click="locale = 'pt'">Português</button>
-            <button @click="locale = 'en'">English</button>
-          </div>
-        </div>
+            <span relative="relative z-10">{{ $t("btnNav") }}</span>
+        </a>
+
       </div>
     </div>
-    <!-- Navigation Elements -->
+    <!-- Extra Options -->
+    <div class="absolute top-[68px] right-10 flex items-center px-6 py-3 rounded-b-xl bg-gray-100 shadow-inner border-b border-r border-slate-300">
+      <ThemeToggle />
+      <hr class="h-5 border border-solid border-l border-gray-300 mx-3 opacity-0 sm:opacity-100 transition-opacity"/>
+      <!-- Language Toggle -->
+      <button @click="toggleLanguage" class="flex items-center text-black">
+        <LucideLanguages class="w-5 h-5" />
+        <span  class="ml-2">{{
+          currentLanguage === "en" ? "PT" : "EN"
+        }}</span>
+      </button>
+    </div>
+
+    <!-- Navigation Elements (Mobile Menu) -->
     <div class="relative container">
       <div
-        class="container absolute left-0 w-52 p-4 mx-10 rounded-b-xl bg-gray-100 shadow-inner border-b border-r border-slate-300 transition-transform duration-300 ease-in-out"
+        class="absolute left-0 w-52 p-4 mx-10 rounded-b-xl bg-gray-100 shadow-inner border-b border-r border-slate-300 transition-transform duration-300 ease-in-out"
         :class="{
           '-translate-y-full': !isMenuOpen,
           'translate-y-0': isMenuOpen,
         }"
       >
-        <NavElements />
+        <NavElements
+          :activeIndex="activeIndex"
+          @changeHighlight="changeHighlight"
+        />
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Transição CSS personalizada */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
