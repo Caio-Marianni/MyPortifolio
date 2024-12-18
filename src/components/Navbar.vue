@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import NavElements from "./utils/NavElements.vue";
 import ThemeToggle from "./utils/ThemeToggle.vue";
-import { LucideLanguages } from "lucide-vue-next";
+import LanguageToggle from "./utils/LanguageToggle.vue";
 
 // Reactive states
 const isMenuOpen = ref(false); // Toggle for mobile menu
@@ -72,17 +72,12 @@ const toggleLanguage = () => {
 
       </div>
     </div>
+
     <!-- Extra Options -->
     <div class="absolute top-[68px] right-10 flex items-center px-6 py-3 rounded-b-xl bg-gray-100 shadow-inner border-b border-r border-slate-300">
       <ThemeToggle />
       <hr class="h-5 border border-solid border-l border-gray-300 mx-3 opacity-0 sm:opacity-100 transition-opacity"/>
-      <!-- Language Toggle -->
-      <button @click="toggleLanguage" class="flex items-center text-black">
-        <LucideLanguages class="w-5 h-5" />
-        <span  class="ml-2">{{
-          currentLanguage === "en" ? "PT" : "EN"
-        }}</span>
-      </button>
+      <LanguageToggle />
     </div>
 
     <!-- Navigation Elements (Mobile Menu) -->
