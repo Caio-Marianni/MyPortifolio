@@ -1,6 +1,6 @@
 <template>
-  <button @click="toggleLanguage" class="flex items-center text-black">
-    <LucideLanguages class="w-5 h-5" />
+  <button @click="toggleLanguage" class="flex items-center text-gray-100">
+    <LucideLanguages class="w-5 h-5"  />
     <!-- Mostra PT ou EN com base no idioma atual -->
     <span class="ml-2">{{ locale === "en" ? "PT" : "EN" }}</span>
   </button>

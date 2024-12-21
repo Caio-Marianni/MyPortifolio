@@ -1,7 +1,7 @@
 <template>
   <button
     @click="toggleTheme"
-    class="theme-toggle rounded-full bg-transparent flex items-center justify-center transition focus:outline-none"
+    class="theme-toggle rounded-full bg-transparent flex items-center justify-center transition focus:outline-none text-gray-100"
     :aria-label="isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
   >
     <svg
