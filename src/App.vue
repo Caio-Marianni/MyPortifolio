@@ -1,6 +1,7 @@
 <script setup>
 import Navbar from "./components/Navbar.vue";
 import Hero from "./components/Hero.vue";
+import AboutCard from "./components/AboutCard.vue";
 import Footer from "./components/Footer.vue";
 </script>
 
@@ -12,6 +13,9 @@ import Footer from "./components/Footer.vue";
     <div class="md:container bg-containerColorSecondary font-sans">
       <Navbar />
       <Hero />
+      <div class="flex justify-center">
+        <AboutCard />
+      </div>
        <!-- Projects -->
         <!-- About -->
          <!-- Contact -->

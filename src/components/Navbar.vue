@@ -4,7 +4,7 @@ import LanguageToggle from "./utils/LanguageToggle.vue";
 </script>
 
 <template>
-  <div class="sticky top-0 md:top-4 flex justify-between w-auto md:m-4 p-2 px-6 md:border border-b border-gray-600 md:rounded-full backdrop-blur-3xl bg-slate-900 bg-opacity-50 shadow-md">
+  <div class="sticky top-0 md:top-4 flex justify-between w-auto md:m-4 p-2 px-6 md:border border-b border-gray-600 md:rounded-full backdrop-blur-3xl bg-slate-900 bg-opacity-50 shadow-md z-50">
     <!-- Right side (logo) -->
     <div class="">
       <img src="../assets/LogoOrange.webp" alt="Logo" class="w-12" />
