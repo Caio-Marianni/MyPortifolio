@@ -4,7 +4,8 @@ import LanguageToggle from "./utils/LanguageToggle.vue";
 </script>
 
 <template>
-  <div class="sticky top-0 md:top-4 flex justify-between w-auto md:m-4 p-2 px-6 md:border border-b border-gray-600 md:rounded-full backdrop-blur-3xl bg-slate-900 bg-opacity-50 shadow-md z-50">
+  <div class="md:container sticky top-0 md:top-4 flex justify-center items-center m-auto z-50">
+  <div class="flex justify-between w-full md:m-4 p-2 px-6 md:border border-b border-gray-600 md:rounded-full backdrop-blur-3xl bg-slate-900 bg-opacity-50 shadow-md">
     <!-- Right side (logo) -->
     <div class="">
       <img src="../assets/LogoOrange.webp" alt="Logo" class="w-12" />
@@ -20,7 +21,7 @@ import LanguageToggle from "./utils/LanguageToggle.vue";
         <span>{{ $t("btnNav") }}</span>
       </a>
     </div>
-  </div>
+  </div></div>
 </template>
 
 <style scoped>
