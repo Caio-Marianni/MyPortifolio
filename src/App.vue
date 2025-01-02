@@ -24,4 +24,5 @@ import Contact from "./components/Contact.vue";
   </div>
    <Contact />
   <!-- Use REVEAL como class para o effect de fade -->
+  <!-- v-scroll-reveal="{ delay:200, scale: 1, distance: '10px'}" -->
 </template>
