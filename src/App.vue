@@ -2,7 +2,7 @@
 import Navbar from "./components/Navbar.vue";
 import Hero from "./components/Hero.vue";
 import AboutCard from "./components/AboutCard.vue";
-import Footer from "./components/Footer.vue";
+import Contact from "./components/Contact.vue";
 </script>
 
 <template>
@@ -22,8 +22,6 @@ import Footer from "./components/Footer.vue";
   <div class="h-screen bg-neutral-800 flex items-center justify-center">
     teste
   </div>
-   <!-- Projects -->
-    <!-- About -->
-     <!-- Contact -->
-      <!-- Use REVEAL como class para o effect de fade -->
+   <Contact />
+  <!-- Use REVEAL como class para o effect de fade -->
 </template>
