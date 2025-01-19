@@ -1,12 +1,10 @@
-import { Component } from 'vue';
-
 export default interface Machine {
   id: number,
-  data: string,
+  year: string,
   link: string,
-  name: string,
   cover: string,
-  description: string,
-  tags: string[],
-  technologies: { icon: Component, name: string}[],
+  type: string,
+  technologies: string[],
+  texture: string,
+  color: string,
 }

@@ -1,14 +1,14 @@
 <template>
-  <div class="flex justify-start items-center gap-4 py-8 bg-slate-900 bg-opacity-70 rounded-md border border-gray-800 shadow-lg">
-    <img class="w-32 h-32 object-cover rounded-full ml-10 mr-2 my-5" src="../assets/Profile.webp" alt="Profile Image" />
+  <div class="flex justify-start items-center gap-4 py-8 px-1 m-4 bg-secondary-900 rounded-md border border-secondary-800 shadow-lg">
+    <img class="w-24 md:w-32 h-auto object-cover rounded-full ml-6 mr-2 my-5" src="../assets/Profile.webp" alt="Profile Image" />
     <!-- Card Size -->
     <div class="max-w-md z-20">
       <!-- Card Content -->
       <div class="relative flex place-items-center mb-2">
-        <h2 class="text-2xl text-white">Hi there, Caio heres</h2>
-        <div class="absolute right-4 flex items-center">
+        <h2 class="text-lg md:text-2xl text-text-50 text-wrap w-28 sm:w-auto">Hi there, Caio heres</h2>
+        <div class="absolute right-4 flex items-center gap-3 sm:gap-0">
           <!-- 1-zap / 2-Upwork / 3-Github -->
-          <a href="" class="shadow-md w-10 h-10 hover:mr-6 bg-gray-950 border-2 border-gray-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 hover:border-gray-400 transition-all duration-500 ease-in-out">
+          <a href="" class="shadow-md w-10 h-10 hover:mr-6 bg-secondary-700 border-2 border-secondary-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary-900 hover:border-secondary-200 transition-all duration-500 ease-in-out">
             <svg fill="#ffffff" height="20px" width="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
                 viewBox="0 0 308 308" xml:space="preserve">
               <g id="XMLID_468_">
@@ -32,10 +32,10 @@
               </g>
             </svg>
           </a>
-          <a href="" class="shadow-md w-10 h-10 -ml-5 hover:mr-7 hover:-ml-4 bg-gray-950 border-2 border-gray-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 hover:border-gray-400 transition-all duration-500 ease-in-out">
+          <a href="" class="shadow-md w-10 h-10 -ml-5 hover:mr-7 hover:-ml-4 bg-secondary-700 border-2 border-secondary-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary-900 hover:border-secondary-200 transition-all duration-500 ease-in-out">
             <svg fill="#ffffff" width="20px" height="20px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"><title>Upwork icon</title><path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.543-1.143-2.545-2.548V3.492H0v7.112c0 2.914 2.37 5.303 5.281 5.303 2.913 0 5.283-2.389 5.283-5.303v-1.19c.529 1.107 1.182 2.229 1.974 3.221l-1.673 7.873h2.797l1.213-5.71c1.063.679 2.285 1.109 3.686 1.109 3 0 5.439-2.452 5.439-5.45 0-3-2.439-5.439-5.439-5.439z"/></svg>
           </a>
-          <a href="" class="shadow-md w-10 h-10 -ml-6 bg-gray-950 border-2 border-gray-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 hover:border-gray-400 ">
+          <a href="" class="shadow-md w-10 h-10 -ml-6 bg-secondary-700 border-2 border-secondary-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary-900 hover:border-secondary-200 transition-all duration-500 ease-in-out ">
             <svg fill="#ffffff" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <g data-name="Layer 2">
               <rect width="24" height="24" opacity="0"/>
@@ -46,18 +46,12 @@
         </div>
       </div>
 
-      <p class="text-gray-500">This is a brief description about yourself.This is a brief description about yourself.This is a brief description about yourself.This is a brief description about yourself.This is a brief description about yourself.</p>     
+      <p class="text-text-200 text-opacity-50 text-sm md:text-base pr-5">web developer and designer, I studied alot to improve in my projets and to delivery a exelent product for you.</p>     
     
       <!-- About me -->
       <a href="#contact">
-        <button class="bg-cyan-900 hover:bg-gray-800 text-white py-2 px-3 rounded mt-3">About me</button>
+        <button class="bg-secondary-300 hover:bg-secondary-100 text-text-50 py-2 px-3 rounded mt-3">About me</button>
       </a>
     </div>
   </div>
-</template>
-
-<script>
-export default {
-  name: 'AboutCard',
-};
-</script>
+</template>   

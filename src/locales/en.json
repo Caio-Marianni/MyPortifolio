@@ -6,5 +6,32 @@
   "nav5": "Contact",
   "btnNav": "Contact Me",
   "greeting": "Hello, welcome to our website!",
-  "contact": "Contact Us"
+  "contact": "Contact Us",
+
+  "projects": {
+    "0": {
+      "name": "Inventory Management",
+      "description1": "Product management system within a company. Being able to consult, add, delete and edit items within the panel/inventory.",
+      "description2": "Application uses a real database system and has login and logout system",
+      "description3": "Inventory is the same ex: if you don't take care of it, it's double work.",
+      "acquiredProject": "project acquired",
+      "requestedProject": "design made by me"
+    },
+    "1": {
+      "name": "Horizon Tiny Wiki",
+      "description1": "Small wiki about the Zero Dawn game horizon so you can learn more about the game's items and monsters",
+      "description2": "Developed to improve my data serving skills, clean code, CSS tricks (with tailwind) and some performance options to make something faster containing 'heavy' items",
+      "description3": "Anyone who doesn't consult the wiki faces monsters blindfolded.",
+      "acquiredProject": "project not acquired",
+      "requestedProject": "design made by me"
+    },
+    "2": {
+      "name": "Landing page",
+      "description1": "tapa buraco",
+      "description2": "tapa buraco",
+      "description3": "tapa buraco",
+      "acquiredProject": "tapa buraco",
+      "requestedProject": "tapa buraco"
+    }
+  }
 }

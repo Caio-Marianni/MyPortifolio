@@ -6,5 +6,32 @@
   "nav5": "Contato",
   "btnNav": "Me contate",
   "greeting": "Hello, welcome to our website!",
-  "contact": "Contact Us"
+  "contact": "Contact Us",
+
+  "projects": {
+    "0": {
+      "name": "Gerenciamento de Estoque",
+      "description1": "Sistema de gerenciamento de produtos dentro de uma empresa. Podendo consultar, adicionar, excluir e editar itens dentro do painel/inventario.",
+      "description2": "Aplicaçao usa um sistema de banco de dados real e possui sistema de login e logout",
+      "description3": "Inventário é igual ex: se não cuidar, dá trabalho dobrado.",
+      "acquiredProject": "projeto adquirido",
+      "requestedProject": "designe feito por mim"
+    },
+    "1": {
+      "name": "Horizon Tiny Wiki",
+      "description1": "Pequeno wiki sobre o horizonte do jogo Zero Dawn para que você possa aprender mais sobre os itens e monstros do jogo",
+      "description2": "Desenvolvido para melhorar minhas habilidades de atendimento de dados, código limpo, truques de CSS (com tailwind) e algumas opções de desempenho para tornar algo mais rápido contendo itens 'pesados'",
+      "description3": "Quem não consulta a wiki enfrenta monstros com olhos vendados.",
+      "acquiredProject": "projeto não adquirido",
+      "requestedProject": "designe feito por mim"
+    },
+    "2": {
+      "name": "Landing page",
+      "description1": "tapa buraco",
+      "description2": "tapa buraco",
+      "description3": "tapa buraco",
+      "acquiredProject": "tapa buraco",
+      "requestedProject": "tapa buraco"
+    }
+  }
 }

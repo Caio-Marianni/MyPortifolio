@@ -15,7 +15,7 @@ import Contact from "./components/Contact.vue";
   <!-- Hero Content -->
   <div class="md:container font-sans">
     <Hero />
-    <div class="flex justify-center">
+    <div class="flex justify-center mx-5">
       <AboutCard />
     </div>
   </div>
