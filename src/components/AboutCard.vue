@@ -5,7 +5,7 @@
     <div class="max-w-md z-20">
       <!-- Card Content -->
       <div class="relative flex place-items-center mb-2">
-        <h2 class="text-lg md:text-2xl text-text-50 text-wrap w-28 sm:w-auto">Hi there, Caio heres</h2>
+        <h2 class="text-lg md:text-2xl text-text-50 text-wrap w-28 sm:w-auto">{{ $t('CardAboutHeader')}}</h2>
         <div class="absolute right-4 flex items-center gap-3 sm:gap-0">
           <!-- 1-zap / 2-Upwork / 3-Github -->
           <a href="" class="shadow-md w-10 h-10 hover:mr-6 bg-secondary-700 border-2 border-secondary-300 rounded-full flex items-center justify-center cursor-pointer hover:bg-secondary-900 hover:border-secondary-200 transition-all duration-500 ease-in-out">
@@ -46,11 +46,11 @@
         </div>
       </div>
 
-      <p class="text-text-200 text-opacity-50 text-sm md:text-base pr-5">web developer and designer, I studied alot to improve in my projets and to delivery a exelent product for you.</p>     
+      <p class="text-text-200 text-opacity-50 text-sm md:text-base pr-5">{{ $t('CardAboutSub') }}</p>     
     
       <!-- About me -->
       <a href="#contact">
-        <button class="bg-secondary-300 hover:bg-secondary-100 text-text-50 py-2 px-3 rounded mt-3">About me</button>
+        <button class="bg-secondary-300 hover:bg-secondary-100 text-text-50 py-2 px-3 rounded mt-3">{{ $t('CardAboutBtn') }}</button>
       </a>
     </div>
   </div>

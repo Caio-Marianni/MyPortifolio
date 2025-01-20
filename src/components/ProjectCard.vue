@@ -30,7 +30,7 @@ const { t } = useI18n();
 
 <template>
   <!-- Card Container -->
-  <div class="border border-black rounded-lg shadow-2xl mx-auto my-14 w-[420px] h-auto" :style="{ boxShadow: `0 4px 6px -1px ${project.color}, 0 2px 4px -1px ${project.color}` }">
+  <div class="border border-black rounded-lg shadow-2xl mx-auto my-14 w-[420px] h-auto">
     <div class="relative h-auto rounded-lg bg-[#000] text-text-100 bg-cover bg-center p-4 shadow-lg">
       <!-- Card Frame -->
       <div

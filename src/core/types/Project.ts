@@ -5,6 +5,5 @@ export default interface Machine {
   cover: string,
   type: string,
   technologies: string[],
-  texture: string,
-  color: string,
+  texture: string
 }

@@ -1,37 +1,59 @@
 {
-  "nav1": "Home",
-  "nav2": "About Me",
-  "nav3": "Skills",
-  "nav4": "Projects",
-  "nav5": "Contact",
-  "btnNav": "Contact Me",
-  "greeting": "Hello, welcome to our website!",
-  "contact": "Contact Us",
-
+  "btnNav": "Contact me",
+  "Hero1": "Helping you",
+  "HeroSpan1": "create",
+  "HeroAnd": "and",
+  "HeroSpan2": "deploy",
+  "Hero2": "your ideas",
+  "HeroSub1": "ENCHENDO O SACO, NAO SEIOQUE COLOCAR AQUI",
+  "HeroSub2": "E NEM AQUI, RS RS RS",
+  "HeroBtn1": "Let's start",
+  "HeroBtn2": "See Projects",
+  "CardAboutHeader": "Hi there, Caio here",
+  "CardAboutSub": "Web developer and designer, always studying to improve my projects and always seeking to deliver an excellent product.",
+  "CardAboutBtn": "About me",
+  "AboutTitle": "About me",
+  "About": "",
+  "CertificationsTitle": "Certifications",
+  "ContactTitle": "Contact platforms",
+  "certification": {
+    "0": {
+      "name": "Computer Science",
+      "description": "Politecnica de Goiania",
+      "date": "2021",
+      "duration": "5 years"
+    },
+    "1": {
+      "name": "Web Development",
+      "description": "Udemy",
+      "date": "2021",
+      "duration": "6 months"
+    }
+  },
   "projects": {
     "0": {
-      "name": "Inventory Management",
-      "description1": "Product management system within a company. Being able to consult, add, delete and edit items within the panel/inventory.",
-      "description2": "Application uses a real database system and has login and logout system",
-      "description3": "Inventory is the same ex: if you don't take care of it, it's double work.",
+      "name": "Stock Management",
+      "description1": "Product management system within a company. It allows you to view, add, delete, and edit items within the panel/inventory.",
+      "description2": "The application uses a real database system and has login and logout functionality.",
+      "description3": "Inventory is like this: if you don't take care, it doubles the work.",
       "acquiredProject": "project acquired",
       "requestedProject": "design made by me"
     },
     "1": {
       "name": "Horizon Tiny Wiki",
-      "description1": "Small wiki about the Zero Dawn game horizon so you can learn more about the game's items and monsters",
-      "description2": "Developed to improve my data serving skills, clean code, CSS tricks (with tailwind) and some performance options to make something faster containing 'heavy' items",
-      "description3": "Anyone who doesn't consult the wiki faces monsters blindfolded.",
+      "description1": "A small wiki about the Horizon Zero Dawn game, so you can learn more about the game's items and monsters.",
+      "description2": "Developed to improve my data handling skills, clean code, CSS tricks (with Tailwind), and some performance options to make something faster while containing 'heavy' items.",
+      "description3": "Who doesn’t consult the wiki faces monsters blindfolded.",
       "acquiredProject": "project not acquired",
       "requestedProject": "design made by me"
     },
     "2": {
       "name": "Landing page",
-      "description1": "tapa buraco",
-      "description2": "tapa buraco",
-      "description3": "tapa buraco",
-      "acquiredProject": "tapa buraco",
-      "requestedProject": "tapa buraco"
+      "description1": "placeholder",
+      "description2": "placeholder",
+      "description3": "placeholder",
+      "acquiredProject": "placeholder",
+      "requestedProject": "placeholder"
     }
   }
 }

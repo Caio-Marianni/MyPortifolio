@@ -10,7 +10,6 @@ const projects: Project[] = [
     type: "Dashboard",
     technologies: ["react", "typescript", "tailwind"],
     texture: "texture/texture3.webp",
-    color: "rgb(51, 51, 51)",
   },
   {
     // name: "Horizon Zero Dawn Tiny Wiki",
@@ -21,7 +20,6 @@ const projects: Project[] = [
     type: "SPA",
     technologies: ["react", "tailwind"],
     texture: "texture/texture1.webp",
-    color: "rgb(51, 51, 51)",
   },
   {
     // name: "VictorLou Website",
@@ -32,7 +30,6 @@ const projects: Project[] = [
     type: "SPA",
     technologies: ["vue"],
     texture: "texture/texture2.webp",
-    color: "rgb(51, 51, 51)",
   },
 ];
 
