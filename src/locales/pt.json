@@ -48,12 +48,12 @@
       "requestedProject": "design feito por mim"
     },
     "2": {
-      "name": "Landing page",
-      "description1": "placeholder",
-      "description2": "placeholder",
-      "description3": "placeholder",
-      "acquiredProject": "placeholder",
-      "requestedProject": "placeholder"
+      "name": "Portfolio de Thumbnails",
+      "description1": "Pagina para divulgaçao do meu trabalho com Thumbnails para youtube.",
+      "description2": "Apenas um aplicativo web simples sem banco de dados, apenas 'json'. Trabalhando para melhorar UI e Ux.",
+      "description3": "É a thumbnail que pesca; o vídeo só precisa prender.",
+      "acquiredProject": "projeto adquirido",
+      "requestedProject": "design feito por mim"
     }
   }
 }

@@ -48,12 +48,12 @@
       "requestedProject": "design made by me"
     },
     "2": {
-      "name": "Landing page",
-      "description1": "placeholder",
-      "description2": "placeholder",
-      "description3": "placeholder",
-      "acquiredProject": "placeholder",
-      "requestedProject": "placeholder"
+      "name": "Thumbnails Portfolio",
+      "description1": "Page to promote my work with Thumbnails for YouTube.",
+      "description2": "Just a simple web app with no database, just 'json'. Working to improve UI and UX.",
+      "description3": "It's the thumbnail that fishes; the video just needs to capture.",
+      "acquiredProject": "project acquired",
+      "requestedProject": "design made by me"
     }
   }
 }
