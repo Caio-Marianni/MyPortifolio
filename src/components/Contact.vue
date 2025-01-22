@@ -4,14 +4,17 @@ import { certifications } from '@/core/constants';
 </script>
 
 <template>
-  <footer class="bg-secondary-900 border-t border-secondary-800 text-white py-8">
+  <footer id="contact" class="bg-secondary-900 border-t-2 border-secondary-100 text-white py-8">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-4 grid-rows-2 lg:grid-rows-2 gap-4">
         <!-- About Section -->
         <div className="col-span-4 lg:col-span-2">
           <h2 class="text-xl font-bold mb-4 text-text-50">{{ $t("AboutTitle") }}</h2>
           <p class="text-text-50 text-opacity-50">
-            {{ $t("About") }}
+            {{ $t("About1") }}
+            <br>
+            <br>
+            {{ $t("About2") }}
           </p>
         </div>
         <!-- Certifications Section -->

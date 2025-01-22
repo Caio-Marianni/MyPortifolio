@@ -17,7 +17,7 @@ import LanguageToggle from "./utils/LanguageToggle.vue";
         <hr class="h-5 border border-solid border-l border-background-950 mx-3 transition-opacity opacity-70" />
         <LanguageToggle />
         <!-- Contact Button-->
-        <a href="#contact" class="ml-5 overflow-hidden bg-accent-500 hover:bg-accent-700 transition-all text-text-950 hover:text-text-50 duration-600 focus:ring-4 focus:ring-accent-300 inline-flex items-center px-6 py-2 rounded-full justify-center">
+        <a href="https://wa.me/5562981160081" class="ml-5 overflow-hidden bg-accent-500 hover:bg-accent-700 transition-all text-text-950 hover:text-text-50 duration-600 focus:ring-4 focus:ring-accent-300 inline-flex items-center px-6 py-2 rounded-full justify-center">
           <span>{{ $t("btnNav") }}</span>
         </a>
       </div>

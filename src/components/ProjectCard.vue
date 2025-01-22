@@ -1,8 +1,5 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-// import textureImage1 from "@/assets/texture1.webp";
-// import textureImage2 from "@/assets/texture2.webp";
-// import textureImage3 from "@/assets/texture3.webp";
 import IconVue from "@/assets/icons/IconVue.vue";
 import IconReact from "@/assets/icons/IconReact.vue";
 import IconTailwind from "@/assets/icons/IconTailwind.vue";

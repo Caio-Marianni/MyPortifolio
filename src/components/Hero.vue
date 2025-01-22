@@ -8,10 +8,10 @@
 
     <div class="flex gap-8">
       <button class="rounded-full py-2 px-4 bg-accent-500 text-text-50 shadow-2xl shadow-accent-500 hover:-translate-y-2 transition-all duration-500 ease-in-out">
-        <a href="#">{{ $t("HeroBtn1") }}</a>
+        <a href="https://wa.me/5562981160081">{{ $t("HeroBtn1") }}</a>
       </button>
       <button class="rounded-full py-2 px-4 bg-secondary-700 text-text-50 text-opacity-200">
-        <a href="#">{{ $t("HeroBtn2") }}</a>
+        <a href="#projects">{{ $t("HeroBtn2") }}</a>
       </button>
     </div>
   </div>
