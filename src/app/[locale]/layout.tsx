@@ -1,6 +1,8 @@
-import { ReactNode } from "react";
-import I18nProvider from "@/components/utils/I18nProvider";
-import ThemeProvider from "@/components/utils/ThemeProvider";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { notFound } from 'next/navigation';
+import { routing } from '@/i18n/routing';
+import { ReactNode } from 'react';
 
 export default async function LocaleLayout({
   children,
@@ -9,14 +11,23 @@ export default async function LocaleLayout({
   children: ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params; // Aguarda a resolução dos parâmetros
+  // Aguarda a resolução dos parâmetros
+  const { locale } = await params;
+
+  // Valida o locale
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
+  // Carrega as mensagens (pode ser ajustado para carregar as mensagens de acordo com o locale)
+  const messages = await getMessages();
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
-        <ThemeProvider>
-          <I18nProvider locale={locale}>{children}</I18nProvider>
-        </ThemeProvider>
+      <body>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

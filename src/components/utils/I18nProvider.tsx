@@ -7,7 +7,8 @@ import { notFound } from "next/navigation";
 export default function I18nProvider({ locale, children }: { locale: string; children: ReactNode }) {
   let messages;
   try {
-    messages = require(`@/locales/${locale}.json`);
+    messages = require(`@/message/${locale}.json`);
+    // messages = require(`@/messges/${locale}.json`);
   } catch (error) {
     notFound(); // Caso não encontre o idioma, redireciona para 404
   }
