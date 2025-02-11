@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button"; // Replace with the actual path to your Button component
 
 export default function LanguageSwitcher() {
   const router = useRouter();
@@ -18,18 +19,12 @@ export default function LanguageSwitcher() {
 
   return (
     <div className="flex space-x-2">
-      <button
-        onClick={() => changeLanguage("pt")}
-        className={`px-3 py-1 rounded ${currentLocale === "pt" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
-      >
+      <Button onClick={() => changeLanguage("pt")} variant="ghost" className="text-white hover:text-white hover:bg-white/10">
         PT
-      </button>
-      <button
-        onClick={() => changeLanguage("en")}
-        className={`px-3 py-1 rounded ${currentLocale === "en" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
-      >
+      </Button>
+      <Button onClick={() => changeLanguage("en")} variant="ghost" className="text-white hover:text-white hover:bg-white/10">
         EN
-      </button>
+      </Button>
     </div>
   );
 }
