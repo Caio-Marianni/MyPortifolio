@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { ReactNode } from "react";
 import ThemeProvider from "@/components/utils/ThemeProvider";
-import "@/app/globals.css";
 import type { Locale } from "@/types";
 import I18nProvider from "@/components/utils/I18nProvider";
+import "./globals.css";
 
 export const metadata = {
   title: "Meu Portfólio",
@@ -24,7 +24,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  const messagesModule = await import(`@/messages/${locale}.json`);
+  const messagesModule = await import(`../../../messages/${locale}.json`);
   const messages = messagesModule.default;
 
   return (

@@ -1,28 +1,19 @@
-// Exemplo de interface, ajuste conforme os dados reais
-interface RequestData {
-  userId: string;
-  // outras propriedades...
-}
+export const runtime = "nodejs";
 
-export default getRequestConfig(async ({ requestLocale }: { requestLocale: Promise<string> }) => {
+import { getRequestConfig } from 'next-intl/server';
+import { routing } from './routing';
+
+export default getRequestConfig(async ({ requestLocale }) => {
+  // This typically corresponds to the `[locale]` segment
   let locale = await requestLocale;
-  const routing = {
-    locales: ['en', 'es', 'fr'], // Example locales
-    defaultLocale: 'en'
-  };
-
-  if (!locale || !routing.locales.includes(locale)) {
+ 
+  // Ensure that a valid locale is used
+  if (!locale || !routing.locales.includes(locale as any)) {
     locale = routing.defaultLocale;
   }
-  const messagesModule = await import(`../../messages/${locale}.json`);
-  const messages = messagesModule.default;
-
+ 
   return {
     locale,
-    messages,
+    messages: (await import(`../../messages/${locale}.json`)).default
   };
 });
-function getRequestConfig(arg0: ({ requestLocale }: { requestLocale: Promise<string>; }) => Promise<{ locale: string; messages: any; }>) {
-  throw new Error("Function not implemented.");
-}
-
