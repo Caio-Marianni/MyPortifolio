@@ -1,16 +1,14 @@
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { ReactNode } from "react";
 import ThemeProvider from "@/components/utils/ThemeProvider";
-import "./globals.css";
+import "@/app/globals.css";
+import type { Locale } from "@/types";
+import I18nProvider from "@/components/utils/I18nProvider";
 
-// Exporte metadados para SEO
 export const metadata = {
   title: "Meu Portfólio",
   description: "Bem-vindo ao meu portfólio pessoal.",
-  // adicionar favicon, open graph, etc.
 };
 
 export default async function LocaleLayout({
@@ -18,26 +16,25 @@ export default async function LocaleLayout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
-  // Aguarda a resolução dos parâmetros
   const { locale } = await params;
 
-  // Valida o locale
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale)) {
     notFound();
   }
 
-  // Carrega as mensagens (pode ser ajustado para carregar conforme o locale)
-  const messages = await getMessages();
+  const messagesModule = await import(`@/messages/${locale}.json`);
+  const messages = messagesModule.default;
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <NextIntlClientProvider messages={messages} locale={locale}>
+          {/* Passa locale e messages para o provider client */}
+          <I18nProvider locale={locale} messages={messages}>
             {children}
-          </NextIntlClientProvider>
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,17 +1,28 @@
-import {getRequestConfig} from 'next-intl/server';
-import {routing} from './routing';
- 
-export default getRequestConfig(async ({requestLocale}) => {
-  // This typically corresponds to the `[locale]` segment
+// Exemplo de interface, ajuste conforme os dados reais
+interface RequestData {
+  userId: string;
+  // outras propriedades...
+}
+
+export default getRequestConfig(async ({ requestLocale }: { requestLocale: Promise<string> }) => {
   let locale = await requestLocale;
- 
-  // Ensure that a valid locale is used
-  if (!locale || !routing.locales.includes(locale as any)) {
+  const routing = {
+    locales: ['en', 'es', 'fr'], // Example locales
+    defaultLocale: 'en'
+  };
+
+  if (!locale || !routing.locales.includes(locale)) {
     locale = routing.defaultLocale;
   }
- 
+  const messagesModule = await import(`../../messages/${locale}.json`);
+  const messages = messagesModule.default;
+
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default
+    messages,
   };
 });
+function getRequestConfig(arg0: ({ requestLocale }: { requestLocale: Promise<string>; }) => Promise<{ locale: string; messages: any; }>) {
+  throw new Error("Function not implemented.");
+}
+
