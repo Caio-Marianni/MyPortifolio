@@ -9,7 +9,7 @@ export default function I18nProvider({
   children,
 }: {
   locale: string;
-  messages: Record<string, any>; // ou defina um tipo mais específico para suas mensagens
+  messages: Record<string, string>; // ou defina um tipo mais específico para suas mensagens
   children: ReactNode;
 }) {
   return (
