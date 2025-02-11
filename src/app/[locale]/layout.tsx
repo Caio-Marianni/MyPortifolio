@@ -4,9 +4,22 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { ReactNode } from "react";
 import ThemeProvider from "@/components/utils/ThemeProvider";
-import "./globals.css"
+import "./globals.css";
 
-export default async function LocaleLayout({ children, params }: { children: ReactNode; params: Promise<{ locale: string }> }) {
+// Exporte metadados para SEO
+export const metadata = {
+  title: "Meu Portfólio",
+  description: "Bem-vindo ao meu portfólio pessoal.",
+  // adicionar favicon, open graph, etc.
+};
+
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
   // Aguarda a resolução dos parâmetros
   const { locale } = await params;
 
@@ -15,7 +28,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     notFound();
   }
 
-  // Carrega as mensagens (pode ser ajustado para carregar as mensagens de acordo com o locale)
+  // Carrega as mensagens (pode ser ajustado para carregar conforme o locale)
   const messages = await getMessages();
 
   return (
@@ -30,5 +43,3 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     </html>
   );
 }
-
-// Look for the SEO improvemt
