@@ -8,7 +8,7 @@ export default function ChoicePage() {
   const t = useTranslations("HomePage");
 
   return (
-    <div className="min-h-screen text-white flex flex-col items-center justify-center pt-20 md:pt-0 p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center pt-20 md:pt-0 p-4 relative overflow-hidden">
       <ScrollRevealComponent />
       {/* Language Toggle */}
       <div className="absolute top-4 right-4 flex gap-2 z-10">

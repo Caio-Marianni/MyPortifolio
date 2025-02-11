@@ -9,7 +9,6 @@ export default function LanguageSwitcher() {
 
   // Supondo que a URL esteja estruturada como /<locale>/restante-da-rota
   const segments = pathname.split("/");
-  const currentLocale = segments[1] || "pt"; // se não houver, assume "pt" como padrão
 
   const changeLanguage = (newLocale: string) => {
     segments[1] = newLocale; // substitui o segmento de idioma
