@@ -3,6 +3,7 @@ import { Star, StarHalf } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Review } from "@/core/types";
 import { reviewsThumbs, reviewsWebDev } from "@/core/constants/index";
+import ScrollRevealComponent from "./utils/scrollReveal";
 
 type ReviewCardProps = {
   context: "thumbs" | "webdev";
@@ -11,10 +12,11 @@ type ReviewCardProps = {
 export default function ReviewCard({ context }: ReviewCardProps) {
   return (
     <div className="flex gap-2">
+      <ScrollRevealComponent />
       {context === "webdev" ? (
         <>
           {reviewsWebDev.map((review: Review, index: number) => (
-            <Card key={index}>
+            <Card key={index} className="reveal500">
               <CardContent className="p-4">
                 <div className="flex items-center mb-2">{renderStars(review.rating)}</div>
                 <p className="italic mb-2">"{review.comment}"</p>
@@ -28,7 +30,7 @@ export default function ReviewCard({ context }: ReviewCardProps) {
       ) : (
         <>
           {reviewsThumbs.map((review: Review, index: number) => (
-            <Card key={index}>
+            <Card key={index} className="reveal500">
               <CardContent className="p-4">
                 <div className="flex items-center mb-2">
                   {renderStars(review.rating)}
