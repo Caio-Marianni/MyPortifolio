@@ -56,6 +56,12 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: {
+        'hero-gradient': 'linear-gradient(-45deg, #133034, #1e3a45, #2b5b66, #1e3a45)',
+      },
+      backgroundSize: {
+        '400': '400% 400%',
+      },
       keyframes: {
         glitch: {
           "2%, 64%": { transform: "translate(2px, 0) skew(0deg)" },
@@ -72,11 +78,17 @@ export default {
           "4%, 60%": { transform: "translate(-2px, 0)" },
           "62%": { transform: "translate(-20px, 5px) skew(2deg)" },
         },
+        gradientAnimation: {
+          '0%': { 'background-position': '0% 50%' },
+          '50%': { 'background-position': '100% 50%' },
+          '100%': { 'background-position': '0% 50%' },
+        },
       },
       animation: {
         glitch: "glitch 1s linear infinite",
         glitchTop: "glitchTop 1s linear infinite",
         glitchBottom: "glitchBottom 1.5s linear infinite",
+        gradient: 'gradientAnimation 15s ease infinite',
       },
     },
   },

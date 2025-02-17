@@ -1,18 +1,22 @@
-import LanguageSwitcher from "@/components/utils/LanguageSwitcher";
+"use client"
+
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/routing";
-import ScrollRevealComponent from "@/components/utils/ScrollReveal";
+import Link from "next/link";
+import ThemeToggle from "@/components/utils/themeToggle";
+import LanguageSwitcher from "@/components/utils/languageSwitcher"
+import { useLanguage } from "@/components/utils/language-provider";
+import ScrollRevealComponent from "@/components/utils/scrollReveal";
 
 export default function ChoicePage() {
-  const t = useTranslations("HomePage");
+  const { t } = useLanguage()
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center pt-20 md:pt-0 p-4 relative overflow-hidden">
+    <div className="min-h-screen text-white flex flex-col items-center justify-center pt-20 md:pt-0 p-4 relative overflow-hidden">
       <ScrollRevealComponent />
       {/* Language Toggle */}
       <div className="absolute top-4 right-4 flex gap-2 z-10">
         <LanguageSwitcher />
+        <ThemeToggle />
       </div>
 
       {/* Matrix-style Text Effect */}
@@ -31,10 +35,10 @@ export default function ChoicePage() {
         </span>
       </h1>
 
-      {/* Character Image with Enhanced Effects */}
+      {/* Character Image */}
       <div>
         <div className="reveal500 w-full h-full relative z-10">
-          <Image src="/assets/background/person2.webp" width={500} height={500} alt="Background person" priority className="w-full object-cover" />
+          <Image src="/assets/background/person2.webp" width={500} height={500} alt="Background person" priority className="w-[300px] h-[300px] object-cover" />
         </div>
       </div>
 
