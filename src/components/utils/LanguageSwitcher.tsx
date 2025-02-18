@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { LanguagesIcon } from "lucide-react";
 
 export default function LanguageSwitcher() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   return (
     <div className="text-black dark:text-white">
       <DropdownMenu>

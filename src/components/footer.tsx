@@ -1,4 +1,5 @@
 import { useLanguage } from "@/components/utils/LanguageProvider";
+import Link from "next/link";
 import { BiLogoGithub, BiLogoUpwork, BiLogoWhatsapp } from "react-icons/bi";
 
 export default function Footer() {
@@ -16,7 +17,7 @@ export default function Footer() {
           {/* P2 */}
           <div className="flex items-center space-x-3 text-white md:text-neutral-500">
             {/* Matrix-style Text Effect */}
-            <a href="/" className="relative inset-0 text-2xl text-center font-light tracking-wider max-w-3xl  z-10">
+            <Link href="/" className="relative inset-0 text-2xl text-center font-light tracking-wider max-w-3xl  z-10">
               {/* Texto principal com o efeito base */}
               <span className="relative animate-glitch text-orange-600 font-mono">?</span>
 
@@ -29,17 +30,17 @@ export default function Footer() {
               <span className="absolute inset-0 left-0 top-0 animate-glitchBottom text-orange-400 font-mono opacity-70" aria-hidden="true">
                 ?
               </span>
-            </a>
+            </Link>
             <hr className="h-6 border border-gray-500 rounded-full" />
-            <a href="#" className="hover:text-white transition-colors">
+            <Link href="https://www.upwork.com/freelancers/~01e15c653dfbed2b29" className="hover:text-white transition-colors">
               <BiLogoGithub size={25} />
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
+            </Link>
+            <Link href="https://wa.me/5562981160081" className="hover:text-white transition-colors">
               <BiLogoWhatsapp size={25} />
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
+            </Link>
+            <Link href="https://www.upwork.com/freelancers/~01e15c653dfbed2b29" className="hover:text-white transition-colors">
               <BiLogoUpwork size={30} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useLanguage } from "@/components/utils/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import LazyImage from "@/components/utils/LazyImage";
@@ -15,7 +14,6 @@ const INITIAL_VISIBLE = 9;
 const allTags = Array.from(new Set(thumbs.flatMap((thumbnail: Thumb) => thumbnail.tags)));
 
 export default function Thumbnails() {
-  const { t } = useLanguage();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [visibleCount, setVisibleCount] = useState<number>(INITIAL_VISIBLE);
 
