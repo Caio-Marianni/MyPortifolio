@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import ThemeToggle from "@/components/utils/themeToggle";
-import LanguageSwitcher from "@/components/utils/languageSwitcher"
-import { useLanguage } from "@/components/utils/language-provider";
-import ScrollRevealComponent from "@/components/utils/scrollReveal";
+import ThemeToggle from "@/components/utils/ThemeToggle";
+import LanguageSwitcher from "@/components/utils/LanguageSwitcher"
+import { useLanguage } from "@/components/utils/LanguageProvider";
+import ScrollRevealComponent from "@/components/utils/ScrollReveal";
 
 export default function ChoicePage() {
   const { t } = useLanguage()

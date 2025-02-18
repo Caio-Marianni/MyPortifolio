@@ -1,4 +1,4 @@
-import { useLanguage } from "@/components/utils/language-provider";
+import { useLanguage } from "@/components/utils/LanguageProvider";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "./ui/button";

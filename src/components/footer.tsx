@@ -1,4 +1,4 @@
-import { useLanguage } from "@/components/utils/language-provider";
+import { useLanguage } from "@/components/utils/LanguageProvider";
 import { BiLogoGithub, BiLogoUpwork, BiLogoWhatsapp } from "react-icons/bi";
 
 export default function Footer() {

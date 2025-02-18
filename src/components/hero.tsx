@@ -1,4 +1,4 @@
-import { useLanguage } from "@/components/utils/language-provider";
+import { useLanguage } from "@/components/utils/LanguageProvider";
 import { ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 

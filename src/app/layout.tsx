@@ -1,7 +1,7 @@
 import "./globals.css";
 import { ReactNode } from "react";
-import ThemeProvider from "@/components/utils/theme-provider";
-import { LanguageProvider } from "@/components/utils/language-provider";
+import ThemeProvider from "@/components/utils/ThemeProvider";
+import { LanguageProvider } from "@/components/utils/LanguageProvider";
 
 export const metadata = {
   title: "Meu Portfólio",

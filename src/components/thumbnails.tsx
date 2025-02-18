@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useLanguage } from "@/components/utils/language-provider";
+import { useLanguage } from "@/components/utils/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import LazyImage from "@/components/utils/lazy-image";
+import LazyImage from "@/components/utils/LazyImage";
 import { thumbs } from "@/core/constants/index";
 import { Thumb } from "@/core/types/index";
 

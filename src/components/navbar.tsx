@@ -1,6 +1,6 @@
-import LanguageSwitcher from "./utils/languageSwitcher";
-import { useLanguage } from "@/components/utils/language-provider";
-import ThemeToggle from "./utils/themeToggle";
+import LanguageSwitcher from "./utils/LanguageSwitcher";
+import { useLanguage } from "@/components/utils/LanguageProvider";
+import ThemeToggle from "./utils/ThemeToggle";
 import Image from "next/image";
 import { Button } from "./ui/button";
 

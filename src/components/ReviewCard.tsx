@@ -3,7 +3,7 @@ import { Star, StarHalf } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Review } from "@/core/types";
 import { reviewsThumbs, reviewsWebDev } from "@/core/constants/index";
-import ScrollRevealComponent from "./utils/scrollReveal";
+import ScrollRevealComponent from "./utils/ScrollReveal";
 
 type ReviewCardProps = {
   context: "thumbs" | "webdev";

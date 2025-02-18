@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/components/utils/language-provider";
+import { useLanguage } from "@/components/utils/LanguageProvider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { LanguagesIcon } from "lucide-react";
 
