@@ -19,7 +19,7 @@ export default function ReviewCard({ context }: ReviewCardProps) {
             <Card key={index} className="reveal500">
               <CardContent className="p-4">
                 <div className="flex items-center mb-2">{renderStars(review.rating)}</div>
-                <p className="italic mb-2">"{review.comment}"</p>
+                <p className="italic mb-2">&quot;{review.comment}&quot;</p>
                 <p className="text-sm text-muted-foreground">
                   {review.name} - {review.channel}
                 </p>
@@ -35,7 +35,7 @@ export default function ReviewCard({ context }: ReviewCardProps) {
                 <div className="flex items-center mb-2">
                   {renderStars(review.rating)}
                 </div>
-                <p className="italic mb-2">"{review.comment}"</p>
+                <p className="italic mb-2">&quot;{review.comment}&quot;</p>
                 <p className="text-sm text-muted-foreground">
                   {review.name} - {review.channel}
                 </p>

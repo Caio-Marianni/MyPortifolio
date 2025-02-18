@@ -30,22 +30,25 @@ export default function LazyImage({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVisible(true); // Load image when visible
-            observer.disconnect(); // Stop observing once visible
+            setIsVisible(true);
+            observer.disconnect();
           }
         });
       },
       { rootMargin: "0px 0px 100px 0px", threshold: 0.1 }
     );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
+  
+    // Armazena a referência atual
+    const currentImg = imgRef.current;
+    if (currentImg) {
+      observer.observe(currentImg);
     }
-
+  
     return () => {
-      if (imgRef.current) observer.unobserve(imgRef.current);
+      if (currentImg) observer.unobserve(currentImg);
     };
   }, []);
+  
 
   // Handle src for StaticImageData and string types
   const imageSrc = typeof src === "string" ? src : src.src;

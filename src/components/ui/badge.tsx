@@ -1,12 +1,7 @@
-import React from "react"
+import React from "react";
 
-export interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
-
-function Badge({ className, ...props }: BadgeProps) {
-  return (
-    <div className={className} {...props} />
-  )
+function Badge({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={className} {...props} />;
 }
 
-export { Badge }
+export { Badge };
