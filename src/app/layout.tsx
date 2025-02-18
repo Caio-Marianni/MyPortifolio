@@ -4,14 +4,53 @@ import ThemeProvider from "@/components/utils/ThemeProvider";
 import { LanguageProvider } from "@/components/utils/LanguageProvider";
 
 export const metadata = {
-  title: "Meu Portfólio",
-  description: "Bem-vindo ao meu portfólio pessoal.",
+  title: "Caio Marianni",
+  description:
+    "Bem-vindo ao meu portfólio pessoal. Explore meus projetos, certificações e experiência profissional.",
+  keywords:
+    "portfólio, desenvolvimento, full stack, react, web, design, projetos, thumbs, capa de video, thumbnails, certificações, Caio Marianni de Morais",
+  authors: [
+    {
+      name: "Caio Marianni de Morais",
+      url: "https://caio-marianni-portfolio.vercel.app",
+    },
+  ],
+  openGraph: {
+    title: "Caio Marianni",
+    description:
+      "Bem-vindo ao meu portfólio pessoal. Explore meus projetos, certificações e experiência profissional.",
+    url: "https://caio-marianni-portfolio.vercel.app",
+    siteName: "Caio Marianni",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "https://caio-marianni-portfolio.vercel.app/assets/LogoOrange.webp",
+        width: 1200,
+        height: 630,
+        alt: "Meu Portfólio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Caio Marianni",
+    description:
+      "Bem-vindo ao meu portfólio pessoal. Explore meus projetos, certificações e experiência profissional.",
+    creator: "@seu_twitter",
+    images: ["https://caio-marianni-portfolio.vercel.app/assets/LogoOrange.webp"],
+  },
+  viewport: "width=device-width, initial-scale=1",
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function LocaleLayout({ children}: { children: ReactNode}) {
 
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
