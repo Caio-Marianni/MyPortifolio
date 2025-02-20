@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import CertificationCard from "./certificationCard";
-import ReviewCard from "./reviewCard";
+import ReviewCard from "./ReviewCard";
 
 type AboutMeProps = {
   context: "thumbs" | "webdev";
