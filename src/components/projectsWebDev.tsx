@@ -18,7 +18,7 @@ export function ProjectsWebDev() {
             {/* Image */}
             <div className="relative h-48 w-full mb-6 rounded-xl overflow-hidden">
               <Link href={project.link} className="relative block h-full w-full">
-                <Image src={project.cover || "/placeholder.svg"} alt={t(project.title as any)} fill sizes="(max-width: 768px) 100vw, 49vw" priority className="relative object-cover transition-transform  group-hover:scale-105" />
+                <Image src={project.cover || "/placeholder.svg"} alt={t(project.title as keyof typeof t)} fill sizes="(max-width: 768px) 100vw, 49vw" priority className="relative object-cover transition-transform  group-hover:scale-105" />
               </Link>
             </div>
             {/* Content */}
