@@ -2,27 +2,16 @@
 
 import { Card } from "@/components/ui/card";
 import projects from "@/core/constants/projects";
-import { Project } from "@/core/types";
 import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "./utils/LanguageProvider";
 
-// green: "bg-gradient-to-br from-neutral-500/10 to-orange-500/20 hover:from-emerald-500/20 hover:to-emerald-500/30 border-emerald-500/20",
-// purple: "bg-gradient-to-br from-purple-500/10 to-purple-500/20 hover:from-purple-500/20 hover:to-purple-500/30 border-purple-500/20",
-// blue: "bg-gradient-to-br from-blue-500/10 to-blue-500/20 hover:from-blue-500/20 hover:to-blue-500/30 border-blue-500/20",
-
 export function ProjectsWebDev() {
   const { t } = useLanguage();
 
   return (
-    <section
-      id="projects"
-      className="container flex justify-center gap-4 py-10 flex-wrap "
-      // initial={{ opacity: 0, y: 20 }}
-      // animate={{ opacity: 1, y: 0 }}
-      // transition={{ duration: 0.5, delay: index * 0.1 }}
-    >
+    <section id="projects" className="container flex justify-center gap-4 py-10 flex-wrap ">
       {projects.map((project) => (
         <Card key={project.title} className="border w-[100%] lg:w-[49%] backdrop-blur-xl shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group bg-secondary">
           <div className="p-6">
