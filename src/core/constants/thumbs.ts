@@ -2,50 +2,62 @@ import Thumb from "../types/Thumb";
 
 const thumbs: Thumb[] = [
   {
+    cover: "/assets/thumbs/Sports1.jpg",
+    tags: ["sports"],
+  }, {
+    cover: "/assets/thumbs/Sports2.jpg",
+    tags: ["sports"],
+  }, {
+    cover: "/assets/thumbs/Sports3.jpg",
+    tags: ["sports"],
+  }, {
+    cover: "/assets/thumbs/Sports4.jpg",
+    tags: ["sports"],
+  }, {
     cover: "/assets/thumbs/FScreen00.jpg",
-    tags: ["full screen", "1 person"],
+    tags: ["polemic", "interview"],
   }, {
     cover: "/assets/thumbs/FScreen001.jpg",
-    tags: ["full screen", "1 person"],
+    tags: ["polemic"],
   }, {
     cover: "/assets/thumbs/FScreen002.jpg",
-    tags: ["full screen", "1 person"],
+    tags: ["polemic"],
   }, {
     cover: "/assets/thumbs/FScreen1.jpg",
-    tags: ["full screen", "1 person"],
+    tags: ["polemic"],
   }, {
     cover: "/assets/thumbs/FScreen2.jpg",
-    tags: ["full screen", "politc", "AI"],
+    tags: ["politc", "AI"],
   }, {
     cover: "/assets/thumbs/FScreen3.jpg",
-    tags: ["full screen", "religion", "1 person"],
+    tags: ["religion", "polemic"],
   }, {
     cover: "/assets/thumbs/FScreen4.jpg",
-    tags: ["full screen", "1 person"],
+    tags: ["polemic"],
   }, {
     cover: "/assets/thumbs/FScreen5.jpg",
-    tags: ["full screen", "1 person"],
+    tags: ["polemic"],
   }, {
     cover: "/assets/thumbs/FScreen6.jpg",
-    tags: ["full screen", "1 person"],
+    tags: ["polemic"],
   }, {
     cover: "/assets/thumbs/FScreen7.jpg",
-    tags: ["full screen", "news", "1 person"],
+    tags: ["news", "JonhDeere"],
   }, {
     cover: "/assets/thumbs/LEffect.jpg",
-    tags: ["light effect", "news"],
+    tags: ["light effect", "news", "JonhDeere"],
   }, {
     cover: "/assets/thumbs/LEffect2.jpg",
-    tags: ["light effect", "news"],
+    tags: ["light effect", "news", "JonhDeere"],
   }, {
     cover: "/assets/thumbs/LEffect3.jpg",
-    tags: ["light effect", "news"],
+    tags: ["light effect", "news", "JonhDeere"],
   }, {
     cover: "/assets/thumbs/LEffect4.jpg",
-    tags: ["light effect", "news"],
+    tags: ["light effect", "news", "JonhDeere"],
   }, {
     cover: "/assets/thumbs/LEffect5.jpg",
-    tags: ["light effect", "news"],
+    tags: ["light effect", "news", "JonhDeere"],
   }, {
     cover: "/assets/thumbs/LEffect6.jpg",
     tags: ["split screen", "royal family"],
@@ -54,7 +66,7 @@ const thumbs: Thumb[] = [
     tags: ["news", "split screen", "royal family"],
   }, {
     cover: "/assets/thumbs/News2.jpg",
-    tags: ["news", "cars", "royal family"],
+    tags: ["news", "cars"],
   }, {
     cover: "/assets/thumbs/News3.jpg",
     tags: ["news", "royal family"],
@@ -69,16 +81,16 @@ const thumbs: Thumb[] = [
     tags: ["politc", "news"],
   }, {
     cover: "/assets/thumbs/SScreen1.jpg",
-    tags: ["split screen"],
+    tags: ["split screen", "interview"],
   }, {
     cover: "/assets/thumbs/SScreen2.jpg",
-    tags: ["split screen", "woke"],
+    tags: ["split screen", "woke", "interview"],
   }, {
     cover: "/assets/thumbs/SScreen3.jpg",
-    tags: ["split screen", "woke"],
+    tags: ["split screen", "woke", "interview"],
   }, {
     cover: "/assets/thumbs/SScreen4.jpg",
-    tags: ["split screen", "woke"],
+    tags: ["split screen", "woke", "interview"],
   }, {
     cover: "/assets/thumbs/SScreen5.jpg",
     tags: ["split screen", "politc"],

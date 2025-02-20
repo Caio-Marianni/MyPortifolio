@@ -78,17 +78,18 @@ export default {
           "4%, 60%": { transform: "translate(-2px, 0)" },
           "62%": { transform: "translate(-20px, 5px) skew(2deg)" },
         },
-        gradientAnimation: {
-          '0%': { 'background-position': '0% 50%' },
-          '50%': { 'background-position': '100% 50%' },
-          '100%': { 'background-position': '0% 50%' },
+        float: {
+          '0%, 100%': { transform: 'translate(60px, -40px)' },
+          '25%': { transform: 'translate(110px, -20px)' },
+          '50%': { transform: 'translate(40px, -80px)' },
+          '75%': { transform: 'translate(110px, -80px)' },
         },
       },
       animation: {
+        float: 'float 10s ease-in-out infinite',
         glitch: "glitch 1s linear infinite",
         glitchTop: "glitchTop 1s linear infinite",
         glitchBottom: "glitchBottom 1.5s linear infinite",
-        gradient: 'gradientAnimation 15s ease infinite',
       },
     },
   },

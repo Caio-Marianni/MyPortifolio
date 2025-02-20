@@ -1,7 +1,21 @@
+'use client'
+
+import Navbar from "@/components/navbar";
+import Hero from "@/components/hero";
+import AboutMe from "@/components/about-me";
+import Footer from "@/components/footer";
+import { ProjectsWebDev } from "@/components/projectsWebDev";
+
 export default function weDevelopmentPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-800 text-white">
-      <h1 className="text-3xl font-bold">Repositório de aplicaçoes web</h1>
+    <div className="min-h-screen text-foreground">
+      <Navbar context="webdev" />
+      <main>
+        <Hero context="webdev" />
+        <AboutMe context="webdev" />
+        <ProjectsWebDev />
+      </main>
+      <Footer />
     </div>
   );
 }

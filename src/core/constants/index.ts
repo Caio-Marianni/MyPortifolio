@@ -1,6 +1,8 @@
 import thumbs from "./thumbs"
+import projects from "./projects"
 import reviewsThumbs from "./reviewsThumbs"
 import reviewsWebDev from "./reviewsWebDev"
-// import certifications from "./certifications"
+import certificationsThumbs from "./certificationsThumbs"
+import certificationsWebDev from "./certificationsWebDev"
 
-export { thumbs, reviewsThumbs, reviewsWebDev }
+export { thumbs, projects, reviewsThumbs, reviewsWebDev, certificationsThumbs, certificationsWebDev }

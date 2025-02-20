@@ -59,7 +59,7 @@ export default function Thumbnails() {
               alt="thumbnailCover"
               width={720}
               height={860}
-              quality={90}
+              quality={80}
               loading="lazy"
               placeholder="blur"
               blurDataURL={thumbnail.cover}

@@ -7,7 +7,7 @@ body {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  background-image: url("/assets/background/noise.png");
+  background-image: url("/assets/background/noise.webp");
   background-size: 200px 200px;
   background-position: 0 0;
   color: var(--foreground);

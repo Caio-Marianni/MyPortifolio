@@ -40,11 +40,15 @@ export const metadata = {
     creator: "@seu_twitter",
     images: ["https://caio-marianni-portfolio.vercel.app/assets/LogoOrange.webp"],
   },
-  viewport: "width=device-width, initial-scale=1",
   robots: {
     index: true,
     follow: true,
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default async function LocaleLayout({ children}: { children: ReactNode}) {

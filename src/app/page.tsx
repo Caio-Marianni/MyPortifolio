@@ -11,7 +11,7 @@ export default function ChoicePage() {
   const { t } = useLanguage()
 
   return (
-    <div className="min-h-screen text-white flex flex-col items-center justify-center pt-20 md:pt-0 p-4 relative overflow-hidden">
+    <div className="min-h-screen text-white flex flex-col items-center justify-center pt-20 md:pt-0 p-4 relative overflow-hidden bg-black bg-opacity-80">
       <ScrollRevealComponent />
       {/* Language Toggle */}
       <div className="absolute top-4 right-4 flex gap-2 z-10">
@@ -37,18 +37,18 @@ export default function ChoicePage() {
 
       {/* Character Image */}
       <div>
-        <div className="reveal500 w-full h-full relative z-10">
+        <div className="hidden sm:flex reveal500 w-full h-full relative z-10">
           <Image src="/assets/background/person2.webp" width={500} height={500} alt="Background person" priority className="w-[300px] h-[300px] object-cover" />
         </div>
       </div>
 
       {/* Choice Container with Enhanced Animations */}
-      <div className="-top-20 flex flex-col md:flex-row gap-16 md:gap-52 items-center justify-center relative z-10">
+      <div className="top-0 sm:-top-20 flex flex-col sm:flex-row gap-16 md:gap-52 items-center justify-center relative z-10">
         {/* Left Choice - Thumbnails */}
         <Link href="/thumbnails" className="revealLeft group relative">
           <div className="flex flex-col items-center gap-4 cursor-pointer group-hover:scale-105 transition-all duration-300">
             <div className="relative w-40 h-40">
-              <div className="absolute inset-0 bg-red-500 rounded-full opacity-20 filter blur-xl group-hover:opacity-40 group-hover:scale-125 transition-all duration-200" />
+              <div className="absolute inset-0 bg-red-500 rounded-full opacity-10 filter blur-xl group-hover:opacity-20 transition-all duration-200" />
               <Image src="/assets/background/leftHand.webp" width={400} height={400} alt="Hand" className="w-full h-full object-contain relative z-10" />
             </div>
             <h2 className="text-xl font-light tracking-wide bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">Thumbnails</h2>
@@ -58,7 +58,7 @@ export default function ChoicePage() {
         <Link href="/webDevelopment" className="revealRight group relative">
           <div className="flex flex-col items-center gap-4 cursor-pointer group-hover:scale-105 transition-all duration-300">
             <div className="relative w-40 h-40">
-              <div className="absolute inset-0 bg-blue-500 rounded-full opacity-20 filter blur-xl group-hover:opacity-40 group-hover:scale-125 transition-all duration-200" />
+              <div className="absolute inset-0 bg-blue-500 rounded-full opacity-10 filter blur-xl group-hover:opacity-20 transition-all duration-200" />
               <Image src="/assets/background/rightHand.webp" width={400} height={400} alt="Hand" className="w-full h-full object-contain relative z-10" />
             </div>
             <h2 className="text-xl font-light tracking-wide bg-gradient-to-r from-blue-500 to-blue-300 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">Web Development</h2>

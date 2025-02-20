@@ -1,6 +1,6 @@
 import { useLanguage } from "@/components/utils/LanguageProvider";
 import Link from "next/link";
-import { BiLogoGithub, BiLogoUpwork, BiLogoWhatsapp } from "react-icons/bi";
+import { BiLogoGithub, BiLogoLinkedin, BiLogoUpwork, BiLogoWhatsapp } from "react-icons/bi";
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -40,6 +40,9 @@ export default function Footer() {
             </Link>
             <Link href="https://www.upwork.com/freelancers/~01e15c653dfbed2b29" className="hover:text-white transition-colors">
               <BiLogoUpwork size={30} />
+            </Link>
+            <Link href="https://www.linkedin.com/in/caio-marianni-de-morais/" className="hover:text-white transition-colors">
+              <BiLogoLinkedin size={25} />
             </Link>
           </div>
         </div>

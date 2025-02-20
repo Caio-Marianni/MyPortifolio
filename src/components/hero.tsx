@@ -15,26 +15,26 @@ export default function Hero({ context }: HeroProps) {
   const subtitleKey = context === "webdev" ? "heroSubtitleWebDev" : "heroSubtitleThumbs";
 
   return (
-    <section id="#hero" className="flex items-center justify-center bg-hero-gradient bg-400 animate-gradient relative overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient animate-gradient"></div>
-      </div>
-      <div className="relative z-10 py-32">
-        <div className="container mx-auto">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6 leading-tight text-white">{t(heroTitle)}</h1>
-            <p className="text-xl mb-8 text-gray-200">{t(subtitleKey)}</p>
-            <Link href="#projects" >
-              <Button size="lg" className="hover:text-white transition-all hover:-translate-y-1 bg-orange-500 hover:bg-orange-700">
-                {t("viewWork")}
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </div>
+    <section id="#hero" className="relative flex items-center w-screen h-screen overflow-hidden">
+      <header className="container relative -top-14 z-10">
+        <h1 className="text-4xl sm:text-5xl max-w-3xl text-pretty font-bold mb-4 leading-tight">{t(heroTitle)}</h1>
+        <p className="text-lg sm:text-xl max-w-xl text-pretty mb-8 opacity-60">{t(subtitleKey)}</p>
+        <Link href="#projects">
+          <Button size="lg" className="hover:text-white transition-all hover:-translate-y-1 bg-orange-500 hover:bg-orange-700">
+            {t("viewWork")}
+            <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
+        <Link href="https://wa.me/5562981160081" className="ml-4">
+          <Button size="lg" className="text-orange-500 dark:hover:text-white transition-all hover:-translate-y-1 border bg-neutral-100 dark:bg-neutral-900 border-orange-500 hover:bg-neutral-50">
+            {t("contact")}
+          </Button>
+        </Link>
+      {/* Bola branca com animação "float" */}
+      <div className="absolute w-96 h-96 inset-0 bg-orange-700 dark:bg-white blur-3xl bg-opacity-30 dark:bg-opacity-10 rounded-full shadow-2xl animate-float -z-10"></div>
+      </header>
       {/* Shadow */}
-      <div className="absolute w-full h-[60%] bg-gradient-to-b from-transparent to-black bottom-0"></div>
+      <div className=" absolute w-full h-[60%] bg-gradient-to-b from-transparent to-gray-300 dark:to-black bottom-0"></div>
     </section>
   );
 }
