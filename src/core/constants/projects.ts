@@ -8,7 +8,7 @@ const projects: Project[] = [
     type: "Dashboard",
     year: "2025",
     link: "#",
-    cover: "/projects/InventoryManagement.webp",
+    cover: "/assets/projects/CoverHorizonZeroDawn.webp",
     technologies: ["react", "typescript", "tailwind"],
   },
   {
@@ -28,7 +28,7 @@ const projects: Project[] = [
     type: "Landing page",
     year: "2025",
     link: "#",
-    cover: "/projects/ThumbnailsPortfolio.webp",
+    cover: "/assets/projects/CoverHorizonZeroDawn.webp",
     technologies: ["vue", "tailwind", "typescript"],
   },
 ];
