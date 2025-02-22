@@ -16,7 +16,7 @@ export default function ThemeToggle() {
   if (!mounted) return null;
 
   return (
-    <Button variant="outline" size="icon"
+    <Button variant="outline" size="icon"  aria-label="Theme Toogle"
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
     >
       {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}

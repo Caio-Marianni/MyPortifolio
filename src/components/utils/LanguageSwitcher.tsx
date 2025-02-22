@@ -11,7 +11,7 @@ export default function LanguageSwitcher() {
     <div className="text-black dark:text-white">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" aria-label="Language Toggle">
             <LanguagesIcon />
           </Button>
         </DropdownMenuTrigger>
