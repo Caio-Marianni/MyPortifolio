@@ -45,7 +45,7 @@ export default function ChoicePage() {
       {/* Choice Container with Enhanced Animations */}
       <div className="top-0 sm:-top-20 flex flex-col sm:flex-row gap-16 md:gap-52 items-center justify-center relative z-10">
         {/* Left Choice - Thumbnails */}
-        <Link href="/thumbnails" className="revealLeft group relative">
+        <Link href="/thumbnails" rel="noopener noreferrer" aria-label="Thumbnails" className="revealLeft group relative">
           <div className="flex flex-col items-center gap-4 cursor-pointer group-hover:scale-105 transition-all duration-300">
             <div className="relative w-40 h-40">
               <div className="absolute inset-0 bg-red-500 rounded-full opacity-10 filter blur-xl group-hover:opacity-20 transition-all duration-200" />
@@ -55,7 +55,7 @@ export default function ChoicePage() {
           </div>
         </Link>
 
-        <Link href="/webDevelopment" className="revealRight group relative">
+        <Link href="/webDevelopment" rel="noopener noreferrer" aria-label="webDevelopment" className="revealRight group relative">
           <div className="flex flex-col items-center gap-4 cursor-pointer group-hover:scale-105 transition-all duration-300">
             <div className="relative w-40 h-40">
               <div className="absolute inset-0 bg-blue-500 rounded-full opacity-10 filter blur-xl group-hover:opacity-20 transition-all duration-200" />

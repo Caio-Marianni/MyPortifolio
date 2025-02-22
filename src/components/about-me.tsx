@@ -49,9 +49,10 @@ function AboutContent({
 
   return (
     <div className="flex flex-col">
-      <p className="text-lg mb-4">{t(aboutText1)}</p>
-      <p className="text-lg mb-6">{t(aboutText2)} <span className="text-orange-500">{t(aboutTextSpan)}</span>{t(extra)}</p>
-      <Link href="https://wa.me/5562981160081" className="self-start">
+      <h1 className="text-2xl font-bold mb-4">About me</h1>
+      <p className="text-base mb-4">{t(aboutText1)}</p>
+      <p className="text-base mb-6">{t(aboutText2)} <span className="text-orange-500">{t(aboutTextSpan)}</span>{t(extra)}</p>
+      <Link href="https://wa.me/5562981160081" rel="noopener noreferrer" aria-label="Whatsapp" className="self-start">
         <Button className="bg-orange-500 hover:bg-orange-700 text-white transition-colors">{t("contact")}</Button>
       </Link>
     </div>

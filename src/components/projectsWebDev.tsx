@@ -17,7 +17,7 @@ export function ProjectsWebDev() {
           <div className="p-6">
             {/* Image */}
             <div className="relative h-48 w-full mb-6 rounded-xl overflow-hidden">
-              <Link href={project.link} className="relative block h-full w-full">
+              <Link rel="noopener noreferrer" aria-label="project" href={project.link} className="relative block h-full w-full">
                 <Image src={project.cover || "/placeholder.svg"} alt={t(project.title as keyof typeof t)} fill sizes="(max-width: 768px) 100vw, 49vw" priority className="relative object-cover transition-transform  group-hover:scale-105" />
               </Link>
             </div>
@@ -28,7 +28,7 @@ export function ProjectsWebDev() {
                   <h3 className="text-xl font-bold">{t(project.title as keyof typeof t)}</h3>
                   <p className="text-sm text-muted-foreground">{project.type}</p>
                 </div>
-                <Link href={project.link}>
+                <Link rel="noopener noreferrer" aria-label="project" href={project.link}>
                   <ExternalLink className="h-5 w-5 hover:text-primary cursor-pointer transition-colors" />
                 </Link>
               </div>

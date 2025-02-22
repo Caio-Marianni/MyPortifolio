@@ -17,7 +17,7 @@ export default function Footer() {
           {/* P2 */}
           <div className="flex items-center space-x-3 text-white md:text-neutral-500">
             {/* Matrix-style Text Effect */}
-            <Link href="/" className="relative inset-0 text-2xl text-center font-light tracking-wider max-w-3xl  z-10">
+            <Link href="/" rel="noopener noreferrer" aria-label="Home" className="relative inset-0 text-2xl text-center font-light tracking-wider max-w-3xl  z-10">
               {/* Texto principal com o efeito base */}
               <span className="relative animate-glitch text-orange-600 font-mono">?</span>
 
@@ -32,16 +32,19 @@ export default function Footer() {
               </span>
             </Link>
             <hr className="h-6 border border-gray-500 rounded-full" />
-            <Link href="https://www.upwork.com/freelancers/~01e15c653dfbed2b29" className="hover:text-white transition-colors">
+            <Link href="https://github.com/Caio-Marianni" rel="noopener noreferrer" aria-label="Github" className="hover:text-white transition-colors">
               <BiLogoGithub size={25} />
             </Link>
-            <Link href="https://wa.me/5562981160081" className="hover:text-white transition-colors">
+            <Link href="https://wa.me/5562981160081" rel="noopener noreferrer" 
+  aria-label="WhatsApp" className="hover:text-white transition-colors">
               <BiLogoWhatsapp size={25} />
             </Link>
-            <Link href="https://www.upwork.com/freelancers/~01e15c653dfbed2b29" className="hover:text-white transition-colors">
+            <Link href="https://www.upwork.com/freelancers/~01e15c653dfbed2b29" rel="noopener noreferrer" 
+  aria-label="Upwork" className="hover:text-white transition-colors">
               <BiLogoUpwork size={30} />
             </Link>
-            <Link href="https://www.linkedin.com/in/caio-marianni-de-morais/" className="hover:text-white transition-colors">
+            <Link href="https://www.linkedin.com/in/caio-marianni-de-morais/" rel="noopener noreferrer" 
+  aria-label="Linkedin" className="hover:text-white transition-colors">
               <BiLogoLinkedin size={25} />
             </Link>
           </div>

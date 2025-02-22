@@ -19,14 +19,14 @@ export default function Hero({ context }: HeroProps) {
       <header className="container relative -top-14 z-10">
         <h1 className="text-4xl sm:text-5xl max-w-3xl text-pretty font-bold mb-4 leading-tight">{t(heroTitle)}</h1>
         <p className="text-lg sm:text-xl max-w-xl text-pretty mb-8 opacity-60">{t(subtitleKey)}</p>
-        <Link href="#projects">
+        <Link href="#projects" rel="noopener noreferrer" aria-label="projects" className="mr-4">
           <Button size="lg" className="hover:text-white transition-all hover:-translate-y-1 bg-orange-500 hover:bg-orange-700">
             {t("viewWork")}
             <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </Link>
-        <Link href="https://wa.me/5562981160081" className="ml-4">
-          <Button size="lg" className="text-orange-500 dark:hover:text-white transition-all hover:-translate-y-1 border bg-neutral-100 dark:bg-neutral-900 border-orange-500 hover:bg-neutral-50">
+        <Link href="https://wa.me/5562981160081" rel="noopener noreferrer" aria-label="Whatsapp">
+          <Button size="lg" className="mt-4 text-orange-500 dark:hover:text-white transition-all hover:-translate-y-1 border bg-neutral-100 dark:bg-neutral-900 border-orange-500 hover:bg-neutral-50">
             {t("contact")}
           </Button>
         </Link>
