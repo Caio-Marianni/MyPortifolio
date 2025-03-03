@@ -2,16 +2,16 @@ import Certification from "../types/Certification";
 
 const certificationsWebDev: Certification[] = [
   {
-    title: "Computer Science",
-    doc: "/documents/computer-science.pdf",
+    title: "Graphic Design Masterclass",
+    doc: "/docs/GraphicDesignMasterclass.pdf",
   },
   {
-    title: "Front-End Development",
-    doc: "/documents/front-end-development.pdf",
+    title: "React Course (Next.js, Redux & More)",
+    doc: "/docs/ReactCourse.pdf",
   },
   {
     title: "Back-End Development",
-    doc: "/documents/back-end-development.pdf",
+    doc: "/docs/back-end-development.pdf",
   },
 ];
 

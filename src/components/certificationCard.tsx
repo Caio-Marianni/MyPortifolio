@@ -20,6 +20,7 @@ export default function CartificationCard({ context }: ReviewCardProps) {
               key={index}
               href={cert.doc}
               className="flex gap-1 justify-center items-center shadow-sm py-1 px-2 border rounded-full dark:border-neutral-700 hover:border-black dark:hover:border-white text-xs text-neutral-500 hover:text-black dark:hover:text-white bg-secondary dark:bg-neutral-900 transition-all"
+              target="_blank"
             >
               <File size={15} />
               <p>{cert.title}</p>
@@ -33,6 +34,7 @@ export default function CartificationCard({ context }: ReviewCardProps) {
               key={index}
               href={cert.doc}
               className="flex gap-1 justify-center items-center shadow-sm py-1 px-2 border rounded-full dark:border-neutral-700 hover:border-black dark:hover:border-white text-xs text-neutral-500 hover:text-black dark:hover:text-white bg-secondary dark:bg-neutral-900 transition-all"
+              target="_blank"
             >
               <File size={15} />
               <p>{cert.title}</p>

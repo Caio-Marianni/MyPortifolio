@@ -28,7 +28,7 @@ export function ProjectsWebDev() {
                   <h3 className="text-xl font-bold">{t(project.title as keyof typeof t)}</h3>
                   <p className="text-sm text-muted-foreground">{project.type}</p>
                 </div>
-                <Link rel="noopener noreferrer" aria-label="project" href={project.link}>
+                <Link rel="noopener noreferrer" aria-label="project" href={project.link} target="_blank">
                   <ExternalLink className="h-5 w-5 hover:text-primary cursor-pointer transition-colors" />
                 </Link>
               </div>

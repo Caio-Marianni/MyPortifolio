@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import CertificationCard from "./certificationCard";
-import ReviewCard from "./ReviewCard";
+// import ReviewCard from "./ReviewCard";
 
 type AboutMeProps = {
   context: "thumbs" | "webdev";
@@ -24,7 +24,7 @@ export default function AboutMe({ context }: AboutMeProps) {
           <AboutContent aboutText1={aboutText1} aboutText2={aboutText2} aboutTextSpan={aboutTextSpan} extra={extra} />
         </div>
         <Certifications context={context} />
-        <Reviews context={context} />
+        {/* <Reviews context={context} /> */}
       </div>
     </section>
   );
@@ -70,13 +70,13 @@ function Certifications({ context }: { context: "thumbs" | "webdev" }) {
   );
 }
 
-function Reviews({ context }: { context: "thumbs" | "webdev" }) {
-  const { t } = useLanguage();
+// function Reviews({ context }: { context: "thumbs" | "webdev" }) {
+//   const { t } = useLanguage();
 
-  return (
-    <div className="mt-8">
-      <h3 className="text-2xl font-semibold mb-4">{t("clientReviews")}</h3>
-      <ReviewCard context={context} />
-    </div>
-  );
-}
+//   return (
+//     <div className="mt-8">
+//       <h3 className="text-2xl font-semibold mb-4">{t("clientReviews")}</h3>
+//       <ReviewCard context={context} />
+//     </div>
+//   );
+// }
