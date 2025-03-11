@@ -22,7 +22,7 @@ export default function AboutMe({ context }: AboutMeProps) {
       <div className="container mx-auto md:pt-32">
         <div className="flex flex-col md:flex-row items-center gap-6 md:absolute inset-0 place-self-center lg:max-w-[1000px] -top-[100%] px-6 md:px-8 py-6 md:py-8 shadow-none md:shadow-lg border bg-none md:bg-secondary dark:border-neutral-800 rounded-md">
           <ProfileImage />
-          <AboutContent aboutText1={aboutText1} aboutText2={aboutText2} aboutTextSpan={aboutTextSpan} extra={extra} />
+          <AboutContent context={context} aboutText1={aboutText1} aboutText2={aboutText2} aboutTextSpan={aboutTextSpan} extra={extra} />
         </div>
         <Certifications context={context} />
         <Reviews context={context} />
@@ -33,18 +33,20 @@ export default function AboutMe({ context }: AboutMeProps) {
 
 function ProfileImage() {
   return (
-    <div className="w-full h-[250px] relative mx-auto shadow-md rounded-md overflow-hidden">
+    <div className="w-full h-[300px] relative mx-auto shadow-md rounded-md overflow-hidden">
       <Image src="/assets/Profile.jpg" alt="Profile picture" fill priority sizes="(max-width: 600px) 100vw, 400px" className="object-cover" />;
     </div>
   );
 }
 
 function AboutContent({
+  context,
   aboutText1,
   aboutText2,
   aboutTextSpan,
   extra,
 }: {
+  context: "thumbs" | "webdev";
   aboutText1: "aboutText1WebDev" | "aboutText1Thumbs";
   aboutText2: "aboutText2WebDev" | "aboutText2Thumbs";
   aboutTextSpan: "aboutTextSpanWebDev" | "aboutTextSpanThumbs";
@@ -65,11 +67,13 @@ function AboutContent({
           <Button className="bg-orange-500 hover:bg-orange-700 text-white transition-colors">{t("contact")}</Button>
         </Link>
 
-        <Link href="/docs/Curriculo.pdf" target="_blank" rel="noopener noreferrer" aria-label="curriculo" className="self-start">
-          <Button className="border border-orange-500 hover:border-orange-700 text-white transition-colors bg-neutral-400 dark:bg-transparent">
-            <LucideFileBadge />
-          </Button>
-        </Link>
+        {context === "webdev" && (
+          <Link href="/docs/Curriculo.pdf" target="_blank" rel="noopener noreferrer" aria-label="curriculo" className="self-start">
+            <Button className="border border-orange-500 hover:border-orange-700 text-white transition-colors bg-neutral-400 dark:bg-transparent">
+              <LucideFileBadge />
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   );
