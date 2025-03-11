@@ -4,7 +4,7 @@ const reviewsThumbs: Review[] = [
   { 
     name: "John Doe",
     channel: "TechReviews",
-    comment: "Alex's thumbnails increased our CTR by 40%!",
+    comment: "Caio's thumbnails increased our CTR by 40%!",
     rating: 4,
   }, { 
     name: "Jane Smith",

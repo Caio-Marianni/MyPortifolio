@@ -3,21 +3,25 @@ import { Star, StarHalf } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
 import { Review } from "@/core/types";
 import { reviewsThumbs, reviewsWebDev } from "@/core/constants/index";
+import { useLanguage } from "./utils/LanguageProvider";
 
 type ReviewCardProps = {
   context: "thumbs" | "webdev";
 };
 
 export default function ReviewCard({ context }: ReviewCardProps) {
+   const { t } = useLanguage();
+   
   return (
-    <div className="flex justify-center flex-wrap gap-2">
+    <div className="flex justify-start flex-wrap gap-2">
       {context === "webdev" ? (
         <>
           {reviewsWebDev.map((review: Review, index: number) => (
-            <Card key={index}>
+            <Card key={index} className="lg:max-w-[48%]">
               <CardContent className="p-4 min-w-[200px]">
                 <div className="flex items-center mb-2">{renderStars(review.rating)}</div>
-                <p className="italic mb-2">&quot;{review.comment}&quot;</p>
+                <p className="italic mb-2">&quot;{review.comment}
+                {t(review.comment as keyof typeof t)}&quot;</p>
                 <p className="text-sm text-muted-foreground">
                   {review.name} - {review.channel}
                 </p>

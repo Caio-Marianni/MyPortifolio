@@ -45,6 +45,8 @@ const translations = {
     contact: "contact me",
     viewWork: "view work",
     allRightsReserved: "allRightsReserved",
+    // ReviewsWeb
+    reviewCommentAna: "Excellent work, very professional and attentive. Work delivered quickly and with attention to all details and changes. I totally recommend it!!!",
     // Projects WebDev
     projectTitleAna: "Ana Carolina's page",
     projectDescriptionAna: "Landing page for marketing, social media and content creation freelancers. With about me, services, portfolio of work carried out and ways to get in touch.",
@@ -84,6 +86,8 @@ const translations = {
     contact: "entre em contato",
     viewWork: "ver trabalhos",
     allRightsReserved: "todosDireirosReservados",
+    // ReviewsWeb
+    reviewCommentAna: "Excelente trabalho, muito profissional e atencioso. Trabalho entregue rapidamente e com atenção a todos os detalhes e alterações. Recomendo totalmente!!!",
     // Projects WebDev
     projectTitleAna: "Pagina de Ana Carolina",
     projectDescriptionAna: "Landing page para uma freelancer de marketing, social media e criação de conteúdo. Com sobre mim, servicos,  portfólio de trabalhos realizados e maneiras de entrar em contato.",
