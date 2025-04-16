@@ -2,6 +2,33 @@ import Thumb from "../types/Thumb";
 
 const thumbs: Thumb[] = [
   {
+    cover: "/assets/thumbs/Basket.jpg",
+    tags: ["sports", "basketball"],
+  }, {
+    cover: "/assets/thumbs/Basket2.jpg",
+    tags: ["sports", "basketball"],
+  }, {
+    cover: "/assets/thumbs/Basket3.jpg",
+    tags: ["sports", "basketball"],
+  }, {
+    cover: "/assets/thumbs/Car.jpg",
+    tags: ["cars"],
+  }, {
+    cover: "/assets/thumbs/Car2.jpg",
+    tags: ["cars"],
+  }, {
+    cover: "/assets/thumbs/Draw.jpg",
+    tags: ["MMA/UFC", "draw"],
+  }, {
+    cover: "/assets/thumbs/Alanzoka.jpg",
+    tags: ["games"],
+  }, {
+    cover: "/assets/thumbs/Travel.jpg",
+    tags: ["sports"],
+  }, {
+    cover: "/assets/thumbs/Travel2.jpg",
+    tags: ["sports"],
+  }, {
     cover: "/assets/thumbs/Sports1.jpg",
     tags: ["sports"],
   }, {
