@@ -1,70 +1,61 @@
-"use client"
+"use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import ThemeToggle from "@/components/utils/ThemeToggle";
-import LanguageSwitcher from "@/components/utils/LanguageSwitcher"
 import { useLanguage } from "@/components/utils/LanguageProvider";
-import ScrollRevealComponent from "@/components/utils/ScrollReveal";
+import TechContainer from "@/components/ui/tech-container";
+import VerticalMenu from "@/components/vertical-menu";
+import Footer from "@/components/footer";
+import Profile from "@/components/profile";
+import Projects from "@/components/projects";
 
-export default function ChoicePage() {
-  const { t } = useLanguage()
+export default function HomePage() {
+  const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen text-white flex flex-col items-center justify-center pt-20 md:pt-0 p-4 relative overflow-hidden bg-black bg-opacity-80">
-      <ScrollRevealComponent />
-      {/* Language Toggle */}
-      <div className="absolute top-4 right-4 flex gap-2 z-10">
-        <LanguageSwitcher />
-        <ThemeToggle />
-      </div>
-
-      {/* Matrix-style Text Effect */}
-      <h1 className="reveal2000Opacity text-2xl md:text-4xl text-center mb-12 font-light tracking-wider max-w-3xl relative z-10">
-        {/* Texto principal com o efeito base */}
-        <span className="relative animate-glitch text-green-400 font-mono">{t("title")}</span>
-
-        {/* Camada superior para o efeito glitch */}
-        <span className="absolute left-0 top-0 animate-glitchTop text-green-400 font-mono opacity-70" aria-hidden="true">
-          {t("title")}
-        </span>
-
-        {/* Camada inferior para o efeito glitch */}
-        <span className="absolute left-0 top-0 animate-glitchBottom text-green-400 font-mono opacity-70" aria-hidden="true">
-          {t("title")}
-        </span>
-      </h1>
-
-      {/* Character Image */}
-      <div>
-        <div className="hidden sm:flex reveal500 w-full h-full relative z-10">
-          <Image src="/assets/background/person2.webp" width={500} height={500} alt="Background person" priority className="w-[300px] h-[300px] object-cover" />
-        </div>
-      </div>
-
-      {/* Choice Container with Enhanced Animations */}
-      <div className="top-0 sm:-top-20 flex flex-col sm:flex-row gap-16 md:gap-52 items-center justify-center relative z-10">
-        {/* Left Choice - Thumbnails */}
-        <Link href="/thumbnails" rel="noopener noreferrer" aria-label="Thumbnails" className="revealLeft group relative">
-          <div className="flex flex-col items-center gap-4 cursor-pointer group-hover:scale-105 transition-all duration-300">
-            <div className="relative w-40 h-40">
-              <div className="absolute inset-0 bg-red-500 rounded-full opacity-10 filter blur-xl group-hover:opacity-20 transition-all duration-200" />
-              <Image src="/assets/background/leftHand.webp" width={400} height={400} alt="Hand" className="w-full h-full object-contain relative z-10" />
-            </div>
-            <h2 className="text-xl font-light tracking-wide bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">Thumbnails</h2>
+    <div className="overflow-x-hidden">
+      {/* Background */}
+      <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-[#465b68] to-[#090929a2] -z-20" />
+      {/* Background Image */}
+      <img
+        className="fixed inset-0 w-full h-full object-cover -z-10 blur-sm"
+        src="https://cdn.80.lv/api/upload/content/0d/5fb623f64da11.jpg"
+        // src="https://i.redd.it/the-beautiful-landscapes-of-death-stranding-just-finished-v0-v1mxali1xid81.jpg?width=3840&format=pjpg&auto=webp&s=a85ddde52089d5fa506503f78480195ec220492f"
+        alt=""
+      />
+      {/* Main Display */}
+      <main className="container relative py-8 mt-10">
+        {/* Border Blur */}
+        <div className="absolute inset-0 rounded-xl bg-black/70 blur-sm -z-10 border-2 border-black/80" />
+        <VerticalMenu />
+        {/* AboutMe */}
+        <section>
+          {/* title */}
+          <div className="w-[420px]">
+            <h1 className="w-full text-4xl text-[#ffffff] drop-shadow-[0_0_2px_#00ccff] font-neon">{t("aboutMeH1")}</h1>
+            <TechContainer>
+              <p className="text-[#9A9A9A] mt-1 font-tech">{t("aboutMeSub")}</p>
+            </TechContainer>
           </div>
-        </Link>
 
-        <Link href="/webDevelopment" rel="noopener noreferrer" aria-label="webDevelopment" className="revealRight group relative">
-          <div className="flex flex-col items-center gap-4 cursor-pointer group-hover:scale-105 transition-all duration-300">
-            <div className="relative w-40 h-40">
-              <div className="absolute inset-0 bg-blue-500 rounded-full opacity-10 filter blur-xl group-hover:opacity-20 transition-all duration-200" />
-              <Image src="/assets/background/rightHand.webp" width={400} height={400} alt="Hand" className="w-full h-full object-contain relative z-10" />
-            </div>
-            <h2 className="text-xl font-light tracking-wide bg-gradient-to-r from-blue-500 to-blue-300 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">Web Development</h2>
+          {/* profile info */}
+          <div className="flex flex-col gap-6">
+            <Profile />
           </div>
-        </Link>
-      </div>
+        </section>
+
+        {/* Projects */}
+        <section className="mt-20">
+          {/* title */}
+          <div className="flex flex-col gap-2 mb-2">
+            <h1 className="w-full text-4xl text-[#ffffff] drop-shadow-[0_0_2px_#00ccff] font-neon">{t("projectH1")}</h1>
+            <TechContainer>
+              <p className="text-[#9A9A9A] mt-1 font-tech">{t("projectSub")}</p>
+            </TechContainer>
+          </div>
+          <Projects />
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 }

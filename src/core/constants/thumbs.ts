@@ -1,4 +1,4 @@
-import Thumb from "../types/Thumb";
+import Thumb from "../types/thumb";
 
 const thumbs: Thumb[] = [
   {

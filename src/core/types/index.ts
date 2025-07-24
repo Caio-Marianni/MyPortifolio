@@ -1,6 +1,7 @@
-import Thumb from "./Thumb"
-import Review from "./Review"
-import Project from "./Project"
-import Certification from "./Certification"
+import Thumb from "./thumb"
+import Project from "./project"
+import StarPoint from "./starPoint"
+import { TechItem } from "./techItem"
 
-export type { Thumb, Review, Certification, Project }
+
+export type { Thumb, Project, TechItem, StarPoint }

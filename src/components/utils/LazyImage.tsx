@@ -14,14 +14,7 @@ interface LazyImageProps {
   className?: string;
 }
 
-export default function LazyImage({
-  src,
-  alt,
-  width,
-  height,
-  quality = 75,
-  className = "",
-}: LazyImageProps) {
+export default function LazyImage({ src, alt, width, height, quality = 75, className = "" }: LazyImageProps) {
   const imgRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -37,35 +30,20 @@ export default function LazyImage({
       },
       { rootMargin: "0px 0px 100px 0px", threshold: 0.1 }
     );
-  
+
     // Armazena a referência atual
     const currentImg = imgRef.current;
     if (currentImg) {
       observer.observe(currentImg);
     }
-  
+
     return () => {
       if (currentImg) observer.unobserve(currentImg);
     };
   }, []);
-  
 
   // Handle src for StaticImageData and string types
   const imageSrc = typeof src === "string" ? src : src.src;
 
-  return (
-    <div ref={imgRef}>
-      {isVisible && (
-        <Image
-          src={imageSrc}
-          alt={alt}
-          width={width}
-          height={height}
-          quality={quality}
-          loading="lazy"
-          className={className}
-        />
-      )}
-    </div>
-  );
+  return <div ref={imgRef}>{isVisible && <Image src={imageSrc} alt={alt} width={width} height={height} quality={quality} loading="lazy" className={className} />}</div>;
 }

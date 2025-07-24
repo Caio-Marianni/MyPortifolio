@@ -12,7 +12,7 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
   if (!mounted) {
     // Evita renderizar tema incorreto no SSR
-    return <>{children}</>; 
+    return <>{children}</>;
   }
 
   return <NextThemesProvider attribute="class">{children}</NextThemesProvider>;

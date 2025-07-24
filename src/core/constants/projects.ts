@@ -1,35 +1,40 @@
-import { Project } from "../types/index";
+import { FaInstagram } from "react-icons/fa";
+import type Project from "../types/project";
+import { MdPets, MdSchool } from "react-icons/md";
 
 const projects: Project[] = [
   {
-    title: "projectTitleAna",
-    description: "projectDescriptionAna",
-    quote: "projectQuoteAna",
-    type: "Landing page",
-    year: "2025",
+    id: 1,
     link: "https://portfolio-ana-carol.vercel.app",
-    cover: "/assets/projects/anaCover.png",
-    technologies: ["react", "typescript", "tailwind", "next.js"],
+    cover: ["/assets/images/projects/anaCover.png"],
+    title: "Landing page (Ana Carolina)",
+    year: "2024",
+    technologies: ["React", "Tailwind", "Next.js"],
+    description: "projectDescriptionAna",
+    icon: FaInstagram,
+    tagFilter: "landing",
   },
   {
-    title: "projectTitleAlmanac",
-    description: "projectDescriptionAlmanac",
-    quote: "projectQuoteAlmanac",
-    type: "Single page",
-    year: "2024",
-    link: "https://almanac-gamma.vercel.app",
-    cover: "/assets/projects/almanacCover.png",
-    technologies: ["react", "tailwind", "next.js", "typescript"],
+    id: 2,
+    link: "https://freela-landing.com",
+    cover: ["/assets/images/projects/anaCover.png"],
+    title: "Landing page para freelancer",
+    year: "2023",
+    technologies: ["HTML", "CSS", "JS"],
+    description: "Página pessoal com portfólio e formulário de contato.",
+    tagFilter: "landing",
+    icon: MdPets,
   },
   {
-    title: "Check-in TA",
-    description: "projectDescriptionTravel",
-    quote: "projectQuoteTravel",
-    type: "Travel agency page",
+    id: 3,
+    link: "https://dashboard-escola.com",
+    cover: ["/assets/images/projects/anaCover.png"],
+    title: "Dashboard para escola",
     year: "2024",
-    link: "travel-agency-five-mu.vercel.app",
-    cover: "/assets/projects/andareCover.png",
-    technologies: ["vue", "tailwind", "typescript"],
+    technologies: ["React", "Node.js", "Prisma"],
+    description: "Sistema interno para administração de escola.",
+    icon: MdSchool,
+    tagFilter: "fullstack",
   },
 ];
 

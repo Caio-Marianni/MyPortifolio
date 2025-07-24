@@ -1,0 +1,91 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { useScore } from "../utils/LikeContext";
+import Image from "next/image";
+import TechContainerDots from "./tech-dots";
+
+export default function ScoreDisplay() {
+  const { score } = useScore();
+  const [lastGain, setLastGain] = useState<number | null>(null);
+  const [animatedScore, setAnimatedScore] = useState(score);
+  const animationRef = useRef<number | null>(null);
+  const prevScore = useRef(score);
+
+  // Animação do score visual
+  useEffect(() => {
+    const startValue = animatedScore;
+    const endValue = score;
+    if (startValue === endValue) return;
+
+    const duration = 1000;
+    const delay = 1000; // delay de 1s antes de começar
+
+    let timeoutId: NodeJS.Timeout;
+
+    const startAnimation = () => {
+      const startTime = performance.now();
+
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentValue = Math.floor(startValue + (endValue - startValue) * progress);
+        setAnimatedScore(currentValue);
+
+        if (progress < 1) {
+          animationRef.current = requestAnimationFrame(animate);
+        }
+      };
+
+      cancelAnimationFrame(animationRef.current!);
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    timeoutId = setTimeout(startAnimation, delay);
+
+    // Cleanup caso o componente unmonte antes do delay
+    return () => {
+      clearTimeout(timeoutId);
+      cancelAnimationFrame(animationRef.current!);
+    };
+  }, [score]);
+
+  // Detecta diferença e exibe +valor temporariamente
+  useEffect(() => {
+    const diff = score - prevScore.current;
+    if (diff > 0) {
+      setLastGain(diff);
+
+      const timeout = setTimeout(() => {
+        setLastGain(null);
+      }, 1200);
+
+      prevScore.current = score;
+      return () => clearTimeout(timeout);
+    }
+  }, [score]);
+
+  // Cleanup da animação se o componente desmontar
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div className="container fixed bottom-6 right-6 z-50 flex flex-col items-end gap-1 drop-shadow-[0_0_8px_#00ccff] w-1">
+      <TechContainerDots>
+        <div className="relative w-20 h-16 flex items-center justify-center ">
+          <Image src="/assets/images/elements/like.png" width={74} height={74} alt="" className="absolute bg-cover opacity-20" />
+          {lastGain !== null && <div className="absolute -top-0 text-[#00ff99] text-xl font-tech select-none">+{lastGain}</div>}
+          <div className="flex flex-col items-center z-10 mt-5">
+            <span className="font-tech text-base font-thin">{animatedScore}</span>
+            <hr className="w-16 mb-0.5 opacity-30" />
+            <p className="text-xs font-tech opacity-60">likes</p>
+          </div>
+        </div>
+      </TechContainerDots>
+    </div>
+  );
+}
