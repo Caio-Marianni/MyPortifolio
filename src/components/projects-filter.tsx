@@ -12,7 +12,7 @@ const tags = [
 
 export default function ProjectsFilter({ onFilterChange }: { onFilterChange: Dispatch<SetStateAction<FilterType>> }) {
   const [selected, setSelected] = useState<FilterType>("todos");
-  const [scrollIndex, setScrollIndex] = useState(0);
+  const [scrollIndex] = useState(0);
 
   const visibleTags = tags.slice(scrollIndex, scrollIndex + 3);
 

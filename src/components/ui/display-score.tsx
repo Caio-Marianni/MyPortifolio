@@ -10,17 +10,55 @@ export default function ScoreDisplay() {
   const [animatedScore, setAnimatedScore] = useState(score);
   const animationRef = useRef<number | null>(null);
   const prevScore = useRef(score);
+  const animatedScoreRef = useRef(score);
+
+  useEffect(() => {
+    const startValue = animatedScoreRef.current;
+    const endValue = score;
+    
+    if (startValue === endValue) return;
+    
+    const duration = 1000;
+  const delay = 1000;
+
+  const startAnimation = () => {
+    const startTime = performance.now();
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const currentValue = Math.floor(startValue + (endValue - startValue) * progress);
+      setAnimatedScore(currentValue);
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        animatedScoreRef.current = currentValue; // atualiza ref final
+      }
+    };
+
+    cancelAnimationFrame(animationRef.current!);
+    animationRef.current = requestAnimationFrame(animate);
+  };
+
+  const timeoutId = setTimeout(startAnimation, delay);
+
+  return () => {
+    clearTimeout(timeoutId);
+    cancelAnimationFrame(animationRef.current!);
+  };
+}, [score]);
 
   // Animação do score visual
+
   useEffect(() => {
-    const startValue = animatedScore;
+    const startValue = animatedScoreRef.current;
     const endValue = score;
+
     if (startValue === endValue) return;
 
     const duration = 1000;
-    const delay = 1000; // delay de 1s antes de começar
-
-    let timeoutId: NodeJS.Timeout;
+    const delay = 1000;
 
     const startAnimation = () => {
       const startTime = performance.now();
@@ -33,6 +71,8 @@ export default function ScoreDisplay() {
 
         if (progress < 1) {
           animationRef.current = requestAnimationFrame(animate);
+        } else {
+          animatedScoreRef.current = currentValue; // atualiza ref final
         }
       };
 
@@ -40,9 +80,8 @@ export default function ScoreDisplay() {
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    timeoutId = setTimeout(startAnimation, delay);
+    const timeoutId = setTimeout(startAnimation, delay);
 
-    // Cleanup caso o componente unmonte antes do delay
     return () => {
       clearTimeout(timeoutId);
       cancelAnimationFrame(animationRef.current!);

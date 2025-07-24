@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { IoAccessibilitySharp, IoMoon, IoSunny } from "react-icons/io5";
+import { IoAccessibilitySharp } from "react-icons/io5";
 import { PiSpeakerHighFill } from "react-icons/pi";
 import { PiSpeakerSimpleXFill } from "react-icons/pi";
 import { useTheme } from "next-themes";

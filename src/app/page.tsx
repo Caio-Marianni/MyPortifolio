@@ -5,6 +5,7 @@ import TechContainer from "@/components/ui/tech-container";
 import VerticalMenu from "@/components/vertical-menu";
 import Footer from "@/components/footer";
 import Profile from "@/components/profile";
+import Image from "next/image";
 import Projects from "@/components/projects";
 
 export default function HomePage() {
@@ -15,11 +16,11 @@ export default function HomePage() {
       {/* Background */}
       <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-[#465b68] to-[#090929a2] -z-20" />
       {/* Background Image */}
-      <img
-        className="fixed inset-0 w-full h-full object-cover -z-10 blur-sm"
-        src="https://cdn.80.lv/api/upload/content/0d/5fb623f64da11.jpg"
-        // src="https://i.redd.it/the-beautiful-landscapes-of-death-stranding-just-finished-v0-v1mxali1xid81.jpg?width=3840&format=pjpg&auto=webp&s=a85ddde52089d5fa506503f78480195ec220492f"
-        alt=""
+      <Image
+        className="fixed object-fill -z-10 blur"
+        src="/assets/images/elements/background.jpg"
+        alt="Background Image"
+        fill
       />
       {/* Main Display */}
       <main className="container relative py-8 mt-10">

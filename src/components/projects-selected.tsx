@@ -4,6 +4,7 @@ import { useLanguage } from "./utils/LanguageProvider";
 import { getRandomScore } from "./utils/GetRandomScore";
 import { useSingleCall } from "./utils/useSingleCall";
 import { useScore } from "./utils/LikeContext";
+import Image from "next/image";
 
 export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
   const { t } = useLanguage();
@@ -48,9 +49,9 @@ export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
         </div>
       </div>
       {/* Images */}
-      <div className="flex flex-col gap-1 mt-2">
+      <div className="flex justify-around flex-wrap gap-1 mt-2 w-full">
         {rest.cover.map((image, index) => (
-          <img key={index} src={image} alt={`${rest.title} - ${index + 1}`} className="w-full h-auto rounded-md" />
+          <Image key={index} src={image} alt={`${rest.title} - ${index + 1}`} width={500} height={500} className="rounded-md object-cover border-2 border-[rgba(0_86,_152,_0.4)]" />
         ))}
       </div>
     </div>

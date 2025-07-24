@@ -1,5 +1,4 @@
 import { useLanguage } from "./utils/LanguageProvider";
-import { socialLinks } from "@/core/constants/techItems";
 import { useSingleCall } from "./utils/useSingleCall";
 import { useScore } from "./utils/LikeContext";
 import { getRandomScore } from "./utils/GetRandomScore";
@@ -8,8 +7,9 @@ import { FaUpwork } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { IconType } from "react-icons";
 import { FaGithub, FaLinkedin, FaSignal, FaWhatsapp } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IoClose } from "react-icons/io5";
+import Image from "next/image";
 
 type TechItem = {
   id: number;
@@ -26,7 +26,7 @@ export default function PersonalCard() {
   const [animate, setAnimate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const audioVoice = new Audio("/assets/audios/myvoice.mp3");
-  const audioNotification = new Audio("/assets/audios/notification.mp3");
+  const audioNotificationRef = useRef(new Audio("/assets/audios/notification.mp3"));
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -35,17 +35,12 @@ export default function PersonalCard() {
     }, 100);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setAnimate(false);
-  };
-
-  const handleTimeoutTrigger = () => {
+  const handleTimeoutTrigger = useCallback (() => {
     if (isModalOpen) {
       // audioVoice.play();
     } else {
       setIsModalOpen(true);
-      audioNotification.play();
+      audioNotificationRef.current.play();
 
       // delay apper / audio
       setTimeout(() => {
@@ -53,7 +48,7 @@ export default function PersonalCard() {
         setAnimate(true);
       }, 3000);
     }
-  };
+  }, [isModalOpen])
 
   // Trigger de 4 minutos
   useEffect(() => {
@@ -62,7 +57,7 @@ export default function PersonalCard() {
     }, 4 * 60 * 1000);
 
     return () => clearTimeout(timeout);
-  }, [isModalOpen]);
+  }, [isModalOpen, handleTimeoutTrigger]);
 
   const socialLinks: TechItem[] = [
     {
@@ -141,8 +136,8 @@ export default function PersonalCard() {
               <div className="space-y-8 w-full xl:w-1/2 text-[#0b5697]">
                 {/* Logo */}
                 <div className="relative w-20 h-20">
-                  <img src="/assets/images/LogoOrange.webp" alt="Logo" className="absolute z-10 w-full h-full object-cover" />
-                  <img src="/assets/images/elements/logoBorder.png" alt="Logo Border" className="absolute w-full h-full object-cover" />
+                  <Image src="/assets/images/LogoOrange.webp" alt="Logo" width={80} height={80} className="absolute z-10 w-full h-full object-cover" />
+                  <Image src="/assets/images/elements/logoBorder.png" alt="Logo Border" width={80} height={80} className="absolute w-full h-full object-cover" />
                 </div>
                 {/* Name */}
                 <div>
@@ -179,7 +174,7 @@ export default function PersonalCard() {
               </div>
               {/* Profile */}
               <div className="w-full xl:w-1/2 opacity-60">
-                <img src="/assets/images/profile.png" alt="Descrição da imagem" className="w-auto h-[500px] rounded" />
+                <Image src="/assets/images/profile.webp" alt="Descrição da imagem" width={500} height={500} />
               </div>
             </div>
           </div>

@@ -1,12 +1,9 @@
 "use client";
-
-import { useLanguage } from "@/components/utils/LanguageProvider";
 import Star from "@/components/star";
 import ProfileInfo from "@/components/profile-info";
 import ProfileBanner from "@/components/profile-banner";
 
 export default function Profile() {
-  const { t } = useLanguage();
 
   return (
     <section className="flex flex-col gap-4 mt-6">

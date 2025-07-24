@@ -6,7 +6,7 @@ const projects: Project[] = [
   {
     id: 1,
     link: "https://portfolio-ana-carol.vercel.app",
-    cover: ["/assets/images/projects/anaCover.png"],
+    cover: ["/assets/images/thumbs/Alanzoka.jpg", "/assets/images/projects/anaCover.png"],
     title: "Landing page (Ana Carolina)",
     year: "2024",
     technologies: ["React", "Tailwind", "Next.js"],
@@ -17,7 +17,7 @@ const projects: Project[] = [
   {
     id: 2,
     link: "https://freela-landing.com",
-    cover: ["/assets/images/projects/anaCover.png"],
+    cover: ["/assets/images/thumbs/Car.jpg", "/assets/images/thumbs/Car2.jpg"],
     title: "Landing page para freelancer",
     year: "2023",
     technologies: ["HTML", "CSS", "JS"],

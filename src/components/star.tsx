@@ -1,6 +1,5 @@
 import starPoints from "@/core/constants/starPoint";
 import StarSegment from "./star-segment";
-import Image from "next/image";
 
 export default function Star() {
   return (
