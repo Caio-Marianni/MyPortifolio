@@ -1,9 +1,9 @@
 "use client";
 
-import Thumbnails from "@/components/thumbnails";
-import Footer from "@/components/footer";
-import Image from "next/image";
-import Link from "next/link";
+// import Thumbnails from "@/components/thumbnails";
+// import Footer from "@/components/footer";
+// import Image from "next/image";
+// import Link from "next/link";
 // import LanguageSwitcher from "@/components/utils/LanguageSwitcher";
 // import ThemeToggle from "@/components/utils/ThemeToggle";
 
