@@ -1,10 +1,21 @@
-import { Project } from "../core/types";
 import TechContainer from "./ui/tech-container";
 import { useLanguage } from "./utils/LanguageProvider";
 import { getRandomScore } from "./utils/GetRandomScore";
 import { useSingleCall } from "./utils/useSingleCall";
 import { useScore } from "./utils/LikeContext";
 import Image from "next/image";
+
+export interface Project {
+  id: number;
+  icon: React.ElementType;
+  cover: string[];
+  title: string;
+  description: string;
+  year: string;
+  tagFilter: string;
+  technologies: string[];
+  link: string;
+}
 
 export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
   const { t } = useLanguage();
