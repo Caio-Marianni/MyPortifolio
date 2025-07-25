@@ -7,21 +7,23 @@ import Footer from "@/components/footer";
 import Profile from "@/components/profile";
 import Image from "next/image";
 import Projects from "@/components/projects";
+import { LikeProvider } from "@/components/utils/LikeContext";
+import DisplayScore from "@/components/ui/display-score";
+import ScoreModal from "@/components/score-modal";
 
 export default function HomePage() {
   const { t } = useLanguage();
 
   return (
     <div className="overflow-x-hidden">
+      <LikeProvider>
+        <ScoreModal />
+        <DisplayScore />
+      
       {/* Background */}
       <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-[#465b68] to-[#090929a2] -z-20" />
       {/* Background Image */}
-      <Image
-        className="fixed object-fill -z-10 blur"
-        src="/assets/images/elements/background.jpg"
-        alt="Background Image"
-        fill
-      />
+      <Image className="fixed object-fill -z-10 blur" src="/assets/images/elements/background.jpg" alt="Background Image" fill />
       {/* Main Display */}
       <main className="container relative py-8 mt-10">
         {/* Border Blur */}
@@ -57,6 +59,7 @@ export default function HomePage() {
       </main>
 
       <Footer />
+      </LikeProvider>
     </div>
   );
 }
