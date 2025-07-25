@@ -1,6 +1,6 @@
 import { IconType } from "react-icons";
 
-export default interface Project {
+export interface Project {
   id: number;
   icon: React.ElementType | IconType;
   cover: string[];

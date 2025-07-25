@@ -1,6 +1,6 @@
 import { IconType } from "react-icons";
 
-export default interface StarPoint {
+export interface StarPoint {
   rotation: number;
   color: string;
   icon: React.ElementType | IconType;

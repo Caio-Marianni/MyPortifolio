@@ -1,6 +1,6 @@
-import Thumb from "./thumb"
-import Project from "./project"
-import StarPoint from "./starPoint"
+import { Thumb } from "./thumb"
+import { Project } from "./project"
+import { StarPoint } from "./starPoint"
 import { TechItem } from "./techItem"
 
 
