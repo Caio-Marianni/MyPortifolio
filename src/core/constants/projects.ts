@@ -1,5 +1,5 @@
 import { FaInstagram } from "react-icons/fa";
-import type Project from "../types/project";
+import { Project } from "../types";
 import { MdPets, MdSchool } from "react-icons/md";
 
 const projects: Project[] = [
