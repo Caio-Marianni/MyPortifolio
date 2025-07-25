@@ -1,7 +1,6 @@
 "use client";
 
 import Thumbnails from "@/components/thumbnails";
-import Footer from "@/components/footer";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,7 +17,6 @@ export default function ThumbnailsPage() {
       <main>
         <Thumbnails />
       </main>
-      <Footer />
     </div>
   );
 }

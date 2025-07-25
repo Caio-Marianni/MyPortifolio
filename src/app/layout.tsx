@@ -3,9 +3,6 @@ import { ReactNode } from "react";
 import ThemeProvider from "@/components/utils/ThemeProvider";
 import { LanguageProvider } from "@/components/utils/LanguageProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-// import { LikeProvider } from "@/components/utils/LikeContext";
-// import DisplayScore from "@/components/ui/display-score";
-// import ScoreModal from "@/components/score-modal";
 
 export const metadata = {
   title: "Caio Marianni",
@@ -58,11 +55,7 @@ export default async function LocaleLayout({ children }: { children: ReactNode }
       <body>
         <ThemeProvider>
           <LanguageProvider>
-            {/* <LikeProvider> */}
               {children}
-              {/* <ScoreModal />
-              <DisplayScore />
-            </LikeProvider> */}
           </LanguageProvider>
         </ThemeProvider>
       </body>
