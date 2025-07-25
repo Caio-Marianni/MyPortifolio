@@ -5,8 +5,8 @@ import { useSingleCall } from "../utils/useSingleCall";
 import { useScore } from "../utils/LikeContext";
 import { getRandomScore } from "../utils/GetRandomScore";
 import { useLanguage } from "../utils/LanguageProvider";
-import { TechItem } from "@/core/types";
-import { frontIcons, backIcons, socialLinks } from "@/core/constants/techItems";
+import { TechItem } from "../../core/types";
+import { frontIcons, backIcons, socialLinks } from "../../core/constants/techItems";
 
 type TechSectionProps = {
   title: string;
