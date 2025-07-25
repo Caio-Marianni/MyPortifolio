@@ -1,7 +1,7 @@
 import "./globals.css";
 import { ReactNode } from "react";
-import ThemeProvider from "@/components/utils/ThemeProvider";
-import { LanguageProvider } from "@/components/utils/LanguageProvider";
+import ThemeProvider from "../components/utils/ThemeProvider";
+import { LanguageProvider } from "../components/utils/LanguageProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import LazyImage from "@/components/utils/LazyImage";
-import { thumbs } from "@/core/constants/index";
-import { Thumb } from "@/core/types/index";
+import LazyImage from "../components/utils/LazyImage";
+import { thumbs } from "../core/constants/index";
+import { Thumb } from "../core/types/index";
 
 // Número inicial de thumbnails visíveis
 const INITIAL_VISIBLE = 9;

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ProjectsDisplay from "./projects-display";
-import { Project } from "@/core/types";
-import { projects } from "@/core/constants";
+import { Project } from "../core/types";
+import { projects } from "../core/constants";
 import ProjectsFilter from "./projects-filter";
 import ProjectsSelected from "./projects-selected";
 import { useLanguage } from "./utils/LanguageProvider";

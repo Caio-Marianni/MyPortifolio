@@ -1,4 +1,4 @@
-import { Project } from "@/core/types";
+import { Project } from "../core/types";
 import TechContainer from "./ui/tech-container";
 import { useLanguage } from "./utils/LanguageProvider";
 import { getRandomScore } from "./utils/GetRandomScore";

@@ -1,6 +1,6 @@
 "use client";
 
-import Thumbnails from "@/components/thumbnails";
+import Thumbnails from "../../../components/thumbnails";
 import Image from "next/image";
 import Link from "next/link";
 

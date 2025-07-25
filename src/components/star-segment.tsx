@@ -1,6 +1,6 @@
 import TechContainer from "./ui/tech-dots";
 import Image from "next/image";
-import { StarPoint } from "@/core/types";
+import { StarPoint } from "../core/types";
 
 export default function StarSegment({ icon: Icon, ...rest }: StarPoint) {
   return (
