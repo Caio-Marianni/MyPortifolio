@@ -50,7 +50,7 @@ export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
       </div>
       {/* Images */}
       <div className="flex justify-around flex-wrap gap-1 mt-2 w-full">
-        {rest.cover.map((image, index) => (
+        {rest.cover.map((image: string, index: number) => (
           <Image key={index} src={image} alt={`${rest.title} - ${index + 1}`} width={500} height={500} className="rounded-md object-cover border-2 border-[rgba(0_86,_152,_0.4)]" />
         ))}
       </div>
