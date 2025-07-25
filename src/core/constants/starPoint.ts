@@ -1,4 +1,4 @@
-import StarPoint from "../types/starPoint";
+import { StarPoint } from "../types/starPoint";
 import { FaArchive, FaGitAlt, FaSmile } from "react-icons/fa";
 import { SiLintcode } from "react-icons/si";
 import { HiDocumentText } from "react-icons/hi";
