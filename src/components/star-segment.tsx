@@ -1,5 +1,4 @@
 import TechContainer from "./ui/tech-dots";
-import Image from "next/image";
 import { StarPoint } from "../core/types";
 import LazyImage from "./utils/LazyImage";
 

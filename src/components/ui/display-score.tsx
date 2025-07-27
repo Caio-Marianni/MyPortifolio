@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useScore } from "../utils/LikeContext";
-import Image from "next/image";
 import TechContainerDots from "./tech-dots";
 import LazyImage from "components/utils/LazyImage";
 
