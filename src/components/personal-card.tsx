@@ -2,22 +2,12 @@ import { useLanguage } from "./utils/LanguageProvider";
 import { useSingleCall } from "./utils/useSingleCall";
 import { useScore } from "./utils/LikeContext";
 import { getRandomScore } from "./utils/GetRandomScore";
+import { socialLinks } from "../core/constants";
+import Image from "next/image";
 // Icons
-import { FaUpwork } from "react-icons/fa6";
-import { MdEmail } from "react-icons/md";
-import { IconType } from "react-icons";
-import { FaGithub, FaLinkedin, FaSignal, FaWhatsapp } from "react-icons/fa";
+import { FaSignal } from "react-icons/fa";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import Image from "next/image";
-
-type TechItem = {
-  id: number;
-  icon?: IconType;
-  label?: string;
-  href?: string;
-  empty?: boolean;
-};
 
 export default function PersonalCard() {
   const { t } = useLanguage();
@@ -35,7 +25,7 @@ export default function PersonalCard() {
     }, 100);
   };
 
-  const handleTimeoutTrigger = useCallback (() => {
+  const handleTimeoutTrigger = useCallback(() => {
     if (isModalOpen) {
       // audioVoice.play();
     } else {
@@ -48,7 +38,7 @@ export default function PersonalCard() {
         setAnimate(true);
       }, 3000);
     }
-  }, [isModalOpen])
+  }, [isModalOpen]);
 
   // Trigger de 4 minutos
   useEffect(() => {
@@ -59,38 +49,6 @@ export default function PersonalCard() {
     return () => clearTimeout(timeout);
   }, [isModalOpen, handleTimeoutTrigger]);
 
-  const socialLinks: TechItem[] = [
-    {
-      id: 1,
-      icon: FaUpwork,
-      label: "Upwork",
-      href: "https://www.upwork.com/freelancers/~01e15c653dfbed2b29",
-    },
-    {
-      id: 2,
-      icon: FaGithub,
-      label: "GitHub",
-      href: "https://github.com/Caio-Marianni",
-    },
-    {
-      id: 3,
-      icon: FaLinkedin,
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/caio-marianni/",
-    },
-    {
-      id: 4,
-      icon: MdEmail,
-      label: "Email",
-      href: "mailto:caiomarianni@gmail.com",
-    },
-    {
-      id: 5,
-      icon: FaWhatsapp,
-      label: "WhatsApp",
-      href: "https://wa.me/5562981160081",
-    },
-  ];
   return (
     <>
       <button

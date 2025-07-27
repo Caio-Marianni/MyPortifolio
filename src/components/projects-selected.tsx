@@ -4,18 +4,7 @@ import { getRandomScore } from "./utils/GetRandomScore";
 import { useSingleCall } from "./utils/useSingleCall";
 import { useScore } from "./utils/LikeContext";
 import Image from "next/image";
-
-export interface Project {
-  id: number;
-  icon: React.ElementType;
-  cover: string[];
-  title: string;
-  description: string;
-  year: string;
-  tagFilter: string;
-  technologies: string[];
-  link: string;
-}
+import { Project } from "../core/types";
 
 export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
   const { t } = useLanguage();

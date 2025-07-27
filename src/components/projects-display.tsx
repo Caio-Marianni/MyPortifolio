@@ -1,18 +1,8 @@
 // components/ProjectsDisplay.tsx
 import React from "react";
 import TechContainerXs from "./ui/tech-containerXs";
+import { Project } from "../core/types";
 
-export interface Project {
-  id: number;
-  icon: React.ElementType;
-  cover: string[];
-  title: string;
-  description: string;
-  year: string;
-  tagFilter: string;
-  technologies: string[];
-  link: string;
-}
 
 interface Props {
   tag: string;
