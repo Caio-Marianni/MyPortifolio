@@ -1,6 +1,7 @@
 import TechContainer from "./ui/tech-dots";
 import Image from "next/image";
 import { StarPoint } from "../core/types";
+import LazyImage from "./utils/LazyImage";
 
 export default function StarSegment({ icon: Icon, ...rest }: StarPoint) {
   return (
@@ -13,7 +14,7 @@ export default function StarSegment({ icon: Icon, ...rest }: StarPoint) {
             transform: "translate(-50%, -86%)",
           }}
         >
-          <Image src="/assets/images/elements/starTech.webp" width={180} height={180} alt="Borda do triangulo" className="w-[200px] h-[370px] scale-125 object-contain" />
+          <LazyImage src="/assets/images/elements/starTech.webp" width={180} height={180} alt="Borda do triangulo" quality={10} loading="lazy" className="w-[200px] h-[370px] scale-125 object-contain" />
         </div>
         {/* Triângulo interno */}
         <div

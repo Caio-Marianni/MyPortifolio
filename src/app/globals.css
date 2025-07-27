@@ -5,33 +5,22 @@
 @font-face {
   font-family: "Neon";
   src: url("/fonts/Neon.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "numberM";
   src: url("/fonts/NumberM.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "numberL";
   src: url("/fonts/NumberL.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "tech";
   src: url("/fonts/Tech.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-}
-
-html,
-body {
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  font-display: swap;
 }
 
 @layer components {

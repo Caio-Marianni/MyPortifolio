@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useScore } from "../utils/LikeContext";
 import Image from "next/image";
 import TechContainerDots from "./tech-dots";
+import LazyImage from "components/utils/LazyImage";
 
 export default function ScoreDisplay() {
   const { score } = useScore();
@@ -116,7 +117,7 @@ export default function ScoreDisplay() {
     <div className="containerXs md:container fixed bottom-6 right-0 z-50 flex flex-col items-end gap-1 drop-shadow-[0_0_8px_#00ccff] w-1">
       <TechContainerDots>
         <div className="relative w-20 h-16 flex items-center justify-center ">
-          <Image src="/assets/images/elements/like.webp" width={74} height={74} alt="" className="absolute bg-cover opacity-20" />
+          <LazyImage src="/assets/images/elements/like.webp" width={74} height={74} quality={10} loading="lazy" alt="" className="absolute -translate-y-8 bg-cover opacity-20" />
           {lastGain !== null && <div className="absolute -top-0 text-[#00ff99] text-xl font-tech select-none">+{lastGain}</div>}
           <div className="flex flex-col items-center z-10 mt-5">
             <span className="font-tech text-base font-thin">{animatedScore}</span>
