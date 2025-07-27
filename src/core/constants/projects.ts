@@ -5,7 +5,7 @@ export const projects = [
   {
     id: 1,
     link: "https://portfolio-ana-carol.vercel.app",
-    cover: ["/assets/images/thumbs/Alanzoka.jpg", "/assets/images/projects/anaCover.png"],
+    cover: ["/assets/images/projects/anaCover1.webp", "/assets/images/projects/anaCover2.webp"],
     title: "Landing page (Ana Carolina)",
     year: "2024",
     technologies: ["React", "Tailwind", "Next.js"],
@@ -27,7 +27,7 @@ export const projects = [
   {
     id: 3,
     link: "https://dashboard-escola.com",
-    cover: ["/assets/images/projects/anaCover.png"],
+    cover: ["/assets/images/projects/anaCover.webp"],
     title: "Dashboard para escola",
     year: "2024",
     technologies: ["React", "Node.js", "Prisma"],

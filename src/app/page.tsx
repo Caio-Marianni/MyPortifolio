@@ -20,7 +20,7 @@ export default function HomePage() {
         <DisplayScore />
 
         {/* Background Image Fixa */}
-        <div className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat bg-fixed -z-20 blur-sm" style={{ backgroundImage: 'url("/assets/images/elements/background.jpg")' }} />
+        <div className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat bg-fixed -z-20 blur-sm" style={{ backgroundImage: 'url("/assets/images/elements/background.webp")' }} />
         {/* Gradiente sobre a imagem */}
         <div className="fixed inset-0 w-full h-full bg-gradient-to-b from-[#465b68bb] to-[#09092970] -z-10" />
 

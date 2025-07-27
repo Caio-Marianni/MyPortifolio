@@ -8,7 +8,7 @@ export default function ProfileBanner() {
       {/* logo Container */}
       <div className="hidden md:block relative w-20 h-20">
         <Image src="/assets/images/LogoOrange.webp" alt="Logo" width={80} height={80} className="absolute z-10" />
-        <Image src="/assets/images/elements/logoBorder.png" alt="Logo Border" width={80} height={80} className="absolute" />
+        <Image src="/assets/images/elements/logoBorder.webp" alt="Logo Border" width={80} height={80} className="absolute" />
       </div>
       {/* text Container */}
       <div className="flex-1 w-full md:w-auto">

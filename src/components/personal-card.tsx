@@ -95,7 +95,7 @@ export default function PersonalCard() {
                 {/* Logo */}
                 <div className="relative w-20 h-20">
                   <Image src="/assets/images/LogoOrange.webp" alt="Logo" width={80} height={80} className="absolute z-10 w-full h-full object-cover" />
-                  <Image src="/assets/images/elements/logoBorder.png" alt="Logo Border" width={80} height={80} className="absolute w-full h-full object-cover" />
+                  <Image src="/assets/images/elements/logoBorder.webp" alt="Logo Border" width={80} height={80} className="absolute w-full h-full object-cover" />
                 </div>
                 {/* Name */}
                 <div>

@@ -13,7 +13,7 @@ export default function StarSegment({ icon: Icon, ...rest }: StarPoint) {
             transform: "translate(-50%, -86%)",
           }}
         >
-          <Image src="/assets/images/elements/starTech.png" width={180} height={180} alt="Borda do triangulo" className="w-[200px] h-[370px] scale-125 object-contain" />
+          <Image src="/assets/images/elements/starTech.webp" width={180} height={180} alt="Borda do triangulo" className="w-[200px] h-[370px] scale-125 object-contain" />
         </div>
         {/* Triângulo interno */}
         <div
