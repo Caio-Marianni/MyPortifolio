@@ -15,39 +15,39 @@ export default function ScoreDisplay() {
   useEffect(() => {
     const startValue = animatedScoreRef.current;
     const endValue = score;
-    
+
     if (startValue === endValue) return;
-    
+
     const duration = 1000;
-  const delay = 1000;
+    const delay = 1000;
 
-  const startAnimation = () => {
-    const startTime = performance.now();
+    const startAnimation = () => {
+      const startTime = performance.now();
 
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const currentValue = Math.floor(startValue + (endValue - startValue) * progress);
-      setAnimatedScore(currentValue);
+      const animate = (currentTime: number) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentValue = Math.floor(startValue + (endValue - startValue) * progress);
+        setAnimatedScore(currentValue);
 
-      if (progress < 1) {
-        animationRef.current = requestAnimationFrame(animate);
-      } else {
-        animatedScoreRef.current = currentValue; // atualiza ref final
-      }
+        if (progress < 1) {
+          animationRef.current = requestAnimationFrame(animate);
+        } else {
+          animatedScoreRef.current = currentValue; // atualiza ref final
+        }
+      };
+
+      cancelAnimationFrame(animationRef.current!);
+      animationRef.current = requestAnimationFrame(animate);
     };
 
-    cancelAnimationFrame(animationRef.current!);
-    animationRef.current = requestAnimationFrame(animate);
-  };
+    const timeoutId = setTimeout(startAnimation, delay);
 
-  const timeoutId = setTimeout(startAnimation, delay);
-
-  return () => {
-    clearTimeout(timeoutId);
-    cancelAnimationFrame(animationRef.current!);
-  };
-}, [score]);
+    return () => {
+      clearTimeout(timeoutId);
+      cancelAnimationFrame(animationRef.current!);
+    };
+  }, [score]);
 
   // Animação do score visual
 
@@ -113,7 +113,7 @@ export default function ScoreDisplay() {
   }, []);
 
   return (
-    <div className="container fixed bottom-6 right-6 z-50 flex flex-col items-end gap-1 drop-shadow-[0_0_8px_#00ccff] w-1">
+    <div className="containerXs md:container fixed bottom-6 right-0 z-50 flex flex-col items-end gap-1 drop-shadow-[0_0_8px_#00ccff] w-1">
       <TechContainerDots>
         <div className="relative w-20 h-16 flex items-center justify-center ">
           <Image src="/assets/images/elements/like.png" width={74} height={74} alt="" className="absolute bg-cover opacity-20" />

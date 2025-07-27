@@ -28,18 +28,18 @@ export default function ProjectsFilter({ onFilterChange }: { onFilterChange: Dis
           key={id}
           onClick={() => handleSelect(id)}
           className={cn(
-            "relative flex items-center gap-1 py-1 text-white border-b-2 transition-all duration-300 overflow-hidden",
-            selected === id ? "px-6 bg-gradient-to-t from-[#0b5697] to-[#0d4b742f]" : "hover:bg-gradient-to-t from-[#55bbffa4] to-[#0d4b742f]"
+            "relative flex items-center gap-px md:gap-2 py-1 text-white border-b-2 transition-all duration-300 overflow-hidden",
+            selected === id ? "px-6 bg-gradient-to-t from-[#0b5697] to-[#0d4b742f]" : "px-2 sm:px-0 hover:bg-gradient-to-t from-[#55bbffa4] to-[#0d4b742f]"
           )}
         >
-          <Icon className="text-lg ml-1 w-10 h-5" />
+          <Icon className="text-lg ml-0 sm:translate-x-1 w-10 sm:w-16 h-5" />
           <span className={cn("transition-opacity duration-300 ", selected === id ? "opacity-100" : "opacity-0 w-0 overflow-hidden")}>{label}</span>
           <div
             className={cn("absolute left-0 bottom-0 transition-opacity duration-300 w-full h-2", selected === id ? "opacity-100 bg-gradient-to-t from-[#44b4ffab]" : "opacity-0 w-0 overflow-hidden")}
           />
         </button>
       ))}
-      <hr className="border-[#0b5697] w-full xl:w-96 border-2 translate-y-8" />
+      <hr className="border-[#0b5697] w-32 sm:w-full xl:w-96 border-2 translate-y-8" />
     </div>
   );
 }

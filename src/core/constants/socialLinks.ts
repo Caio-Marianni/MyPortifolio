@@ -33,4 +33,8 @@ export const socialLinks = [
     label: "WhatsApp",
     href: "https://wa.me/5562981160081",
   },
+  { id: 6, empty: true },
+  { id: 7, empty: true },
+  { id: 8, empty: true },
+  { id: 9, empty: true },
 ];

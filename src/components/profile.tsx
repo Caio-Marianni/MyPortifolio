@@ -17,7 +17,7 @@ export default function Profile() {
         <div className="w-full xl:w-1/2">
           <ProfileInfo />
         </div>
-        <div className="w-full xl:w-1/2">
+        <div className="hidden md:block w-full xl:w-1/2">
           <Star />
         </div>
       </div>

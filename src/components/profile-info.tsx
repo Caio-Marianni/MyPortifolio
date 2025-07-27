@@ -15,7 +15,7 @@ export default function ProfileInfo() {
   return (
     <div className="w-full font-tech">
       {/* buttons container */}
-      <div className="flex gap-2 mb-2">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-2 mb-2">
         <PersonalCard />
         <a
           href="/docs/CVpt.pdf"

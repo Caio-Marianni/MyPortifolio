@@ -38,6 +38,9 @@ body {
   .container {
     @apply max-w-7xl mx-auto px-10;
   }
+  .containerXs {
+    @apply mx-auto px-4;
+  }
 }
 
 /* Custom Scrollbar */

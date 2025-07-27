@@ -19,7 +19,7 @@ export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
           <div className="flex items-center justify-centerh-8 w-12 bg-blue-600" style={{ clipPath: "polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 0% 0%)" }}>
             <Icon size={28} className="translate-x-1.5" />
           </div>
-          <h2 className="mt-1 ml-2">{rest.title}</h2>
+          <h2 className="text-xl mt-1 ml-2 py-1">{rest.title}</h2>
         </div>
         {/* Info */}
         <div className="my-2">
@@ -51,7 +51,7 @@ export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
       {/* Images */}
       <div className="flex justify-around flex-wrap gap-1 mt-2 w-full">
         {rest.cover.map((image: string, index: number) => (
-          <Image key={index} src={image} alt={`${rest.title} - ${index + 1}`} width={500} height={500} className="rounded-md object-cover border-2 border-[rgba(0_86,_152,_0.4)]" />
+          <Image key={index} src={image} alt={`${rest.title} - ${index + 1}`} width={500} height={500} className="rounded-md object-cover border-2 border-black/10 shadow-md" />
         ))}
       </div>
     </div>

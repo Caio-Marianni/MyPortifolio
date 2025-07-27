@@ -31,6 +31,7 @@ const translations = {
     projectInfo: "Select a project to see more details",
     seeProjectH1: "See project",
     footerInfoH1: "They say that no one has managed to reach the 1500 likes mark, what will happen when someone does?",
+    footerWarningH1: "For safety reasons, avoid staying on this page for too long.",
     encoder: "Encoder",
     // Projects
     projectDescriptionAna: "Landing page for marketing, social media and content creation freelancers. With about me, services, portfolio of work carried out and ways to get in touch.",
@@ -49,6 +50,7 @@ const translations = {
     projectInfo: "Selecione um projeto para ver mais detalhes",
     seeProjectH1: "Ver projeto",
     footerInfoH1: "Dizem quen ninguem conseguiu chegar a marca de 1500 likes, oque sera que acontece quando alguem chegar?",
+    footerWarningH1: "Por segurança, evite permanecer muito tempo nesta página.",
     encoder: "Codificador",
     // Projects WebDev
     projectDescriptionAna:
