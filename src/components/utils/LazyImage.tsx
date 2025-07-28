@@ -12,6 +12,7 @@ interface LazyImageProps {
   placeholder?: string;
   blurDataURL?: string;
   className?: string;
+  priority?: boolean;
 }
 
 export default function LazyImage({ src, alt, width, height, quality = 75, className = "" }: LazyImageProps) {
@@ -45,5 +46,5 @@ export default function LazyImage({ src, alt, width, height, quality = 75, class
   // Handle src for StaticImageData and string types
   const imageSrc = typeof src === "string" ? src : src.src;
 
-  return <div ref={imgRef}>{isVisible && <Image src={imageSrc} alt={alt} width={width} height={height} quality={quality} loading="lazy" className={className} />}</div>;
+  return <div ref={imgRef}>{isVisible && <Image src={imageSrc} alt={alt} width={width} height={height} quality={quality} priority className={className} />}</div>;
 }

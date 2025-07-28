@@ -23,6 +23,7 @@ export default function PersonalCard() {
     setTimeout(() => {
       setAnimate(true);
     }, 100);
+    document.body.classList.add("overflow-hidden");
   };
 
   const handleTimeoutTrigger = useCallback(() => {
@@ -31,6 +32,7 @@ export default function PersonalCard() {
     } else {
       setIsModalOpen(true);
       audioNotificationRef.current.play();
+      document.body.classList.add("overflow-hidden");
 
       // delay apper / audio
       setTimeout(() => {
@@ -79,7 +81,7 @@ export default function PersonalCard() {
             {/* title */}
             <div className="flex justify-between">
               <h1 className="w-full text-4xl text-[#ffffff] drop-shadow-[0_0_2px_#00ccff] font-neon">{t("encoder")}</h1>
-              <button onClick={() => (setIsModalOpen(false), setAnimate(false))} className="text-white p-2">
+              <button onClick={() => (setIsModalOpen(false), setAnimate(false), document.body.classList.remove("overflow-hidden"))} className="text-white p-2">
                 <IoClose size={24} />
               </button>
             </div>
@@ -143,4 +145,3 @@ export default function PersonalCard() {
 }
 
 // Add scroll stop
-// Arrumar botao de fehcar

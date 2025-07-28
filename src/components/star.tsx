@@ -8,11 +8,11 @@ export default function Star() {
         <StarSegment key={idx} {...point} />
       ))}
       {/* Gloww star effect */}
-      <div className="opacity-80 -z-10 blur-lg animate-pulse">
+      {/* <div className="opacity-80 -z-10 blur-lg animate-pulse">
         {starPoints.map((point, idx) => (
           <StarSegment key={idx} {...point} />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
