@@ -4,8 +4,9 @@ import { MdPets, MdSchool } from "react-icons/md";
 export const projects = [
   {
     id: 1,
-    link: "https://portfolio-ana-carol.vercel.app",
-    cover: ["/assets/images/projects/anaCover1.webp", "/assets/images/projects/anaCover2.webp"],
+    link: "#",
+    // cover: ["/assets/images/projects/anaCover1.webp", "/assets/images/projects/anaCover2.webp"],
+    cover: ["/assets/images/thumbs/FScreen00.jpg", "/assets/images/thumbs/FScreen00.jpg"],
     title: "Landing page (Ana Carolina)",
     year: "2024",
     technologies: ["React", "Tailwind", "Next.js"],
@@ -15,8 +16,8 @@ export const projects = [
   },
   {
     id: 2,
-    link: "https://freela-landing.com",
-    cover: ["/assets/images/thumbs/Car.jpg", "/assets/images/thumbs/Car2.jpg"],
+    link: "#",
+    cover: ["/assets/images/thumbs/FScreen00.jpg", "/assets/images/thumbs/FScreen00.jpg"],
     title: "Landing page para freelancer",
     year: "2023",
     technologies: ["HTML", "CSS", "JS"],
@@ -26,8 +27,8 @@ export const projects = [
   },
   {
     id: 3,
-    link: "https://dashboard-escola.com",
-    cover: ["/assets/images/projects/anaCover.webp"],
+    link: "#",
+    cover: ["/assets/images/thumbs/FScreen00.jpg"],
     title: "Dashboard para escola",
     year: "2024",
     technologies: ["React", "Node.js", "Prisma"],
