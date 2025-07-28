@@ -31,8 +31,10 @@ export default function VerticalMenu() {
     <div className="fixed top-12 pt-2 right-2 md:right-6 z-50 flex flex-col items-center w-auto">
       {/* Botão flutuante redondo */}
       <button
-        onClick={() => setOpen(!open)}
         className="w-12 h-12 bg-[#1a1a1a9a] border backdrop-blur-sm border-[#5C6370] drop-shadow-[0_0_10px_rgba(0,_204,_255,_0.1)] rounded-full flex items-center justify-center shadow-lg hover:border-[#00bfff] transition z-10"
+        onClick={() => setOpen(!open)}
+        aria-label="Fechar modal"
+        title="Fechar modal"
       >
         <IoAccessibilitySharp className="text-white w-5 h-5" />
       </button>
@@ -47,18 +49,27 @@ export default function VerticalMenu() {
         <button
           className="w-10 h-10 flex items-center justify-center rounded-md bg-[#2A2A2A] border border-[#5C6370] hover:border-[#00bfff] hover:bg-[#0F0F0F] transition"
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          aria-label="Effect modal"
+          title="Tirar effects"
         >
           {theme === "light" ? <LiaToggleOffSolid className="w-5 h-5 text-[#00bfff]" /> : <LiaToggleOnSolid className="w-5 h-5 text-[#00bfff]" />}
         </button>
         {/* Language toggle */}
         <button
-          onClick={toggleLanguage}
           className="w-10 h-10 flex items-center justify-center text-xs font-medium text-[#00bfff] rounded-md bg-[#2A2A2A] border border-[#5C6370] hover:border-[#00bfff] hover:bg-[#0F0F0F] transition"
+          onClick={toggleLanguage}
+          aria-label="Language modal"
+          title="Alterar Language"
         >
           {language.toUpperCase()}
         </button>
         {/* Sound toggle */}
-        <button onClick={toggleMute} className="w-10 h-10 flex items-center justify-center rounded-md bg-[#2A2A2A] border border-[#5C6370] hover:border-[#00bfff] hover:bg-[#0F0F0F] transition">
+        <button
+          className="w-10 h-10 flex items-center justify-center rounded-md bg-[#2A2A2A] border border-[#5C6370] hover:border-[#00bfff] hover:bg-[#0F0F0F] transition"
+          onClick={toggleMute}
+          aria-label="Sound modal"
+          title="Alterar Sound"
+        >
           {muted ? <PiSpeakerSimpleXFill className="w-5 h-5 text-[#00bfff]" /> : <PiSpeakerHighFill className="w-5 h-5 text-[#00bfff]" />}
         </button>
       </div>
