@@ -18,7 +18,7 @@ export default function ProfileInfo() {
       <div className="flex flex-col md:flex-row gap-4 md:gap-2 mb-2">
         <PersonalCard />
         <a
-          // href="/docs/CVpt.pdf"
+          href="/docs/CVpt.pdf"
           target="_blank"
           onClick={() => callOnce(2, () => addToScore(getRandomScore()))}
           className="font-neon font-semibold text-sm w-full py-2.5 px-6 text-center text-yellow-500 tracking-wide border border-yellow-400/50 hover:bg-yellow-300/10 rounded-sm  hover:brightness-110 transition"

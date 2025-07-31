@@ -5,8 +5,7 @@ export const projects = [
   {
     id: 1,
     link: "#",
-    // cover: ["/assets/images/projects/anaCover1.webp", "/assets/images/projects/anaCover2.webp"],
-    cover: ["/assets/images/thumbs/FScreen00.jpg", "/assets/images/thumbs/FScreen00.jpg"],
+    cover: ["/assets/images/projects/anaCover1.webp", "/assets/images/projects/anaCover2.webp"],
     title: "Landing page (Ana Carolina)",
     year: "2024",
     technologies: ["React", "Tailwind", "Next.js"],
