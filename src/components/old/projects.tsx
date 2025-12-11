@@ -2,9 +2,9 @@ import { useState } from "react";
 import ProjectsDisplay from "./projects-display";
 import ProjectsFilter from "./projects-filter";
 import ProjectsSelected from "./projects-selected";
-import { useLanguage } from "./utils/LanguageProvider";
-import { Project } from "../core/types";
-import { projects } from "core/constants";
+import { useLanguage } from "../utils/LanguageProvider";
+import { Project } from "../../core/types";
+import { projects } from "../../core/constants";
 
 type FilterType = "todos" | "landing" | "fullstack";
 

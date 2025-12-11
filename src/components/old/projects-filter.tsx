@@ -1,6 +1,6 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { FaGlobe, FaServer, FaLaptop } from "react-icons/fa";
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
 type FilterType = "todos" | "landing" | "fullstack";
 

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useScore } from "../utils/LikeContext";
 import TechContainerDots from "./tech-dots";
-import LazyImage from "components/utils/LazyImage";
+import LazyImage from "../utils/LazyImage";
 
 export default function ScoreDisplay() {
   const { score } = useScore();

@@ -5,7 +5,7 @@ import { PiSpeakerHighFill } from "react-icons/pi";
 import { PiSpeakerSimpleXFill } from "react-icons/pi";
 import { useTheme } from "next-themes";
 import { LiaToggleOffSolid, LiaToggleOnSolid } from "react-icons/lia";
-import { useLanguage } from "./utils/LanguageProvider";
+import { useLanguage } from "../utils/LanguageProvider";
 import { useScore } from "./utils/LikeContext";
 
 export default function VerticalMenu() {

@@ -4,9 +4,9 @@ import TechEmpty from "./tech-empty";
 import { useSingleCall } from "../utils/useSingleCall";
 import { useScore } from "../utils/LikeContext";
 import { getRandomScore } from "../utils/GetRandomScore";
-import { useLanguage } from "../utils/LanguageProvider";
+import { useLanguage } from "../../utils/LanguageProvider";
 import { TechItem } from "../../core/types";
-import { backIcons, frontIcons, socialLinks } from "core/constants";
+import { backIcons, frontIcons, socialLinks } from "../../../core/constants";
 
 type TechSectionProps = {
   title: string;

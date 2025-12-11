@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm run dev:*)",
+      "Bash(timeout /t 5 /nobreak)",
+      "Bash(npm install:*)",
+      "Bash(NUL)",
+      "Bash(mkdir:*)",
+      "Bash(move footer.tsx old )",
+      "Bash(move profile.tsx old )",
+      "Bash(move profile-banner.tsx old )",
+      "Bash(move profile-info.tsx old )",
+      "Bash(move:*)",
+      "Bash(move projects-display.tsx old )",
+      "Bash(move projects-filter.tsx old )",
+      "Bash(move projects-selected.tsx old )",
+      "Bash(move score-modal.tsx old )",
+      "Bash(move star.tsx old )",
+      "Bash(move star-segment.tsx old )",
+      "Bash(move thumbnails.tsx old )",
+      "Bash(move vertical-menu.tsx old )",
+      "Bash(cmd /c:*)",
+      "Bash(powershell -Command:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(curl:*)",
+      "Bash(findstr:*)",
+      "Bash(dir:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,4 +1,4 @@
-import { starPoints } from "core/constants";
+import { starPoints } from "../../core/constants";
 import StarSegment from "./star-segment";
 
 export default function Star() {

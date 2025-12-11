@@ -1,7 +1,7 @@
 // components/ProjectsDisplay.tsx
 import React from "react";
 import TechContainerXs from "./ui/tech-containerXs";
-import { Project } from "../core/types";
+import { Project } from "../../core/types";
 
 
 interface Props {
