@@ -1,5 +1,5 @@
 import { IoIosInformationCircle } from "react-icons/io";
-import { useLanguage } from "../utils/LanguageProvider";
+import { useLanguage } from "./utils/LanguageProvider";
 
 export default function Footer() {
   const { t } = useLanguage();

@@ -1,10 +1,10 @@
 import TechContainer from "./ui/tech-container";
-import { useLanguage } from "../utils/LanguageProvider";
+import { useLanguage } from "./utils/LanguageProvider";
 import { getRandomScore } from "./utils/GetRandomScore";
 import { useSingleCall } from "./utils/useSingleCall";
 import { useScore } from "./utils/LikeContext";
 import Image from "next/image";
-import { Project } from "../../core/types";
+import { Project } from "../core/types";
 
 export default function ProjectsSelected({ icon: Icon, ...rest }: Project) {
   const { t } = useLanguage();

@@ -1,8 +1,8 @@
-import { useLanguage } from "../utils/LanguageProvider";
+import { useLanguage } from "./utils/LanguageProvider";
 import { useSingleCall } from "./utils/useSingleCall";
 import { useScore } from "./utils/LikeContext";
 import { getRandomScore } from "./utils/GetRandomScore";
-import { socialLinks } from "../../core/constants";
+import { socialLinks } from "../core/constants";
 import Image from "next/image";
 // Icons
 import { FaSignal } from "react-icons/fa";

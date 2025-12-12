@@ -1,7 +1,7 @@
 import React from "react";
 import DisplayInfo from "./ui/display-info";
 import DisplayTech from "./ui/display-tech";
-import { useLanguage } from "../utils/LanguageProvider";
+import { useLanguage } from "./utils/LanguageProvider";
 import { useScore } from "./utils/LikeContext";
 import { getRandomScore } from "./utils/GetRandomScore";
 import { useSingleCall } from "./utils/useSingleCall";

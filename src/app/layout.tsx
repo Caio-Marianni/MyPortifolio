@@ -3,25 +3,6 @@ import { ReactNode } from "react";
 import ThemeProvider from "../components/utils/ThemeProvider";
 import { LanguageProvider } from "../components/utils/LanguageProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Press_Start_2P, Courier_Prime, Special_Elite } from "next/font/google";
-
-const pressStart = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-pixel",
-});
-
-const courierPrime = Courier_Prime({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-document",
-});
-
-const specialElite = Special_Elite({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-stamp",
-});
 
 export const metadata = {
   title: "Caio Marianni",
@@ -69,7 +50,7 @@ export const viewport = {
 
 export default async function LocaleLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${pressStart.variable} ${courierPrime.variable} ${specialElite.variable}`}>
+    <html lang="en" suppressHydrationWarning>
       <SpeedInsights />
       <body>
         <ThemeProvider>

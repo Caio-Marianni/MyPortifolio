@@ -1,7 +1,7 @@
 "use client";
-import Star from "./star";
-import ProfileInfo from "./profile-info";
-import ProfileBanner from "./profile-banner";
+import Star from "../components/star";
+import ProfileInfo from "../components/profile-info";
+import ProfileBanner from "../components/profile-banner";
 
 export default function Profile() {
 

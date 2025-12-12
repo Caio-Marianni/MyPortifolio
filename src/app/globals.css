@@ -2,24 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
-  img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
-    pointer-events: none;
-  }
-}
-
 @font-face {
   font-family: "Neon";
   src: url("/fonts/Neon.otf") format("opentype");
@@ -60,44 +42,4 @@
 .custom-scroll::-webkit-scrollbar-thumb {
   background-color: rgba(0, 132, 255, 0.3);
   border-radius: 3px;
-}
-
-/* Papers Please Styles */
-
-/* Preserve pixel art sharpness */
-.pixel-art {
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -webkit-crisp-edges;
-  image-rendering: pixelated;
-  image-rendering: crisp-edges;
-}
-
-/* Disable font smoothing for pixel fonts */
-.pixel-font {
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: grayscale;
-  font-smooth: never;
-}
-
-/* Paper texture effect */
-.paper-texture {
-  background-color: #f3f2f0;
-  background-image:
-    linear-gradient(0deg, transparent 24%, rgba(131, 129, 102, 0.05) 25%, rgba(131, 129, 102, 0.05) 26%, transparent 27%, transparent 74%, rgba(131, 129, 102, 0.05) 75%, rgba(131, 129, 102, 0.05) 76%, transparent 77%, transparent),
-    linear-gradient(90deg, transparent 24%, rgba(131, 129, 102, 0.05) 25%, rgba(131, 129, 102, 0.05) 26%, transparent 27%, transparent 74%, rgba(131, 129, 102, 0.05) 75%, rgba(131, 129, 102, 0.05) 76%, transparent 77%, transparent);
-  background-size: 50px 50px;
-}
-
-/* Stamp effect base */
-.stamp-effect {
-  mix-blend-mode: multiply;
-  filter: contrast(1.2) saturate(1.1);
-}
-
-/* Document shadow */
-.document-shadow {
-  box-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.24),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
