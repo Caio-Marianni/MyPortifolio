@@ -1,0 +1,85 @@
+{
+  "nav": {
+    "about": "Sobre mim",
+    "info": "Informações",
+    "projects": "Projetos",
+    "experience": "Experiência",
+    "skills": "Habilidades",
+    "contact": "Contato"
+  },
+  "modes": {
+    "programming": "Programação",
+    "design": "Design & Thumbnail"
+  },
+  "uv": {
+    "activate": "Ativar luz UV",
+    "deactivate": "Desativar luz UV"
+  },
+  "modal": {
+    "about": {
+      "title": {
+        "normal": "Sobre mim",
+        "uv": "Sobre mim"
+      },
+      "content": {
+        "normal": "Desenvolvedor apaixonado por criar soluções elegantes e eficientes.",
+        "uv": "Designer criativo com experiência em thumbnails e identidade visual."
+      }
+    },
+    "info": {
+      "title": {
+        "normal": "Informações Gerais",
+        "uv": "Informações Gerais"
+      },
+      "content": {
+        "normal": "Informações resumidas sobre minha trajetória em programação.",
+        "uv": "Informações resumidas sobre minha trajetória em design."
+      }
+    },
+    "projects": {
+      "title": {
+        "normal": "Projetos de Programação",
+        "uv": "Projetos de Design"
+      },
+      "content": {
+        "normal": "Meus projetos de desenvolvimento.",
+        "uv": "Meus trabalhos de design e thumbnails."
+      }
+    },
+    "experience": {
+      "title": {
+        "normal": "Experiência Profissional",
+        "uv": "Experiência Criativa"
+      },
+      "content": {
+        "normal": "Minha experiência como desenvolvedor.",
+        "uv": "Minha experiência como designer."
+      }
+    },
+    "skills": {
+      "title": {
+        "normal": "Habilidades Técnicas",
+        "uv": "Habilidades Criativas"
+      },
+      "content": {
+        "normal": "Tecnologias e ferramentas de programação.",
+        "uv": "Ferramentas e técnicas de design."
+      }
+    },
+    "contact": {
+      "title": {
+        "normal": "Entre em Contato",
+        "uv": "Entre em Contato"
+      },
+      "content": {
+        "normal": "Formas de contato para projetos de desenvolvimento.",
+        "uv": "Formas de contato para projetos de design."
+      }
+    }
+  },
+  "language": {
+    "select": "Idioma",
+    "pt": "Português",
+    "en": "English"
+  }
+}

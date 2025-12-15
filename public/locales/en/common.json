@@ -1,0 +1,85 @@
+{
+  "nav": {
+    "about": "About me",
+    "info": "Information",
+    "projects": "Projects",
+    "experience": "Experience",
+    "skills": "Skills",
+    "contact": "Contact"
+  },
+  "modes": {
+    "programming": "Programming",
+    "design": "Design & Thumbnail"
+  },
+  "uv": {
+    "activate": "Activate UV light",
+    "deactivate": "Deactivate UV light"
+  },
+  "modal": {
+    "about": {
+      "title": {
+        "normal": "About me",
+        "uv": "About me"
+      },
+      "content": {
+        "normal": "Developer passionate about creating elegant and efficient solutions.",
+        "uv": "Creative designer with experience in thumbnails and visual identity."
+      }
+    },
+    "info": {
+      "title": {
+        "normal": "General Information",
+        "uv": "General Information"
+      },
+      "content": {
+        "normal": "Summary of my programming journey.",
+        "uv": "Summary of my design journey."
+      }
+    },
+    "projects": {
+      "title": {
+        "normal": "Programming Projects",
+        "uv": "Design Projects"
+      },
+      "content": {
+        "normal": "My development projects.",
+        "uv": "My design work and thumbnails."
+      }
+    },
+    "experience": {
+      "title": {
+        "normal": "Professional Experience",
+        "uv": "Creative Experience"
+      },
+      "content": {
+        "normal": "My experience as a developer.",
+        "uv": "My experience as a designer."
+      }
+    },
+    "skills": {
+      "title": {
+        "normal": "Technical Skills",
+        "uv": "Creative Skills"
+      },
+      "content": {
+        "normal": "Programming technologies and tools.",
+        "uv": "Design tools and techniques."
+      }
+    },
+    "contact": {
+      "title": {
+        "normal": "Get in Touch",
+        "uv": "Get in Touch"
+      },
+      "content": {
+        "normal": "Contact me for development projects.",
+        "uv": "Contact me for design projects."
+      }
+    }
+  },
+  "language": {
+    "select": "Language",
+    "pt": "Português",
+    "en": "English"
+  }
+}
