@@ -1,6 +1,0 @@
-export * from './back-icons'
-export * from './front-icons'
-export * from './projects'
-export * from './socialLinks'
-export * from './star-points'
-export * from './thumbs'
