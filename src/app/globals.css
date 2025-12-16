@@ -13,6 +13,8 @@
   --text-primary: #ffffff;
   --text-secondary: #a3a3a3;
   --accent: #dc2626;
+  --top-light: rgba(220, 38, 38, 0.4);
+  --navbar-glow: hsl(0, 100%, 80%, .6);
 }
 
 [data-theme="uv"] {
@@ -26,6 +28,8 @@
   --text-primary: #e9d5ff;
   --text-secondary: #a78bfa;
   --accent: #c084fc;
+  --top-light: rgba(168, 85, 247, 0.2);
+  --navbar-glow: hsl(271, 90%, 65%, .6);
 }
 
 * {
@@ -46,6 +50,13 @@ body {
 .theme-transition {
   transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease,
     box-shadow 0.5s ease, filter 0.5s ease;
+}
+
+/* Brilho no topo da navbar */
+.highlight-top {
+  box-shadow:
+    0 -1px 0px 0px var(--navbar-glow),
+    0 10px 40px -10px rgba(0, 0, 0, 0.8);
 }
 
 /* Efeito UV para elementos */

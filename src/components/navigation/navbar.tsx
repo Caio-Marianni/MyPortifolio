@@ -1,12 +1,12 @@
 "use client";
 
 import {
-  User,
-  Info,
+  UserRound,
+  FingerprintPattern,
   FolderOpen,
-  Briefcase,
-  Wrench,
-  Mail,
+  Route,
+  Puzzle,
+  Send,
 } from "lucide-react";
 import { NavIcon } from "./nav-icon";
 import { UVToggle } from "./uv-toggle";
@@ -14,12 +14,12 @@ import { LanguageSwitch } from "./language-switch";
 import { useLanguage } from "@/contexts/language-context";
 
 const navItems = [
-  { icon: User, section: "about" as const, labelKey: "nav.about" },
-  { icon: Info, section: "info" as const, labelKey: "nav.info" },
-  { icon: FolderOpen, section: "projects" as const, labelKey: "nav.projects" },
-  { icon: Briefcase, section: "experience" as const, labelKey: "nav.experience" },
-  { icon: Wrench, section: "skills" as const, labelKey: "nav.skills" },
-  { icon: Mail, section: "contact" as const, labelKey: "nav.contact" },
+  { icon: UserRound, section: "info" as const, labelKey: "nav.info", useFill: true },
+  { icon: FingerprintPattern, section: "about" as const, labelKey: "nav.about", useFill: false },
+  { icon: FolderOpen, section: "projects" as const, labelKey: "nav.projects", useFill: true },
+  { icon: Route, section: "experience" as const, labelKey: "nav.experience", useFill: false },
+  { icon: Puzzle, section: "skills" as const, labelKey: "nav.skills", useFill: true },
+  { icon: Send, section: "contact" as const, labelKey: "nav.contact", useFill: true },
 ];
 
 export function Navbar() {
@@ -31,13 +31,15 @@ export function Navbar() {
         fixed top-4 left-1/2 -translate-x-1/2
         flex items-center gap-1
         px-4 py-2
-        bg-[var(--bg-primary)]/90
+        bg-black/20
+        bg-gradient-to-b from-white/10 via-black/0 to-black/0
         backdrop-blur-md
-        border border-[var(--frame-color)]/20
+        border border-white/10
         rounded-full
         shadow-xl
         z-50
         theme-transition
+        highlight-top
       `}
     >
       {/* Ícones de navegação */}
@@ -47,11 +49,12 @@ export function Navbar() {
           icon={item.icon}
           section={item.section}
           label={t(item.labelKey)}
+          useFill={item.useFill}
         />
       ))}
 
       {/* Separador */}
-      <div className="w-px h-8 bg-[var(--frame-color)]/20 mx-2" />
+      <div className="w-px h-8 bg-white/20 mx-2" />
 
       {/* UV Toggle */}
       <UVToggle />

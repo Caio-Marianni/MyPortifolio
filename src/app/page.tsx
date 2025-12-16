@@ -3,6 +3,7 @@
 import { BoardCanvas } from "@/components/board/board-canvas";
 import { Navbar } from "@/components/navigation/navbar";
 import { ModalManager } from "@/components/modals/modal-manager";
+import { TopLight } from "@/components/ui/top-light";
 
 export default function Home() {
   return (
@@ -14,6 +15,9 @@ export default function Home() {
         md:h-screen md:overflow-hidden
       `}
     >
+      {/* Efeito de luz no topo */}
+      <TopLight />
+
       {/* Textura de fundo */}
       <div
         className="fixed inset-0 opacity-30 pointer-events-none"

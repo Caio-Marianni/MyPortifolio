@@ -24,13 +24,13 @@ export function UVToggle() {
         ${
           isUV
             ? "bg-purple-600/30 text-purple-400"
-            : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
+            : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/10"
         }
       `}
       title={isUV ? "Desativar luz UV" : "Ativar luz UV"}
     >
       {isUV ? (
-        <Lightbulb size={20} className="text-purple-400 transition-transform duration-300" />
+        <Lightbulb size={20} fill="var(--accent)" className="text-purple-400 transition-transform duration-300" />
       ) : (
         <LightbulbOff size={20} className="transition-transform duration-300" />
       )}

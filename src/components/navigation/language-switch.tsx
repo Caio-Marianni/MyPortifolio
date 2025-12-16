@@ -20,7 +20,7 @@ export function LanguageSwitch() {
         relative p-3 rounded-full
         text-[var(--text-secondary)]
         hover:text-[var(--text-primary)]
-        hover:bg-[var(--bg-secondary)]
+        hover:bg-white/10
         transition-all duration-200
         hover:scale-110
         active:scale-95

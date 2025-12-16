@@ -8,9 +8,10 @@ interface NavIconProps {
   icon: LucideIcon;
   section: ModalSection;
   label: string;
+  useFill?: boolean;
 }
 
-export function NavIcon({ icon: Icon, section, label }: NavIconProps) {
+export function NavIcon({ icon: Icon, section, label, useFill = false }: NavIconProps) {
   const { openModal, activeModal } = useModal();
   const { play } = useAudioContext();
   const isActive = activeModal === section;
@@ -25,19 +26,20 @@ export function NavIcon({ icon: Icon, section, label }: NavIconProps) {
       onClick={handleClick}
       className={`
         relative p-3 rounded-full
-        transition-all duration-200
+        transition-[transform,background-color,opacity] duration-200
         group
         hover:scale-110
         active:scale-95
+        ${useFill ? "text-[#000]/30" : "text-[var(--accent)]"}
         ${
           isActive
-            ? "bg-[var(--accent)]/20 text-[var(--accent)]"
-            : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
+            ? "bg-white/10"
+            : `hover:bg-white/5 ${useFill ? "hover:text-[var(--accent)]/30" : ""}`
         }
       `}
       title={label}
     >
-      <Icon size={20} />
+      <Icon size={24} fill={useFill ? "var(--accent)" : "none"} />
 
       {/* Indicador de ativo (embaixo) */}
       {isActive && (
