@@ -8,11 +8,12 @@ interface BoardFrameProps {
 
 export function BoardFrame({ children }: BoardFrameProps) {
   return (
-    <div className="relative w-full h-full flex items-center justify-center p-4 md:p-8">
+    <div className="relative w-full flex items-start justify-center p-4 md:p-8">
       {/* Quadro principal */}
       <div
         className={`
-          relative w-full max-w-6xl aspect-[4/3]
+          relative w-full max-w-6xl
+          aspect-[3/4] sm:aspect-[4/5] md:aspect-[4/3]
           bg-[var(--bg-primary)]
           border-4 border-[var(--frame-color)]
           rounded-sm

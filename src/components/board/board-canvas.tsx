@@ -23,9 +23,9 @@ export function BoardCanvas() {
 
   return (
     <BoardFrame>
-      {/* SVG para linhas de conexão */}
+      {/* SVG para linhas de conexão - Mobile */}
       <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="absolute inset-0 w-full h-full pointer-events-none md:hidden"
         viewBox="0 0 100 100"
         preserveAspectRatio="none"
       >
@@ -37,7 +37,37 @@ export function BoardCanvas() {
 
           return (
             <ConnectionLine
-              key={`${startId}-${endId}-${index}`}
+              key={`mobile-${startId}-${endId}-${index}`}
+              start={{
+                x: startPoint.mobilePosition.x,
+                y: startPoint.mobilePosition.y,
+                seed: startPoint.seed,
+              }}
+              end={{
+                x: endPoint.mobilePosition.x,
+                y: endPoint.mobilePosition.y,
+                seed: endPoint.seed,
+              }}
+            />
+          );
+        })}
+      </svg>
+
+      {/* SVG para linhas de conexão - Desktop */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        {connections.map(([startId, endId], index) => {
+          const startPoint = startId ? pointsMap[startId] : null;
+          const endPoint = endId ? pointsMap[endId] : null;
+
+          if (!startPoint || !endPoint) return null;
+
+          return (
+            <ConnectionLine
+              key={`desktop-${startId}-${endId}-${index}`}
               start={{
                 x: startPoint.basePosition.x,
                 y: startPoint.basePosition.y,
@@ -62,6 +92,7 @@ export function BoardCanvas() {
             key={point.id}
             id={point.id}
             basePosition={point.basePosition}
+            mobilePosition={point.mobilePosition}
             seed={point.seed}
             label={t(`nav.${point.id}`)}
           />

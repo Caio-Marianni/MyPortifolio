@@ -7,6 +7,7 @@ import { calculatePointPosition } from "@/lib/pseudo-random";
 interface InvestigationPointProps {
   id: ModalSection;
   basePosition: { x: number; y: number };
+  mobilePosition: { x: number; y: number };
   seed: number;
   label: string;
 }
@@ -14,13 +15,15 @@ interface InvestigationPointProps {
 export function InvestigationPoint({
   id,
   basePosition,
+  mobilePosition,
   seed,
   label,
 }: InvestigationPointProps) {
   const { openModal } = useModal();
   const { play } = useAudioContext();
 
-  const position = calculatePointPosition(basePosition, seed);
+  const desktopPos = calculatePointPosition(basePosition, seed);
+  const mobilePos = calculatePointPosition(mobilePosition, seed);
 
   const handleClick = () => {
     play("open");
@@ -28,15 +31,39 @@ export function InvestigationPoint({
   };
 
   return (
-    <button
-      className="absolute z-10 group animate-scale-in"
-      style={{
-        left: `${position.x}%`,
-        top: `${position.y}%`,
-        transform: "translate(-50%, -50%)",
-      }}
-      onClick={handleClick}
-    >
+    <>
+      {/* Desktop position */}
+      <button
+        className="absolute z-10 group animate-scale-in hidden md:block"
+        style={{
+          left: `${desktopPos.x}%`,
+          top: `${desktopPos.y}%`,
+          transform: "translate(-50%, -50%)",
+        }}
+        onClick={handleClick}
+      >
+        <PointContent label={label} />
+      </button>
+
+      {/* Mobile position */}
+      <button
+        className="absolute z-10 group animate-scale-in md:hidden"
+        style={{
+          left: `${mobilePos.x}%`,
+          top: `${mobilePos.y}%`,
+          transform: "translate(-50%, -50%)",
+        }}
+        onClick={handleClick}
+      >
+        <PointContent label={label} />
+      </button>
+    </>
+  );
+}
+
+function PointContent({ label }: { label: string }) {
+  return (
+    <>
       {/* Ponto principal */}
       <div
         className={`
@@ -75,6 +102,6 @@ export function InvestigationPoint({
           opacity-60
         `}
       />
-    </button>
+    </>
   );
 }

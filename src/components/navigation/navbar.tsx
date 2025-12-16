@@ -31,12 +31,12 @@ export function Navbar() {
         fixed top-4 left-1/2 -translate-x-1/2
         flex items-center gap-1
         px-4 py-2
-        bg-[var(--bg-primary)]/80
+        bg-[var(--bg-primary)]/90
         backdrop-blur-md
         border border-[var(--frame-color)]/20
         rounded-full
         shadow-xl
-        z-40
+        z-50
         theme-transition
       `}
     >
