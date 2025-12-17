@@ -232,7 +232,6 @@ export function ContactModalContent() {
               hover:opacity-90
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
-              hover:scale-[1.02] active:scale-[0.98]
             `}
           >
             {isSubmitting ? (

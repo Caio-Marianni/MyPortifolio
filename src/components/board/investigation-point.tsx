@@ -71,9 +71,6 @@ function PointContent({ label }: { label: string }) {
           bg-[var(--point-color)]
           animate-point-pulse
           cursor-pointer
-          hover:scale-125
-          active:scale-95
-          transition-transform duration-150
         `}
       />
 

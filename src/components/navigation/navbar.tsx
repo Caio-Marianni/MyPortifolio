@@ -32,9 +32,8 @@ export function Navbar() {
         flex items-center gap-1
         px-4 py-2
         bg-black/20
-        bg-gradient-to-b from-white/10 via-black/0 to-black/0
+        bg-gradient-to-b from-white/20 via-black/0 to-black/0
         backdrop-blur-md
-        border border-white/10
         rounded-full
         shadow-xl
         z-50

@@ -19,8 +19,6 @@ export function UVToggle() {
       className={`
         relative p-3 rounded-full
         transition-all duration-300
-        hover:scale-110
-        active:scale-95
         ${
           isUV
             ? "bg-purple-600/30 text-purple-400"

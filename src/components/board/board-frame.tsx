@@ -14,13 +14,14 @@ export function BoardFrame({ children }: BoardFrameProps) {
         className={`
           relative w-full max-w-6xl
           aspect-[3/4] sm:aspect-[4/5] md:aspect-[4/3]
-          bg-[var(--bg-primary)]
+          bg-[var(--bg-board)]
           border-4 border-[var(--frame-color)]
           rounded-sm
           shadow-2xl
           theme-transition
         `}
         style={{
+          backgroundImage: "url('/assets/images/textura-de-fundo-escuro.jpg')",
           boxShadow: `
             0 0 0 8px var(--bg-secondary),
             0 25px 50px -12px rgba(0, 0, 0, 0.5)

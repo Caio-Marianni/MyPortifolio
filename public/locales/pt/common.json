@@ -18,8 +18,8 @@
   "modal": {
     "about": {
       "title": {
-        "normal": "Sobre mim",
-        "uv": "Sobre mim"
+        "normal": "SOBRE",
+        "uv": "SOBRE"
       },
       "content": {
         "normal": "Desenvolvedor apaixonado por criar soluções elegantes e eficientes.",
@@ -28,12 +28,44 @@
     },
     "info": {
       "title": {
-        "normal": "Informações Gerais",
-        "uv": "Informações Gerais"
+        "normal": "CASO .062",
+        "uv": "CASO .062"
       },
       "content": {
         "normal": "Informações resumidas sobre minha trajetória em programação.",
         "uv": "Informações resumidas sobre minha trajetória em design."
+      },
+      "data": {
+        "programming": {
+          "name": "Caio Marianni",
+          "headline": "Suspeito de criar interfaces que viciam usuários",
+          "services": ["Desenvolvimento Web", "Front-end", "UI/UX", "Aplicações React"],
+          "stack": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js"],
+          "lastCrimeLabel": "Último Crime",
+          "lastCrimeTitle": "Portfolio Interativo",
+          "victimsLabel": "Vítimas",
+          "victimsCount": "10+ projetos entregues",
+          "arsenalLabel": "Arsenal",
+          "servicesLabel": "Serviços",
+          "statusLabel": "Status",
+          "nameLabel": "Nome",
+          "contactButton": "Entrar em Contato"
+        },
+        "design": {
+          "name": "Caio Marianni",
+          "headline": "Procurado por criar thumbnails impossíveis de ignorar",
+          "services": ["Thumbnails", "Design Gráfico", "Identidade Visual", "Banners"],
+          "stack": ["Photoshop", "Illustrator", "Figma", "After Effects"],
+          "lastCrimeLabel": "Último Crime",
+          "lastCrimeTitle": "Campanha de Thumbnails",
+          "victimsLabel": "Vítimas",
+          "victimsCount": "50+ thumbnails criadas",
+          "arsenalLabel": "Arsenal",
+          "servicesLabel": "Serviços",
+          "statusLabel": "Status",
+          "nameLabel": "Nome",
+          "contactButton": "Entrar em Contato"
+        }
       }
     },
     "projects": {

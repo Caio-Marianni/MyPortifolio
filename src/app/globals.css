@@ -2,23 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Declaração de fontes */
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('/assets/font/CourierPrime-Regular.woff2') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('/assets/font/CourierPrime-Bold.woff2') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('/assets/font/CourierPrime-Italic.woff2') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('/assets/font/CourierPrime-BoldItalic.woff2') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Special Elite';
+  src: url('/assets/font/SpecialElite-Regular.woff2') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/assets/font/BebasNeue-Regular.woff2') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Tema Normal - Programação */
-  --bg-primary: #1a1a1a;
+  --bg-board: #1e1e1e;
+  --bg-white: #fff;
   --bg-secondary: #2d2d2d;
-  --frame-color: #ffffff;
+  --bg-file: hsl(37, 21%, 58%);
+  --bg-file-border: hsl(35, 49%, 28%);
+  --color-white: #fff;
+  --color-black: #000;
+  --light-glow: hsl(0, 0%, 100% , 0.2);
+  --navbar-glow: hsl(0, 0%, 100%, 0.6);
+  
+  --frame-color-200: hsl(38, 85%, 23%);
+  --frame-color-500: hsl(38, 85%, 37%);
+  --frame-color-800: hsl(30, 20%, 30%);
   --point-color: #dc2626;
   --point-glow: rgba(220, 38, 38, 0.5);
   --line-color: #991b1b;
-  --text-primary: #ffffff;
-  --text-secondary: #a3a3a3;
+  --text-primary: hsl(0 0% 0%);
+  --text-secondary: hsl(0 0% 90%);
   --accent: #dc2626;
   --top-light: rgba(220, 38, 38, 0.4);
-  --navbar-glow: hsl(0, 100%, 80%, .6);
 }
 
 [data-theme="uv"] {
   /* Tema UV - Design */
+  --light-glow: rgba(168, 85, 247, 0.2);
+  --navbar-glow: hsl(271, 90%, 65%, 0.6);
+
   --bg-primary: #0a0a0f;
   --bg-secondary: #1a1a2e;
   --frame-color: #9333ea;
@@ -29,7 +90,6 @@
   --text-secondary: #a78bfa;
   --accent: #c084fc;
   --top-light: rgba(168, 85, 247, 0.2);
-  --navbar-glow: hsl(271, 90%, 65%, .6);
 }
 
 * {
@@ -48,15 +108,12 @@ body {
 
 /* Transição suave entre temas */
 .theme-transition {
-  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease,
-    box-shadow 0.5s ease, filter 0.5s ease;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
 }
 
 /* Brilho no topo da navbar */
 .highlight-top {
-  box-shadow:
-    0 -1px 0px 0px var(--navbar-glow),
-    0 10px 40px -10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 -1px 0px 0px var(--navbar-glow), 0 10px 40px -10px rgba(0, 0, 0, 0.8);
 }
 
 /* Efeito UV para elementos */
@@ -72,4 +129,75 @@ body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.rounded-tab {
+  --r: 20px; /* control the radius */
+
+  line-height: 1.8; /* control the height */
+  border-right: var(--r) solid var(--bg-file-border);
+  border-radius: var(--r) calc(2 * var(--r)) 0 0 / var(--r);
+  mask: radial-gradient(var(--r) at 100% 0, #0000 98%, #000 101%) 100% 100% / var(--r) var(--r) no-repeat, conic-gradient(#000 0 0) padding-box;
+  background: var(--bg-file-border) border-box; /* border-box is needed for a gradient coloration */
+  width: fit-content;
+}
+
+/* Versão alternativa usando pseudo-elementos para melhor controle */
+.modal-file-border {
+  position: relative;
+  border-radius: 0px 8px 8px 8px;
+  background: var(--bg-file);
+}
+
+/* Borda top: gradiente top-to-bottom */
+.modal-file-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: linear-gradient(to bottom, var(--bg-file-border), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Borda right: gradiente right-to-left */
+.modal-file-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  background: linear-gradient(to left, var(--bg-file-border), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Container para bordas bottom e left */
+.modal-file-border-bottom,
+.modal-file-border-left {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Borda bottom: gradiente bottom-to-top */
+.modal-file-border-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: linear-gradient(to top, var(--bg-file-border), transparent);
+}
+
+/* Borda left: gradiente left-to-right */
+.modal-file-border-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 14px;
+  background: linear-gradient(to right, var(--bg-file-border), transparent);
 }

@@ -26,10 +26,8 @@ export function NavIcon({ icon: Icon, section, label, useFill = false }: NavIcon
       onClick={handleClick}
       className={`
         relative p-3 rounded-full
-        transition-[transform,background-color,opacity] duration-200
+        transition-[background-color,opacity] duration-200
         group
-        hover:scale-110
-        active:scale-95
         ${useFill ? "text-[#000]/30" : "text-[var(--accent)]"}
         ${
           isActive
@@ -53,7 +51,7 @@ export function NavIcon({ icon: Icon, section, label, useFill = false }: NavIcon
         className={`
           absolute top-full mt-2 left-1/2 -translate-x-1/2
           px-3 py-1.5 rounded-md
-          bg-[var(--bg-primary)] text-[var(--text-primary)]
+          bg-[var(--bg-primary)] text-[var(--color-white)]
           text-xs whitespace-nowrap
           opacity-0 group-hover:opacity-100
           transition-opacity duration-200

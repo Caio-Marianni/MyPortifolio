@@ -10,7 +10,7 @@ export default function Home() {
     <main
       className={`
         relative min-h-screen
-        bg-[var(--bg-primary)]
+        bg-[var(--bg-board)]
         theme-transition
         md:h-screen md:overflow-hidden
       `}

@@ -34,6 +34,38 @@
       "content": {
         "normal": "Summary of my programming journey.",
         "uv": "Summary of my design journey."
+      },
+      "data": {
+        "programming": {
+          "name": "Caio Marianni",
+          "headline": "Suspected of creating interfaces that addict users",
+          "services": ["Web Development", "Front-end", "UI/UX", "React Applications"],
+          "stack": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Node.js"],
+          "lastCrimeLabel": "Last Crime",
+          "lastCrimeTitle": "Interactive Portfolio",
+          "victimsLabel": "Victims",
+          "victimsCount": "10+ delivered projects",
+          "arsenalLabel": "Arsenal",
+          "servicesLabel": "Services",
+          "statusLabel": "Status",
+          "nameLabel": "Name",
+          "contactButton": "Get in Touch"
+        },
+        "design": {
+          "name": "Caio Marianni",
+          "headline": "Wanted for creating impossible-to-ignore thumbnails",
+          "services": ["Thumbnails", "Graphic Design", "Visual Identity", "Banners"],
+          "stack": ["Photoshop", "Illustrator", "Figma", "After Effects"],
+          "lastCrimeLabel": "Last Crime",
+          "lastCrimeTitle": "Thumbnails Campaign",
+          "victimsLabel": "Victims",
+          "victimsCount": "50+ thumbnails created",
+          "arsenalLabel": "Arsenal",
+          "servicesLabel": "Services",
+          "statusLabel": "Status",
+          "nameLabel": "Name",
+          "contactButton": "Get in Touch"
+        }
       }
     },
     "projects": {

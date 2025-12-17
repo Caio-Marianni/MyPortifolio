@@ -11,6 +11,16 @@ import { ExperienceModalContent } from "./experience-modal-content";
 import { SkillsModalContent } from "./skills-modal-content";
 import { ContactModalContent } from "./contact-modal-content";
 
+// Mapeamento de rotações para cada modal
+const modalRotations: Record<string, number> = {
+  about: -1.5,
+  info: 1,
+  projects: -2,
+  experience: 0.5,
+  skills: -1,
+  contact: 1.5,
+};
+
 export function ModalManager() {
   const { activeModal } = useModal();
   const { isUV } = useUVMode();
@@ -20,6 +30,7 @@ export function ModalManager() {
 
   const mode = isUV ? "uv" : "normal";
   const title = t(`modal.${activeModal}.title.${mode}`);
+  const rotate = modalRotations[activeModal] || 0;
 
   // Renderizar conteúdo específico por modal
   const renderContent = () => {
@@ -41,5 +52,9 @@ export function ModalManager() {
     }
   };
 
-  return <ModalBase title={title}>{renderContent()}</ModalBase>;
+  return (
+    <ModalBase title={title} rotate={rotate}>
+      {renderContent()}
+    </ModalBase>
+  );
 }

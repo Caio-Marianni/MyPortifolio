@@ -1,16 +1,21 @@
 "use client";
 
 import { ReactNode, useEffect, useCallback, useState } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useModal } from "@/contexts/modal-context";
 import { useAudioContext } from "@/contexts/audio-context";
+import { ModalNavButton } from "./base/modal-nav-button";
+import { ModalHeader } from "./base/modal-header";
+import { ModalContent } from "./base/modal-content";
+import { ModalFileWrapper } from "./base/modal-file-wrapper";
 
 interface ModalBaseProps {
   children: ReactNode;
   title: string;
+  rotate?: number;
 }
 
-export function ModalBase({ children, title }: ModalBaseProps) {
+export function ModalBase({ children, title, rotate }: ModalBaseProps) {
   const { isOpen, closeModal, nextModal, prevModal } = useModal();
   const { play } = useAudioContext();
   const [isVisible, setIsVisible] = useState(false);
@@ -69,97 +74,32 @@ export function ModalBase({ children, title }: ModalBaseProps) {
   return (
     <div
       className={`
-        fixed inset-0 z-40 flex items-center justify-center p-4 pt-20
+        fixed inset-0 z-20 flex items-center justify-center p-4 pt-20
         ${isVisible && !isAnimating ? "animate-fade-in" : "animate-fade-out"}
       `}
     >
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={handleClose}
-      />
+        {/* Backdrop */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={handleClose} />
 
-      {/* Botão anterior */}
-      <button
-        onClick={handlePrev}
-        className={`
-          absolute left-4 top-1/2 -translate-y-1/2 z-20
-          p-3 rounded-full
-          bg-[var(--bg-secondary)]/80 backdrop-blur-sm
-          text-[var(--text-secondary)] hover:text-[var(--text-primary)]
-          border border-[var(--frame-color)]/20
-          hover:bg-[var(--bg-secondary)]
-          transition-all duration-200
-          hover:scale-110 active:scale-95
-        `}
-        title="Anterior"
-      >
-        <ChevronLeft size={24} />
-      </button>
+        <ModalNavButton direction="prev" icon={ChevronLeft} onClick={handlePrev} title="Anterior" />
 
-      {/* Botão próximo */}
-      <button
-        onClick={handleNext}
-        className={`
-          absolute right-4 top-1/2 -translate-y-1/2 z-20
-          p-3 rounded-full
-          bg-[var(--bg-secondary)]/80 backdrop-blur-sm
-          text-[var(--text-secondary)] hover:text-[var(--text-primary)]
-          border border-[var(--frame-color)]/20
-          hover:bg-[var(--bg-secondary)]
-          transition-all duration-200
-          hover:scale-110 active:scale-95
-        `}
-        title="Próximo"
-      >
-        <ChevronRight size={24} />
-      </button>
+        <ModalNavButton direction="next" icon={ChevronRight} onClick={handleNext} title="Próximo" />
 
-      {/* Modal */}
-      <div
-        className={`
-          relative z-10
-          w-full max-w-2xl max-h-[75vh]
-          bg-[var(--bg-secondary)]
-          border-2 border-[var(--frame-color)]
-          rounded-lg
-          shadow-2xl
-          overflow-hidden
-          theme-transition
-          ${isVisible && !isAnimating ? "animate-modal-in" : "animate-modal-out"}
-        `}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
+        {/* Modal */}
         <div
           className={`
-            flex items-center justify-between
-            px-6 py-4
-            border-b border-[var(--frame-color)]/20
-            bg-[var(--bg-primary)]
-          `}
+          relative
+          w-full max-w-6xl md:max-w-4xl h-auto
+          shadow-2xl
+          theme-transition
+          will-change-transform
+          ${isVisible && !isAnimating ? "animate-modal-in" : "animate-modal-out"}
+        `}
+          onClick={(e) => e.stopPropagation()}
         >
-          <h2 className="text-xl font-semibold text-[var(--text-primary)]">
-            {title}
-          </h2>
-          <button
-            onClick={handleClose}
-            className={`
-              p-2 rounded-full
-              hover:bg-[var(--accent)]/20
-              transition-colors duration-200
-              text-[var(--text-secondary)] hover:text-[var(--text-primary)]
-            `}
-          >
-            <X size={20} />
-          </button>
+          <ModalHeader title={title} onClose={handleClose} rotate={rotate} />
+          <ModalContent>{children}</ModalContent>
         </div>
-
-        {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(75vh-80px)] hide-scrollbar">
-          {children}
-        </div>
-      </div>
     </div>
   );
 }
