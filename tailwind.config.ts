@@ -16,13 +16,16 @@ const config: Config = {
       colors: {
         on: "var(--on)",
         off: "var(--off)",
+        muted: "var(--muted)",
         glow: "var(--glow)",
         gradient:{
           start: "var(--gradient-start)",
           end: "var(--gradient-end)",
         },
-        board: {
-          bg: "var(--bg-dark)",
+        bg: {
+          dark: "var(--bg-dark)",
+          light: "var(--bg-light)",
+          board: "var(--bg-board)",
         },
         file: {
           bg: "var(--file-bg)",

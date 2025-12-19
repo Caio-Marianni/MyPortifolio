@@ -11,7 +11,7 @@ export default function Home() {
       className={`
         relative overflow-x-hidden
         min-h-screen w-full
-        bg-board-bg
+        bg-bg-dark
         theme-transition-500
         md:h-screen md:overflow-hidden
       `}
@@ -23,7 +23,7 @@ export default function Home() {
       <div
         className="fixed inset-0 opacity-50 pointer-events-none"
         style={{
-          backgroundImage: "url('/assets/images/texture/buried.png')",
+           backgroundImage: "url('/assets/images/texture/snow.png')",
         }}
       />
 

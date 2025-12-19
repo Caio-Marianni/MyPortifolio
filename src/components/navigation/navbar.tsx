@@ -35,7 +35,7 @@ export function Navbar() {
         rounded-full
         z-50
         highlight-top
-        theme-transition-500
+        theme-transition-200
       `}
     >
       {/* Ícones de navegação */}

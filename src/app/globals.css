@@ -51,9 +51,11 @@
   /* basicos */
   --bg-dark: hsl(0, 0%, 2%);
   --bg-light: hsl(0, 0%, 80%);
+  --bg-board: hsl(210, 4%, 11%);
   /* Icon */
   --on: hsl(0, 0%, 100%);
   --off: hsl(0, 0%, 47%);
+  --muted: hsl(0, 0%, 47%);
   --glow: hsl(0, 0%, 80%);
   --light-glow: hsla(0, 0%, 100%, 0.2);
   /* navbar */
@@ -79,19 +81,21 @@
   /* basicos */
   --bg-dark: hsl(245, 100%, 3%);
   --bg-light: hsl(0, 0%, 80%);
+  --bg-board: hsl(250, 100%, 7%);
   /* Icon */
   --on: hsl(180, 100%, 87%);
   --off: hsl(250, 98%, 60%);
+  --muted: hsl(248, 25%, 57%);
   --glow: hsl(207, 100%, 50%);
   --light-glow: hsla(249, 100%, 50%, 0.4);
   /* navbar */
   --border-light: hsl(247, 65%, 55%);
   --gradient-start: hsl(247, 65%, 29%);
   --gradient-end: hsl(247, 60%, 2%);
-  
-  
+
+
   /* Claude */
-  --bg-board: hsl(247, 98%, 7%);
+  /* --bg-board: hsl(247, 98%, 7%); */
   --color-white: #fff;
   --color-black: #68e9fd;
   --bg-primary: #0a0a0f;
@@ -131,11 +135,6 @@
   box-shadow: 0 -1px 0px 0px var(--border-light), 0 10px 40px -1px rgba(0, 0, 0, 1);
 }
 
-/* Efeito UV para elementos */
-[data-theme="uv"] .uv-glow {
-  filter: drop-shadow(0 0 10px var(--accent));
-}
-
 /* Esconder scrollbar mas manter funcionalidade */
 .hide-scrollbar {
   -ms-overflow-style: none;
@@ -155,142 +154,4 @@
   mask: radial-gradient(var(--r) at 100% 0, #0000 98%, #000 101%) 100% 100% / var(--r) var(--r) no-repeat, conic-gradient(#000 0 0) padding-box;
   background: var(--bg-file-border) border-box; /* border-box is needed for a gradient coloration */
   width: fit-content;
-}
-
-/* Versão alternativa usando pseudo-elementos para melhor controle */
-.modal-file-border {
-  position: relative;
-  border-radius: 0px 8px 8px 8px;
-  background: var(--bg-file);
-}
-
-/* Borda top: gradiente top-to-bottom */
-.modal-file-border::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 14px;
-  background: linear-gradient(to bottom, var(--bg-file-border), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Borda right: gradiente right-to-left */
-.modal-file-border::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 14px;
-  background: linear-gradient(to left, var(--bg-file-border), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Container para bordas bottom e left */
-.modal-file-border-bottom,
-.modal-file-border-left {
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Borda bottom: gradiente bottom-to-top */
-.modal-file-border-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 14px;
-  background: linear-gradient(to top, var(--bg-file-border), transparent);
-}
-
-/* Borda left: gradiente left-to-right */
-.modal-file-border-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 14px;
-  background: linear-gradient(to right, var(--bg-file-border), transparent);
-}
-
-.theme-uv {
-  filter: hue-rotate(10deg) saturate(1.4);
-}
-/* Euuuuu */
-
-/* ===== NEON/CYBERPUNK EFFECTS ===== */
-/* Textura de ruído overlay */
-.noise-texture {
-  position: relative;
-}
-
-.noise-texture::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("/assets/images/texture/noise.webp");
-  background-repeat: repeat;
-  opacity: 0.15;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Glow azul neon */
-.glow-blue {
-  text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4);
-}
-
-.glow-blue-strong {
-  text-shadow: 0 0 5px rgba(59, 130, 246, 1), 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4);
-}
-
-/* Glow vermelho/coral neon */
-.glow-red {
-  text-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.4);
-}
-
-.glow-coral {
-  text-shadow: 0 0 10px rgba(251, 113, 133, 0.8), 0 0 20px rgba(251, 113, 133, 0.6), 0 0 30px rgba(251, 113, 133, 0.4);
-}
-
-/* Box glow para elementos (ícones, cards, etc) */
-.box-glow-blue {
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3), 0 0 30px rgba(59, 130, 246, 0.2);
-}
-
-.box-glow-purple {
-  box-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3), 0 0 30px rgba(168, 85, 247, 0.2);
-}
-
-/* Filter glow para SVG/ícones */
-.filter-glow-blue {
-  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
-}
-
-.filter-glow-red {
-  filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.8)) drop-shadow(0 0 10px rgba(239, 68, 68, 0.5));
-}
-
-/* Background gradiente neon */
-.bg-neon-gradient {
-  background: linear-gradient(135deg, hsl(240, 100%, 15%) 0%, hsl(250, 100%, 20%) 50%, hsl(260, 100%, 25%) 100%);
-}
-
-.bg-neon-radial {
-  background: radial-gradient(ellipse at center, hsl(250, 100%, 25%) 0%, hsl(245, 100%, 15%) 50%, hsl(240, 100%, 10%) 100%);
-}
-
-/* Linhas horizontais com glow */
-.neon-line {
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.8) 50%, transparent 100%);
-  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.3);
-}
-
-.neon-pulse {
-  animation: neon-pulse 2s ease-in-out infinite;
 }
