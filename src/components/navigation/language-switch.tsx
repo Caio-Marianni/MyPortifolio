@@ -18,15 +18,12 @@ export function LanguageSwitch() {
       onClick={handleToggle}
       className={`
         relative p-3 rounded-full
-        text-[var(--text-secondary)]
-        hover:text-[var(--text-primary)]
-        hover:bg-white/10
-        transition-all duration-200
-        group
+        text-on
+        theme-transition-500
       `}
       title={locale === "pt" ? "Switch to English" : "Mudar para Português"}
     >
-      <Globe size={20} />
+      <Globe size={20} className="glow" />
 
       {/* Badge com idioma atual */}
       <span
@@ -34,31 +31,12 @@ export function LanguageSwitch() {
           absolute -bottom-1 -right-1
           px-1.5 py-0.5
           text-[10px] font-bold uppercase
-          bg-[var(--accent)]
-          text-white
+          text-off
           rounded-full
         `}
       >
         {locale}
       </span>
-
-      {/* Tooltip */}
-      <div
-        className={`
-          absolute top-full mt-2 left-1/2 -translate-x-1/2
-          px-3 py-1.5 rounded-md
-          bg-[var(--bg-primary)] text-[var(--text-primary)]
-          text-xs whitespace-nowrap
-          opacity-0 group-hover:opacity-100
-          transition-opacity duration-200
-          pointer-events-none
-          border border-[var(--frame-color)]/20
-          shadow-lg
-          z-50
-        `}
-      >
-        {locale === "pt" ? "English" : "Português"}
-      </div>
     </button>
   );
 }

@@ -9,9 +9,10 @@ export default function Home() {
   return (
     <main
       className={`
-        relative min-h-screen
-        bg-[var(--bg-board)]
-        theme-transition
+        relative overflow-x-hidden
+        min-h-screen w-full
+        bg-board-bg
+        theme-transition-500
         md:h-screen md:overflow-hidden
       `}
     >
@@ -20,11 +21,9 @@ export default function Home() {
 
       {/* Textura de fundo */}
       <div
-        className="fixed inset-0 opacity-30 pointer-events-none"
+        className="fixed inset-0 opacity-50 pointer-events-none"
         style={{
-          backgroundImage: "url('/assets/images/textura-de-fundo-escuro.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundImage: "url('/assets/images/texture/buried.png')",
         }}
       />
 

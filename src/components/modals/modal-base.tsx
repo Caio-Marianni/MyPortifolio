@@ -91,7 +91,7 @@ export function ModalBase({ children, title, rotate }: ModalBaseProps) {
           relative
           w-full max-w-6xl md:max-w-4xl h-auto
           shadow-2xl
-          theme-transition
+          theme-transition-500
           will-change-transform
           ${isVisible && !isAnimating ? "animate-modal-in" : "animate-modal-out"}
         `}

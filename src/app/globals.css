@@ -4,82 +4,96 @@
 
 /* Declaração de fontes */
 @font-face {
-  font-family: 'Courier Prime';
-  src: url('/assets/font/CourierPrime-Regular.woff2') format('truetype');
+  font-family: "Courier Prime";
+  src: url("/assets/font/CourierPrime-Regular.woff2") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
-  font-family: 'Courier Prime';
-  src: url('/assets/font/CourierPrime-Bold.woff2') format('truetype');
+  font-family: "Courier Prime";
+  src: url("/assets/font/CourierPrime-Bold.woff2") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
-  font-family: 'Courier Prime';
-  src: url('/assets/font/CourierPrime-Italic.woff2') format('truetype');
+  font-family: "Courier Prime";
+  src: url("/assets/font/CourierPrime-Italic.woff2") format("truetype");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
-
 @font-face {
-  font-family: 'Courier Prime';
-  src: url('/assets/font/CourierPrime-BoldItalic.woff2') format('truetype');
+  font-family: "Courier Prime";
+  src: url("/assets/font/CourierPrime-BoldItalic.woff2") format("truetype");
   font-weight: 700;
   font-style: italic;
   font-display: swap;
 }
-
 @font-face {
-  font-family: 'Special Elite';
-  src: url('/assets/font/SpecialElite-Regular.woff2') format('truetype');
+  font-family: "Special Elite";
+  src: url("/assets/font/SpecialElite-Regular.woff2") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("/assets/font/BebasNeue-Regular.woff2") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Bebas Neue';
-  src: url('/assets/font/BebasNeue-Regular.woff2') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Tema Norma */
 :root {
-  /* Tema Normal - Programação */
-  --bg-board: #1e1e1e;
-  --bg-white: #fff;
-  --bg-secondary: #2d2d2d;
-  --bg-file: hsl(37, 21%, 58%);
-  --bg-file-border: hsl(35, 49%, 28%);
+  /* basicos */
+  --bg-dark: hsl(0, 0%, 2%);
+  --bg-light: hsl(0, 0%, 80%);
+  /* Icon */
+  --on: hsl(0, 0%, 100%);
+  --off: hsl(0, 0%, 47%);
+  --glow: hsl(0, 0%, 80%);
+  --light-glow: hsla(0, 0%, 100%, 0.2);
+  /* navbar */
+  --border-light: hsl(0, 0%, 65%);
+  --gradient-start: hsl(0, 0%, 35%);
+  --gradient-end: hsl(0, 0%, 8%);
+  /* file */
+  --file-bg: hsl(37, 21%, 58%);
+  --file-border: hsl(35, 49%, 28%);
+  /* text */
+  --text-dark: hsl(0, 0%, 2%);
+  --text-light: hsl(0, 0%, 98%);
+  --text-muted: hsl(0, 0%, 64%);
+  --text-accent: #6366f1;
+
+  /* light/glow */
   --color-white: #fff;
   --color-black: #000;
-  --light-glow: hsl(0, 0%, 100% , 0.2);
-  --navbar-glow: hsl(0, 0%, 100%, 0.6);
-  
-  --frame-color-200: hsl(38, 85%, 23%);
-  --frame-color-500: hsl(38, 85%, 37%);
-  --frame-color-800: hsl(30, 20%, 30%);
-  --point-color: #dc2626;
-  --point-glow: rgba(220, 38, 38, 0.5);
-  --line-color: #991b1b;
-  --text-primary: hsl(0 0% 0%);
-  --text-secondary: hsl(0 0% 90%);
-  --accent: #dc2626;
-  --top-light: rgba(220, 38, 38, 0.4);
+  --light-bg: hsla(247, 98%, 35%, 0.2);
 }
 
 [data-theme="uv"] {
-  /* Tema UV - Design */
-  --light-glow: rgba(168, 85, 247, 0.2);
-  --navbar-glow: hsl(271, 90%, 65%, 0.6);
-
+  /* basicos */
+  --bg-dark: hsl(245, 100%, 3%);
+  --bg-light: hsl(0, 0%, 80%);
+  /* Icon */
+  --on: hsl(180, 100%, 87%);
+  --off: hsl(250, 98%, 60%);
+  --glow: hsl(207, 100%, 50%);
+  --light-glow: hsla(249, 100%, 50%, 0.4);
+  /* navbar */
+  --border-light: hsl(247, 65%, 55%);
+  --gradient-start: hsl(247, 65%, 29%);
+  --gradient-end: hsl(247, 60%, 2%);
+  
+  
+  /* Claude */
+  --bg-board: hsl(247, 98%, 7%);
+  --color-white: #fff;
+  --color-black: #68e9fd;
   --bg-primary: #0a0a0f;
   --bg-secondary: #1a1a2e;
   --frame-color: #9333ea;
@@ -89,7 +103,6 @@
   --text-primary: #e9d5ff;
   --text-secondary: #a78bfa;
   --accent: #c084fc;
-  --top-light: rgba(168, 85, 247, 0.2);
 }
 
 * {
@@ -98,22 +111,24 @@
   margin: 0;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-}
-
 /* Transição suave entre temas */
-.theme-transition {
+.theme-transition-200 {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+.theme-transition-500 {
   transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, filter 0.5s ease;
+}
+.theme-transition-800 {
+  transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, box-shadow 0.8s ease, filter 0.8s ease;
+}
+/* Brilho ao redor do item */
+.glow {
+  @apply drop-shadow-[0_0_10px_var(--glow)];
 }
 
 /* Brilho no topo da navbar */
 .highlight-top {
-  box-shadow: 0 -1px 0px 0px var(--navbar-glow), 0 10px 40px -10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 -1px 0px 0px var(--border-light), 0 10px 40px -1px rgba(0, 0, 0, 1);
 }
 
 /* Efeito UV para elementos */
@@ -151,7 +166,7 @@ body {
 
 /* Borda top: gradiente top-to-bottom */
 .modal-file-border::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -164,7 +179,7 @@ body {
 
 /* Borda right: gradiente right-to-left */
 .modal-file-border::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: 0;
@@ -200,4 +215,82 @@ body {
   bottom: 0;
   width: 14px;
   background: linear-gradient(to right, var(--bg-file-border), transparent);
+}
+
+.theme-uv {
+  filter: hue-rotate(10deg) saturate(1.4);
+}
+/* Euuuuu */
+
+/* ===== NEON/CYBERPUNK EFFECTS ===== */
+/* Textura de ruído overlay */
+.noise-texture {
+  position: relative;
+}
+
+.noise-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/assets/images/texture/noise.webp");
+  background-repeat: repeat;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Glow azul neon */
+.glow-blue {
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4);
+}
+
+.glow-blue-strong {
+  text-shadow: 0 0 5px rgba(59, 130, 246, 1), 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.6), 0 0 40px rgba(59, 130, 246, 0.4);
+}
+
+/* Glow vermelho/coral neon */
+.glow-red {
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.6), 0 0 30px rgba(239, 68, 68, 0.4);
+}
+
+.glow-coral {
+  text-shadow: 0 0 10px rgba(251, 113, 133, 0.8), 0 0 20px rgba(251, 113, 133, 0.6), 0 0 30px rgba(251, 113, 133, 0.4);
+}
+
+/* Box glow para elementos (ícones, cards, etc) */
+.box-glow-blue {
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3), 0 0 30px rgba(59, 130, 246, 0.2);
+}
+
+.box-glow-purple {
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3), 0 0 30px rgba(168, 85, 247, 0.2);
+}
+
+/* Filter glow para SVG/ícones */
+.filter-glow-blue {
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+}
+
+.filter-glow-red {
+  filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.8)) drop-shadow(0 0 10px rgba(239, 68, 68, 0.5));
+}
+
+/* Background gradiente neon */
+.bg-neon-gradient {
+  background: linear-gradient(135deg, hsl(240, 100%, 15%) 0%, hsl(250, 100%, 20%) 50%, hsl(260, 100%, 25%) 100%);
+}
+
+.bg-neon-radial {
+  background: radial-gradient(ellipse at center, hsl(250, 100%, 25%) 0%, hsl(245, 100%, 15%) 50%, hsl(240, 100%, 10%) 100%);
+}
+
+/* Linhas horizontais com glow */
+.neon-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.8) 50%, transparent 100%);
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.neon-pulse {
+  animation: neon-pulse 2s ease-in-out infinite;
 }

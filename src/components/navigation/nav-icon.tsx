@@ -26,37 +26,25 @@ export function NavIcon({ icon: Icon, section, label, useFill = false }: NavIcon
       onClick={handleClick}
       className={`
         relative p-3 rounded-full
-        transition-[background-color,opacity] duration-200
+        theme-transition-200
         group
-        ${useFill ? "text-[#000]/30" : "text-[var(--accent)]"}
-        ${
-          isActive
-            ? "bg-white/10"
-            : `hover:bg-white/5 ${useFill ? "hover:text-[var(--accent)]/30" : ""}`
-        }
+        ${useFill ? "text-black/30" : `${isActive ? "text-on" : "text-off"}`}
       `}
       title={label}
     >
-      <Icon size={24} fill={useFill ? "var(--accent)" : "none"} />
-
-      {/* Indicador de ativo (embaixo) */}
-      {isActive && (
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-1 bg-[var(--accent)] rounded-t-full transition-all duration-200"
-        />
-      )}
+      <Icon size={24} fill={useFill ? (isActive ? "var(--on)" : "var(--off)") : "none"} className={`${isActive ? "glow" : ""} transition-all`} />
 
       {/* Tooltip (embaixo) */}
       <div
         className={`
-          absolute top-full mt-2 left-1/2 -translate-x-1/2
+          absolute top-full left-1/2 -translate-x-1/2
           px-3 py-1.5 rounded-md
-          bg-[var(--bg-primary)] text-[var(--color-white)]
+          bg-board-bg text-on
           text-xs whitespace-nowrap
           opacity-0 group-hover:opacity-100
           transition-opacity duration-200
           pointer-events-none
-          border border-[var(--frame-color)]/20
+          border border-off
           shadow-lg
           z-50
         `}

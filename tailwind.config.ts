@@ -14,48 +14,35 @@ const config: Config = {
         'bebas': ['Bebas Neue', 'sans-serif'],
       },
       colors: {
+        on: "var(--on)",
+        off: "var(--off)",
+        glow: "var(--glow)",
+        gradient:{
+          start: "var(--gradient-start)",
+          end: "var(--gradient-end)",
+        },
         board: {
-          bg: "var(--bg-primary)",
-          secondary: "var(--bg-secondary)",
-          frame: "var(--frame-color)",
-          point: "var(--point-color)",
-          line: "var(--line-color)",
-          accent: "var(--accent)",
+          bg: "var(--bg-dark)",
+        },
+        file: {
+          bg: "var(--file-bg)",
+          border: "var(--file-border)",
+        },
+        text: {
+          dark: "var(--text-dark)",
+          light: "var(--text-light)",
+          muted: "var(--text-muted)",
+          accent: "var(--text-accent)",
         },
       },
       animation: {
-        "point-pulse": "point-pulse 2s ease-in-out infinite",
         "fade-in": "fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
-        "fade-out": "fade-out 0.2s cubic-bezier(0.16, 1, 0.3, 1)",
-        "modal-in": "modal-in 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
-        "modal-out": "modal-out 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
         "uv-glow": "uv-glow 2s ease-in-out infinite",
-        "spin-slow": "spin 3s linear infinite",
       },
       keyframes: {
-        "point-pulse": {
-          "0%, 100%": {
-            boxShadow: "0 0 0 0 var(--point-glow)",
-          },
-          "50%": {
-            boxShadow: "0 0 20px 10px var(--point-glow)",
-          },
-        },
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
-        },
-        "fade-out": {
-          "0%": { opacity: "1" },
-          "100%": { opacity: "0" },
-        },
-        "modal-in": {
-          "0%": { opacity: "0", transform: "translateY(60px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        "modal-out": {
-          "0%": { opacity: "1", transform: "translateY(0)" },
-          "100%": { opacity: "0", transform: "translateY(40px)" },
         },
         "uv-glow": {
           "0%, 100%": { opacity: "0.3" },

@@ -31,14 +31,11 @@ export function Navbar() {
         fixed top-4 left-1/2 -translate-x-1/2
         flex items-center gap-1
         px-4 py-2
-        bg-black/20
-        bg-gradient-to-b from-white/20 via-black/0 to-black/0
-        backdrop-blur-md
+        bg-gradient-to-b from-gradient-start to-gradient-end
         rounded-full
-        shadow-xl
         z-50
-        theme-transition
         highlight-top
+        theme-transition-500
       `}
     >
       {/* Ícones de navegação */}

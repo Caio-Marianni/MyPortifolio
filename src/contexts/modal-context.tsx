@@ -13,8 +13,8 @@ export type ModalSection =
 
 // Ordem dos modais para navegação
 const MODAL_ORDER: Exclude<ModalSection, null>[] = [
-  "about",
   "info",
+  "about",
   "projects",
   "experience",
   "skills",
