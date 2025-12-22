@@ -18,6 +18,10 @@ const config: Config = {
         off: "var(--off)",
         muted: "var(--muted)",
         glow: "var(--glow)",
+        color:{
+          white: "var(--color-white)",
+          black: "var(--color-black)",
+        },
         gradient:{
           start: "var(--gradient-start)",
           end: "var(--gradient-end)",
@@ -30,6 +34,8 @@ const config: Config = {
         file: {
           bg: "var(--file-bg)",
           border: "var(--file-border)",
+          closeIcon: "var(--file-close-icon)",
+          closeBg: "var(--file-close-icon-invert)",
         },
         text: {
           dark: "var(--text-dark)",

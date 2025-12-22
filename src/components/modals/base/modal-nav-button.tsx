@@ -24,10 +24,11 @@ export const ModalNavButton = memo(function ModalNavButton({
       className={`
         absolute ${positionClass} top-1/2 -translate-y-1/2 z-20
         px-2 py-12
-        bg-[var(--bg-board)]
-        text-[var(--color-white)] hover:text-white/30
-        border border-black/80
+        bg-bg-board
+        text-[var(--color-white)]
         transition-all duration-200
+        opacity-50 hover:opacity-100
+        drop-shadow-[0_0_2px_white]
       `}
       title={title}
     >

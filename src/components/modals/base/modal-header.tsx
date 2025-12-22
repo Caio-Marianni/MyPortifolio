@@ -9,11 +9,7 @@ interface ModalHeaderProps {
   rotate?: number;
 }
 
-export const ModalHeader = memo(function ModalHeader({
-  title,
-  onClose,
-  rotate = -2,
-}: ModalHeaderProps) {
+export const ModalHeader = memo(function ModalHeader({ title, onClose, rotate = -2 }: ModalHeaderProps) {
   return (
     <div
       className={`
@@ -23,14 +19,22 @@ export const ModalHeader = memo(function ModalHeader({
     >
       {/* Tab */}
       <div className="font-courier text-2xl px-6 py-2 font-bold tracking-widest text-[var(--color-black)] rounded-tab z-10">
-        <div className="translate-y-1 z-10" style={{ transform: `rotate(${rotate}deg)` }}>
+        <div className="translate-y-1 z-10 rounded-lg overflow-hidden" style={{ transform: `rotate(${rotate}deg)` }}>
+          {/* Overlay de textura */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage: "url('/assets/images/texture/snow.png')",
+              backgroundSize: "auto",
+            }}
+          />
           {/*  black tag */}
-          <div className="bg-[var(--color-black)] h-3 rounded-t-lg"></div>
+          <div className="bg-color-black h-3"></div>
           {/* {title} */}
-          <div className="flex items-center gap-2 bg-[var(--color-white)] rounded-b-lg">
-            <hr className="border-[var(--color-black)] border-2 w-4" />
+          <div className="flex items-center gap-2 bg-color-white glow-uv">
+            <hr className="border-color-black border-2 w-4" />
             <h2 className="translate-y-0.5">{title}</h2>
-            <hr className="border-[var(--color-black)] border-2 w-4" />
+            <hr className="border-color-black border-2 w-4" />
           </div>
         </div>
       </div>
@@ -41,11 +45,9 @@ export const ModalHeader = memo(function ModalHeader({
           mr-1.5
           p-3 py-3
           translate-y-3.5
-          bg-red-700/50
-          border border-b-0 border-red-700/30
-          hover:bg-red-600/50
-          transition-colors duration-200
-          text-white/80
+          bg-file-closeBg
+          theme-transition
+          text-file-closeIcon
         `}
       >
         <X size={20} />

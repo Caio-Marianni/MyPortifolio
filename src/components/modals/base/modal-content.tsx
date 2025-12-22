@@ -16,7 +16,7 @@ export const ModalContent = memo(function ModalContent({ children }: ModalConten
           overflow-y-auto
           p-8 max-h-[calc(90vh-80px)]
           hide-scrollbar
-          bg-[var(--bg-file)]"
+          bg-file-bg"
       >
         {/* Overlay de textura */}
         <div
