@@ -9,23 +9,24 @@ interface ModalContentProps {
 
 export const ModalContent = memo(function ModalContent({ children }: ModalContentProps) {
   return (
-    <ModalFileWrapper>
+    <ModalFileWrapper className="flex flex-col flex-1 min-h-0">
+      {/* Container scrollável com textura que rola junto */}
       <div
         className="
           relative
           overflow-y-auto
-          p-8 max-h-[calc(90vh-80px)]
+          overflow-x-hidden
+          p-8
+          bg-file-bg
           hide-scrollbar
-          bg-file-bg"
+          flex-1"
+        style={{
+          borderRadius: '0 8px 8px 8px',
+          backgroundImage: "url('/assets/images/texture/egg-shell.png')",
+          backgroundSize: 'auto',
+          backgroundRepeat: 'repeat',
+        }}
       >
-        {/* Overlay de textura */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            backgroundImage: "url('/assets/images/texture/egg-shell.png')",
-            backgroundSize: "auto",
-          }}
-        />
         {children}
       </div>
     </ModalFileWrapper>

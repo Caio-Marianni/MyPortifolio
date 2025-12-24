@@ -49,11 +49,18 @@
 /* Tema Norma */
 :root {
   /* basicos */
+  --border: hsla(0, 0%, 2%, 0.6);
+  --buttom: hsl(43, 65%, 27%);
   --bg-dark: hsl(0, 0%, 2%);
   --bg-light: hsl(0, 0%, 80%);
   --bg-board: hsl(210, 4%, 11%);
   --color-white: hsl(0, 0%, 100%);
   --color-black: hsl(0, 0%, 0%);
+  /* text */
+  --text-dark: hsl(0, 0%, 0%);
+  --text-light: hsl(0, 0%, 98%);
+  --text-muted: hsl(0, 0%, 20%);
+  --text-accent: #6366f1;
   /* Icon */
   --on: hsl(0, 0%, 100%);
   --off: hsl(0, 0%, 47%);
@@ -70,25 +77,22 @@
   --file-border: hsl(35, 49%, 28%);
   --file-close-icon: hsl(0, 0%, 100%);
   --file-close-icon-invert: hsl(348, 100%, 30%);
-
-
-
-
-  /* text */
-  --text-dark: hsl(0, 0%, 2%);
-  --text-light: hsl(0, 0%, 98%);
-  --text-muted: hsl(0, 0%, 64%);
-  --text-accent: #6366f1;
-  --light-bg: hsla(247, 98%, 35%, 0.2);
 }
 
 [data-theme="uv"] {
   /* basicos */
+  --border: hsla(180, 80%, 90%, 0.7);
+  --buttom: hsl(0, 0%, 0%);
   --bg-dark: hsl(245, 100%, 3%);
   --bg-light: hsl(0, 0%, 100%);
   --bg-board: hsl(250, 100%, 7%);
   --color-white: hsl(207, 100%, 95%);
   --color-black: hsl(0, 0%, 0%);
+  /* text */
+  --text-dark: hsl(200, 96%, 81%);
+  --text-light: hsl(0, 0%, 98%);
+  --text-muted: hsl(80, 1000%, 70%);
+  --text-accent: #6366f1;
   /* Icon */
   --on: hsl(180, 100%, 87%);
   --off: hsl(250, 98%, 60%);
@@ -106,13 +110,11 @@
   --file-close-icon: hsl(348, 100%, 30%);
   --file-close-icon-invert: hsl(348, 100%, 10%);
 }
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
-
 /* Transição suave entre temas */
 .theme-transition-200 {
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
@@ -130,22 +132,19 @@
 .glow-uv {
   @apply drop-shadow-[0_0_10px_var(--glow-uv)];
 }
-
 /* Brilho no topo da navbar */
 .highlight-top {
   box-shadow: 0 -1px 0px 0px var(--border-light), 0 10px 40px -1px rgba(0, 0, 0, 1);
 }
-
 /* Esconder scrollbar mas manter funcionalidade */
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
-
+/* Bordar/tag do arquivo */
 .rounded-tab {
   --r: 20px; /* control the radius */
 
@@ -156,8 +155,6 @@
   background: var(--file-border) border-box; /* border-box is needed for a gradient coloration */
   width: fit-content;
 }
-
-/* Bordar/tag do arquivo */
 .modal-file-border {
   position: relative;
   border-radius: 0px 8px 8px 8px;
@@ -167,9 +164,8 @@
 .modal-file-border-bottom,
 .modal-file-border-left {
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }
-/* Borda bottom */
 .modal-file-border-bottom {
   position: absolute;
   bottom: 0;
@@ -178,7 +174,6 @@
   height: 14px;
   background: linear-gradient(to top, var(--file-border), transparent);
 }
-/* Borda left */
 .modal-file-border-left {
   position: absolute;
   top: 0;
@@ -187,7 +182,6 @@
   width: 14px;
   background: linear-gradient(to right, var(--file-border), transparent);
 }
-/* Borda top */
 .modal-file-border::before {
   content: "";
   position: absolute;
@@ -197,9 +191,8 @@
   height: 14px;
   background: linear-gradient(to bottom, var(--file-border), transparent);
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }
-/* Borda right */
 .modal-file-border::after {
   content: "";
   position: absolute;
@@ -209,5 +202,5 @@
   width: 14px;
   background: linear-gradient(to left, var(--file-border), transparent);
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }

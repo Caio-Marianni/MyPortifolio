@@ -23,12 +23,10 @@ export const InfoPhoto = memo(function InfoPhoto({
           border-4 border-[var(--color-white)]
           overflow-hidden
           shadow-lg
+          glow-uv
           shadow-black/70
         `}
       >
-        {/* Tachinha decorativa */}
-        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[var(--accent)] opacity-80 z-10 shadow-md" />
-
         <div key={imageKey} className="absolute inset-0 animate-fade-in">
           <OptimizedImage
             src={imageSrc}

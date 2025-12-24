@@ -18,6 +18,8 @@ const config: Config = {
         off: "var(--off)",
         muted: "var(--muted)",
         glow: "var(--glow)",
+        border: "var(--border)",
+        buttom: "var(--buttom)",
         color:{
           white: "var(--color-white)",
           black: "var(--color-black)",

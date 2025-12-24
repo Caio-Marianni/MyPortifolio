@@ -12,11 +12,9 @@ export const ModalFileWrapper = memo(function ModalFileWrapper({
   className = "",
 }: ModalFileWrapperProps) {
   return (
-    <div className={`modal-file-border overflow-hidden ${className}`}>
-      {/* Bordas bottom e left usando divs adicionais */}
+    <div className={`${className} modal-file-border overflow-hidden`}>
       <div className="modal-file-border-bottom" />
       <div className="modal-file-border-left" />
-
       {children}
     </div>
   );

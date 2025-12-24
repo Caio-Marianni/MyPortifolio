@@ -1,7 +1,9 @@
 "use client";
 
 import { memo } from "react";
-import { ExternalLink, Mail } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { InfoNavigationGrid } from "./info-navigation-grid";
 
 interface InfoFooterProps {
   imageKey: number;
@@ -10,8 +12,10 @@ interface InfoFooterProps {
   lastCrimeUrl: string;
   victimsLabel: string;
   victimsCount: string;
-  contactButton: string;
-  onContactClick: () => void;
+  contactLabel: string;
+  cvLabel: string;
+  projectsLabel: string;
+  experienceLabel: string;
 }
 
 export const InfoFooter = memo(function InfoFooter({
@@ -21,29 +25,19 @@ export const InfoFooter = memo(function InfoFooter({
   lastCrimeUrl,
   victimsLabel,
   victimsCount,
-  contactButton,
-  onContactClick,
+  contactLabel,
+  cvLabel,
+  projectsLabel,
+  experienceLabel,
 }: InfoFooterProps) {
   return (
     <>
       {/* Seção inferior */}
-      <div
-        key={`bottom-${imageKey}`}
-        className="space-y-4 pt-4 border-t border-[var(--frame-color)]/20 animate-fade-in"
-      >
+      <div key={`bottom-${imageKey}`} className="flex">
         <InfoRow
           label={lastCrimeLabel}
           value={
-            <a
-              href={lastCrimeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`
-                inline-flex items-center gap-1.5
-                text-[var(--accent)] hover:underline
-                font-medium
-              `}
-            >
+            <a href={lastCrimeUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[var(--accent)] hover:underline font-medium">
               {lastCrimeTitle}
               <ExternalLink size={16} />
             </a>
@@ -51,25 +45,9 @@ export const InfoFooter = memo(function InfoFooter({
         />
         <InfoRow label={victimsLabel} value={victimsCount} />
       </div>
-
-      {/* Botão de contato */}
-      <div className="pt-6">
-        <button
-          onClick={onContactClick}
-          className={`
-            w-full py-4 px-6 rounded-lg
-            bg-[var(--accent)] text-white
-            font-semibold text-base
-            flex items-center justify-center gap-2
-            hover:opacity-90
-            transition-all duration-200
-            shadow-lg shadow-[var(--accent)]/20
-          `}
-        >
-          <Mail size={20} />
-          {contactButton}
-        </button>
-      </div>
+      <Separator />
+      {/* Grid de botao 2x2 */}
+      <InfoNavigationGrid contactLabel={contactLabel} cvLabel={cvLabel} projectsLabel={projectsLabel} experienceLabel={experienceLabel} />
     </>
   );
 });
@@ -81,11 +59,9 @@ interface InfoRowProps {
 
 function InfoRow({ label, value }: InfoRowProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <span className="text-[var(--text-secondary)] text-xs font-bold tracking-wider uppercase">
-        {label}
-      </span>
-      <span className="text-[var(--text-primary)] text-base">{value}</span>
+    <div className="flex flex-col glow-uv w-[31%]">
+      <span className="text-text-dark text-lg font-bold font-courier tracking-wider uppercase">{label}</span>
+      <span className="text-text-dark text-base font-special opacity-80">{value}</span>
     </div>
   );
 }

@@ -74,7 +74,7 @@ export function ModalBase({ children, title, rotate }: ModalBaseProps) {
   return (
     <div
       className={`
-        fixed inset-0 z-20 flex items-center justify-center p-4 pt-20
+        fixed inset-0 z-20 flex items-start justify-center p-4 pt-[15vh]
         ${isVisible && !isAnimating ? "animate-fade-in" : "animate-fade-out"}
       `}
     >
@@ -89,7 +89,9 @@ export function ModalBase({ children, title, rotate }: ModalBaseProps) {
         <div
           className={`
           relative
-          w-full max-w-6xl md:max-w-4xl h-auto
+          flex flex-col
+          w-full max-w-6xl md:max-w-4xl
+          max-h-[calc(100vh-15vh-10vh)]
           shadow-2xl
           theme-transition-500
           will-change-transform

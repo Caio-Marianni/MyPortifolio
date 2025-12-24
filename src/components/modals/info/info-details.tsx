@@ -28,25 +28,27 @@ export const InfoDetails = memo(function InfoDetails({
   return (
     <div key={imageKey} className="flex-1 space-y-4 animate-fade-in">
       <InfoRow label={nameLabel} value={name} />
-      <InfoRow label={statusLabel} value={headline} highlight />
+      <InfoRow label={statusLabel} value={headline} />
       <InfoRow label={servicesLabel} value={services.join(" • ")} />
       <InfoRow
+        notHighlight
         label={arsenalLabel}
         value={
           <div className="flex flex-wrap gap-2">
-            {stack.map((tech) => (
-              <span
-                key={tech}
-                className={`
-                  px-3 py-1 text-sm rounded-md
-                  bg-[var(--accent)]/20 text-[var(--accent)]
-                  border border-[var(--accent)]/40
-                  font-medium
-                `}
-              >
-                {tech}
-              </span>
-            ))}
+            {stack.map((tech) => {
+
+              return (
+                <span
+                  key={tech}
+                  className={`
+                    px-3 py-1 text-sm rounded-sm
+                    bg-bg-board text-text-light font-courier
+                  `}
+                >
+                  {tech}
+                </span>
+              );
+            })}
           </div>
         }
       />
@@ -57,19 +59,19 @@ export const InfoDetails = memo(function InfoDetails({
 interface InfoRowProps {
   label: string;
   value: React.ReactNode;
-  highlight?: boolean;
+  notHighlight?: boolean;
 }
 
-function InfoRow({ label, value, highlight = false }: InfoRowProps) {
+function InfoRow({ label, value, notHighlight = false }: InfoRowProps) {
   return (
-    <div className="flex flex-col gap-2">
-      <span className="text-[var(--text-secondary)] text-xs font-bold tracking-wider uppercase">
+    <div className="flex flex-col">
+      <span className="text-text-dark text-lg font-bold font-courier tracking-wider uppercase glow-uv">
         {label}
       </span>
       <span
         className={`
-          text-[var(--text-primary)] text-base
-          ${highlight ? "text-[var(--accent)] italic font-medium" : ""}
+          text-text-dark text-base font-special
+          ${notHighlight ? "" : "glow-uv"}
         `}
       >
         {value}

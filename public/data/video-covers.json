@@ -1,0 +1,79 @@
+{
+  "tags": [
+    {
+      "id": "gaming",
+      "name": "Gaming",
+      "color": "#ff6b6b"
+    },
+    {
+      "id": "tech",
+      "name": "Tech",
+      "color": "#4dabf7"
+    },
+    {
+      "id": "tutorial",
+      "name": "Tutorial",
+      "color": "#51cf66"
+    },
+    {
+      "id": "review",
+      "name": "Review",
+      "color": "#ffa94d"
+    },
+    {
+      "id": "vlog",
+      "name": "Vlog",
+      "color": "#9775fa"
+    }
+  ],
+  "covers": [
+    {
+      "id": "cover-001",
+      "title": "Epic Gaming Montage 2024",
+      "image": "/assets/images/covers/cover-001.jpg",
+      "tags": ["gaming"],
+      "order": 1,
+      "priority": true
+    },
+    {
+      "id": "cover-002",
+      "title": "Next.js 14 Complete Guide",
+      "image": "/assets/images/covers/cover-002.jpg",
+      "tags": ["tech", "tutorial"],
+      "order": 2,
+      "priority": true
+    },
+    {
+      "id": "cover-003",
+      "title": "M3 MacBook Pro Review",
+      "image": "/assets/images/covers/cover-003.jpg",
+      "tags": ["tech", "review"],
+      "order": 3,
+      "priority": true
+    },
+    {
+      "id": "cover-004",
+      "title": "Day in the Life - Developer Vlog",
+      "image": "/assets/images/covers/cover-004.jpg",
+      "tags": ["vlog"],
+      "order": 4,
+      "priority": true
+    },
+    {
+      "id": "cover-005",
+      "title": "Rust Programming Crash Course",
+      "image": "/assets/images/covers/cover-005.jpg",
+      "tags": ["tech", "tutorial"],
+      "order": 5,
+      "priority": true
+    },
+    {
+      "id": "cover-006",
+      "title": "Best Gaming Setup 2024",
+      "image": "/assets/images/covers/cover-006.jpg",
+      "tags": ["gaming", "review"],
+      "order": 6,
+      "priority": true
+    }
+  ]
+}

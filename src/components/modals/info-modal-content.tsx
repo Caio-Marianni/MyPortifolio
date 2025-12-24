@@ -1,10 +1,8 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useModal } from "@/contexts/modal-context";
 import { useUVMode } from "@/contexts/uv-mode-context";
 import { useLanguage } from "@/contexts/language-context";
-import { useAudioContext } from "@/contexts/audio-context";
 import { InfoPhoto } from "./info/info-photo";
 import { InfoDetails } from "./info/info-details";
 import { InfoFooter } from "./info/info-footer";
@@ -12,8 +10,6 @@ import { InfoFooter } from "./info/info-footer";
 export function InfoModalContent() {
   const { isUV } = useUVMode();
   const { translations } = useLanguage();
-  const { openModal } = useModal();
-  const { play } = useAudioContext();
   const [imageKey, setImageKey] = useState(0);
 
   // Atualizar key da imagem quando o tema mudar para forçar transição
@@ -57,17 +53,15 @@ export function InfoModalContent() {
       servicesLabel: getValue("servicesLabel", "SERVIÇOS"),
       statusLabel: getValue("statusLabel", "STATUS"),
       nameLabel: getValue("nameLabel", "NOME"),
-      contactButton: getValue("contactButton", "Entrar em Contato"),
+      contactLabel: getValue("contactLabel", "Contato"),
+      cvLabel: getValue("cvLabel", "Currículo"),
+      projectsLabel: getValue("projectsLabel", "Projetos"),
+      experienceLabel: getValue("experienceLabel", "Experiência"),
       image: isUV
         ? "/assets/images/profileUv.Jpg"
         : "/assets/images/profileNormal.jpg",
     };
   }, [translations, isUV]);
-
-  const handleContact = () => {
-    play("navbar");
-    openModal("contact");
-  };
 
   return (
     <div className="space-y-6">
@@ -95,8 +89,10 @@ export function InfoModalContent() {
         lastCrimeUrl={data.lastCrimeUrl}
         victimsLabel={data.victimsLabel}
         victimsCount={data.victimsCount}
-        contactButton={data.contactButton}
-        onContactClick={handleContact}
+        contactLabel={data.contactLabel}
+        cvLabel={data.cvLabel}
+        projectsLabel={data.projectsLabel}
+        experienceLabel={data.experienceLabel}
       />
     </div>
   );

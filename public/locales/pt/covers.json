@@ -1,0 +1,19 @@
+{
+  "title": "Galeria de Capas",
+  "subtitle": "Coleção de thumbnails de vídeos",
+  "filterAll": "Todos",
+  "filterLabel": "Filtrar por categoria",
+  "backToHome": "Voltar ao Portfólio",
+  "coversCount": "capas",
+  "categoriesCount": "categorias",
+  "noResults": "Nenhuma capa encontrada",
+  "noResultsMessage": "Não foram encontradas capas para a categoria selecionada",
+  "clearFilters": "Limpar filtros",
+  "tags": {
+    "gaming": "Gaming",
+    "tech": "Tecnologia",
+    "tutorial": "Tutoriais",
+    "review": "Reviews",
+    "vlog": "Vlogs"
+  }
+}

@@ -7,7 +7,10 @@ import {
   Route,
   Puzzle,
   Send,
+  Image,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { NavIcon } from "./nav-icon";
 import { UVToggle } from "./uv-toggle";
 import { LanguageSwitch } from "./language-switch";
@@ -24,6 +27,8 @@ const navItems = [
 
 export function Navbar() {
   const { t } = useLanguage();
+  const pathname = usePathname();
+  const isCoversPage = pathname === "/covers";
 
   return (
     <nav
@@ -48,6 +53,26 @@ export function Navbar() {
           useFill={item.useFill}
         />
       ))}
+
+      {/* Separador */}
+      <div className="w-px h-8 bg-white/20 mx-2" />
+
+      {/* Link para Covers */}
+      <Link
+        href="/covers"
+        className={`
+          p-2.5 rounded-full
+          transition-all duration-200
+          ${
+            isCoversPage
+              ? "bg-white/20 text-white"
+              : "text-white/70 hover:bg-white/10 hover:text-white"
+          }
+        `}
+        title={t("nav.covers")}
+      >
+        <Image size={20} />
+      </Link>
 
       {/* Separador */}
       <div className="w-px h-8 bg-white/20 mx-2" />
