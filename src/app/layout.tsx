@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { UVModeProvider } from "@/contexts/uv-mode-context";
-import { ModalProvider } from "@/contexts/modal-context";
-import { AudioProvider } from "@/contexts/audio-context";
-import { LanguageProvider } from "@/contexts/language-context";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Caio Marianni | Portfolio",
-  description: "Portfolio interativo - Desenvolvedor & Designer",
+  description: "I craft UI demos that explore the power of the web.",
   openGraph: {
     title: "Caio Marianni | Portfolio",
-    description: "Portfolio interativo - Desenvolvedor & Designer",
+    description: "I craft UI demos that explore the power of the web.",
     type: "website",
   },
 };
@@ -25,15 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body className={inter.className}>
-        <LanguageProvider>
-          <AudioProvider>
-            <UVModeProvider>
-              <ModalProvider>{children}</ModalProvider>
-            </UVModeProvider>
-          </AudioProvider>
-        </LanguageProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
