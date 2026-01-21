@@ -2,6 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Rye";
+  src: url("/assets/fonts/Rye-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KumarOne";
+  src: url("/assets/fonts/KumarOne-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TulpenOne";
+  src: url("/assets/fonts/TulpenOne-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/assets/fonts/Silkscreen-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Silkscreen";
+  src: url("/assets/fonts/Silkscreen-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ComforterBrush";
+  src: url("/assets/fonts/ComforterBrush-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monocraft";
+  src: url("/assets/fonts/Monocraft.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("/assets/fonts/JetBrainsMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrainsMono";
+  src: url("/assets/fonts/JetBrainsMono-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrainsMonoNL";
+  src: url("/assets/fonts/JetBrainsMonoNL-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -12,10 +82,102 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Dark theme (default) - UV effect */
+html[data-theme="dark"] body {
+  background-color: #000;
+  color: #e9d5ff;
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3), 0 0 30px rgba(168, 85, 247, 0.2);
+}
+
+/* Light theme */
+html[data-theme="light"] body {
+  background-color: #fff;
+  color: #000;
+}
+
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000;
-  color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-shimmer {
+  animation: shimmer 1.5s infinite;
+}
+
+/* Grid background pattern */
+.bg-grid {
+  position: relative;
+}
+
+.bg-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, #e4e4e7 1px, transparent 1px),
+    linear-gradient(to bottom, #e4e4e7 1px, transparent 1px);
+  pointer-events: none;
+}
+
+.dark .bg-grid::before {
+  background-image: linear-gradient(to right, #262626 1px, transparent 1px),
+    linear-gradient(to bottom, #262626 1px, transparent 1px);
+}
+
+/* Radial fade mask for grid */
+.bg-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: white;
+  mask-image: radial-gradient(ellipse at center, transparent 20%, black);
+  pointer-events: none;
+}
+
+.dark .bg-grid::after {
+  background: black;
+}
+
+/* Dot grid background pattern (jhey.dev style) */
+.bg-dots {
+  position: relative;
+}
+
+.bg-dots::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#d4d4d8 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.dark .bg-dots::before {
+  background-image: radial-gradient(#3f3f46 1px, transparent 1px);
+}
+
+/* Radial fade mask for dots */
+.bg-dots::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: white;
+  mask-image: radial-gradient(ellipse at center, transparent 30%, black);
+  pointer-events: none;
+}
+
+.dark .bg-dots::after {
+  background: black;
 }
