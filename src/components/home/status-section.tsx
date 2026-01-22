@@ -69,7 +69,7 @@ export const StatusSection = memo(function StatusSection() {
       )}
 
       {/* Separator */}
-      <hr className="max-w-60 opacity-60 my-3 border-gray-300 dark:border-purple-500/30" />
+      <hr className="max-w-60 opacity-60 my-3 border-gray-300 dark:border-blue-500/30" />
 
       {/* Social Dropdown */}
       <SocialDropdown />

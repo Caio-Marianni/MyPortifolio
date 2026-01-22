@@ -9,10 +9,10 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-6 right-6 z-50 p-3 rounded-full bg-gray-100 dark:bg-purple-500/10 hover:bg-gray-200 dark:hover:bg-purple-500/20 transition-all duration-300 backdrop-blur-sm border border-gray-300 dark:border-purple-500/30"
+      className="fixed top-6 right-6 z-50 p-3 rounded-full bg-gray-100 dark:bg-blue-500/10 hover:bg-gray-200 dark:hover:bg-blue-500/20 transition-all duration-300 backdrop-blur-sm border border-gray-300 dark:border-blue-500/30"
       aria-label="Toggle theme"
     >
-      {theme === "light" ? <Moon className="w-5 h-5 text-gray-900" /> : <Sun className="w-5 h-5 text-purple-300" />}
+      {theme === "light" ? <Moon className="w-5 h-5 text-gray-900" /> : <Sun className="w-5 h-5 text-blue-300" />}
     </button>
   );
 }

@@ -57,14 +57,14 @@ export function SocialDropdown() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 text-sm font-mono tracking-wide text-gray-400 dark:text-purple-300/70 hover:text-black dark:hover:text-purple-200 transition-colors"
+        className="flex items-center gap-2 text-sm font-mono tracking-wide text-gray-400 dark:text-blue-300/70 hover:text-black dark:hover:text-blue-200 transition-colors"
       >
         <span>Links sociais</span>
         {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 top-full mt-2 w-64 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-purple-500/20 rounded-lg shadow-lg overflow-hidden z-10">
+        <div className="absolute left-0 top-full mt-2 w-64 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-blue-500/20 rounded-lg shadow-lg overflow-hidden z-10">
           {visibleLinks.map((link) => {
             const Icon = link.icon;
             return (
@@ -73,12 +73,12 @@ export function SocialDropdown() {
                 href={link.href}
                 target={link.href.startsWith("http") ? "_blank" : undefined}
                 rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-purple-500/10 transition-colors text-gray-900 dark:text-purple-100"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-blue-500/10 transition-colors text-gray-900 dark:text-blue-100"
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
                 <div className="flex flex-col">
                   <span className="text-sm font-medium">{link.name}</span>
-                  {link.label && <span className="text-xs text-gray-500 dark:text-purple-300/50">{link.label}</span>}
+                  {link.label && <span className="text-xs text-gray-500 dark:text-blue-300/50">{link.label}</span>}
                 </div>
               </a>
             );
