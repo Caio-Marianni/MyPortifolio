@@ -4,7 +4,6 @@ import { memo, useState, useEffect } from "react";
 import { Globe, Award, Send, Package, Image } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { StatusItem } from "./status-item";
-import { SocialDropdown } from "@/components/social-dropdown";
 
 function getTimeInGoias(): { time: string; period: string } {
   const now = new Date();
@@ -32,15 +31,17 @@ export const StatusSection = memo(function StatusSection() {
   }, []);
 
   return (
-    <div className="space-y-1 text-[12px] font-monocraft uppercase">
+    <div className="space-y-1 text-[10px] md:text-[12px] font-monocraft uppercase">
+      {/* Separator */}
+      <hr className="max-w-60 opacity-20 my-6 border-gray-300 dark:border-blue-500" />
       {/* Location */}
       <StatusItem icon={Globe} fill>
-        Brasil-GO • {clock ? `${clock.time} ` : "--:-- "}
+        Brasil-GO <span className="opacity-50">•</span> {clock ? `${clock.time} ` : "--:-- "}
         <span className="opacity-60">{clock?.period ?? ""}</span>
       </StatusItem>
 
       {/* Stats */}
-      <StatusItem icon={Package} fill>+20 Projetos • 2 Clientes felizes</StatusItem>
+      <StatusItem icon={Package} fill>+20 Projetos <span className="opacity-50">•</span> 2 Clientes felizes</StatusItem>
 
       {/* Diploma - Visible in LIGHT mode only */}
       {theme === "light" && (
@@ -67,12 +68,6 @@ export const StatusSection = memo(function StatusSection() {
           Thumbnails
         </StatusItem>
       )}
-
-      {/* Separator */}
-      <hr className="max-w-60 opacity-60 my-3 border-gray-300 dark:border-blue-500/30" />
-
-      {/* Social Dropdown */}
-      <SocialDropdown />
     </div>
   );
 });

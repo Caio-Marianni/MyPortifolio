@@ -10,15 +10,15 @@ interface StatusItemProps {
 }
 
 export const StatusItem = memo(function StatusItem({ icon: Icon, href, children, isLink = false, fill = false }: StatusItemProps) {
-  const iconClasses = `w-4 h-4 text-gray-600 dark:text-blue-400 ${fill ? "fill-gray-400 dark:fill-blue-500/50" : ""}`;
+  const iconClasses = `w-3 h-3 md:w-4 md:h-4 text-orange-500 dark:text-fuchsia-500 ${fill ? "fill-orange-950 dark:fill-fuchsia-950" : ""}`;
 
   if (isLink && href) {
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3">
         <Icon className={iconClasses} />
         <a
           href={href}
-          className="text-red-500 hover:text-red-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors tracking-wide"
+          className="text-orange-700 hover:text-orange-600 dark:text-fuchsia-400 dark:hover:text-fuchsia-300 transition-colors tracking-wide"
         >
           {children}
         </a>
@@ -27,7 +27,7 @@ export const StatusItem = memo(function StatusItem({ icon: Icon, href, children,
   }
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 md:gap-3">
       <Icon className={iconClasses} />
       <span className="tracking-wide">{children}</span>
     </div>

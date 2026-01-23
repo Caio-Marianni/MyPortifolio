@@ -122,11 +122,11 @@ function ProjectCard({ project, onClick }: { project: Project; onClick: () => vo
   return (
     <div
       onClick={onClick}
-      className="relative h-64 rounded-xl overflow-hidden cursor-pointer group"
+      className="relative h-64 rounded-md border border-white/10 group-hover:border-white overflow-hidden cursor-pointer group"
     >
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
+        className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${project.image})` }}
       />
 
@@ -170,7 +170,7 @@ export default function ProjectsPage() {
         description="Uma seleção dos meus trabalhos recentes. Cada projeto foi criado com atenção aos detalhes e foco na experiência do usuário."
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}

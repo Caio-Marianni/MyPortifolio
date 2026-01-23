@@ -82,11 +82,11 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Dark theme (default) - UV effect */
+/* Dark theme (default) - Neon effect */
 html[data-theme="dark"] body {
-  background-color: #000;
-  color: #bfdbfe;
-  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5), 0 0 20px rgba(59, 130, 246, 0.3), 0 0 30px rgba(59, 130, 246, 0.2);
+  background-color: #050510;
+  color: #67e8f9;
+  text-shadow: 0 0 10px rgba(34, 211, 209, 0.4), 0 0 20px rgba(34, 211, 209, 0.2);
 }
 
 /* Light theme */
