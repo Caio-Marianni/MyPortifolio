@@ -181,3 +181,13 @@ body {
 .dark .bg-dots::after {
   background: black;
 }
+
+/* Hide scrollbar */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
