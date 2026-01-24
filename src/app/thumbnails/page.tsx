@@ -95,7 +95,7 @@ export default function ThumbnailsPage() {
   const filteredThumbnails = selectedCategory === "Todos" ? thumbnails : thumbnails.filter((t) => t.tags.includes(selectedCategory));
 
   return (
-    <PageContainer className="bg-grid" showThemeToggle={false}>
+    <PageContainer className="bg-grid" showToggles={false}>
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-500 transition-colors mb-8"

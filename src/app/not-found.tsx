@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { Home, ArrowLeft } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ToggleButtons } from "@/components/toggle-buttons";
 
 export default function NotFound() {
   return (
     <main className="flex items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white relative overflow-hidden transition-colors duration-300">
-      <ThemeToggle />
+      <ToggleButtons />
 
       <div className="text-center px-10">
         <h1 className="text-[120px] md:text-[150px] font-bold mb-4 text-red-500">404</h1>
