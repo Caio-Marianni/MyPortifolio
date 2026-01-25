@@ -91,7 +91,7 @@ html[data-theme="dark"] body {
 
 /* Light theme */
 html[data-theme="light"] body {
-  background-color: #fff;
+  background-color: #000;
   color: #000;
 }
 
@@ -147,38 +147,6 @@ body {
 }
 
 .dark .bg-grid::after {
-  background: black;
-}
-
-/* Dot grid background pattern (jhey.dev style) */
-.bg-dots {
-  position: relative;
-}
-
-.bg-dots::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(#d4d4d8 1px, transparent 1px);
-  background-size: 24px 24px;
-  pointer-events: none;
-}
-
-.dark .bg-dots::before {
-  background-image: radial-gradient(#3f3f46 1px, transparent 1px);
-}
-
-/* Radial fade mask for dots */
-.bg-dots::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: white;
-  mask-image: radial-gradient(ellipse at center, transparent 30%, black);
-  pointer-events: none;
-}
-
-.dark .bg-dots::after {
   background: black;
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Sun, Moon, Lightbulb, LightbulbOff } from "lucide-react";
+import { Lightbulb, LightbulbOff } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { useLanguage } from "@/contexts/language-context";
 
