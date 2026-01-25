@@ -45,7 +45,7 @@ export default function ThumbnailsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {filteredThumbnails.map((thumbnail, index) => (
-          <ThumbnailCard key={thumbnail.id} thumbnail={thumbnail} priority={index < 6} />
+          <ThumbnailCard key={thumbnail.id} thumbnail={thumbnail} priority={index < 3} />
         ))}
       </div>
 

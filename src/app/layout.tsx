@@ -20,6 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <link rel="dns-prefetch" href="//www.caiomarianni.com.br" />
+        <link rel="preconnect" href="https://www.caiomarianni.com.br" />
+      </head>
       <body>
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
