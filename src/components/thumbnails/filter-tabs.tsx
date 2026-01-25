@@ -15,7 +15,7 @@ export const FilterTabs = memo(function FilterTabs({ categories, selected, onSel
         <button
           key={category}
           onClick={() => onSelect(category)}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-all z-20 ${
             selected === category
               ? "bg-orange-500 text-white"
               : "bg-gray-900 text-gray-400 hover:bg-gray-800"
