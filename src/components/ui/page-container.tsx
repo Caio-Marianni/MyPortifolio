@@ -12,6 +12,11 @@ export const PageContainer = memo(function PageContainer({ children, className =
     <main className={`min-h-screen bg-black text-white ${className}`}>
       {/* Background */}
       <div className="absolute h-full w-full bg-grid [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
+            {/* Noise Background */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-50 dark:opacity-80"
+        style={{ backgroundImage: "url('/assets/images/noise.webp')", backgroundRepeat: "repeat" }}
+      />
 
       {showToggles && <ToggleButtons />}
 

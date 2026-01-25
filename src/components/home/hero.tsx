@@ -26,7 +26,7 @@ export const Hero = memo(function Hero() {
       </h1>
 
       {/* Subtitle */}
-      <p className={`font-mono uppercase text-[10px] sm:text-[14px] tracking-tighter sm:tracking-normal mb-4 sm:mb-6 text-gray-500 dark:text-fuchsia-400/50 ${language === "en" ? "" : "mt-2 sm:mt-0"}`}>
+      <p className={`font-mono uppercase text-[10px] sm:text-[14px] tracking-tighter sm:tracking-normal mb-4 text-gray-500 dark:text-fuchsia-400/50 ${language === "en" ? "" : "mt-2 sm:mt-0"}`}>
         Caio Marianni<span className={`${language === "en" ? "ml-0 sm:ml-[82px]" : ""}`}></span><span className={`${language === "en" ? "visible sm:hidden mx-0.5 sm:mx-0" : "visible mx-0.5"}`}>-</span>FULLSTACK • DESIGN • THUMBMAKER
       </p>
 

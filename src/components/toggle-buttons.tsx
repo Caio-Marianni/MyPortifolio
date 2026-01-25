@@ -1,6 +1,6 @@
 "use client";
 
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Lightbulb, LightbulbOff } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { useLanguage } from "@/contexts/language-context";
 
@@ -26,7 +26,7 @@ export function ToggleButtons() {
         className={`${buttonClasses} px-3 text-gray-900 dark:text-cyan-300 hover:bg-neutral-500/30 dark:hover:bg-fuchsia-500/20`}
         aria-label="Toggle theme"
       >
-        {theme === "light" ? <Moon className="w-4 h-4" fill="currentColor" /> : <Sun className="w-4 h-4" fill="currentColor" />}
+        {theme === "light" ? <Lightbulb className="w-4 h-4 text-purple-400" fill="currentColor" /> : <LightbulbOff className="w-4 h-4" />}
       </button>
     </div>
   );

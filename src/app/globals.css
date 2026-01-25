@@ -191,3 +191,32 @@ body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Override browser autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(17, 24, 39, 0.8) inset !important;
+  -webkit-text-fill-color: #d1d5db !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: #d1d5db;
+}
+
+/* Light mode autofill */
+html[data-theme="light"] input:-webkit-autofill,
+html[data-theme="light"] input:-webkit-autofill:hover,
+html[data-theme="light"] input:-webkit-autofill:focus,
+html[data-theme="light"] input:-webkit-autofill:active,
+html[data-theme="light"] textarea:-webkit-autofill,
+html[data-theme="light"] textarea:-webkit-autofill:hover,
+html[data-theme="light"] textarea:-webkit-autofill:focus,
+html[data-theme="light"] textarea:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(31, 41, 55, 0.15) inset !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #1f2937;
+}

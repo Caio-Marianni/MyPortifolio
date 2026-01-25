@@ -31,7 +31,7 @@ export default function Home() {
       <ToggleButtons />
 
       {/* Logo */}
-      <div className="absolute top-4 left-4 md:top-8 md:left-6 z-10">
+      <div className="absolute top-4 left-4 md:left-6 z-10">
         <Image src="/Logo.svg" width={60} height={60} alt="Signature" className="w-10 h-10 md:w-[60px] md:h-[60px]" />
       </div>
 
