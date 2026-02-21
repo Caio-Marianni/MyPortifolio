@@ -1,6 +1,6 @@
 import { Thumbnail } from "@/components/thumbnails/thumbnail-card";
 
-export const THUMBNAIL_CATEGORIES = ["Sports", "NFL", "NBA", "The Rookie", "Finance", "Cars", "Celebrity"] as const;
+export const THUMBNAIL_CATEGORIES = ["Sports", "NFL", "NBA", "The Rookie", "Finance", "Cars", "Celebrity", "Poker"] as const;
 
 export const thumbnails: Thumbnail[] = [
   { id: 1, image: "/thumbnail/How-An-NFL-Star-Who-Couldn_t-Throw-But-Still-Outscored-Everyone-lamar-jackson.webp", tags: ["Sports", "NFL"] },
@@ -42,4 +42,9 @@ export const thumbnails: Thumbnail[] = [
   { id: 37, image: "/thumbnail/F5.webp", tags: ["Sports"] },
   { id: 38, image: "/thumbnail/AlanZOKASUPWORK.webp", tags: ["Finance"] },
   { id: 39, image: "/thumbnail/_Playground.webp", tags: ["Celebrity"] },
+  { id: 40, image: "/thumbnail/DUEK2.webp", tags: ["Poker"] },
+  { id: 41, image: "/thumbnail/DougPolk1.webp", tags: ["Poker"] },
+  { id: 42, image: "/thumbnail/PhillHelmuthPunching.webp", tags: ["Poker"] },
+  { id: 43, image: "/thumbnail/Mike-Matusow.webp", tags: ["Poker"] },
+  { id: 44, image: "/thumbnail/DanielNegreanu.webp", tags: ["Poker"] },
 ];
