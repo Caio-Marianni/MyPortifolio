@@ -8,8 +8,7 @@ export default function NotFound() {
   return (
     <>
       <ToggleButtons showThemeToggle={false} />
-      <main className="flex items-center justify-center min-h-screen w-full bg-black text-white relative overflow-hidden">
-        <div className="absolute h-full w-full bg-grid [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+      <main className="relative flex items-center justify-center min-h-screen w-full bg-black text-white overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{ backgroundImage: "url('/assets/images/noise.webp')", backgroundRepeat: "repeat" }}
@@ -22,7 +21,7 @@ export default function NotFound() {
           </p>
 
           <h1
-            className="text-[140px] md:text-[180px] font-bold leading-none text-zinc-900 select-none mb-2"
+            className="text-[140px] md:text-[180px] font-bold leading-none text-zinc-800 select-none mb-2"
             style={{ WebkitTextStroke: "1px rgba(255,255,255,0.08)" }}
           >
             404
