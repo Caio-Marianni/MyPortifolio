@@ -5,46 +5,67 @@ export interface Project {
   fullDescription: string;
   tags: string[];
   features: string[];
-  images: string[];
-  github: string;
+  mockups: string[];
+  github: string | null;
   demo: string;
 }
 
 export const projects: Project[] = [
   {
     id: 1,
-    title: "E-commerce Platform",
-    description: "Plataforma completa de e-commerce com carrinho e pagamentos.",
+    title: "GoPack",
+    description:
+      "Plataforma full-stack com site institucional, catálogo de produtos e painel administrativo para uma empresa de embalagens flexíveis.",
     fullDescription:
-      "Uma plataforma de e-commerce moderna e responsiva, com funcionalidades completas de catálogo de produtos, carrinho de compras, sistema de pagamentos integrado e painel administrativo para gestão de pedidos e estoque.",
-    tags: ["React", "TypeScript", "Node.js", "PostgreSQL", "Stripe"],
-    features: ["Catálogo de produtos com filtros", "Carrinho de compras persistente", "Integração com Stripe para pagamentos", "Painel administrativo completo"],
-    images: ["/thumbnail/F2.webp", "/thumbnail/F3.webp"],
-    github: "https://github.com/Caio-Marianni",
-    demo: "#",
+      "Plataforma completa desenvolvida para a Gopack Embalagens Flexíveis, com site institucional de geração estática e SEO otimizado no frontend, e uma REST API desacoplada no backend com autenticação JWT e controle de roles (Admin/Employee). Inclui CRUD de produtos, categorias e orçamentos, upload de imagens via Cloudinary e deploy em VPS com Docker.",
+    tags: ["Next.js 15", "Node.js", "PostgreSQL", "TypeScript", "Docker"],
+    features: [
+      "Catálogo de produtos com filtro por categoria",
+      "Formulário de orçamento com toggle unidades/kg",
+      "REST API com autenticação JWT e controle de roles",
+      "Upload de imagens via Cloudinary",
+      "Arquitetura full-stack desacoplada com deploy Docker",
+    ],
+    mockups: [],
+    github: null,
+    demo: "https://www.gopack.com.br",
   },
   {
     id: 2,
-    title: "Task Manager App",
-    description: "Aplicativo de gerenciamento de tarefas com drag and drop.",
+    title: "Ana Carolina",
+    description:
+      "Portfólio para designer com painel administrativo completo — conteúdo atualizado sem redeploy.",
     fullDescription:
-      "Um aplicativo moderno de gerenciamento de tarefas com interface intuitiva de drag and drop, categorização por projetos, notificações em tempo real e sincronização na nuvem para acesso em múltiplos dispositivos.",
-    tags: ["React", "TypeScript", "Firebase", "Tailwind CSS"],
-    features: ["Interface drag and drop intuitiva", "Categorização por projetos e tags", "Notificações em tempo real", "Sincronização na nuvem"],
-    images: ["/thumbnail/F3.webp", "/thumbnail/F4.webp"],
-    github: "https://github.com/Caio-Marianni",
-    demo: "#",
+      "Site de portfólio para designer e social media manager com painel admin que permite atualizar projetos e depoimentos sem redeploy. Destaques: grid bento com modal para imagens e vídeos (click-to-play), upload com conversão automática para WebP via Sharp, star rating para avaliações e alternância de idioma PT/EN com geração estática e revalidação a cada hora.",
+    tags: ["Landing page"],
+    features: [
+      "Grid bento de projetos com modal de imagens e vídeos",
+      "Upload com conversão automática para WebP (server-side)",
+      "Painel admin com CRUD, toggle de visibilidade e aprovação de avaliações",
+      "Alternância de idioma PT/EN com geração estática",
+      "Depoimentos dinâmicos com star rating interativo",
+    ],
+    mockups: ["/projects/cover/ana2.jpg", "/projects/cover/ana2.jpg"],
+    github: null,
+    demo: "https://portfolio-ana-carol.vercel.app",
   },
   {
     id: 3,
-    title: "Portfolio Website",
-    description: "Site portfolio minimalista com troca de tema e design moderno.",
+    title: "Caio Nogueira",
+    description:
+      "Cardápio digital para bartender profissional com painel administrativo e performance 100/100 no Lighthouse.",
     fullDescription:
-      "Um site portfolio desenvolvido com foco em performance e experiência do usuário. Implementa troca de tema dinâmica, animações suaves e design responsivo. Construído seguindo as melhores práticas de desenvolvimento web moderno.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    features: ["Troca de tema dinâmica", "Animações suaves e performáticas", "Design totalmente responsivo", "SEO otimizado"],
-    images: ["/thumbnail/F4.webp", "/thumbnail/F2.webp"],
-    github: "https://github.com/Caio-Marianni",
-    demo: "#",
+      "Aplicação de cardápio digital para bartender profissional com painel admin completo para gestão de drinks em tempo real. Destaque para o upload com recorte proporcional e conversão automática para WebP, animações de entrada com IntersectionObserver e stagger por coluna, e QR Code integrado para acesso direto via câmera. Performance 100/100 em todas as métricas do Lighthouse no desktop.",
+    tags: ["Next.js 15", "TypeScript", "Tailwind CSS 4", "PostgreSQL", "Vercel"],
+    features: [
+      "Cardápio público com filtro por categoria e toggle grade/lista",
+      "Upload com captura por câmera, recorte e conversão para WebP",
+      "Painel admin com CRUD completo de drinks em tempo real",
+      "QR Code integrado para acesso direto via câmera",
+      "Performance 100/100 no Google Lighthouse (desktop)",
+    ],
+    mockups: ["/projects/cover/nogs2.jpg"],
+    github: null,
+    demo: "https://caionogueira.vercel.app",
   },
 ];

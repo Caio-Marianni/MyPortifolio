@@ -15,7 +15,7 @@ export default function ProjectsPage() {
   const { t } = useLanguage();
 
   return (
-    <PageContainer>
+    <PageContainer showThemeToggle={false}>
       <Link href="/" className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-8">
         <ArrowLeft className="w-4 h-4" />
         {t("projects.back")}

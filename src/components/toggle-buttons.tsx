@@ -4,7 +4,11 @@ import { Lightbulb, LightbulbOff } from "lucide-react";
 import { useTheme } from "@/contexts/theme-context";
 import { useLanguage } from "@/contexts/language-context";
 
-export function ToggleButtons() {
+interface ToggleButtonsProps {
+  showThemeToggle?: boolean;
+}
+
+export function ToggleButtons({ showThemeToggle = true }: ToggleButtonsProps) {
   const { theme, toggleTheme } = useTheme();
   const { language, toggleLanguage } = useLanguage();
 
@@ -20,14 +24,18 @@ export function ToggleButtons() {
       >
         {language.toUpperCase()}
       </button>
-      <div className="w-px bg-neutral-600/50 dark:bg-fuchsia-500/30" />
-      <button
-        onClick={toggleTheme}
-        className={`${buttonClasses} px-3 text-gray-900 dark:text-cyan-300 hover:bg-neutral-500/30 dark:hover:bg-fuchsia-500/20`}
-        aria-label="Toggle theme"
-      >
-        {theme === "light" ? <Lightbulb className="w-4 h-4 text-purple-400" fill="currentColor" /> : <LightbulbOff className="w-4 h-4" />}
-      </button>
+      {showThemeToggle && (
+        <>
+          <div className="w-px bg-neutral-600/50 dark:bg-fuchsia-500/30" />
+          <button
+            onClick={toggleTheme}
+            className={`${buttonClasses} px-3 text-gray-900 dark:text-cyan-300 hover:bg-neutral-500/30 dark:hover:bg-fuchsia-500/20`}
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? <Lightbulb className="w-4 h-4 text-purple-400" fill="currentColor" /> : <LightbulbOff className="w-4 h-4" />}
+          </button>
+        </>
+      )}
     </div>
   );
 }
