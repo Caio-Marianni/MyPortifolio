@@ -24,9 +24,9 @@ export const ProjectCard = memo(function ProjectCard({
   return (
     <div
       onClick={onClick}
-      className="group flex flex-col cursor-pointer bg-zinc-900 rounded-xl border border-zinc-800 overflow-hidden hover:border-zinc-600 hover:shadow-xl hover:shadow-black/40 transition-all duration-300"
+      className="group flex flex-col cursor-pointer bg-zinc-900 rounded-xl border border-zinc-800 hover:border-zinc-600 hover:shadow-xl hover:shadow-black/40 transition-all duration-300"
     >
-      <div className="relative aspect-video overflow-hidden bg-zinc-800">
+      <div className="relative aspect-video overflow-hidden bg-zinc-800 rounded-t-xl">
         {coverImage ? (
           <Image
             src={coverImage}
