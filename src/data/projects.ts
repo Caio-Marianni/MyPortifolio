@@ -1,3 +1,9 @@
+export interface LighthouseScores {
+  performance: number;
+  accessibility: number;
+  bestPractices: number;
+}
+
 export interface Project {
   id: number;
   title: string;
@@ -8,6 +14,7 @@ export interface Project {
   mockups: string[];
   github: string | null;
   demo: string;
+  lighthouse?: LighthouseScores;
 }
 
 export const projects: Project[] = [
@@ -29,6 +36,7 @@ export const projects: Project[] = [
     mockups: [],
     github: null,
     demo: "https://www.gopack.com.br",
+    lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
   },
   {
     id: 2,
@@ -37,7 +45,7 @@ export const projects: Project[] = [
       "Portfólio para designer com painel administrativo completo — conteúdo atualizado sem redeploy.",
     fullDescription:
       "Site de portfólio para designer e social media manager com painel admin que permite atualizar projetos e depoimentos sem redeploy. Destaques: grid bento com modal para imagens e vídeos (click-to-play), upload com conversão automática para WebP via Sharp, star rating para avaliações e alternância de idioma PT/EN com geração estática e revalidação a cada hora.",
-    tags: ["Landing page"],
+    tags: ["Next.js 14", "TypeScript", "Framer Motion", "Drizzle ORM", "Vercel Blob"],
     features: [
       "Grid bento de projetos com modal de imagens e vídeos",
       "Upload com conversão automática para WebP (server-side)",
@@ -48,6 +56,7 @@ export const projects: Project[] = [
     mockups: ["/projects/cover/ana2.jpg", "/projects/cover/ana2.jpg"],
     github: null,
     demo: "https://portfolio-ana-carol.vercel.app",
+    lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
   },
   {
     id: 3,
@@ -67,5 +76,6 @@ export const projects: Project[] = [
     mockups: ["/projects/cover/nogs2.jpg"],
     github: null,
     demo: "https://caionogueira.vercel.app",
+    lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
   },
 ];
