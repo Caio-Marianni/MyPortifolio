@@ -60,6 +60,25 @@ export const projects: Project[] = [
   },
   {
     id: 3,
+    title: "Schoolink",
+    description:
+      "Plataforma web de gestão escolar com perfis de aluno, responsável, professor e diretor — desenvolvida como TCC.",
+    fullDescription:
+      "Sistema web completo para gestão escolar desenvolvido como Trabalho de Conclusão de Curso. Cobre lançamento de notas e frequência, atividades com envio de arquivos, boletim exportável e comunicados institucionais. Suporta múltiplas instituições com temas próprios e autenticação stateless com controle de acesso por papel (RBAC).",
+    tags: ["Next.js 15", "Node.js", "PostgreSQL", "Prisma", "Redux Toolkit"],
+    features: [
+      "Gestão de turmas, disciplinas, alunos e professores",
+      "Lançamento de notas e controle de frequência com relatórios",
+      "Atividades escolares com envio de arquivos e marcação de conclusão",
+      "Boletim exportável com cabeçalho da instituição",
+      "Autenticação JWT com RBAC e suporte a múltiplas instituições",
+    ],
+    mockups: ["/projects/cover/schoolink.jpg"],
+    github: null,
+    demo: "https://schoolink-mp0taoipf-caiomariannis-projects.vercel.app",
+  },
+  {
+    id: 4,
     title: "Caio Nogueira",
     description:
       "Cardápio digital para bartender profissional com painel administrativo e performance 100/100 no Lighthouse.",

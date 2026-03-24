@@ -48,7 +48,7 @@ export const ProjectModal = memo(function ProjectModal({
       <div className="absolute inset-0 bg-black/80" />
 
       <div
-        className="relative bg-zinc-900 border border-zinc-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        className="relative bg-zinc-900 border border-zinc-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-zinc-900 [&::-webkit-scrollbar-thumb]:bg-zinc-700 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-zinc-600"
         onClick={stopPropagation}
       >
         <div className="flex items-center justify-between p-4 border-b border-zinc-800">
