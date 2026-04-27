@@ -10,7 +10,7 @@ interface StatusItemProps {
 }
 
 export const StatusItem = memo(function StatusItem({ icon: Icon, href, children, isLink = false, fill = false }: StatusItemProps) {
-  const iconClasses = `w-3 h-3 sm:w-4 sm:h-4 text-orange-500 dark:text-fuchsia-500 ${fill ? "fill-orange-950 dark:fill-fuchsia-950" : ""}`;
+  const iconClasses = `w-3 h-3 sm:w-4 sm:h-4 text-orange-500 dark:text-[#31A8FF] ${fill ? "fill-orange-950 dark:fill-blue-950" : ""}`;
 
   if (isLink && href) {
     return (
@@ -18,7 +18,7 @@ export const StatusItem = memo(function StatusItem({ icon: Icon, href, children,
         <Icon className={iconClasses} />
         <a
           href={href}
-          className="text-orange-700 hover:text-orange-600 dark:text-fuchsia-400 dark:hover:text-fuchsia-300 transition-colors tracking-wide"
+          className="text-orange-700 hover:text-orange-600 dark:text-[#31A8FF] dark:hover:text-[#63C2FF] transition-colors tracking-wide"
         >
           {children}
         </a>

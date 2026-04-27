@@ -12,15 +12,16 @@ export const metadata: Metadata = {
     template: "%s | Caio Marianni",
   },
   description:
-    "Desenvolvedor Front-end especializado em criar interfaces modernas e experiências web interativas. Confira meus projetos e entre em contato.",
+    "Desenvolvedor fullstack especializado em criar interfaces modernas, experiências web interativas e design visual. Confira meus projetos e entre em contato.",
   keywords: [
-    "desenvolvedor front-end",
+    "desenvolvedor fullstack",
     "portfolio",
     "web developer",
     "React",
     "Next.js",
     "TypeScript",
     "UI/UX",
+    "design",
     "Caio Marianni",
   ],
   authors: [{ name: "Caio Marianni", url: baseUrl }],
@@ -45,23 +46,13 @@ export const metadata: Metadata = {
     siteName: "Caio Marianni Portfolio",
     title: "Caio Marianni | Portfolio",
     description:
-      "Desenvolvedor Front-end especializado em criar interfaces modernas e experiências web interativas.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Caio Marianni - Desenvolvedor Front-end",
-        type: "image/png",
-      },
-    ],
+      "Desenvolvedor fullstack especializado em criar interfaces modernas, experiências web interativas e design visual.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Caio Marianni | Portfolio",
     description:
-      "Desenvolvedor Front-end especializado em criar interfaces modernas e experiências web interativas.",
-    images: ["/og-image.png"],
+      "Desenvolvedor fullstack especializado em criar interfaces modernas, experiências web interativas e design visual.",
   },
   alternates: {
     canonical: baseUrl,
@@ -114,6 +105,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <head>
+        <link rel="preload" href="/assets/fonts/TulpenOne-Regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="//www.caiomarianni.com.br" />
         <link rel="preconnect" href="https://www.caiomarianni.com.br" />
         <script

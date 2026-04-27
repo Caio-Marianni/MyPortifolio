@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "Caio Marianni - Desenvolvedor Front-end";
+export const alt = "Caio Marianni — Fullstack · Design · Thumbmaker";
 export const size = {
   width: 1200,
   height: 630,
@@ -17,77 +17,190 @@ export default function Image() {
           height: "100%",
           width: "100%",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#0a0a0a",
-          backgroundImage:
-            "radial-gradient(circle at 25% 25%, #1a1a2e 0%, transparent 50%), radial-gradient(circle at 75% 75%, #16213e 0%, transparent 50%)",
+          backgroundColor: "#050510",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        {/* Fuchsia glow — top right */}
+        <div
+          style={{
+            position: "absolute",
+            top: -120,
+            right: -120,
+            width: 500,
+            height: 500,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(217,70,239,0.25) 0%, transparent 65%)",
+            display: "flex",
+          }}
+        />
+
+        {/* Cyan glow — bottom left */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: -80,
+            left: -80,
+            width: 380,
+            height: 380,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 65%)",
+            display: "flex",
+          }}
+        />
+
+        {/* Vertical accent bar */}
+        <div
+          style={{
+            position: "absolute",
+            left: 72,
+            top: 72,
+            bottom: 72,
+            width: 3,
+            background:
+              "linear-gradient(to bottom, #e879f9, rgba(34,211,238,0.4), transparent)",
+            display: "flex",
+          }}
+        />
+
+        {/* Main content */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
             justifyContent: "center",
-            gap: "20px",
+            paddingLeft: 104,
+            paddingRight: 80,
+            gap: 0,
+            flex: 1,
           }}
         >
+          {/* URL label */}
           <div
             style={{
-              fontSize: 72,
-              fontWeight: 700,
-              background: "linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6)",
-              backgroundClip: "text",
-              color: "transparent",
-              letterSpacing: "-2px",
-            }}
-          >
-            Caio Marianni
-          </div>
-          <div
-            style={{
-              fontSize: 32,
-              color: "#9ca3af",
-              letterSpacing: "2px",
+              fontFamily: "monospace",
+              fontSize: 15,
+              letterSpacing: 4,
+              color: "rgba(103,232,249,0.5)",
               textTransform: "uppercase",
+              marginBottom: 32,
+              display: "flex",
             }}
           >
-            Desenvolvedor Front-end
+            caiomarianni.com.br
           </div>
+
+          {/* Name — line 1 */}
+          <div
+            style={{
+              fontFamily: "serif",
+              fontSize: 110,
+              fontWeight: 900,
+              color: "#e879f9",
+              lineHeight: 0.9,
+              letterSpacing: -4,
+              display: "flex",
+            }}
+          >
+            CAIO
+          </div>
+
+          {/* Name — line 2 */}
+          <div
+            style={{
+              fontFamily: "serif",
+              fontSize: 110,
+              fontWeight: 900,
+              color: "#e879f9",
+              lineHeight: 0.9,
+              letterSpacing: -4,
+              marginBottom: 36,
+              display: "flex",
+            }}
+          >
+            MARIANNI
+          </div>
+
+          {/* Descriptor */}
           <div
             style={{
               display: "flex",
-              gap: "16px",
-              marginTop: "20px",
+              alignItems: "center",
+              gap: 20,
             }}
           >
-            {["React", "Next.js", "TypeScript", "Tailwind"].map((tech) => (
+            {["FULLSTACK", "DESIGN", "THUMBMAKER"].map((label, i) => (
               <div
-                key={tech}
+                key={label}
                 style={{
-                  padding: "8px 20px",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  borderRadius: "20px",
-                  color: "#d1d5db",
-                  fontSize: 18,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 20,
                 }}
               >
-                {tech}
+                <div
+                  style={{
+                    fontFamily: "monospace",
+                    fontSize: 16,
+                    letterSpacing: 5,
+                    color: "#67e8f9",
+                    textTransform: "uppercase",
+                    display: "flex",
+                  }}
+                >
+                  {label}
+                </div>
+                {i < 2 && (
+                  <div
+                    style={{
+                      width: 4,
+                      height: 4,
+                      borderRadius: "50%",
+                      backgroundColor: "rgba(217,70,239,0.6)",
+                      display: "flex",
+                    }}
+                  />
+                )}
               </div>
             ))}
           </div>
         </div>
+
+        {/* Right side decorative grid */}
         <div
           style={{
             position: "absolute",
-            bottom: "40px",
-            color: "#6b7280",
-            fontSize: 20,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            width: 300,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 16,
+            opacity: 0.12,
           }}
         >
-          www.caiomarianni.com.br
+          {Array.from({ length: 8 }).map((_, row) => (
+            <div key={row} style={{ display: "flex", gap: 16 }}>
+              {Array.from({ length: 5 }).map((_, col) => (
+                <div
+                  key={col}
+                  style={{
+                    width: 32,
+                    height: 32,
+                    border: "1px solid #e879f9",
+                    borderRadius: 4,
+                    display: "flex",
+                  }}
+                />
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     ),

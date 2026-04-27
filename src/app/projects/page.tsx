@@ -16,16 +16,16 @@ export default function ProjectsPage() {
 
   return (
     <PageContainer showThemeToggle={false}>
-      <Link href="/" className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-8">
+      <Link href="/" className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-orange-500 dark:hover:text-[#31A8FF] transition-colors mb-8">
         <ArrowLeft className="w-4 h-4" />
         {t("projects.back")}
       </Link>
 
       <PageHeader title={t("projects.title")} description={t("projects.description")} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} onClick={() => setSelectedProject(project)} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {projects.map((project, index) => (
+          <ProjectCard key={project.id} project={project} index={index} onClick={() => setSelectedProject(project)} />
         ))}
       </div>
 

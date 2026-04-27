@@ -43,7 +43,7 @@ export default function ThumbnailsPage() {
 
       <FilterTabs categories={categories} selected={selectedCategory} onSelect={setSelectedCategory} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredThumbnails.map((thumbnail, index) => (
           <ThumbnailCard key={thumbnail.id} thumbnail={thumbnail} priority={index < 3} />
         ))}

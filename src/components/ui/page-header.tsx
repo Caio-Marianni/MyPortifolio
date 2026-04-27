@@ -8,8 +8,8 @@ interface PageHeaderProps {
 export const PageHeader = memo(function PageHeader({ title, description }: PageHeaderProps) {
   return (
     <div className="mb-12">
-      <h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
-      {description && <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl">{description}</p>}
+      <h1 className="text-4xl md:text-5xl font-serif mb-4 neon-heading">{title}</h1>
+      {description && <p className="text-gray-500 dark:text-gray-400 text-base max-w-2xl">{description}</p>}
     </div>
   );
 });

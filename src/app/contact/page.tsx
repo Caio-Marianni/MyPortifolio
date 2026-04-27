@@ -15,7 +15,7 @@ export default function ContactPage() {
 
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-gray-400 dark:text-cyan-400/70 hover:text-orange-500 dark:hover:text-fuchsia-400 transition-colors mb-8"
+        className="inline-flex items-center gap-2 text-gray-400 dark:text-cyan-400/70 hover:text-orange-500 dark:hover:text-[#31A8FF] transition-colors mb-8"
       >
         <ArrowLeft className="w-4 h-4" />
         {t("contact.back")}

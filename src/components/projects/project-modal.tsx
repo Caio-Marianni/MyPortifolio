@@ -16,8 +16,10 @@ export const ProjectModal = memo(function ProjectModal({
   project,
   onClose,
 }: ProjectModalProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const displayUrl = formatDisplayUrl(project.demo);
+  const fullDescription = project.fullDescription[language];
+  const features = project.features[language];
   const [currentIndex, setCurrentIndex] = useState(0);
   const hasMultiple = project.mockups.length > 1;
 
@@ -119,7 +121,7 @@ export const ProjectModal = memo(function ProjectModal({
 
         <div className="p-6">
           <p className="text-zinc-400 mb-6 text-sm leading-relaxed">
-            {project.fullDescription}
+            {fullDescription}
           </p>
 
           <div className="mb-6">
@@ -143,12 +145,12 @@ export const ProjectModal = memo(function ProjectModal({
               {t("projects.features")}
             </h3>
             <ul className="space-y-2">
-              {project.features.map((feature, index) => (
+              {features.map((feature, index) => (
                 <li
                   key={index}
                   className="flex items-center gap-2 text-sm text-zinc-400"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-zinc-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                   {feature}
                 </li>
               ))}
@@ -171,7 +173,7 @@ export const ProjectModal = memo(function ProjectModal({
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2.5 bg-white text-zinc-900 rounded-lg hover:opacity-80 transition-opacity text-sm font-medium"
+              className="flex items-center gap-2 px-4 py-2.5 bg-orange-700 dark:bg-blue-600 text-white rounded-lg hover:bg-orange-800 dark:hover:bg-blue-700 transition-colors text-sm font-medium"
             >
               <ExternalLink className="w-4 h-4" />
               {t("projects.viewProject")}

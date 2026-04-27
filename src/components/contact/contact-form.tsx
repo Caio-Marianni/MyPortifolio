@@ -41,11 +41,11 @@ export const ContactForm = memo(function ContactForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
-  const inputClasses = "w-full px-0 py-2 border-b border-gray-300/40 dark:border-gray-600 bg-transparent text-gray-300 focus:outline-none focus:border-orange-500 dark:focus:border-fuchsia-500 transition-colors";
+  const inputClasses = "w-full px-0 py-2 border-b border-gray-300/40 dark:border-gray-600 bg-transparent text-gray-300 focus:outline-none focus:border-orange-500 dark:focus:border-[#31A8FF] transition-colors";
   const labelClasses = "block text-xs text-gray-500 dark:text-cyan-400/80 mb-1";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-gray-900/50 p-4 rounded-md">
+    <form onSubmit={handleSubmit} className="space-y-4 bg-gray-900/50 p-6 rounded-md">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="firstName" className={labelClasses}>
@@ -111,7 +111,7 @@ export const ContactForm = memo(function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="px-8 py-3 bg-orange-700 hover:bg-orange-800 dark:bg-fuchsia-600 dark:hover:bg-fuchsia-700 disabled:bg-gray-400 text-white text-sm transition-colors font-medium"
+          className="px-8 py-3 rounded-lg bg-orange-700 hover:bg-orange-800 dark:bg-blue-600 dark:hover:bg-blue-700 disabled:bg-gray-400 text-white text-sm transition-colors font-medium"
         >
           {isSubmitting ? t("contact.sending") : t("contact.send")}
         </button>

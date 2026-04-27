@@ -20,7 +20,7 @@
   font-family: "TulpenOne";
   src: url("/assets/fonts/TulpenOne-Regular.ttf") format("truetype");
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -147,6 +147,29 @@ body {
 
 .dark .bg-grid::after {
   background: black;
+}
+
+/* ──────────────────────────────────────────────
+   Neon sign heading effect
+   Light mode → orange tube  |  Dark mode → fuchsia tube
+   The near-white text color simulates the bright glass
+   tube interior; shadows create the colored bloom.
+────────────────────────────────────────────── */
+@keyframes neon-flicker {
+  0%, 91%, 93%, 96%, 100% { opacity: 1; }
+  92%  { opacity: 0.80; }
+  94%  { opacity: 0.95; }
+  97%  { opacity: 0.85; }
+}
+
+.neon-heading {
+  color: #ffffff;
+  text-shadow:
+    0 0 2px  rgba(255, 255, 255, 0.80),
+    0 0 8px  rgba(255, 255, 255, 0.35),
+    0 0 20px rgba(255, 255, 255, 0.18),
+    0 0 45px rgba(255, 255, 255, 0.08);
+  animation: neon-flicker 12s ease-in-out infinite;
 }
 
 /* Hide scrollbar */
