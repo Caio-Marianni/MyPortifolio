@@ -15,8 +15,8 @@ const config: Config = {
         "comforter-brush": ['"ComforterBrush"', "cursive"],
         monocraft: ['"Monocraft"', "monospace"],
         unifraktur: ['"Unifraktur"', "serif"],
-        "jetbrains-mono": ['"JetBrainsMono"', "monospace"],
-        "jetbrains-mono-nl": ['"JetBrainsMonoNL"', "monospace"],
+        /* fallback explícito: o arquivo do JetBrains ainda não está no repo (ver globals.css) */
+        "jetbrains-mono": ['"JetBrainsMono"', "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
         "big-shoulders": ['"BigShoulders"', "sans-serif"],
         makaio: ['"Makaio"', "sans-serif"],
         ricko: ['"Ricko"', "sans-serif"],

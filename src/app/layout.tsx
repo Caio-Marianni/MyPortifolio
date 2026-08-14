@@ -64,10 +64,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-  ],
+  /* creme da página: a barra do navegador no celular emenda com o fundo */
+  themeColor: "#F1ECE5",
   width: "device-width",
   initialScale: 1,
 };
@@ -102,11 +100,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    /* Tema fixo: `dark` e `data-theme` direto no html, já que não há mais troca.
-       Antes vinham de um provider client-side que só aplicava depois de montar. */
-    <html lang="pt-BR" className="dark" data-theme="dark">
+    <html lang="pt-BR">
       <head>
-        <link rel="preload" href="/assets/fonts/TulpenOne-Regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+        {/* Makaio é o título da primeira dobra — sem preload ele chega depois do primeiro paint. */}
+        <link
+          rel="preload"
+          href="/assets/fonts/modern-condensed-font-makaio-2026-07-29-19-34-48-utc/Makaio/Makaio.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <link rel="dns-prefetch" href="//www.caiomarianni.com.br" />
         <link rel="preconnect" href="https://www.caiomarianni.com.br" />
         <script

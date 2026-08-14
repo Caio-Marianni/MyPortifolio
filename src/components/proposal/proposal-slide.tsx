@@ -97,9 +97,8 @@ export function ProposalSlide({ image, wordmark, descriptor, script, registered,
 
   return (
     <section
-      /* text-shadow:none — o tema dark do globals.css joga um glow neon em tudo que herda do body */
       /* sem overflow-hidden: a aba da logo precisa escapar do quadro até a borda da tela */
-      className="relative aspect-[16/9] w-full bg-[#F1ECE5] font-inter text-[#101010] [container-type:inline-size] [text-shadow:none]"
+      className="relative aspect-[16/9] w-full bg-[#F1ECE5] font-inter text-[#101010] [container-type:inline-size]"
     >
       {/* Duas metades de verdade, 50/50. A aba e o canto seguem absolutos: filhos fora de fluxo
           não são itens de flex, então continuam se posicionando pela section. */}

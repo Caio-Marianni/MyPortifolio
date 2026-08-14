@@ -63,11 +63,11 @@ export function CapaPage({ wordmark, script, descriptor, stats = [], children }:
   const pt = language === "pt";
 
   return (
-    <main className="min-h-screen bg-[#F1ECE5] font-inter text-[#101010] [text-shadow:none]">
+    <main className="min-h-screen bg-[#F1ECE5] font-inter text-[#101010]">
       {/* navbar preta emendando na faixa de metadados, como na pilha do mobile da capa */}
       <div className="flex items-center justify-between bg-[#111111] px-5 py-3 text-[11px] text-[#F1ECE5] md:px-8">
         <Link
-          href="/capa"
+          href="/"
           className="flex items-center gap-3 uppercase tracking-[0.18em] transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
         >
           <span className="h-7 w-7 shrink-0">

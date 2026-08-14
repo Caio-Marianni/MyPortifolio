@@ -15,7 +15,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, registered,
   return (
     /* Coluna de altura de tela: tudo abaixo tem altura intrínseca e a foto absorve a sobra,
        então o bloco da marca cabe sem rolar em qualquer aparelho. */
-    <section className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#F1ECE5] font-inter text-[#101010] [text-shadow:none]">
+    <section className="relative flex min-h-screen w-full flex-col overflow-hidden bg-[#F1ECE5] font-inter text-[#101010]">
       {/* Navbar preta emendando na foto e na faixa: o topo vira um bloco escuro contínuo,
           sem a fresta de creme que aparecia entre a barra e o retrato. */}
       <div className="flex shrink-0 items-center justify-between bg-[#111111] px-5 py-3 text-[#F1ECE5]">

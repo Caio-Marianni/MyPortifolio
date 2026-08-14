@@ -1,6 +1,8 @@
-import { Thumbnail } from "@/components/thumbnails/thumbnail-card";
-
-export const THUMBNAIL_CATEGORIES = ["Sports", "NFL", "NBA", "The Rookie", "Finance", "Cars", "Celebrity", "Poker"] as const;
+export interface Thumbnail {
+  id: number;
+  image: string;
+  tags: string[];
+}
 
 export const thumbnails: Thumbnail[] = [
   { id: 1, image: "/thumbnail/How-An-NFL-Star-Who-Couldn_t-Throw-But-Still-Outscored-Everyone-lamar-jackson.webp", tags: ["Sports", "NFL"] },

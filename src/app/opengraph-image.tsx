@@ -9,6 +9,17 @@ export const size = {
 };
 export const contentType = "image/png";
 
+const CREAM = "#F1ECE5";
+const INK = "#101010";
+
+/* Monograma como data URI: o satori desenha `img`, não SVG inline. Mesmo path do LogoMark. */
+const LOGO = `data:image/svg+xml;utf8,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 512 512"><path fill="#FF5500" d="M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z"/></svg>'
+)}`;
+
+/* ponytail: sem Makaio/Ricko no card — carregar .ttf local aqui exige `fetch(new URL(…))`,
+   que o runtime edge não resolve para arquivo. Paleta e composição já identificam a marca;
+   para a fonte real seria preciso embutir o ttf em base64 ou servir por URL absoluta. */
 export default function Image() {
   return new ImageResponse(
     (
@@ -17,195 +28,103 @@ export default function Image() {
           height: "100%",
           width: "100%",
           display: "flex",
-          backgroundColor: "#050510",
-          position: "relative",
-          overflow: "hidden",
+          flexDirection: "column",
+          backgroundColor: CREAM,
+          color: INK,
         }}
       >
-        {/* Fuchsia glow — top right */}
+        {/* faixa preta do topo, igual à navbar do site */}
         <div
           style={{
-            position: "absolute",
-            top: -120,
-            right: -120,
-            width: 500,
-            height: 500,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(217,70,239,0.25) 0%, transparent 65%)",
             display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            backgroundColor: "#111111",
+            color: CREAM,
+            padding: "22px 64px",
+            fontFamily: "monospace",
+            fontSize: 18,
+            letterSpacing: 4,
+            textTransform: "uppercase",
           }}
-        />
+        >
+          <img src={LOGO} width={34} height={34} alt="" />
+          <div style={{ display: "flex" }}>caiomarianni.com.br</div>
+        </div>
 
-        {/* Cyan glow — bottom left */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: -80,
-            left: -80,
-            width: 380,
-            height: 380,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 65%)",
-            display: "flex",
-          }}
-        />
-
-        {/* Vertical accent bar */}
-        <div
-          style={{
-            position: "absolute",
-            left: 72,
-            top: 72,
-            bottom: 72,
-            width: 3,
-            background:
-              "linear-gradient(to bottom, #e879f9, rgba(34,211,238,0.4), transparent)",
-            display: "flex",
-          }}
-        />
-
-        {/* Main content */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            paddingLeft: 104,
-            paddingRight: 80,
-            gap: 0,
             flex: 1,
+            padding: "0 64px",
           }}
         >
-          {/* URL label */}
           <div
             style={{
-              fontFamily: "monospace",
-              fontSize: 15,
-              letterSpacing: 4,
-              color: "rgba(103,232,249,0.5)",
-              textTransform: "uppercase",
-              marginBottom: 32,
               display: "flex",
+              fontSize: 40,
+              fontStyle: "italic",
+              color: "#B4ADA3",
+              marginLeft: 6,
             }}
           >
-            caiomarianni.com.br
+            Fullstack
           </div>
 
-          {/* Name — line 1 */}
           <div
             style={{
-              fontFamily: "serif",
-              fontSize: 110,
-              fontWeight: 900,
-              color: "#e879f9",
-              lineHeight: 0.9,
-              letterSpacing: -4,
               display: "flex",
+              fontSize: 190,
+              fontWeight: 900,
+              lineHeight: 0.86,
+              letterSpacing: 6,
             }}
           >
             CAIO
           </div>
-
-          {/* Name — line 2 */}
-          <div
-            style={{
-              fontFamily: "serif",
-              fontSize: 110,
-              fontWeight: 900,
-              color: "#e879f9",
-              lineHeight: 0.9,
-              letterSpacing: -4,
-              marginBottom: 36,
-              display: "flex",
-            }}
-          >
-            MARIANNI
-          </div>
-
-          {/* Descriptor */}
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: 20,
+              fontFamily: "monospace",
+              fontSize: 26,
+              letterSpacing: 14,
+              textTransform: "uppercase",
+              color: "rgba(16,16,16,0.6)",
+              marginTop: 26,
             }}
           >
-            {["FULLSTACK", "DESIGN", "THUMBMAKER"].map((label, i) => (
-              <div
-                key={label}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 20,
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: "monospace",
-                    fontSize: 16,
-                    letterSpacing: 5,
-                    color: "#67e8f9",
-                    textTransform: "uppercase",
-                    display: "flex",
-                  }}
-                >
-                  {label}
-                </div>
-                {i < 2 && (
-                  <div
-                    style={{
-                      width: 4,
-                      height: 4,
-                      borderRadius: "50%",
-                      backgroundColor: "rgba(217,70,239,0.6)",
-                      display: "flex",
-                    }}
-                  />
-                )}
-              </div>
-            ))}
+            Marianni
           </div>
         </div>
 
-        {/* Right side decorative grid */}
+        {/* faixa de metadados do rodapé, mesma micro-tipografia do rail */}
         <div
           style={{
-            position: "absolute",
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: 300,
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 16,
-            opacity: 0.12,
+            justifyContent: "space-between",
+            backgroundColor: "#111111",
+            color: "rgba(255,255,255,0.7)",
+            padding: "20px 64px",
+            fontFamily: "monospace",
+            fontSize: 18,
+            letterSpacing: 4,
+            textTransform: "uppercase",
           }}
         >
-          {Array.from({ length: 8 }).map((_, row) => (
-            <div key={row} style={{ display: "flex", gap: 16 }}>
-              {Array.from({ length: 5 }).map((_, col) => (
-                <div
-                  key={col}
-                  style={{
-                    width: 32,
-                    height: 32,
-                    border: "1px solid #e879f9",
-                    borderRadius: 4,
-                    display: "flex",
-                  }}
-                />
-              ))}
-            </div>
-          ))}
+          <div style={{ display: "flex", gap: 40 }}>
+            <div style={{ display: "flex" }}>Fullstack</div>
+            <div style={{ display: "flex" }}>Design</div>
+            <div style={{ display: "flex" }}>Thumbmaker</div>
+          </div>
+          <div style={{ display: "flex", gap: 40 }}>
+            <div style={{ display: "flex" }}>Goiânia, BR</div>
+            <div style={{ display: "flex" }}>Desde 2022</div>
+          </div>
         </div>
       </div>
     ),
-    {
-      ...size,
-    }
+    { ...size }
   );
 }
