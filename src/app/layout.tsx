@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/contexts/theme-context";
 import { LanguageProvider } from "@/contexts/language-context";
 
 const baseUrl = "https://www.caiomarianni.com.br";
@@ -103,7 +102,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
+    /* Tema fixo: `dark` e `data-theme` direto no html, já que não há mais troca.
+       Antes vinham de um provider client-side que só aplicava depois de montar. */
+    <html lang="pt-BR" className="dark" data-theme="dark">
       <head>
         <link rel="preload" href="/assets/fonts/TulpenOne-Regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="//www.caiomarianni.com.br" />
@@ -114,9 +115,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider>
-          <LanguageProvider>{children}</LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

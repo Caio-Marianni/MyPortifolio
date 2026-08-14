@@ -52,6 +52,13 @@
 }
 
 @font-face {
+  font-family: "Unifraktur";
+  src: url("/assets/fonts/UnifrakturMaguntia-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "JetBrainsMono";
   src: url("/assets/fonts/JetBrainsMono-Regular.ttf") format("truetype");
   font-weight: 400;
@@ -70,6 +77,68 @@
   src: url("/assets/fonts/JetBrainsMonoNL-Regular.ttf") format("truetype");
   font-weight: 400;
   font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/Inter.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BigShoulders";
+  src: url("/assets/fonts/BigShouldersDisplay-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* As display abaixo vieram em pastas próprias — caminho longo, arquivo no lugar em que foi baixado. */
+@font-face {
+  font-family: "Makaio";
+  src: url("/assets/fonts/modern-condensed-font-makaio-2026-07-29-19-34-48-utc/Makaio/Makaio.woff2") format("woff2"),
+    url("/assets/fonts/modern-condensed-font-makaio-2026-07-29-19-34-48-utc/Makaio/Makaio.woff") format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ricko";
+  src: url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.woff") format("woff"),
+    url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vacom";
+  src: url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Regular.woff2") format("woff2"),
+    url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Regular.woff") format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vacom";
+  src: url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Italic.woff2") format("woff2"),
+    url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vanta";
+  src: url("/assets/fonts/vanta-typeface-2026-04-09-22-31-17-utc/Vanta.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* Sem isto o navegador assume que o site não sabe lidar com tema escuro e inverte
+   as cores sozinho (auto dark theme) — era o que deixava a /capa marrom no celular.
+   Declarar o esquema diz "eu cuido das minhas cores" e desliga a inversão. */
+:root {
+  color-scheme: dark;
 }
 
 * {

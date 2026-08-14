@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="-6 -6 512 512">
+  <path
+    d="M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z"
+    fill="none"
+    stroke="#FF5500"
+    stroke-width="10"
+    stroke-linejoin="miter"
+    stroke-miterlimit="10"
+  />
+</svg>

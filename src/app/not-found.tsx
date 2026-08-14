@@ -7,7 +7,7 @@ import { ToggleButtons } from "@/components/toggle-buttons";
 export default function NotFound() {
   return (
     <>
-      <ToggleButtons showThemeToggle={false} />
+      <ToggleButtons />
       <main className="relative flex items-center justify-center min-h-screen w-full bg-black text-white overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-50"

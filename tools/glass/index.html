@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Glass — ferramenta de render</title>
+<style>
+  :root {
+    --ground: #0B0B0D; --bench: #131317; --raise: #1A1A1F;
+    --rule: #26262C; --rule-lo: #1D1D22;
+    --ink: #E8E8EA; --ink-mid: #A0A0AA; --ink-dim: #74747E;
+    --accent: #FF4A3D;
+    --mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--mono); font-size: 13px;
+    display: grid; grid-template-columns: 1fr 300px; height: 100vh; overflow: hidden;
+  }
+  #stage { position: relative; display: grid; place-items: center; padding: 20px; min-width: 0; }
+  #stage canvas { max-width: 100%; max-height: 100%; display: block; border-radius: 3px; }
+  #hud {
+    position: absolute; left: 28px; bottom: 28px;
+    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-dim); pointer-events: none;
+  }
+  #err {
+    position: absolute; left: 20px; right: 20px; top: 20px; margin: 0;
+    max-height: 60%; overflow: auto; padding: 14px 16px;
+    background: #1B0906; border: 1px solid #6B1810; border-radius: 3px;
+    color: #FF9C90; font-size: 11px; line-height: 1.65; white-space: pre-wrap;
+  }
+  #err[data-kind="info"] { background: #0F1418; border-color: #253038; color: #8FA6B4; }
+
+  aside { background: var(--bench); border-left: 1px solid var(--rule); overflow-y: auto; }
+  .sec { border-bottom: 1px solid var(--rule); padding: 14px 16px; }
+  .sec h2 {
+    margin: 0 0 12px; font-size: 10px; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--accent); font-weight: 500;
+  }
+  .row { display: block; margin-bottom: 11px; }
+  .row:last-child { margin-bottom: 0; }
+  .row > span {
+    display: flex; justify-content: space-between; gap: 8px;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-dim); margin-bottom: 6px;
+  }
+  .row b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+  input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 2px;
+    background: var(--rule); border-radius: 2px; outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--ink); cursor: pointer; box-shadow: 0 1px 3px #000;
+  }
+  input[type=range]:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .sw { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+  .sw label { font-size: 9px; color: var(--ink-dim); }
+  input[type=color] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 30px;
+    border: 1px solid var(--rule); border-radius: 2px; background: none; cursor: pointer; padding: 2px;
+  }
+  input[type=color]::-webkit-color-swatch { border: 0; border-radius: 1px; }
+  input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
+
+  .toggles { display: flex; flex-direction: column; gap: 9px; }
+  .tog { display: flex; align-items: center; gap: 8px; color: var(--ink-mid); cursor: pointer; font-size: 11px; }
+  .tog input { accent-color: var(--accent); width: 13px; height: 13px; cursor: pointer; }
+
+  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  button {
+    font: inherit; font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    padding: 9px 6px; border: 0; border-radius: 2px; cursor: pointer;
+    color: rgba(255,255,255,.85);
+    background: linear-gradient(180deg, #2A2A30, #17171B);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.13), inset 0 -1px 0 rgba(0,0,0,.7), 0 1px 2px rgba(0,0,0,.9);
+  }
+  button:hover { color: #fff; }
+  button:active { transform: translateY(1px); box-shadow: inset 0 2px 4px rgba(0,0,0,.85); }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button.wide { grid-column: 1 / -1; }
+  button.primary { background: linear-gradient(180deg, #FF4A40, #C9241B); color: #fff; }
+  button[disabled] { opacity: .5; cursor: wait; }
+
+  .hint { margin: 10px 0 0; font-size: 10.5px; line-height: 1.6; color: var(--ink-dim); }
+  .hint code { color: var(--ink-mid); }
+</style>
+</head>
+<body>
+  <div id="stage">
+    <canvas id="cv"></canvas>
+    <div id="hud">—</div>
+    <pre id="err" hidden></pre>
+  </div>
+
+  <script>
+  // Erro de shader não lança exceção — o three só faz console.error, e a tela
+  // fica preta em silêncio. Isto captura as duas vias e mostra na tela.
+  (function () {
+    var box = document.getElementById("err");
+    window.__show = function (msg, kind) {
+      box.hidden = false;
+      box.dataset.kind = kind || "err";
+      box.textContent = String(msg).slice(0, 2500);
+    };
+    addEventListener("error", function (e) { window.__show(e.message || e.error || e); }, true);
+    addEventListener("unhandledrejection", function (e) {
+      window.__show((e.reason && e.reason.stack) || e.reason);
+    });
+    var ce = console.error;
+    console.error = function () {
+      window.__show(Array.prototype.join.call(arguments, " "));
+      ce.apply(console, arguments);
+    };
+  })();
+  </script>
+
+  <aside>
+    <div class="sec">
+      <h2>Vidro</h2>
+      <label class="row"><span>Rotação<b data-o="rot">0.73</b></span><input type="range" id="rot" min="0" max="314" value="73"></label>
+      <label class="row"><span>Cilindros<b data-o="count">16</b></span><input type="range" id="count" min="2" max="40" value="16"></label>
+      <label class="row"><span>Raio<b data-o="radius">0.50</b></span><input type="range" id="radius" min="5" max="150" value="50"></label>
+      <label class="row"><span>Espaçamento<b data-o="gap">1.00</b></span><input type="range" id="gap" min="40" max="260" value="100"></label>
+      <label class="row"><span>Rugosidade<b data-o="rough">0.35</b></span><input type="range" id="rough" min="0" max="100" value="35"></label>
+      <label class="row"><span>IOR<b data-o="ior">1.50</b></span><input type="range" id="ior" min="100" max="240" value="150"></label>
+      <label class="row"><span>Espessura<b data-o="thick">1.00</b></span><input type="range" id="thick" min="0" max="500" value="100"></label>
+      <label class="row"><span>Facetas<b data-o="seg">8</b></span><input type="range" id="seg" min="3" max="48" value="8"></label>
+    </div>
+
+    <div class="sec">
+      <h2>Cubo (a luz)</h2>
+      <div class="swatches">
+        <div class="sw"><input type="color" id="c1" value="#f4feff"><label>1</label></div>
+        <div class="sw"><input type="color" id="c2" value="#ff7a98"><label>2</label></div>
+        <div class="sw"><input type="color" id="c3" value="#b80232"><label>3</label></div>
+        <div class="sw"><input type="color" id="c4" value="#ff162a"><label>4</label></div>
+      </div>
+      <label class="row" style="margin-top:12px"><span>Velocidade<b data-o="speed">0.10</b></span><input type="range" id="speed" min="0" max="100" value="10"></label>
+      <label class="row"><span>Escala do padrão<b data-o="pscale">6.00</b></span><input type="range" id="pscale" min="20" max="2000" value="600"></label>
+      <label class="row"><span>Tamanho<b data-o="cscale">26</b></span><input type="range" id="cscale" min="4" max="60" value="26"></label>
+      <label class="row"><span>Z<b data-o="cubez">-9.0</b></span><input type="range" id="cubez" min="-300" max="-20" value="-90"></label>
+    </div>
+
+    <div class="sec">
+      <h2>Câmera e pós</h2>
+      <label class="row"><span>Câmera Z<b data-o="camz">16.54</b></span><input type="range" id="camz" min="500" max="4000" value="1654"></label>
+      <label class="row"><span>FOV<b data-o="fov">50</b></span><input type="range" id="fov" min="20" max="90" value="50"></label>
+      <label class="row"><span>Aberração cromática<b data-o="ca">3.0</b></span><input type="range" id="ca" min="0" max="200" value="30"></label>
+      <label class="row"><span>Vinheta<b data-o="vig">0.35</b></span><input type="range" id="vig" min="0" max="100" value="35"></label>
+      <label class="row"><span>Escala do dither<b data-o="dscale">4</b></span><input type="range" id="dscale" min="1" max="12" value="4"></label>
+      <div class="toggles" style="margin-top:12px">
+        <label class="tog"><input type="checkbox" id="dither"><span>Dither Bayer 8×8</span></label>
+        <label class="tog"><input type="checkbox" id="anim" checked><span>Animar</span></label>
+        <label class="tog"><input type="checkbox" id="mouse" checked><span>Seguir o mouse</span></label>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>Exportar</h2>
+      <div class="btns">
+        <button data-x="1920">1920 ×1080</button>
+        <button data-x="2560">2560 ×1440</button>
+        <button data-x="3840">3840 ×2160</button>
+        <button id="reset">Reset</button>
+        <button class="wide primary" id="dump">Copiar config JSON</button>
+      </div>
+      <p class="hint">
+        O PNG cai na sua pasta de downloads. Depois:
+        <code>cwebp -q 82 arquivo.png -o public/assets/images/hero.webp</code>
+      </p>
+    </div>
+  </aside>
+
+  <script type="module">
+  // Import dinâmico para que uma falha vire mensagem legível em vez de tela preta.
+  window.__show("Carregando three.js…", "info");
+  try {
+    await import("./scene.js");
+    document.getElementById("err").hidden = true;
+  } catch (e) {
+    window.__show("Falha ao carregar o módulo:\n\n" + ((e && e.stack) || e));
+  }
+  </script>
+</body>
+</html>

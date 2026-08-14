@@ -1,36 +1,14 @@
 "use client";
 
-import { memo, useState, useEffect } from "react";
+import { memo } from "react";
 import { Globe, Award, Send, Package, Image } from "lucide-react";
-import { useTheme } from "@/contexts/theme-context";
 import { useLanguage } from "@/contexts/language-context";
+import { useGoiasClock } from "@/hooks/use-goias-clock";
 import { StatusItem } from "./status-item";
 
-function getTimeInGoias(): { time: string; period: string } {
-  const now = new Date();
-  const options: Intl.DateTimeFormatOptions = {
-    timeZone: "America/Sao_Paulo",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  };
-  const formatted = now.toLocaleTimeString("en-US", options);
-  const [time, period] = formatted.split(" ");
-  return { time, period };
-}
-
 export const StatusSection = memo(function StatusSection() {
-  const { theme } = useTheme();
   const { t } = useLanguage();
-  const [clock, setClock] = useState<{ time: string; period: string } | null>(null);
-
-  useEffect(() => {
-    setClock(getTimeInGoias());
-    const interval = setInterval(() => {
-      setClock(getTimeInGoias());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const clock = useGoiasClock();
 
   return (
     <div className="space-y-1 text-[10px] md:text-[12px] font-monocraft uppercase">
@@ -47,31 +25,23 @@ export const StatusSection = memo(function StatusSection() {
         {t("status.stats")} <span className="opacity-50">•</span> {t("status.clients")}
       </StatusItem>
 
-      {/* Diploma - Visible in LIGHT mode only */}
-      {theme === "light" && (
-        <StatusItem icon={Award} href="#" isLink fill>
-          {t("status.diploma")}
-        </StatusItem>
-      )}
+      {/* Sem troca de tema, esconder destino por tema não faz mais sentido: todos aparecem.
+          Antes, Diploma e Projetos só existiam no light e Thumbnails só no dark. */}
+      <StatusItem icon={Award} href="#" isLink fill>
+        {t("status.diploma")}
+      </StatusItem>
 
-      {/* Contact */}
       <StatusItem icon={Send} href="/contact" isLink fill>
         {t("status.contacts")}
       </StatusItem>
 
-      {/* Projetos - Visible in LIGHT mode only */}
-      {theme === "light" && (
-        <StatusItem icon={Package} href="/projects" isLink fill>
-          {t("status.projects")}
-        </StatusItem>
-      )}
+      <StatusItem icon={Package} href="/projects" isLink fill>
+        {t("status.projects")}
+      </StatusItem>
 
-      {/* Thumbnails - Visible in DARK mode only */}
-      {theme === "dark" && (
-        <StatusItem icon={Image} href="/thumbnails" isLink fill>
-          {t("status.thumbnails")}
-        </StatusItem>
-      )}
+      <StatusItem icon={Image} href="/thumbnails" isLink fill>
+        {t("status.thumbnails")}
+      </StatusItem>
     </div>
   );
 });
