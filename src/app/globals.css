@@ -147,6 +147,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Creme granulado. O ruído entra como camada de `background-image`, não como div ou
+   pseudo-elemento: fundo é pintado atrás de todo o conteúdo por definição, então a foto,
+   o rail preto e os textos não precisam de z-index nem de `pointer-events-none`.
+   O véu creme por cima do ruído é o botão de intensidade — quanto maior o alpha, mais
+   leve o grão (0.9 = 10% de ruído). O mesmo tile do grão da foto, então nada a baixar. */
+.grain-cream {
+  background-color: #f1ece5;
+  background-image: linear-gradient(rgba(241, 236, 229, 0.9), rgba(255, 245, 232, 0.7)),
+    url("/assets/images/noise.webp");
+  background-repeat: repeat;
+}
+
+/* O vão que o bounce abre nas pontas do scroll é pintado pelo canvas, e o WebKit usa só
+   o background-color do <html> ali: uma cor chapada. Imagem e gradiente não chegam nessa
+   faixa — por isso o traçado da logo não tem como continuar pra cima da navbar.
+   Sendo uma cor só, ela vale para os dois extremos: o bounce de baixo fica preto junto.
+   Vale para toda página de barra preta no topo — a home e as capas internas —, por isso o
+   seletor olha só a presença do atributo. */
+@media (max-width: 1023px) {
+  html:has(main[data-page]) {
+    background-color: #111111;
+  }
+
+  /* O WebKit não lê o fundo do <html> direto: ele compõe o do body por cima e usa o
+     resultado. Com o body creme opaco o preto acima nunca aparecia. Aqui o creme do body
+     é redundante — main e section já pintam o próprio fundo —, então sai da frente. */
+  html:has(main[data-page]) body {
+    background-color: transparent;
+  }
+}
+
 /* Autofill do Chrome pinta a própria caixa; refaz no creme para não abrir um bloco
    cinza no meio dos campos de linha fina do formulário. */
 input:-webkit-autofill,

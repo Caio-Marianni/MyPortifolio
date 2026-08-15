@@ -35,7 +35,7 @@ const OPTION = [
 
 const FLAG_WRAP = "grayscale opacity-70 transition duration-200 group-hover:grayscale-0 group-hover:opacity-100";
 
-/* rail: sai da faixa preta no 16:9. sheet: sobe da base no mobile. */
+/* rail: sai da faixa preta no 16:9. sheet: desce da faixa preta no mobile. */
 const VARIANT = {
   rail: {
     panel: "absolute left-[50.2%] top-[74%] text-[clamp(10px,0.85cqw,12px)]",
@@ -43,9 +43,9 @@ const VARIANT = {
     closed: "invisible -translate-x-[1cqw] opacity-0",
   },
   sheet: {
-    panel: "absolute inset-x-0 bottom-0 text-[12px]",
+    panel: "absolute inset-x-0 top-0 text-[12px]",
     open: "visible translate-y-0 opacity-100",
-    closed: "invisible translate-y-4 opacity-0",
+    closed: "invisible -translate-y-4 opacity-0",
   },
 } as const;
 
@@ -68,7 +68,8 @@ export function CvPanel({ open, onClose, labels, variant = "rail" }: CvPanelProp
 
   return (
     <>
-      {open && <button type="button" className="absolute inset-0 z-20 cursor-default" onClick={onClose} aria-label="Fechar" tabIndex={-1} />}
+      {/* fixed: o painel é ancorado num wrapper de altura zero, então `absolute inset-0` não cobriria nada */}
+      {open && <button type="button" className="fixed inset-0 z-20 cursor-default" onClick={onClose} aria-label="Fechar" tabIndex={-1} />}
 
       {/* invisible (não hidden) tira do fluxo de foco sem matar a transição */}
       <div

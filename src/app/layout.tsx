@@ -100,8 +100,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" translate="no">
       <head>
+        {/* O site tem toggle PT/EN próprio — a barra de tradução do navegador só quebra o layout. */}
+        <meta name="google" content="notranslate" />
         {/* Makaio é o título da primeira dobra — sem preload ele chega depois do primeiro paint. */}
         <link
           rel="preload"
