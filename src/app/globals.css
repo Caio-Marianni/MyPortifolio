@@ -94,39 +94,6 @@ body {
   }
 }
 
-/* Abertura animada do <details> (as especificações das fichas de projeto). Fica aqui e não
-   em utilitário porque o alvo é ::details-content, o miolo que o navegador cria sozinho.
-
-   Quem abre é a altura, não só o texto: a linha do grid vai de 0fr a 1fr, que é a única
-   forma de animar "até a altura do conteúdo" sem depender de `interpolate-size` — esse é
-   só do Chrome, e onde ele não existe a altura saltava e sobrava a opacidade animando
-   sozinha. `allow-discrete` segura o conteúdo visível durante o fechamento, senão ele some
-   antes de a animação terminar. Curva easeInOutCubic: acelera e desacelera nas duas pontas.
-   Sem suporte a ::details-content, abre seco como qualquer <details>. */
-@media (prefers-reduced-motion: no-preference) {
-  details::details-content {
-    display: grid;
-    grid-template-rows: 0fr;
-    overflow: hidden;
-    opacity: 0;
-    transition: grid-template-rows 420ms cubic-bezier(0.65, 0, 0.35, 1), opacity 300ms ease-in-out,
-      content-visibility 420ms;
-    /* longhand em vez de `allow-discrete` dentro do shorthand: o minificador reordena a
-       lista, e ali a palavra fica ambígua com o nome da propriedade */
-    transition-behavior: allow-discrete;
-  }
-
-  details[open]::details-content {
-    grid-template-rows: 1fr;
-    opacity: 1;
-  }
-
-  /* o filho precisa poder encolher abaixo do próprio conteúdo, senão a linha nunca fecha */
-  details::details-content > * {
-    min-height: 0;
-  }
-}
-
 /* Autofill do Chrome pinta a própria caixa; refaz no creme para não abrir um bloco
    cinza no meio dos campos de linha fina do formulário. */
 input:-webkit-autofill,

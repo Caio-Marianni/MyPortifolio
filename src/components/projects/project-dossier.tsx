@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { LogoMark, SHELL } from "@/components/capa/capa-page";
 import { useLanguage } from "@/contexts/language-context";
@@ -58,7 +59,9 @@ export interface ProjectDossierProps {
 export function ProjectDossier({ project, index }: ProjectDossierProps) {
   const { t, language } = useLanguage();
   const [ref, centered] = useInView<HTMLElement>();
+  const [specsOpen, setSpecsOpen] = useState(false);
 
+  const specsId = `specs-${project.id}`;
   const pt = language === "pt";
   const cover = project.mockups[0];
   /* ímpares mostram informação à esquerda; pares invertem */
@@ -152,58 +155,84 @@ export function ProjectDossier({ project, index }: ProjectDossierProps) {
             )}
           </dl>
 
-          {/* Todo o dado técnico entra num <details> nativo: abre e fecha sem estado nem
-              listener, e já vem com teclado e leitor de tela resolvidos. O rótulo fica no meio
-              da divisória — a linha é desenhada pelo ::before e o fundo do chip a corta. */}
-          <details className="group relative mt-8">
-            <summary className="relative flex cursor-pointer list-none justify-center before:absolute before:inset-x-0 before:top-1/2 before:border-t before:border-[rgb(var(--ink)/0.14)] focus-visible:outline-none [&::-webkit-details-marker]:hidden">
-              {/* hover e foco pintam o chip, não a faixa inteira do summary — daí os
-                  seletores de pai em vez de `group-`, que pegaria o conteúdo aberto junto */}
-              <span className="relative flex items-center gap-2.5 bg-[rgb(var(--paper))] px-4 py-1 font-mono text-[9.5px] uppercase tracking-[0.2em] text-[rgb(var(--ink)/0.5)] transition-colors [summary:focus-visible>&]:outline [summary:focus-visible>&]:outline-1 [summary:focus-visible>&]:outline-offset-4 [summary:focus-visible>&]:outline-current [summary:hover>&]:text-[rgb(var(--ink))]">
-                <ChevronDown className="h-3 w-3 transition-transform duration-300 group-open:rotate-180" strokeWidth={2.5} aria-hidden />
+          {/* Saiu do <details> nativo: o miolo que o navegador cria (::details-content) aceita
+              um conjunto próprio de propriedades, e sem `display:grid` valendo ali a altura
+              pulava em vez de crescer. Aqui quem anima é um elemento nosso, com o truque de
+              linha de grid indo de 0fr a 1fr — a única forma de ir até a altura do conteúdo
+              sem saber o número de antemão, e igual em qualquer navegador.
+              O rótulo fica no meio da divisória: a linha é do ::before e o chip a corta. */}
+          <div className="relative mt-8">
+            <button
+              type="button"
+              onClick={() => setSpecsOpen((v) => !v)}
+              aria-expanded={specsOpen}
+              aria-controls={specsId}
+              className="relative flex w-full justify-center before:absolute before:inset-x-0 before:top-1/2 before:border-t before:border-[rgb(var(--ink)/0.14)] focus-visible:outline-none"
+            >
+              {/* hover e foco pintam o chip, não a faixa inteira do botão */}
+              <span className="relative flex items-center gap-2.5 bg-[rgb(var(--paper))] px-4 py-1 font-mono text-[9.5px] uppercase tracking-[0.2em] text-[rgb(var(--ink)/0.5)] transition-colors [button:focus-visible>&]:outline [button:focus-visible>&]:outline-1 [button:focus-visible>&]:outline-offset-4 [button:focus-visible>&]:outline-current [button:hover>&]:text-[rgb(var(--ink))]">
+                <ChevronDown
+                  className={`h-3 w-3 transition-transform duration-300 ${specsOpen ? "rotate-180" : ""}`}
+                  strokeWidth={2.5}
+                  aria-hidden
+                />
                 {t("projects.specs")}
               </span>
-            </summary>
+            </button>
 
-            <dl className="grid gap-4 pt-6 text-[12.5px] sm:grid-cols-2 sm:gap-x-8">
-              <Field label={t("projects.technologies")} className="sm:col-span-2">
-                <span className="flex flex-wrap gap-1.5">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="border border-[rgb(var(--ink)/0.2)] px-2.5 py-[5px] font-mono text-[9.5px] uppercase tracking-[0.14em]"
-                    >
-                      {tag}
+            {/* `visibility` entra na transição de propósito: fechado, o conteúdo continua no
+                DOM mas sai do alcance do leitor de tela, e a própria propriedade segura a
+                troca até o fim da animação, sem precisar de timer. */}
+            <div
+              id={specsId}
+              className={`grid transition-[grid-template-rows,opacity,visibility] duration-[420ms] ease-in-out motion-reduce:transition-none ${
+                specsOpen ? "visible grid-rows-[1fr] opacity-100" : "invisible grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              {/* o recorte mora no item do grid, não no container: é ele que precisa poder
+                  encolher abaixo do próprio conteúdo, daí o `min-h-0` junto */}
+              <div className="min-h-0 overflow-hidden">
+                <dl className="grid gap-4 pt-6 text-[12.5px] sm:grid-cols-2 sm:gap-x-8">
+                  <Field label={t("projects.technologies")} className="sm:col-span-2">
+                    <span className="flex flex-wrap gap-1.5">
+                      {project.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="border border-[rgb(var(--ink)/0.2)] px-2.5 py-[5px] font-mono text-[9.5px] uppercase tracking-[0.14em]"
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </span>
-                  ))}
-                </span>
-              </Field>
+                  </Field>
 
-              <Field label={t("projects.architecture")}>{project.devInfo.architecture[language]}</Field>
-              <Field label={t("projects.deploy")}>{project.devInfo.deploy[language]}</Field>
-              <Field label={t("projects.security")}>{project.devInfo.security[language]}</Field>
+                  <Field label={t("projects.architecture")}>{project.devInfo.architecture[language]}</Field>
+                  <Field label={t("projects.deploy")}>{project.devInfo.deploy[language]}</Field>
+                  <Field label={t("projects.security")}>{project.devInfo.security[language]}</Field>
 
-              <Field label={t("projects.patterns")}>
-                <span className="flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10.5px] uppercase tracking-[0.1em]">
-                  {project.devInfo.patterns.map((pattern) => (
-                    <span key={pattern}>{pattern}</span>
-                  ))}
-                </span>
-              </Field>
+                  <Field label={t("projects.patterns")}>
+                    <span className="flex flex-wrap gap-x-3 gap-y-1 font-mono text-[10.5px] uppercase tracking-[0.1em]">
+                      {project.devInfo.patterns.map((pattern) => (
+                        <span key={pattern}>{pattern}</span>
+                      ))}
+                    </span>
+                  </Field>
 
-              <Field label={t("projects.features")} className="sm:col-span-2">
-                <DashList items={project.features[language]} />
-              </Field>
+                  <Field label={t("projects.features")} className="sm:col-span-2">
+                    <DashList items={project.features[language]} />
+                  </Field>
 
-              <Field label="Lighthouse" className="sm:col-span-2">
-                <span className="whitespace-nowrap font-mono tracking-[0.12em] text-[#FF5500]">
-                  {project.lighthouse
-                    ? `${project.lighthouse.performance}/${project.lighthouse.accessibility}/${project.lighthouse.bestPractices}`
-                    : "—"}
-                </span>
-              </Field>
-            </dl>
-          </details>
+                  <Field label="Lighthouse" className="sm:col-span-2">
+                    <span className="whitespace-nowrap font-mono tracking-[0.12em] text-[#FF5500]">
+                      {project.lighthouse
+                        ? `${project.lighthouse.performance}/${project.lighthouse.accessibility}/${project.lighthouse.bestPractices}`
+                        : "—"}
+                    </span>
+                  </Field>
+                </dl>
+              </div>
+            </div>
+          </div>
 
           <a
             href={project.demo}
