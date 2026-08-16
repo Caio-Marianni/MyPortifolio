@@ -14,11 +14,20 @@ export interface DevInfo {
 export interface Project {
   id: number;
   title: string;
-  description: { pt: string; en: string };
-  fullDescription: { pt: string; en: string };
+  /** a dor do cliente antes do projeto, em uma frase e sem jargão */
+  problem: { pt: string; en: string };
+  /** o que foi construído para resolvê-la, na mesma língua do problema */
+  solution: { pt: string; en: string };
+  /** o que o cliente recebeu, em palavras de leigo: "site", "painel de edição"… */
+  delivers: { pt: string[]; en: string[] };
+  /** só entra quando houver número real medido — projeto sem resultado forte omite o campo
+      e o card fecha sem buraco, em vez de exibir uma linha fraca */
+  results?: { pt: string[]; en: string[] };
   tags: string[];
   features: { pt: string[]; en: string[] };
   devInfo: DevInfo;
+  /** marca do cliente, usada de fundo atrás do título — cai no nosso monograma quando falta */
+  logo?: string;
   mockups: string[];
   github: string | null;
   demo: string;
@@ -29,13 +38,23 @@ export const projects: Project[] = [
   {
     id: 1,
     title: "GoPack",
-    description: {
-      pt: "Plataforma full-stack com site institucional, catálogo de produtos e painel administrativo para uma empresa de embalagens flexíveis.",
-      en: "Full-stack platform with institutional website, product catalog and admin panel for a flexible packaging company.",
+    problem: {
+      pt: "A linha de embalagens não tinha catálogo online: toda consulta de produto e todo pedido de orçamento passava por atendimento manual, um a um.",
+      en: "The packaging line had no online catalog: every product question and every quote request went through manual, one-by-one service.",
     },
-    fullDescription: {
-      pt: "Plataforma completa desenvolvida para a Gopack Embalagens Flexíveis, com site institucional de geração estática e SEO otimizado no frontend, e uma REST API desacoplada no backend com autenticação JWT e controle de roles (Admin/Employee). Inclui CRUD de produtos, categorias e orçamentos, upload de imagens via Cloudinary e deploy em VPS com Docker.",
-      en: "Complete platform built for Gopack Embalagens Flexíveis, featuring a statically generated frontend with optimized SEO and a decoupled REST API backend with JWT authentication and role-based access control (Admin/Employee). Includes CRUD for products, categories and quotes, image upload via Cloudinary, and VPS deployment with Docker.",
+    solution: {
+      pt: "Catálogo filtrável por categoria com formulário de orçamento, e um painel onde a própria equipe cadastra produto e preço sem depender de programador.",
+      en: "A category-filtered catalog with a quote form, plus an admin panel where the team adds products and prices without needing a developer.",
+    },
+    delivers: {
+      pt: ["Site", "Catálogo de produtos", "Orçamento online", "Painel de edição", "Funciona no celular"],
+      en: ["Website", "Product catalog", "Online quotes", "Admin panel", "Works on mobile"],
+    },
+    /* Único resultado que o repositório sustenta hoje. Trocar pelos números do cliente
+       quando houver — pedidos por mês, tempo de resposta, o que for medido de fato. */
+    results: {
+      pt: ["Nota máxima do Google (100/100) em performance, acessibilidade e boas práticas"],
+      en: ["Top Google score (100/100) for performance, accessibility and best practices"],
     },
     tags: ["Next.js 15", "Node.js", "PostgreSQL", "TypeScript", "Docker"],
     features: {
@@ -69,6 +88,7 @@ export const projects: Project[] = [
       },
       patterns: ["Repository Pattern", "MVC", "RBAC", "Decoupled Architecture"],
     },
+    logo: "/projects/icon/gopack.svg",
     mockups: [],
     github: null,
     demo: "https://www.gopack.com.br",
@@ -77,13 +97,17 @@ export const projects: Project[] = [
   {
     id: 2,
     title: "Ana Carolina",
-    description: {
-      pt: "Portfólio para designer com painel administrativo completo — conteúdo atualizado sem redeploy.",
-      en: "Portfolio for a designer with a full admin panel — content updated without redeployment.",
+    problem: {
+      pt: "O trabalho vivia espalhado no Instagram e em pastas de arquivo: não havia um endereço próprio para mandar a um cliente, e cada projeto novo dependia de refazer post.",
+      en: "The work lived scattered across Instagram and file folders: there was no address of her own to send a client, and each new project meant redoing a post.",
     },
-    fullDescription: {
-      pt: "Site de portfólio para designer e social media manager com painel admin que permite atualizar projetos e depoimentos sem redeploy. Destaques: grid bento com modal para imagens e vídeos (click-to-play), upload com conversão automática para WebP via Sharp, star rating para avaliações e alternância de idioma PT/EN com geração estática e revalidação a cada hora.",
-      en: "Portfolio site for a designer and social media manager with an admin panel for updating projects and testimonials without redeploying. Highlights: bento grid with modal for images and videos (click-to-play), upload with automatic WebP conversion via Sharp, star rating for reviews, and PT/EN language switching with static generation and hourly revalidation.",
+    solution: {
+      pt: "Site com galeria de projetos e depoimentos, tudo editável por um painel — publica trabalho novo sozinha, em português e inglês, sem tocar em código.",
+      en: "A site with a project gallery and testimonials, all editable from a panel — she publishes new work herself, in Portuguese and English, without touching code.",
+    },
+    delivers: {
+      pt: ["Site", "Galeria de projetos", "Vídeos", "Depoimentos de clientes", "Painel de edição", "Português e inglês"],
+      en: ["Website", "Project gallery", "Videos", "Client testimonials", "Admin panel", "Portuguese and English"],
     },
     tags: ["Next.js 14", "TypeScript", "Framer Motion", "Drizzle ORM", "Vercel Blob"],
     features: {
@@ -117,7 +141,8 @@ export const projects: Project[] = [
       },
       patterns: ["ISR", "Server Actions", "Sharp Pipeline", "Drizzle ORM"],
     },
-    mockups: ["/projects/cover/ana2.jpg", "/projects/cover/ana2.jpg"],
+    logo: "/projects/icon/ana.svg",
+    mockups: ["/projects/cover/ana2.webp"],
     github: null,
     demo: "https://portfolio-ana-carol.vercel.app",
     lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
@@ -125,13 +150,17 @@ export const projects: Project[] = [
   {
     id: 3,
     title: "Schoolink",
-    description: {
-      pt: "Plataforma web de gestão escolar com perfis de aluno, responsável, professor e diretor — desenvolvida como TCC.",
-      en: "Web-based school management platform with student, guardian, teacher and principal profiles — developed as a final year thesis.",
+    problem: {
+      pt: "Escola pequena controla nota, presença e comunicado em papel e planilha solta — o responsável só descobre como está o aluno quando o bimestre já fechou.",
+      en: "Small schools track grades, attendance and announcements on paper and loose spreadsheets — guardians only learn how the student is doing once the term has closed.",
     },
-    fullDescription: {
-      pt: "Sistema web completo para gestão escolar desenvolvido como Trabalho de Conclusão de Curso. Cobre lançamento de notas e frequência, atividades com envio de arquivos, boletim exportável e comunicados institucionais. Suporta múltiplas instituições com temas próprios e autenticação stateless com controle de acesso por papel (RBAC).",
-      en: "Complete web system for school management developed as a Final Year Project. Covers grade and attendance tracking, file-upload activities, exportable report cards and institutional announcements. Supports multiple institutions with custom themes and stateless authentication with role-based access control (RBAC).",
+    solution: {
+      pt: "Plataforma com acesso separado para aluno, responsável, professor e diretor: o que o professor lança uma vez aparece na hora para quem tem direito de ver.",
+      en: "A platform with separate access for student, guardian, teacher and principal: what the teacher records once shows up immediately for whoever is allowed to see it.",
+    },
+    delivers: {
+      pt: ["Acesso por perfil", "Notas e frequência", "Envio de atividades", "Boletim para imprimir", "Comunicados", "Funciona no celular"],
+      en: ["Access by profile", "Grades and attendance", "Activity submissions", "Printable report card", "Announcements", "Works on mobile"],
     },
     tags: ["Next.js 15", "Node.js", "PostgreSQL", "Prisma", "Redux Toolkit"],
     features: {
@@ -165,20 +194,24 @@ export const projects: Project[] = [
       },
       patterns: ["RBAC", "Redux Toolkit", "Prisma ORM", "Clean Architecture"],
     },
-    mockups: ["/projects/cover/schoolink.jpg"],
+    mockups: ["/projects/cover/schoolink.webp"],
     github: null,
     demo: "https://schoolink-mp0taoipf-caiomariannis-projects.vercel.app",
   },
   {
     id: 4,
     title: "Caio Nogueira",
-    description: {
-      pt: "Cardápio digital para bartender profissional com painel administrativo e performance 100/100 no Lighthouse.",
-      en: "Digital menu for a professional bartender with an admin panel and 100/100 Lighthouse score.",
+    problem: {
+      pt: "Cardápio impresso encarece a cada drink novo e nunca acompanha o que tem de fato disponível na noite — e reimprimir por causa de um item é prejuízo certo.",
+      en: "A printed menu costs more with every new drink and never matches what is actually available that night — reprinting over a single item is money burned.",
     },
-    fullDescription: {
-      pt: "Aplicação de cardápio digital para bartender profissional com painel admin completo para gestão de drinks em tempo real. Destaque para o upload com recorte proporcional e conversão automática para WebP, animações de entrada com IntersectionObserver e stagger por coluna, e QR Code integrado para acesso direto via câmera. Performance 100/100 em todas as métricas do Lighthouse no desktop.",
-      en: "Digital menu application for a professional bartender with a complete admin panel for real-time drink management. Highlights: upload with proportional cropping and automatic WebP conversion, entrance animations with IntersectionObserver and column stagger, and integrated QR Code for direct camera access. 100/100 performance on all Lighthouse metrics on desktop.",
+    solution: {
+      pt: "Cardápio digital que o cliente abre pelo QR Code na mesa, com painel para o bartender trocar drink, preço e foto na hora, direto do celular.",
+      en: "A digital menu the guest opens from a QR code at the table, with a panel where the bartender swaps drink, price and photo on the spot, straight from the phone.",
+    },
+    delivers: {
+      pt: ["Cardápio por QR Code", "Painel de edição", "Foto pela câmera", "Filtro por categoria", "Funciona no celular"],
+      en: ["QR code menu", "Admin panel", "Photo from the camera", "Category filter", "Works on mobile"],
     },
     tags: ["Next.js 15", "TypeScript", "Tailwind CSS 4", "PostgreSQL", "Vercel"],
     features: {
@@ -212,7 +245,8 @@ export const projects: Project[] = [
       },
       patterns: ["ISR", "Server Actions", "WebP Pipeline", "IntersectionObserver"],
     },
-    mockups: ["/projects/cover/nogs2.jpg"],
+    logo: "/projects/icon/losdrinks.png",
+    mockups: ["/projects/cover/nogs2.webp"],
     github: null,
     demo: "https://caionogueira.vercel.app",
     lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },

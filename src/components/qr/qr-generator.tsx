@@ -160,19 +160,19 @@ export function QrGenerator() {
     <div className="flex flex-col items-center gap-7 w-full max-w-sm mx-auto">
       <div className="w-full space-y-2">
         <div className="relative">
-          <QrCode className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
+          <QrCode className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F1ECE5]/40 pointer-events-none" />
           <input
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
             placeholder="https://exemplo.com"
-            className="w-full bg-black/50 border border-gray-700 hover:border-gray-600 focus:border-cyan-400 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-600 outline-none transition-colors text-sm"
+            className="w-full bg-[#F1ECE5]/[0.04] border border-[#F1ECE5]/20 hover:border-[#F1ECE5]/35 focus:border-[#FF5500] rounded-lg pl-10 pr-4 py-3 text-[#F1ECE5] placeholder-[#F1ECE5]/30 outline-none transition-colors text-sm"
           />
         </div>
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && <p className="text-[#FF5500] text-sm">{error}</p>}
         {logoWarning && (
-          <p className="text-yellow-500 text-xs">
+          <p className="text-[#F1ECE5]/55 text-xs">
             Favicon não encontrado para este domínio.
           </p>
         )}
@@ -193,7 +193,7 @@ export function QrGenerator() {
       <button
         onClick={handleGenerate}
         disabled={!url.trim() || loading}
-        className="w-full flex items-center justify-center gap-2 bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/30 hover:border-cyan-400 text-cyan-400 font-medium py-3 rounded-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+        className="w-full flex items-center justify-center gap-2 bg-[#FF5500] hover:bg-[#E64D00] text-white font-medium py-3 rounded-lg transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
       >
         {loading ? (
           <Loader2 className="w-4 h-4 animate-spin" />
@@ -205,7 +205,7 @@ export function QrGenerator() {
 
       <canvas
         ref={canvasRef}
-        className={`rounded-xl w-full border border-gray-800 ${!generated ? "hidden" : "block"}`}
+        className={`rounded-xl w-full border border-[#F1ECE5]/15 ${!generated ? "hidden" : "block"}`}
         style={{ imageRendering: "pixelated" }}
       />
 
@@ -215,7 +215,7 @@ export function QrGenerator() {
             <button
               key={fmt}
               onClick={() => handleDownload(fmt)}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg border border-gray-700 hover:border-gray-500 text-gray-400 hover:text-white text-xs font-medium transition-all hover:bg-white/5"
+              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg border border-[#F1ECE5]/20 hover:border-[#F1ECE5]/45 text-[#F1ECE5]/60 hover:text-[#F1ECE5] text-xs font-medium transition-colors hover:bg-[#F1ECE5]/5"
             >
               <Download className="w-3.5 h-3.5" />
               .{fmt}
@@ -244,7 +244,7 @@ function Toggle({
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={`relative w-10 h-5 rounded-full flex-shrink-0 transition-colors duration-200 ${
-          checked ? "bg-cyan-400" : "bg-gray-700 hover:bg-gray-600"
+          checked ? "bg-[#FF5500]" : "bg-[#F1ECE5]/20 hover:bg-[#F1ECE5]/30"
         }`}
       >
         <span
@@ -252,7 +252,7 @@ function Toggle({
           style={{ transform: checked ? "translateX(20px)" : "translateX(0)" }}
         />
       </button>
-      <span className="text-sm text-gray-300">{label}</span>
+      <span className="text-sm text-[#F1ECE5]/75">{label}</span>
     </label>
   );
 }

@@ -41,7 +41,7 @@ export function ContactChannels() {
             aria-hidden
           />
 
-          <span className="relative font-jetbrains-mono text-[9.5px] uppercase tracking-[0.18em]">{label}</span>
+          <span className="relative font-mono text-[9.5px] uppercase tracking-[0.18em]">{label}</span>
           <span className="relative truncate text-[11px] tracking-[0.02em] text-[#F1ECE5]/45 transition-colors group-hover/tile:text-white/85">
             {value}
           </span>

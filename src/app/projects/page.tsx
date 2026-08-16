@@ -13,7 +13,6 @@ export default function ProjectsPage() {
     <CapaPage
       bleed
       wordmark={t("status.projects")}
-      script="Web"
       descriptor={t("lobby.web.line")}
       stats={[`${projects.length} ${pt ? "publicados" : "published"}`, t("lobby.web.stat")]}
     >

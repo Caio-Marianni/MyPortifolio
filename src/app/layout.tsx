@@ -104,7 +104,8 @@ export default function RootLayout({
       <head>
         {/* O site tem toggle PT/EN próprio — a barra de tradução do navegador só quebra o layout. */}
         <meta name="google" content="notranslate" />
-        {/* Makaio é o título da primeira dobra — sem preload ele chega depois do primeiro paint. */}
+        {/* Makaio é o título da primeira dobra e Inter é o corpo de tudo — sem preload as duas
+            chegam depois do primeiro paint. */}
         <link
           rel="preload"
           href="/assets/fonts/modern-condensed-font-makaio-2026-07-29-19-34-48-utc/Makaio/Makaio.woff2"
@@ -112,6 +113,7 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        <link rel="preload" href="/assets/fonts/Inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="//www.caiomarianni.com.br" />
         <link rel="preconnect" href="https://www.caiomarianni.com.br" />
         <script

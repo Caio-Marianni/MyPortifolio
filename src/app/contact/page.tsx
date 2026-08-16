@@ -13,7 +13,6 @@ export default function ContactPage() {
     <CapaPage
       bleed
       wordmark={pt ? "Contato" : "Contact"}
-      script={pt ? "Vamos" : "Let's"}
       descriptor={t("contact.subtitle")}
       stats={[pt ? "Freelance aberto" : "Open for freelance", pt ? "Remoto" : "Remote"]}
     >

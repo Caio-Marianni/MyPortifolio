@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ProposalSlide, Stars, type ProposalContent } from "@/components/proposal/proposal-slide";
+import { ProposalSlide, type ProposalContent } from "@/components/proposal/proposal-slide";
 import { ProposalStack } from "@/components/proposal/proposal-stack";
 import { CvPanel } from "@/components/proposal/cv-panel";
 import { LangSwitch, LogoMark } from "@/components/capa/capa-page";
+import { Stars } from "@/components/ui/brand-marks";
 import { useLanguage } from "@/contexts/language-context";
 import { useGoiasClock } from "@/hooks/use-goias-clock";
 
@@ -17,7 +18,7 @@ const PILL_BASE = "rounded-full px-[1.6em] py-[0.75em] font-bold uppercase track
 
 const SCRIPT_FONT = "font-makaio";
 const WORDMARK_FONT = "font-makaio";
-const DESCRIPTOR_FONT = "font-jetbrains-mono";
+const DESCRIPTOR_FONT = "font-mono";
 
 export default function Home() {
   const { t, language } = useLanguage();
@@ -64,7 +65,7 @@ export default function Home() {
 
   const content: ProposalContent = {
     priority: true,
-    image: "/image.jpg",
+    image: "/image.webp",
     imagePosition: "18% center",
     tab: <LogoMark />,
     /* cor por opacidade em cima de currentColor — serve no creme do 16:9 e no preto do mobile */

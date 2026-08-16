@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Star } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
+import { LogoWatermark, RATING_FONT, Stars } from "@/components/ui/brand-marks";
 
 export interface SlideLink {
   href: string;
@@ -87,28 +88,12 @@ export interface ProposalContent {
 
 const VERT = "[writing-mode:vertical-rl] rotate-180 whitespace-nowrap";
 
-/* Fonte da nota grande do rail — vale nas duas composições, então mora aqui e a pilha importa.
-   Mesma ideia da comparação de fontes da home: uma linha descomentada, o resto de reserva. */
-// export const RATING_FONT = "font-vacom";
-export const RATING_FONT = "font-ricko";
-
 /* Tetos em px: acima de ~1400px de quadro o cqw puro incha a micro-tipografia junto com o pôster. */
 const RAIL_SIZE = "text-[clamp(10px,0.95cqw,12px)]";
 const TAG = `${VERT} ${RAIL_SIZE} uppercase tracking-[0.18em] text-white/70`;
 
 /* Wordmark ocupa sempre a mesma largura ótica: 4 letras a 9cqw é a proporção da referência. */
 const WORDMARK_SPAN = 66;
-
-/** Tamanho em `em` — acompanha o corpo de texto de quem a envolve, em qualquer composição. */
-export function Stars({ count, vertical, className = "" }: { count: number; vertical?: boolean; className?: string }) {
-  return (
-    <span className={`inline-flex ${vertical ? "flex-col" : "flex-row"} items-center gap-[0.25em] ${className}`} role="img" aria-label={`${count} de 5`}>
-      {Array.from({ length: count }, (_, i) => (
-        <Star key={i} className="h-[1em] w-[1em] fill-current" strokeWidth={0} aria-hidden />
-      ))}
-    </span>
-  );
-}
 
 function RailGroup({ items = [], className = "" }: { items?: ReactNode[]; className?: string }) {
   return (
@@ -135,7 +120,7 @@ function RailColumn({ top, bottom, middle }: { top?: ReactNode[]; bottom?: React
   );
 }
 
-export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont = "font-comforter-brush", wordmarkFont = "", descriptorFont = "", tab, corner, rail, imagePosition, columns, children, overlay, priority }: ProposalContent) {
+export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont = "", wordmarkFont = "", descriptorFont = "", tab, corner, rail, imagePosition, columns, children, overlay, priority }: ProposalContent) {
   /* Script acompanha o wordmark: fixo em cqw ele engolia palavras longas, que rendem fonte menor. */
   const wordmarkSize = WORDMARK_SPAN / wordmark.length;
   /* Uma linha por stat mais a do CTA: é a grade que as duas colunas passam a compartilhar. */
@@ -280,12 +265,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
            Os 8% posicionam a marca — ancorada à direita, com 1cqw de respiro — a partir de 3.6%,
            já dentro da foto, que começa em 3.2%. */
         <div className="absolute left-[calc((100%_-_100vw)_/_2)] top-[45%] isolate flex min-h-[11%] w-[calc(8%_+_(100vw_-_100%)_/_2)] items-center justify-end overflow-hidden bg-[#111111] p-[1cqw] text-[clamp(11px,1.05cqw,14px)] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_3px_12px_rgba(0,0,0,0.3)]">
-          {/* mesma marca d'água da navbar do mobile: outline cortado pela altura da faixa, colado
-              na borda da tela — é textura, não informação. */}
-          <div
-            className="pointer-events-none absolute inset-0 -left-[0.6cqw] -z-10 bg-[url('/Logo-outline.svg')] bg-[length:auto_400%] bg-left bg-no-repeat opacity-[0.18] [filter:saturate(0)]"
-            aria-hidden
-          />
+          <LogoWatermark className="-left-[0.6cqw]" />
 
           <span className="aspect-square w-[3.4cqw]">{tab}</span>
         </div>

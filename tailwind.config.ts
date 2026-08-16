@@ -5,23 +5,12 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      /* A voz técnica do site é o `font-mono` que já vem no Tailwind — nada a declarar aqui.
+         Só as três famílias que o repo carrega de fato. */
       fontFamily: {
-        roboto: ['"Roboto"', "sans-serif"],
         inter: ['"Inter"', "sans-serif"],
-        rye: ['"Rye"', "cursive"],
-        "kumar-one": ['"KumarOne"', "cursive"],
-        "tulpen-one": ['"TulpenOne"', "cursive"],
-        silkscreen: ['"Silkscreen"', "monospace"],
-        "comforter-brush": ['"ComforterBrush"', "cursive"],
-        monocraft: ['"Monocraft"', "monospace"],
-        unifraktur: ['"Unifraktur"', "serif"],
-        /* fallback explícito: o arquivo do JetBrains ainda não está no repo (ver globals.css) */
-        "jetbrains-mono": ['"JetBrainsMono"', "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
-        "big-shoulders": ['"BigShoulders"', "sans-serif"],
         makaio: ['"Makaio"', "sans-serif"],
         ricko: ['"Ricko"', "sans-serif"],
-        vacom: ['"Vacom"', "sans-serif"],
-        vanta: ['"Vanta"', "sans-serif"],
       },
     },
   },

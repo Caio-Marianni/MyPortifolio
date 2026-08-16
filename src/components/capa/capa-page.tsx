@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { RATING_FONT, Stars } from "@/components/proposal/proposal-slide";
+import { LogoWatermark, RatingMark } from "@/components/ui/brand-marks";
 import { useLanguage } from "@/contexts/language-context";
 
 /* Monograma vetorial do Logo-outline.svg, preenchido em vez de contornado — em ~30px o stroke some. */
@@ -50,12 +50,12 @@ export const SHELL = "mx-auto w-full max-w-[1600px]";
 export interface CapaPageProps {
   /** título da página, em Makaio, dentro da própria navbar */
   wordmark: string;
-  /** traço manuscrito pendurado no título */
-  script?: string;
   /** linha técnica, mostrada na faixa preta à frente dos números */
   descriptor?: string;
   /** números da frente, mostrados na faixa preta */
   stats?: ReactNode[];
+  /** nota da página — cada trilha tem a sua; a da home fica no rail do slide */
+  rating?: { value: string; stars: number };
   /** dispensa o respiro em volta do conteúdo, para quem sangra até a borda (o dossiê de projetos) */
   bleed?: boolean;
   children: ReactNode;
@@ -64,7 +64,7 @@ export interface CapaPageProps {
 /** Cabeçalho da capa aplicado a uma página de listagem: navbar com o título dentro e faixa
     de metadados. Compacto de propósito — quem chega pelo lobby já sabe o que veio ver, então
     o gesto de capa vira barra e a primeira peça começa logo abaixo. */
-export function CapaPage({ wordmark, script, descriptor, stats = [], bleed = false, children }: CapaPageProps) {
+export function CapaPage({ wordmark, descriptor, stats = [], rating = { value: "5.0", stars: 5 }, bleed = false, children }: CapaPageProps) {
   const { t } = useLanguage();
   const pathname = usePathname();
 
@@ -84,13 +84,9 @@ export function CapaPage({ wordmark, script, descriptor, stats = [], bleed = fal
         <div
           className={`${SHELL} relative isolate flex items-center gap-4 px-5 py-3 text-[11px] md:px-8`}
         >
-          {/* mesma marca d'água da navbar do mobile: outline cortado pela altura da barra.
-              Fica no bloco de dentro, não no fundo sangrado, senão em tela larga ela some
-              lá na borda da viewport, longe do resto do cabeçalho. */}
-          <div
-            className="pointer-events-none absolute inset-0 -left-1.5 -z-10 bg-[url('/Logo-outline.svg')] bg-[length:auto_400%] bg-left bg-no-repeat opacity-[0.18] [filter:saturate(0)]"
-            aria-hidden
-          />
+          {/* Fica no bloco de dentro, não no fundo sangrado, senão em tela larga a marca d'água
+              some lá na borda da viewport, longe do resto do cabeçalho. */}
+          <LogoWatermark />
 
           <span className="flex flex-1 items-center">
             {/* Abaixo de sm sobra só a seta: o rótulo é o que estica a ponta esquerda e
@@ -127,7 +123,7 @@ export function CapaPage({ wordmark, script, descriptor, stats = [], bleed = fal
           className={`${SHELL} flex items-center justify-between gap-4 overflow-hidden px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white/60 md:px-8`}
         >
           <span className="flex flex-col-reverse items-start gap-1.5 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
-            {descriptor && <span className="font-jetbrains-mono tracking-[0.3em] text-white/90">{descriptor}</span>}
+            {descriptor && <span className="font-mono tracking-[0.3em] text-white/90">{descriptor}</span>}
             {/* Duas linhas no mobile, nunca uma por item: os números viajam juntos numa linha
                 só. `flex-col-reverse` põe essa linha em cima e a linha técnica — a mais longa,
                 por causa do tracking do mono — embaixo, de base da pirâmide. A partir de md o
@@ -139,17 +135,8 @@ export function CapaPage({ wordmark, script, descriptor, stats = [], bleed = fal
             </span>
           </span>
 
-          {/* Mesma nota do rail do hero: algarismo grande atrás das estrelas, cortado pela
-              altura da faixa — é fundo, não informação a ler. */}
-          <span className="relative flex shrink-0 items-center justify-center">
-            <span
-              className={`absolute ${RATING_FONT} text-[48px] font-bold leading-none tracking-[-0.04em] text-white opacity-10`}
-              aria-hidden
-            >
-              5.0
-            </span>
-            <Stars count={5} className="relative text-white/75" />
-          </span>
+          {/* Mesma nota do rail do hero, mas a desta trilha: cada página passa a sua. */}
+          <RatingMark value={rating.value} stars={rating.stars} />
         </div>
       </div>
 
@@ -176,7 +163,7 @@ export function CapaPage({ wordmark, script, descriptor, stats = [], bleed = fal
             <span className="font-makaio text-[clamp(28px,4vw,52px)] font-black uppercase leading-none tracking-[0.06em]">
               {t("contact.subtitle")}
             </span>
-            <span className="inline-flex items-center gap-2.5 font-jetbrains-mono text-[10px] uppercase tracking-[0.18em] transition-[gap] group-hover:gap-[18px]">
+            <span className="inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-[gap] group-hover:gap-[18px]">
               {t("contact.title")}
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
             </span>

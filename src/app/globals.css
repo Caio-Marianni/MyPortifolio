@@ -2,78 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Rye";
-  src: url("/assets/fonts/Rye-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
+/* Três famílias, que são as três que o site usa: Inter no corpo, Makaio nos títulos e
+   Ricko na nota grande do rail. O resto do acervo de display saiu junto com os arquivos —
+   voltar qualquer uma custa o .woff2 na pasta e o par @font-face + token no tailwind. */
 
-@font-face {
-  font-family: "KumarOne";
-  src: url("/assets/fonts/KumarOne-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "TulpenOne";
-  src: url("/assets/fonts/TulpenOne-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: block;
-}
-
-@font-face {
-  font-family: "Silkscreen";
-  src: url("/assets/fonts/Silkscreen-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Silkscreen";
-  src: url("/assets/fonts/Silkscreen-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "ComforterBrush";
-  src: url("/assets/fonts/ComforterBrush-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Monocraft";
-  src: url("/assets/fonts/Monocraft.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Unifraktur";
-  src: url("/assets/fonts/UnifrakturMaguntia-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-/* JetBrains Mono não está em public/assets/fonts — os @font-face que existiam aqui
-   davam 404 em toda página e o texto caía no mono do sistema, que é o que se vê hoje.
-   ponytail: para usar a fonte de verdade, solte os .ttf na pasta e devolva os @font-face;
-   o token `font-jetbrains-mono` do tailwind já aponta pro nome certo. */
+/* A linha técnica usa `font-mono`, a pilha do próprio Tailwind — nenhum arquivo a baixar.
+   Era o que já se via na tela: o @font-face do JetBrains apontava para um arquivo que não
+   existe no repo e o texto caía no mono do sistema de qualquer jeito. */
 
 @font-face {
   font-family: "Inter";
-  src: url("/assets/fonts/Inter.ttf") format("truetype");
+  src: url("/assets/fonts/Inter.woff2") format("woff2");
   font-weight: 100 900;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "BigShoulders";
-  src: url("/assets/fonts/BigShouldersDisplay-Bold.ttf") format("truetype");
-  font-weight: 700;
   font-display: swap;
 }
 
@@ -88,32 +28,8 @@
 
 @font-face {
   font-family: "Ricko";
-  src: url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.woff") format("woff"),
-    url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.ttf") format("truetype");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Vacom";
-  src: url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Regular.woff2") format("woff2"),
-    url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Regular.woff") format("woff");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Vacom";
-  src: url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Italic.woff2") format("woff2"),
-    url("/assets/fonts/vacom-geometric-technology-display-font-2026-07-27-20-07-47-utc/Vacom-Italic.woff") format("woff");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Vanta";
-  src: url("/assets/fonts/vanta-typeface-2026-04-09-22-31-17-utc/Vanta.otf") format("opentype");
+  src: url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.woff2") format("woff2"),
+    url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.woff") format("woff");
   font-weight: 400;
   font-display: swap;
 }
@@ -175,6 +91,39 @@ body {
      é redundante — main e section já pintam o próprio fundo —, então sai da frente. */
   html:has(main[data-page]) body {
     background-color: transparent;
+  }
+}
+
+/* Abertura animada do <details> (as especificações das fichas de projeto). Fica aqui e não
+   em utilitário porque o alvo é ::details-content, o miolo que o navegador cria sozinho.
+
+   Quem abre é a altura, não só o texto: a linha do grid vai de 0fr a 1fr, que é a única
+   forma de animar "até a altura do conteúdo" sem depender de `interpolate-size` — esse é
+   só do Chrome, e onde ele não existe a altura saltava e sobrava a opacidade animando
+   sozinha. `allow-discrete` segura o conteúdo visível durante o fechamento, senão ele some
+   antes de a animação terminar. Curva easeInOutCubic: acelera e desacelera nas duas pontas.
+   Sem suporte a ::details-content, abre seco como qualquer <details>. */
+@media (prefers-reduced-motion: no-preference) {
+  details::details-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    opacity: 0;
+    transition: grid-template-rows 420ms cubic-bezier(0.65, 0, 0.35, 1), opacity 300ms ease-in-out,
+      content-visibility 420ms;
+    /* longhand em vez de `allow-discrete` dentro do shorthand: o minificador reordena a
+       lista, e ali a palavra fica ambígua com o nome da propriedade */
+    transition-behavior: allow-discrete;
+  }
+
+  details[open]::details-content {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  /* o filho precisa poder encolher abaixo do próprio conteúdo, senão a linha nunca fecha */
+  details::details-content > * {
+    min-height: 0;
   }
 }
 

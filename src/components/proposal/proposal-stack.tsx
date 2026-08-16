@@ -1,11 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { CTA_BASE, CTA_VARIANT, RATING_FONT, Stars, type ProposalContent } from "./proposal-slide";
+import { LogoWatermark, RatingMark } from "@/components/ui/brand-marks";
+import { CTA_BASE, CTA_VARIANT, type ProposalContent } from "./proposal-slide";
 
 /* Mobile: mesma matéria-prima do slide 16:9, composição outra.
    Nada de cqw aqui — sem container 16:9 as unidades de container colapsariam pra ~3px. */
-export function ProposalStack({ image, wordmark, descriptor, script, scriptFont = "font-comforter-brush", wordmarkFont = "", descriptorFont = "", tab, corner, rail, strip, imagePosition, columns, children, overlay, priority }: ProposalContent) {
+export function ProposalStack({ image, wordmark, descriptor, script, scriptFont = "", wordmarkFont = "", descriptorFont = "", tab, corner, rail, strip, imagePosition, columns, children, overlay, priority }: ProposalContent) {
   /* O rail vertical vira faixa de três zonas, espelhando o desktop: credenciais à esquerda,
      avaliação ao centro, contexto à direita. `outerTop` (o relógio) fica de fora — com ele
      a faixa passa de 430px de conteúdo e quebra em duas linhas num aparelho de 390px. */
@@ -21,10 +22,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
       {/* Navbar preta emendando na foto e na faixa: o topo vira um bloco escuro contínuo,
           sem a fresta de creme que aparecia entre a barra e o retrato. */}
       <div className="relative isolate z-10 flex shrink-0 items-center justify-between overflow-hidden bg-[#111111] px-5 py-3 text-[#F1ECE5] shadow-lg shadow-black/40">
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[url('/Logo-outline.svg')] bg-[length:auto_400%] bg-left -left-1.5 bg-no-repeat opacity-[0.18] [filter:saturate(0)]"
-          aria-hidden
-        />
+        <LogoWatermark />
 
         {tab && <span className="flex h-7 w-7 items-center justify-center">{tab}</span>}
         {corner && <span className="text-[11px]">{corner}</span>}
@@ -35,7 +33,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
       <div className="relative min-h-[150px] w-full overflow-hidden bg-[#1A1A1A]">
         {/* mesmo `sizes` do slide: as duas composições coexistem no DOM, e assim pedem a mesma
             variante ao otimizador — um download só, em vez de dois. */}
-        <Image src={image} alt="" fill sizes="(min-width: 1024px) 50vw, 100vw" priority={priority} className="object-cover" style={{ objectPosition: imagePosition }} />
+        <Image src={image} alt="" fill sizes="50vw, 100vw" priority={priority} className="object-cover" style={{ objectPosition: imagePosition }} />
         <div className="pointer-events-none absolute inset-0 bg-[url('/assets/images/noise.webp')] bg-repeat opacity-[0.22] mix-blend-overlay" aria-hidden />
       </div>
 
@@ -49,15 +47,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
             ))}
           </span>
 
-          {rail?.rating && (
-            /* nota grande e cortada pela altura da faixa — é fundo, não informação a ler */
-            <span className="relative flex shrink-0 items-center justify-center">
-              <span className={`absolute ${RATING_FONT} text-[48px] font-bold leading-none tracking-[-0.04em] text-white opacity-10`} aria-hidden>
-                {rail.rating.value}
-              </span>
-              <Stars count={rail.rating.stars} className="relative text-white/50" />
-            </span>
-          )}
+          {rail?.rating && <RatingMark value={rail.rating.value} stars={rail.rating.stars} starsClassName="text-white/50" />}
 
           <span className="flex flex-1 items-center justify-end gap-3">
             {railRight.map((item, i) => (

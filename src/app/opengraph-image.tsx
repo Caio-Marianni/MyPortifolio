@@ -48,6 +48,8 @@ export default function Image() {
             textTransform: "uppercase",
           }}
         >
+          {/* o satori desenha `img`, não `next/image` — aqui não há LCP nem otimizador */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={LOGO} width={34} height={34} alt="" />
           <div style={{ display: "flex" }}>caiomarianni.com.br</div>
         </div>

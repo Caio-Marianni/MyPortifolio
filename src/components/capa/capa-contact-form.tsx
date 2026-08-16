@@ -11,7 +11,7 @@ const initialForm = { firstName: "", lastName: "", email: "", message: "" };
 /* Hairline embaixo do campo, como as divisórias da grade — nada de caixa. */
 const FIELD =
   "w-full border-b border-[#101010]/25 bg-transparent py-2 text-[14px] text-[#101010] placeholder:text-[#101010]/30 focus:border-[#101010] focus:outline-none transition-colors";
-const LABEL = "block font-jetbrains-mono text-[10px] uppercase tracking-[0.18em] text-[#101010]/45";
+const LABEL = "block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101010]/45";
 
 export function CapaContactForm() {
   const { t, language } = useLanguage();
@@ -83,7 +83,7 @@ export function CapaContactForm() {
 
       <button
         type="submit"
-        className="mt-2 flex items-center justify-center gap-2 self-start rounded-full bg-[#101010] px-7 py-3 font-jetbrains-mono text-[11px] uppercase tracking-[0.18em] text-[#F1ECE5] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#101010]"
+        className="mt-2 flex items-center justify-center gap-2 self-start rounded-full bg-[#101010] px-7 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F1ECE5] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#101010]"
       >
         {t("contact.send")}
         <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
