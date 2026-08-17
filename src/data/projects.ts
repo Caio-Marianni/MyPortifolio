@@ -245,7 +245,7 @@ export const projects: Project[] = [
       },
       patterns: ["ISR", "Server Actions", "WebP Pipeline", "IntersectionObserver"],
     },
-    logo: "/projects/icon/losdrinks.png",
+    logo: "/projects/icon/losdrinks.svg",
     mockups: ["/projects/cover/nogs2.webp"],
     github: null,
     demo: "https://caionogueira.vercel.app",
