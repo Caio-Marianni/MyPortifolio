@@ -58,7 +58,7 @@ const CHANNELS: Channel[] = [
     no canto como marca d'água — mesmo gesto do número em contorno do dossiê. */
 export function ContactChannels() {
   return (
-    <div className="mt-8 grid grid-cols-2 gap-px border border-[#F1ECE5]/[0.16] bg-[#F1ECE5]/[0.16] sm:grid-cols-3">
+    <div className="mt-8 grid grid-cols-2 gap-px border border-chrome-ink/[0.16] bg-chrome-ink/[0.16] sm:grid-cols-3">
       {CHANNELS.map(({ label, value, href, Icon }) => (
         <a
           key={label}
@@ -66,7 +66,7 @@ export function ContactChannels() {
           /* mailto abre no cliente do próprio visitante; só os links http saem para outra aba */
           target={href.startsWith("http") ? "_blank" : undefined}
           rel="noopener noreferrer"
-          className="group/tile relative flex min-h-[84px] flex-col gap-1.5 overflow-hidden bg-[#101010] px-[15px] py-3.5 text-[#F1ECE5] transition-colors hover:bg-[#FF5500] hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] focus-visible:outline-current"
+          className="group/tile relative flex min-h-[84px] flex-col gap-1.5 overflow-hidden bg-chrome px-[15px] py-3.5 text-chrome-ink transition-colors hover:bg-accent hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] focus-visible:outline-current"
         >
           <Icon
             className="pointer-events-none absolute -bottom-[14px] -right-[12px] h-[74px] w-[74px] opacity-[0.13] transition-[opacity,transform] group-hover/tile:scale-[1.06] group-hover/tile:opacity-[0.32]"
@@ -74,8 +74,8 @@ export function ContactChannels() {
             aria-hidden
           />
 
-          <span className="relative font-mono text-[9.5px] uppercase tracking-[0.18em]">{label}</span>
-          <span className="relative truncate text-[11px] tracking-[0.02em] text-[#F1ECE5]/45 transition-colors group-hover/tile:text-white/85">
+          <span className="relative text-[12.5px]">{label}</span>
+          <span className="relative truncate text-[11px] tracking-[0.02em] text-chrome-ink/45 transition-colors group-hover/tile:text-white/85">
             {value}
           </span>
         </a>

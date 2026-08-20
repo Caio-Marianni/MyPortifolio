@@ -29,12 +29,12 @@ export default function ContactPage() {
           `before` fecha a diferença: ancorado no meio do bloco, corre `w-screen` para a
           esquerda e cobre a sobra até a borda da viewport — à direita a sobra já é creme,
           que é a cor da página. */}
-      <div className={`${SHELL} relative isolate grid items-stretch lg:flex-1 lg:grid-cols-2 lg:[align-content:safe_center] lg:before:absolute lg:before:inset-y-0 lg:before:right-1/2 lg:before:-z-10 lg:before:w-screen lg:before:bg-[#101010]`}>
-        <div className="bg-[#F1ECE5] px-6 py-14 md:px-10">
+      <div className={`${SHELL} relative isolate grid items-stretch lg:flex-1 lg:grid-cols-2 lg:[align-content:safe_center] lg:before:absolute lg:before:inset-y-0 lg:before:right-1/2 lg:before:-z-10 lg:before:w-screen lg:before:bg-chrome`}>
+        <div className="bg-surface px-6 py-14 md:px-10">
           <CapaContactForm />
         </div>
 
-        <div className="bg-[#101010] px-6 py-14 text-[#F1ECE5] md:px-10 lg:order-first">
+        <div className="bg-chrome px-6 py-14 text-chrome-ink md:px-10 lg:order-first">
           <h2 className="font-makaio text-[clamp(32px,4vw,46px)] font-black uppercase leading-none tracking-wider">
             {t("contact.whereToFind")}
           </h2>

@@ -5,6 +5,7 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import {
   COOKIE,
+  COOKIE_PATH,
   MAX_AGE,
   clearFailures,
   credentialsOk,
@@ -13,7 +14,7 @@ import {
   tooManyTries,
   validSession,
 } from "@/services/admin";
-import { setStatus } from "@/services/reviews";
+import { deleteReview, setStatus } from "@/services/reviews";
 import type { Status } from "@/data/reviews";
 
 /* Server action é endpoint público: quem descobre o id da action consegue chamá-la de fora do
@@ -25,7 +26,7 @@ const COOKIE_OPTIONS = {
   httpOnly: true,
   sameSite: "lax" as const,
   secure: process.env.NODE_ENV === "production",
-  path: "/admin",
+  path: COOKIE_PATH,
   maxAge: MAX_AGE,
 };
 
@@ -81,4 +82,20 @@ export async function decide(formData: FormData) {
   /* A nota aparece no cabeçalho de toda página, e o layout raiz é quem a busca — revalidar só
      `/reviews` deixaria o hero mostrando a média antiga até o ISR virar. */
   revalidatePath("/", "layout");
+}
+
+/** Exclusão de verdade, sem volta. A confirmação é a própria tela — o painel só mostra este
+    botão depois de `?excluir=<id>` —, então aqui não há segunda pergunta a fazer: mesma sessão
+    conferida de novo, porque a action é endpoint público como a de cima. */
+export async function remove(formData: FormData) {
+  if (!authed()) redirect("/admin");
+
+  const id = Number(formData.get("id"));
+  if (!Number.isInteger(id)) return;
+
+  await deleteReview(id);
+  revalidatePath("/", "layout");
+
+  /* volta pro painel limpo: sem isso a URL seguiria com `?excluir=` de um id que não existe mais */
+  redirect("/admin");
 }

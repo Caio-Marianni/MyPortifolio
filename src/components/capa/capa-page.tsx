@@ -2,20 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Moon, Sun } from "lucide-react";
 import type { ReactNode } from "react";
 import { LogoWatermark, RatingMark } from "@/components/ui/brand-marks";
 import { type Track } from "@/data/reviews";
 import { useLanguage } from "@/contexts/language-context";
 import { useRating } from "@/contexts/reviews-context";
+import { useTheme } from "@/contexts/theme-context";
 
-/* Monograma vetorial do Logo-outline.svg, preenchido em vez de contornado — em ~30px o stroke some. */
+/* Monograma vetorial do Logo-outline.svg, preenchido em vez de contornado — em ~30px o stroke some.
+   O laranja entra por `currentColor`: atributo `fill` com hex não enxerga variável de tema. */
 export function LogoMark() {
   return (
-    <svg viewBox="-6 -6 512 512" className="h-full w-full" aria-hidden>
+    <svg viewBox="-6 -6 512 512" className="h-full w-full text-accent" aria-hidden>
       <path
         d="M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z"
-        fill="#FF5500"
+        fill="currentColor"
       />
     </svg>
   );
@@ -32,14 +34,37 @@ export function LangSwitch() {
       type="button"
       onClick={toggleLanguage}
       aria-label={language === "pt" ? "Switch to English" : "Mudar para português"}
-      className="group flex items-center gap-[0.5em] font-bold uppercase tracking-[0.2em] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+      className="group flex items-center gap-[0.5em] font-bold focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
     >
       {(["pt", "en"] as const).map((code, i) => (
         <span key={code} className="flex items-center gap-[0.5em]">
           {i > 0 && <span className="opacity-30">/</span>}
-          <span className={`transition-opacity ${language === code ? "opacity-100" : "opacity-40 group-hover:opacity-70"}`}>{code.toUpperCase()}</span>
+          <span className={`transition-opacity ${language === code ?"opacity-100" : "opacity-40 group-hover:opacity-70"}`}>{code.toUpperCase()}</span>
         </span>
       ))}
+    </button>
+  );
+}
+
+/** Sol/lua no mesmo corpo do LangSwitch ao lado, medido em `em` para herdar de quem envolve.
+    Quem troca o ícone é o CSS, não o estado: os dois são renderizados e o `dark:` esconde um.
+    Isso resolve de graça o problema que o LangSwitch não tem — o servidor não sabe o tema do
+    visitante, então qualquer ícone escolhido em JS erraria no primeiro render e piscaria.
+    O nome acessível não cita o tema atual pelo mesmo motivo: diz o que o clique faz, e vale
+    nos dois sentidos. */
+export function ThemeSwitch() {
+  const { toggleTheme } = useTheme();
+  const { language } = useLanguage();
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={language === "pt" ? "Alternar tema claro e escuro" : "Toggle light and dark theme"}
+      className="opacity-50 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+    >
+      <Moon className="h-[1.35em] w-[1.35em] dark:hidden" strokeWidth={2.5} aria-hidden />
+      <Sun className="hidden h-[1.35em] w-[1.35em] dark:block" strokeWidth={2.5} aria-hidden />
     </button>
   );
 }
@@ -75,12 +100,18 @@ export interface CapaPageProps {
 export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = false, children }: CapaPageProps) {
   const { t } = useLanguage();
   const pathname = usePathname();
-  const rating = useRating(track);
+  const pageRating = useRating(track);
+
+  /* Em /reviews a nota é a própria página, e o quadro já abre com a média geral em corpo
+     grande: repetir a mesma nota na faixa é ruído. Sem ela e sem linha técnica nem números,
+     a faixa inteira sai — uma tarja preta vazia embaixo da navbar seria pior que nenhuma. */
+  const rating = pathname === "/reviews" ? null : pageRating;
+  const showMeta = Boolean(descriptor) || stats.length > 0 || Boolean(rating);
 
   /* `data-page` é o gancho do globals.css que pinta o canvas de preto no mobile: sem ele o
      bounce do topo abre um vão creme acima da navbar preta. */
   return (
-    <main data-page="capa" className="flex min-h-screen flex-col bg-[#F1ECE5] font-inter text-[#101010]">
+    <main data-page="capa" className="flex min-h-screen flex-col bg-surface font-inter text-ink">
       {/* Navbar preta emendando na faixa de metadados, como na pilha do mobile da capa.
           Uma linha só em qualquer largura: `items-center` alinha as três peças pelo meio e
           `flex-1` nas duas pontas mantém o título no centro, não importa o comprimento do
@@ -89,9 +120,9 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
           Gruda no topo assim que a página rola; a sombra fica sempre ligada porque em repouso
           ela cai sobre a faixa de metadados, preto no preto — só aparece quando há rolagem e a
           barra passa a flutuar sobre o conteúdo, sem precisar de listener de scroll. */}
-      <div className="sticky top-0 z-50 bg-[#111111] text-[#F1ECE5] shadow-[0_14px_28px_-16px_rgba(0,0,0,0.75)]">
+      <div className="sticky top-0 z-50 bg-chrome text-chrome-ink shadow-[0_14px_28px_-16px_rgba(0,0,0,0.75)]">
         <div
-          className={`${SHELL} relative isolate flex items-center gap-4 px-5 py-3 text-[11px] md:px-8`}
+          className={`${SHELL} relative isolate flex items-center gap-4 px-5 py-3 text-[13px] md:px-8`}
         >
           {/* Fica no bloco de dentro, não no fundo sangrado, senão em tela larga a marca d'água
               some lá na borda da viewport, longe do resto do cabeçalho. */}
@@ -103,7 +134,7 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
             <Link
               href="/"
               aria-label={t("projects.back")}
-              className="flex items-center gap-3 uppercase tracking-[0.18em] transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+              className="flex items-center gap-3 transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
             >
               <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
               <span className="hidden sm:inline">{t("projects.back")}</span>
@@ -116,8 +147,9 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
             {wordmark}
           </h1>
 
-          <span className="flex flex-1 items-center justify-end">
+          <span className="flex flex-1 items-center justify-end gap-4">
             <LangSwitch />
+            <ThemeSwitch />
           </span>
         </div>
       </div>
@@ -127,36 +159,31 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
           Em tela pequena os textos descem um por linha, sempre encostados na esquerda, e a
           avaliação continua à direita — `items-center` no container a centra na altura desse
           bloco, em vez de deixá-la virar mais uma linha da lista. */}
-      <div className="border-t border-[#F1ECE5]/10 bg-[#111111]">
-        <div
-          className={`${SHELL} flex items-center justify-between gap-4 overflow-hidden px-5 py-3 text-[10px] uppercase tracking-[0.18em] text-white/60 md:px-8`}
-        >
-          <span className="flex flex-col-reverse items-start gap-1.5 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
-            {descriptor && <span className="font-mono tracking-[0.3em] text-white/90">{descriptor}</span>}
-            {/* Duas linhas no mobile, nunca uma por item: os números viajam juntos numa linha
-                só. `flex-col-reverse` põe essa linha em cima e a linha técnica — a mais longa,
-                por causa do tracking do mono — embaixo, de base da pirâmide. A partir de md o
-                `contents` dissolve este span e os números voltam a ser itens soltos da faixa. */}
-            <span className="flex flex-wrap items-center gap-x-4 gap-y-1.5 md:contents">
-              {stats.map((stat, i) => (
-                <span key={i}>{stat}</span>
-              ))}
+      {showMeta && (
+        <div className="border-t border-chrome-ink/10 bg-chrome">
+          <div
+            className={`${SHELL} flex items-center justify-between gap-4 overflow-hidden px-5 py-3 text-[12.5px] text-white/60 md:px-8`}
+          >
+            <span className="flex flex-col-reverse items-start gap-1.5 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
+              {descriptor && <span className="text-white/90">{descriptor}</span>}
+              {/* Duas linhas no mobile, nunca uma por item: os números viajam juntos numa linha
+                  só. `flex-col-reverse` põe essa linha em cima e a linha técnica — a mais longa,
+                  por causa do tracking do mono — embaixo, de base da pirâmide. A partir de md o
+                  `contents` dissolve este span e os números voltam a ser itens soltos da faixa. */}
+              <span className="flex flex-wrap items-center gap-x-4 gap-y-1.5 md:contents">
+                {stats.map((stat, i) => (
+                  <span key={i}>{stat}</span>
+                ))}
+              </span>
             </span>
-          </span>
 
-          {/* Mesma nota do rail do hero, mas a desta trilha: cada página passa a sua. Some
-              enquanto não houver avaliação publicada — 0.0 na faixa seria pior que nada.
-              Clicar leva às avaliações, menos quando já se está nelas. */}
-          {rating && (
-            <RatingMark
-              value={rating.value}
-              stars={rating.stars}
-              href={pathname === "/reviews" ? undefined : "/reviews"}
-              label={t("reviews.see")}
-            />
-          )}
+            {/* Mesma nota do rail do hero, mas a desta trilha: cada página passa a sua. Some
+                enquanto não houver avaliação publicada — 0.0 na faixa seria pior que nada.
+                Clicar leva às avaliações; a própria página de avaliações não chega aqui. */}
+            {rating && <RatingMark value={rating.value} stars={rating.stars} href="/reviews" label={t("reviews.see")} />}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* `flex-1`: com o main em coluna de altura de tela, o corpo estica e come a sobra
           vertical que o cabeçalho deixou — é o que dá altura de página cheia a quem preenche
@@ -174,14 +201,14 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
           a viewport como as barras do topo. Some na própria página de contato — CTA para onde
           já se está é link morto. */}
       {!NO_CTA.includes(pathname) && (
-        <Link href="/contact" className="group block bg-[#FF5500] text-white transition-colors hover:bg-[#E64D00]">
+        <Link href="/contact" className="group block bg-accent text-white transition-colors hover:bg-accent-hover">
           <span
             className={`${SHELL} flex flex-wrap items-center justify-between gap-x-8 gap-y-5 px-5 py-11 md:px-8 md:py-14`}
           >
             <span className="font-makaio text-[clamp(28px,4vw,52px)] font-black uppercase leading-none tracking-[0.06em]">
               {t("contact.subtitle")}
             </span>
-            <span className="inline-flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-[gap] group-hover:gap-[18px]">
+            <span className="inline-flex items-center gap-2.5 text-[12.5px] transition-[gap] group-hover:gap-[18px]">
               {t("contact.title")}
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
             </span>

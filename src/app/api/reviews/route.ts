@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { LIMITS, TRACKS, type Track } from "@/data/reviews";
+import { LIMITS, TRACKS, isJpegBase64, type Track } from "@/data/reviews";
+import { projects } from "@/data/projects";
 import { verifyInvite } from "@/services/invite";
 import { createReview } from "@/services/reviews";
 
@@ -27,8 +28,13 @@ export async function POST(request: NextRequest) {
   const company = text(body.company);
   const track = text(body.track);
   const comment = text(body.comment);
-  const email = text(body.email);
+  const photo = text(body.photo);
+  const shots: string[] = Array.isArray(body.shots) ? body.shots.map((shot: unknown) => text(shot)) : [];
   const rating = Number(body.rating);
+  /* projeto vem do link que você gerou; id desconhecido vira "avaliação sem projeto" em vez
+     de erro — o cliente não tem o que corrigir num campo que ele nem viu */
+  const projectId = Number(body.project);
+  const project = projects.some((p) => p.id === projectId) ? projectId : null;
 
   if (invite.length > LIMITS.invite) return fail("Convite inválido.", 400);
   if (!TRACKS.includes(track as Track)) return fail("Contexto inválido.", 400);
@@ -36,10 +42,9 @@ export async function POST(request: NextRequest) {
   if (company.length > LIMITS.company) return fail("Nome de empresa muito longo.", 400);
   if (!Number.isInteger(rating) || rating < 1 || rating > 5) return fail("Nota deve ser de 1 a 5.", 400);
   if (!comment || comment.length > LIMITS.comment) return fail("Escreva um comentário.", 400);
-  /* e-mail é opcional; quando vem, precisa parecer um — o resto é problema de quem digitou */
-  if (email && (email.length > LIMITS.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
-    return fail("E-mail inválido.", 400);
-  }
+  if (photo && !isJpegBase64(photo, LIMITS.photo)) return fail("Não consegui ler sua foto.", 400);
+  if (shots.length > LIMITS.shots) return fail(`No máximo ${LIMITS.shots} fotos do projeto.`, 400);
+  if (shots.some((shot) => !isJpegBase64(shot, LIMITS.shot))) return fail("Não consegui ler uma das fotos.", 400);
 
   try {
     await createReview({
@@ -49,7 +54,9 @@ export async function POST(request: NextRequest) {
       track: track as Track,
       rating,
       comment,
-      email: email || null,
+      photo: photo || null,
+      shots,
+      project,
     });
   } catch (error) {
     console.error("[reviews] falha ao gravar avaliação:", error);

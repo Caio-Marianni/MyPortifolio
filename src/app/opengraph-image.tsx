@@ -9,13 +9,29 @@ export const size = {
 };
 export const contentType = "image/png";
 
-const CREAM = "#F1ECE5";
-const INK = "#101010";
+/* Tema escuro do site: mesma tinta de `--surface`, `--ink` e `--accent` da classe .dark. */
+const SURFACE = "#121110";
+const INK = "#EDE7DE";
+const ACCENT = "#FF6A1F";
 
-/* Monograma como data URI: o satori desenha `img`, não SVG inline. Mesmo path do LogoMark. */
-const LOGO = `data:image/svg+xml;utf8,${encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 512 512"><path fill="#FF5500" d="M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z"/></svg>'
-)}`;
+const MARK = "M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z";
+
+const svg = (markup: string) => `data:image/svg+xml;utf8,${encodeURIComponent(markup)}`;
+
+/* O satori desenha `img`, não SVG inline — daí os data URIs. */
+const LOGO = svg(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 512 512"><path fill="${ACCENT}" d="${MARK}"/></svg>`);
+
+/* Mesmo contorno do LogoWatermark, cortado pela borda. O traço vai fino (o Logo-outline.svg
+   usa 10, que ampliado a ~1000px viraria um risco gordo) — o gesto é a linha, não a massa. */
+const OUTLINE = svg(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 512 512"><path fill="none" stroke="#CFCBDD" stroke-width="1.6" stroke-linejoin="miter" stroke-miterlimit="10" d="${MARK}"/></svg>`
+);
+
+/* Grão do .grain-cream sem o webp: o noise.webp mora em /public e o runtime edge não lê
+   arquivo — feTurbulence dá a mesma poeira sem depender de rede. */
+const GRAIN = svg(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1200" height="630" filter="url(#g)"/></svg>`
+);
 
 /* ponytail: sem Makaio/Ricko no card — carregar .ttf local aqui exige `fetch(new URL(…))`,
    que o runtime edge não resolve para arquivo. Paleta e composição já identificam a marca;
@@ -25,104 +41,40 @@ export default function Image() {
     (
       <div
         style={{
+          position: "relative",
           height: "100%",
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: CREAM,
+          justifyContent: "space-between",
+          overflow: "hidden",
+          backgroundColor: SURFACE,
           color: INK,
+          padding: "56px 64px",
         }}
       >
-        {/* faixa preta do topo, igual à navbar do site */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            backgroundColor: "#111111",
-            color: CREAM,
-            padding: "22px 64px",
-            fontFamily: "monospace",
-            fontSize: 18,
-            letterSpacing: 4,
-            textTransform: "uppercase",
-          }}
-        >
-          {/* o satori desenha `img`, não `next/image` — aqui não há LCP nem otimizador */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={LOGO} width={34} height={34} alt="" />
-          <div style={{ display: "flex" }}>caiomarianni.com.br</div>
-        </div>
+        {/* eslint-disable @next/next/no-img-element -- o satori desenha `img`, não `next/image` */}
+        <img src={OUTLINE} width={900} height={900} alt="" style={{ position: "absolute", top: -220, right: -404, opacity: 0.45 }} />
+        <img src={GRAIN} width={size.width} height={size.height} alt="" style={{ position: "absolute", top: 0, left: 0, opacity: 0.16 }} />
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            flex: 1,
-            padding: "0 64px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              fontSize: 40,
-              fontStyle: "italic",
-              color: "#B4ADA3",
-              marginLeft: 6,
-            }}
-          >
-            Fullstack
-          </div>
+        {/* Sem a URL no topo: as plataformas já imprimem o domínio embaixo do card, e o canto
+            direito é justamente onde o contorno é mais denso. */}
+        <img src={LOGO} width={104} height={104} alt="" />
 
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", fontSize: 72, fontWeight: 800, lineHeight: 1, letterSpacing: 1 }}>CAIO MARIANNI</div>
           <div
             style={{
               display: "flex",
-              fontSize: 190,
-              fontWeight: 900,
-              lineHeight: 0.86,
-              letterSpacing: 6,
-            }}
-          >
-            CAIO
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontFamily: "monospace",
-              fontSize: 26,
-              letterSpacing: 14,
-              textTransform: "uppercase",
-              color: "rgba(16,16,16,0.6)",
               marginTop: 26,
+              fontFamily: "monospace",
+              fontSize: 20,
+              letterSpacing: 8,
+              textTransform: "uppercase",
+              color: "rgba(237,231,222,0.45)",
             }}
           >
-            Marianni
-          </div>
-        </div>
-
-        {/* faixa de metadados do rodapé, mesma micro-tipografia do rail */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            backgroundColor: "#111111",
-            color: "rgba(255,255,255,0.7)",
-            padding: "20px 64px",
-            fontFamily: "monospace",
-            fontSize: 18,
-            letterSpacing: 4,
-            textTransform: "uppercase",
-          }}
-        >
-          <div style={{ display: "flex", gap: 40 }}>
-            <div style={{ display: "flex" }}>Fullstack</div>
-            <div style={{ display: "flex" }}>Design</div>
-            <div style={{ display: "flex" }}>Thumbmaker</div>
-          </div>
-          <div style={{ display: "flex", gap: 40 }}>
-            <div style={{ display: "flex" }}>Goiânia, BR</div>
-            <div style={{ display: "flex" }}>Desde 2022</div>
+            Fullstack · Design · Thumbmaker
           </div>
         </div>
       </div>

@@ -11,11 +11,11 @@ export const metadata: Metadata = {
    em nenhuma outra página. Wrapper local desde que o PageContainer do tema antigo saiu. */
 export default function QrPage() {
   return (
-    <main className="min-h-screen bg-[#101010] px-6 py-16 text-[#F1ECE5]">
+    <main className="min-h-screen bg-chrome px-6 py-16 text-chrome-ink">
       <div className="mx-auto flex min-h-[80vh] max-w-6xl flex-col items-center justify-center gap-10">
         <div className="space-y-1 text-center">
           <h1 className="text-2xl font-bold tracking-tight">QR Generator</h1>
-          <p className="text-sm text-[#F1ECE5]/45">Cole uma URL e gere seu QR code</p>
+          <p className="text-sm text-chrome-ink/45">Cole uma URL e gere seu QR code</p>
         </div>
         <QrGenerator />
       </div>

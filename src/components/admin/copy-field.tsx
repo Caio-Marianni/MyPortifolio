@@ -26,12 +26,12 @@ export function CopyField({ value, className = "" }: { value: string; className?
         readOnly
         value={value}
         onFocus={(e) => e.target.select()}
-        className="min-w-0 flex-1 border-b border-[#101010]/25 bg-transparent py-2 font-mono text-[11px] text-[#101010]/70 focus:border-[#101010] focus:outline-none"
+        className="min-w-0 flex-1 border-b border-ink/25 bg-transparent py-2 text-[13px] text-ink/70 focus:border-ink focus:outline-none"
       />
       <button
         type="button"
         onClick={copiar}
-        className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#101010]/25 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors hover:border-[#101010] hover:bg-[#101010] hover:text-[#F1ECE5] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[#101010]"
+        className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/25 px-4 py-2 text-[12.5px] transition-colors hover:border-ink hover:bg-fill hover:text-fill-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
         {copiado ? "Copiado" : "Copiar"}
         {copiado ? (

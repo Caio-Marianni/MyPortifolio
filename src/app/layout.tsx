@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
 import { ReviewsProvider } from "@/contexts/reviews-context";
+import { ThemeProvider } from "@/contexts/theme-context";
 import { getSummary } from "@/services/reviews";
 
 const baseUrl = "https://www.caiomarianni.com.br";
@@ -66,11 +67,22 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  /* creme da página: a barra do navegador no celular emenda com o fundo */
-  themeColor: "#F1ECE5",
+  /* Fundo da página em cada tema: a barra do navegador no celular emenda com ele.
+     As duas entram no HTML do servidor, então quem segue o SO acerta antes de qualquer JS.
+     Quem escolheu o contrário do SO é corrigido pelo ThemeProvider na hidratação. */
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F1ECE5" },
+    { media: "(prefers-color-scheme: dark)", color: "#121110" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
+
+/* Roda antes do primeiro paint, e é isso que diferencia tema de idioma: trocar o idioma no
+   primeiro frame só muda texto, trocar o tema é um flash creme na cara de quem pediu escuro.
+   Sem valor salvo segue o SO; com valor salvo ele manda. try/catch porque localStorage
+   lança em navegação restrita, e aí o site simplesmente fica no claro. */
+const themeScript = `(function(){try{var s=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",s==="dark"||(!s&&window.matchMedia("(prefers-color-scheme: dark)").matches))}catch(e){}})()`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -112,6 +124,10 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR" translate="no">
       <head>
+        {/* Primeiro de tudo no <head>: script sem `async`/`defer` bloqueia o parser, que é
+            justamente o que se quer aqui — a classe do tema tem que estar no <html> antes
+            de o navegador pintar qualquer pixel. */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* O site tem toggle PT/EN próprio — a barra de tradução do navegador só quebra o layout. */}
         <meta name="google" content="notranslate" />
         {/* Makaio é o título da primeira dobra e Inter é o corpo de tudo — sem preload as duas
@@ -132,9 +148,11 @@ export default async function RootLayout({
         />
       </head>
       <body>
-        <LanguageProvider>
-          <ReviewsProvider summary={summary}>{children}</ReviewsProvider>
-        </LanguageProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <ReviewsProvider summary={summary}>{children}</ReviewsProvider>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

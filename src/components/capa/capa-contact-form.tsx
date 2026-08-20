@@ -10,10 +10,12 @@ export const EMAIL = "caiomarianni@gmail.com";
 const initialForm = { firstName: "", lastName: "", email: "", message: "" };
 
 /* Hairline embaixo do campo, como as divisórias da grade — nada de caixa. Exportados
-   porque o formulário de avaliação usa os mesmos campos; são a mesma peça, não uma cópia. */
+   porque o formulário de avaliação usa os mesmos campos; são a mesma peça, não uma cópia.
+   16px é piso, não escolha de tipografia: abaixo disso o Safari do iPhone dá zoom na página
+   toda ao focar o campo, e o visitante fica com o layout torto e sem saber por quê. */
 export const FIELD =
-  "w-full border-b border-[#101010]/25 bg-transparent py-2 text-[14px] text-[#101010] placeholder:text-[#101010]/30 focus:border-[#101010] focus:outline-none transition-colors";
-export const LABEL = "block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101010]/45";
+  "w-full border-b border-ink/25 bg-transparent py-2 text-[16px] text-ink placeholder:text-ink/30 focus:border-ink focus:outline-none transition-colors";
+export const LABEL = "block text-[12.5px] text-ink/45";
 
 export function CapaContactForm() {
   const { t, language } = useLanguage();
@@ -85,7 +87,7 @@ export function CapaContactForm() {
 
       <button
         type="submit"
-        className="mt-2 flex items-center justify-center gap-2 self-start rounded-full bg-[#101010] px-7 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F1ECE5] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#101010]"
+        className="mt-2 flex items-center justify-center gap-2 self-start rounded-full bg-fill px-7 py-3 text-[13px] text-fill-ink transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
         {t("contact.send")}
         <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

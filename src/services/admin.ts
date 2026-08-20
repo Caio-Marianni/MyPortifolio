@@ -12,6 +12,11 @@ import { db } from "./db.ts";
 export const COOKIE = "admin";
 export const MAX_AGE = 60 * 60 * 24 * 30;
 
+/** Raiz, e não `/admin`: a foto de avaliação pendente sai por /api/reviews/[id]/image, e o
+    navegador só manda o cookie pra caminho que casa com este. Preso no painel, a rota nunca
+    via a sessão e devolvia 404 em tudo que ainda não estava publicado. */
+export const COOKIE_PATH = "/";
+
 /** Tentativas erradas do mesmo IP antes de fechar a porta, e por quanto tempo ela fica fechada. */
 export const MAX_TRIES = 5;
 export const WINDOW_MINUTES = 15;

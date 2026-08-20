@@ -34,12 +34,81 @@
   font-display: swap;
 }
 
-/* Sem isto o navegador assume que o site não sabe lidar com tema escuro e inverte
-   as cores sozinho (auto dark theme) — era o que deixava a capa marrom no celular.
-   Declarar o esquema diz "eu cuido das minhas cores" e desliga a inversão.
-   ponytail: continua `dark` mesmo com a página creme porque foi assim que o bug
-   sumiu no aparelho; `only light` é o opt-out documentado, trocar só testando no celular. */
+/* Paleta em canais RGB soltos, sem `rgb()` e sem vírgula: é o formato que o
+   `<alpha-value>` do tailwind.config.ts consome para montar `text-ink/45`.
+   Editar cor do site é editar estas duas listas — nenhum hex solto nos componentes.
+
+   O tema é a classe `dark` no <html>, posta pelo script do layout antes do primeiro paint.
+   Nada de `@media (prefers-color-scheme)` aqui: o script já resolveu sistema + escolha salva,
+   e duplicar a regra em media query faria o SO ganhar de quem escolheu o contrário. */
 :root {
+  --surface: 241 236 229; /* #F1ECE5 creme da página */
+  --surface-raised: 248 245 239; /* #F8F5EF botão outline, cartão */
+  --surface-sunken: 225 221 214; /* #E1DDD6 trilho, poço de imagem */
+  --ink: 16 16 16; /* #101010 texto sobre a página */
+  --chrome: 17 17 17; /* #111111 navbar, faixa de meta, rail */
+  --chrome-ink: 241 236 229; /* #F1ECE5 texto sobre a tarja */
+  --fill: 16 16 16; /* #101010 fundo do botão sólido */
+  --fill-ink: 241 236 229; /* #F1ECE5 texto do botão sólido */
+  /* Lábio 3D embaixo do botão sólido: precisa ser mais escuro que o `fill`, e `ink` com alpha
+     não serve — no escuro o botão inverte e a conta iria para o lado errado. */
+  --fill-lip: 74 68 60; /* #4A443C */
+  --surface-hover: 255 255 255; /* hover do botão de contorno, um degrau acima do raised */
+  --accent: 255 85 0; /* #FF5500 */
+  --accent-hover: 230 77 0; /* #E64D00 */
+  --danger: 179 38 30; /* #B3261E */
+
+  /* Ficha alternada do dossiê de projetos. No claro é a inversão cheia — creme, preto, creme.
+     No escuro não pode ser: inverter ali só troca quais fichas ficam creme, e metade da página
+     continua estourada. Lá a alternância vira um degrau de superfície, não uma virada de tema. */
+  --card-flip-paper: 16 16 16; /* #101010 */
+  --card-flip-ink: 241 236 229; /* #F1ECE5 */
+
+  /* Véu do grão: par próprio porque o de baixo é um creme mais quente que o da página
+     (#FFF5E8), não um token reaproveitado — ver .grain-cream. */
+  --grain-top: 241 236 229;
+  --grain-bottom: 255 245 232;
+
+  /* Sem isto o navegador assume que o site não sabe lidar com tema escuro e inverte
+     as cores sozinho (auto dark theme) — era o que deixava a capa marrom no celular.
+     Declarar o esquema diz "eu cuido das minhas cores" e desliga a inversão.
+     `only light` no lugar do antigo `dark`: agora que existe tema escuro de verdade,
+     mentir aqui faria o navegador desenhar scrollbar e campos escuros na página creme.
+     O `only` é o que mantém a inversão desligada — testar no Android antes de mexer. */
+  color-scheme: only light;
+}
+
+/* Creme cheio sobre quase-preto floresce, então o texto escuro é #EDE7DE, não #F1ECE5.
+   O laranja sobe um degrau pelo motivo inverso: #FF5500 sobre #121110 fica barrento.
+   A tarja continua mais escura que a página, como no claro — é o gesto da capa. */
+.dark {
+  --surface: 18 17 16; /* #121110 quase-preto quente */
+  --surface-raised: 28 26 24; /* #1C1A18 */
+  --surface-sunken: 10 9 8; /* #0A0908 */
+  --ink: 237 231 222; /* #EDE7DE */
+  --chrome: 10 9 8; /* #0A0908 */
+  --chrome-ink: 237 231 222; /* #EDE7DE */
+  --fill: 237 231 222; /* #EDE7DE inverte: claro sobre página escura */
+  --fill-ink: 18 17 16; /* #121110 */
+  --fill-lip: 138 133 124; /* #8A857C creme rebaixado, o lábio segue abaixo do botão */
+  --surface-hover: 40 37 34; /* #282522 */
+  --accent: 255 106 31; /* #FF6A1F */
+  --accent-hover: 255 132 66; /* #FF8442 */
+  --danger: 242 184 181; /* #F2B8B5 */
+
+  /* Um degrau acima da página, não o creme: a ficha alternada continua se distinguindo da
+     vizinha sem acender metade da lista. Mesma tinta de texto das duas, então o que alterna
+     é só a superfície.
+     O salto parece grande demais escrito em hex, e não é: perto do preto a curva de gama come
+     quase toda a diferença — #1C1A18 aqui rendia 1.09:1 contra a página, ou seja, nada. */
+  --card-flip-paper: 45 42 38; /* #2D2A26 */
+  /* Creme mais cheio que o `--ink` da página: aqui o papel não é quase-preto, então não há
+     halação para segurar, e os rótulos a 35% precisam da faixa extra para não sumir. */
+  --card-flip-ink: 248 244 237; /* #F8F4ED */
+
+  --grain-top: 18 17 16;
+  --grain-bottom: 28 26 24;
+
   color-scheme: dark;
 }
 
@@ -56,8 +125,8 @@ html {
 /* Creme e preto da capa como base do site: as páginas não precisam mais desfazer
    glow nem fundo escuro herdado — só pintam o que é delas. */
 body {
-  background-color: #f1ece5;
-  color: #101010;
+  background-color: rgb(var(--surface));
+  color: rgb(var(--ink));
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -69,8 +138,8 @@ body {
    O véu creme por cima do ruído é o botão de intensidade — quanto maior o alpha, mais
    leve o grão (0.9 = 10% de ruído). O mesmo tile do grão da foto, então nada a baixar. */
 .grain-cream {
-  background-color: #f1ece5;
-  background-image: linear-gradient(rgba(241, 236, 229, 0.9), rgba(255, 245, 232, 0.7)),
+  background-color: rgb(var(--surface));
+  background-image: linear-gradient(rgb(var(--grain-top) / 0.9), rgb(var(--grain-bottom) / 0.7)),
     url("/assets/images/noise.webp");
   background-repeat: repeat;
 }
@@ -83,7 +152,7 @@ body {
    seletor olha só a presença do atributo. */
 @media (max-width: 1023px) {
   html:has(main[data-page]) {
-    background-color: #111111;
+    background-color: rgb(var(--chrome));
   }
 
   /* O WebKit não lê o fundo do <html> direto: ele compõe o do body por cima e usa o
@@ -104,8 +173,8 @@ textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px #f1ece5 inset !important;
-  -webkit-text-fill-color: #101010 !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgb(var(--surface)) inset !important;
+  -webkit-text-fill-color: rgb(var(--ink)) !important;
   transition: background-color 5000s ease-in-out 0s;
-  caret-color: #101010;
+  caret-color: rgb(var(--ink));
 }

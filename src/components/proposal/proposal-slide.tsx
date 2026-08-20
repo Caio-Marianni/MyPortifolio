@@ -18,16 +18,16 @@ export interface SlideLink {
    exatamente a altura do bloco e a sombra some — parece que afundou. Profundidade em `em` pra
    escalar junto com o corpo, que muda entre o 16:9 (cqw) e a pilha (px). */
 export const CTA_BASE =
-  "flex items-center justify-center gap-[0.4em] rounded-full transition-all duration-150 active:translate-y-[0.3em] active:[box-shadow:none] motion-reduce:transition-none focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[#101010]";
+  "flex items-center justify-center gap-[0.4em] rounded-full transition-all duration-150 active:translate-y-[0.3em] active:[box-shadow:none] motion-reduce:transition-none focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 export const CTA_VARIANT = {
   solid:
-    "bg-[#101010] text-[#F1ECE5] hover:bg-[#101010]/80 [box-shadow:0_0.3em_0_0_#4A443C,0_0.5em_0_0_rgba(16,16,16,0.18)]",
+    "bg-fill text-fill-ink hover:bg-fill/80 [box-shadow:0_0.3em_0_0_rgb(var(--fill-lip)),0_0.5em_0_0_rgb(var(--ink)/0.18)]",
   /* Fundo chapado, e não transparente: sobre o creme granulado o contorno vazado deixava o grão
      correr por dentro do botão e ele sumia no papel. Um tom acima do creme, então continua
      secundário diante do cheio mas lê como superfície apoiada em cima. */
   outline:
-    "bg-[#F8F5EF] border border-[#101010]/25 text-[#101010]/80 hover:bg-white hover:text-[#101010] [box-shadow:0_0.3em_0_0_rgba(16,16,16,0.16),0_0.5em_0_0_rgba(16,16,16,0.07)]",
+    "bg-surface-raised border border-ink/25 text-ink/80 hover:bg-surface-hover hover:text-ink [box-shadow:0_0.3em_0_0_rgb(var(--ink)/0.16),0_0.5em_0_0_rgb(var(--ink)/0.07)]",
 } as const;
 
 /** Uma coluna do rodapé: dados em cima, ação embaixo. */
@@ -90,7 +90,7 @@ const VERT = "[writing-mode:vertical-rl] rotate-180 whitespace-nowrap";
 
 /* Tetos em px: acima de ~1400px de quadro o cqw puro incha a micro-tipografia junto com o pôster. */
 const RAIL_SIZE = "text-[clamp(10px,0.95cqw,12px)]";
-const TAG = `${VERT} ${RAIL_SIZE} uppercase tracking-[0.18em] text-white/70`;
+const TAG = `${VERT} ${RAIL_SIZE} text-white/70`;
 
 /* Wordmark ocupa sempre a mesma largura ótica: 4 letras a 9cqw é a proporção da referência. */
 const WORDMARK_SPAN = 66;
@@ -129,7 +129,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
   return (
     <section
       /* sem overflow-hidden: a aba da logo precisa escapar do quadro até a borda da tela */
-      className="grain-cream relative aspect-[16/9] w-full font-inter text-[#101010] [container-type:inline-size]"
+      className="grain-cream relative aspect-[16/9] w-full font-inter text-ink [container-type:inline-size]"
     >
       {/* Duas metades de verdade, 50/50. A aba e o canto seguem absolutos: filhos fora de fluxo
           não são itens de flex, então continuam se posicionando pela section. */}
@@ -137,7 +137,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
         {/* ── metade esquerda: retrato + rail de metadados ──
             py em %: resolve pela largura do quadro, e 2.475% da largura = os 4.4% de altura de antes. */}
         <div className="flex w-1/2 py-[2.475%] pl-[3.2%]">
-          <div className="relative flex-1 overflow-hidden bg-[#1A1A1A]">
+          <div className="relative flex-1 overflow-hidden bg-surface-sunken">
             <Image src={image} alt="" fill sizes="(min-width: 1024px) 50vw, 100vw" priority={priority} className="object-cover" style={{ objectPosition: imagePosition }} />
             {/* mesmo grão do resto do site, bem mais discreto: só quebra o digital liso da foto */}
             <div className="pointer-events-none absolute inset-0 bg-[url('/assets/images/noise.webp')] bg-repeat opacity-[0.22] mix-blend-overlay" aria-hidden />
@@ -147,7 +147,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
             /* `relative` só pra ordem de pintura: a foto é um elemento posicionado, então sem isso
                ela subiria por cima da sombra. Offset negativo em X e spread negativo jogam a sombra
                pra dentro da foto e seguram o vazamento no creme da direita. Em cqw, escala com o quadro. */
-            <div className="relative flex w-[12%] shrink-0 gap-[6%] bg-[#111111] px-[3%] py-[5%] shadow-[-0.6cqw_0_1.4cqw_-0.35cqw_rgba(0,0,0,0.55)]">
+            <div className="relative flex w-[12%] shrink-0 gap-[6%] bg-chrome px-[3%] py-[5%] shadow-[-0.6cqw_0_1.4cqw_-0.35cqw_rgba(0,0,0,0.55)]">
               <RailColumn
                 top={rail.innerTop}
                 bottom={rail.innerBottom}
@@ -195,7 +195,9 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
             {script?.map(({ text, top = "-0.42em", left = "6%", scale = 0.47, rotate = 0 }) => (
               <span
                 key={text}
-                className={`bg-gradient-to-bl from-[#c4c0b9] to-[#c4c0b9]/0 bg-clip-text text-transparent absolute -z-10 whitespace-nowrap ${scriptFont} leading-none text-[#B4ADA3]`}
+                /* Fantasma atrás do wordmark: alphas de `ink` reproduzem os antigos #c4c0b9 e
+                   #B4ADA3 sobre o creme e continuam legíveis quando o fundo escurece. */
+                className={`bg-gradient-to-bl from-ink/20 to-ink/0 bg-clip-text text-transparent absolute -z-10 whitespace-nowrap ${scriptFont} leading-none text-ink/25`}
                 style={{
                   top,
                   left,
@@ -236,21 +238,21 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
                então stat da esquerda e stat da direita ficam na mesma altura mesmo com textos
                de comprimentos diferentes, e os CTAs fecham na última linha. */
             <div
-              className="mt-[2.4cqw] grid w-full grid-cols-2 gap-x-[2.5cqw] gap-y-[0.6em] text-[clamp(10px,0.85cqw,12px)] font-bold uppercase tracking-[0.06em]"
+              className="mt-[2.4cqw] grid w-full grid-cols-2 gap-x-[2.5cqw] gap-y-[0.6em] text-[clamp(11px,0.95cqw,13px)] font-bold"
               style={{ gridTemplateRows: `repeat(${gridRows}, auto)` }}
             >
               {columns.map((column) => (
                 <div key={column.link.href} className="grid grid-rows-subgrid" style={{ gridRow: `span ${gridRows}` }}>
                   {column.stats.map((stat, i) => (
                     /* centralizado pra bater com o rótulo do CTA logo abaixo, que também é centrado */
-                    <span key={i} className="flex h-[1.3em] items-center justify-center text-center text-[#101010]/55">
+                    <span key={i} className="flex h-[1.3em] items-center justify-center text-center text-ink/55">
                       {stat}
                     </span>
                   ))}
                   <Link
                     href={column.link.href}
                     style={{ gridRowStart: gridRows }}
-                    className={`mt-[0.6em] px-[1.2em] py-[0.75em] ${CTA_BASE} ${CTA_VARIANT[column.link.variant ?? "solid"]}`}
+                    className={`mt-[0.6em] px-[1.2em] py-[0.75em] ${CTA_BASE} ${CTA_VARIANT[column.link.variant ??"solid"]}`}
                   >
                     {column.link.label}
                     <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
@@ -266,7 +268,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
         /* Sangra da borda da viewport até 8% do quadro: (100vw - quadro)/2 é a sobra de um lado.
            Os 8% posicionam a marca — ancorada à direita, com 1cqw de respiro — a partir de 3.6%,
            já dentro da foto, que começa em 3.2%. */
-        <div className="absolute left-[calc((100%_-_100vw)_/_2)] top-[45%] isolate flex min-h-[11%] w-[calc(8%_+_(100vw_-_100%)_/_2)] items-center justify-end overflow-hidden bg-[#111111] p-[1cqw] text-[clamp(11px,1.05cqw,14px)] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_3px_12px_rgba(0,0,0,0.3)]">
+        <div className="absolute left-[calc((100%_-_100vw)_/_2)] top-[45%] isolate flex min-h-[11%] w-[calc(8%_+_(100vw_-_100%)_/_2)] items-center justify-end overflow-hidden bg-chrome p-[1cqw] text-[clamp(11px,1.05cqw,14px)] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_3px_12px_rgba(0,0,0,0.3)]">
           <LogoWatermark className="-left-[0.6cqw]" />
 
           <span className="aspect-square w-[3.4cqw]">{tab}</span>

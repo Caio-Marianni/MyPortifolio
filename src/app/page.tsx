@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ProposalSlide, type ProposalContent } from "@/components/proposal/proposal-slide";
 import { ProposalStack } from "@/components/proposal/proposal-stack";
 import { CvPanel } from "@/components/proposal/cv-panel";
-import { LangSwitch, LogoMark } from "@/components/capa/capa-page";
+import { LangSwitch, LogoMark, ThemeSwitch } from "@/components/capa/capa-page";
 import { RatingLink, Stars } from "@/components/ui/brand-marks";
 import { type Track } from "@/data/reviews";
 import { useLanguage } from "@/contexts/language-context";
@@ -14,10 +14,12 @@ import { useGoiasClock } from "@/hooks/use-goias-clock";
 /* Tudo em `em`: cada composição define o corpo do slot e a pill acompanha, sem duplicar estilo.
    Peso e tracking são os dos CTAs logo abaixo — a pill governa aquele bloco, então lê como
    parte dele e não como um controle vindo de outro sistema. */
-const PILL_BASE = "rounded-full px-[1.6em] py-[0.75em] font-bold uppercase tracking-[0.06em] transition-colors";
+const PILL_BASE = "rounded-full px-[1.6em] py-[0.75em] font-bold transition-colors";
 
 const SCRIPT_FONT = "font-makaio";
 const WORDMARK_FONT = "font-makaio";
+/* Fica na mono: "Marianni" não é rótulo, é a segunda linha da assinatura — sai justificado
+   na largura do CAIO, e a caixa alta letra a letra é o desenho da marca, não micro-tipografia. */
 const DESCRIPTOR_FONT = "font-mono";
 
 export default function Home() {
@@ -56,7 +58,7 @@ export default function Home() {
       type="button"
       onClick={() => setCvOpen((v) => !v)}
       aria-expanded={cvOpen}
-      className="whitespace-nowrap uppercase tracking-[0.18em] transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+      className="whitespace-nowrap transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/60"
     >
       {/* latim, então serve nos dois idiomas sem tradução */}
       Curric. Vitae
@@ -69,7 +71,7 @@ export default function Home() {
   const rating = overall ? { ...overall, href: "/reviews", label: t("reviews.see") } : undefined;
   const ratingStat = active.mark && (
     <RatingLink key="rating" href="/reviews" label={t("reviews.see")} className="inline-flex">
-      <Stars count={active.mark.stars} className="text-[#101010]/60" />
+      <Stars count={active.mark.stars} className="text-ink/60" />
     </RatingLink>
   );
 
@@ -79,7 +81,12 @@ export default function Home() {
     imagePosition: "18% center",
     tab: <LogoMark />,
     /* cor por opacidade em cima de currentColor — serve no creme do 16:9 e no preto do mobile */
-    corner: <LangSwitch />,
+    corner: (
+      <span className="flex items-center gap-[1.1em]">
+        <LangSwitch />
+        <ThemeSwitch />
+      </span>
+    ),
     wordmark: "Caio",
     /* Duas peças independentes, na diagonal e por trás do CAIO: `top` em `em` do corpo da própria
        palavra, `left` em % da largura do CAIO, `rotate` em graus e `scale` em fração do corpo dele
@@ -116,9 +123,10 @@ export default function Home() {
          correndo por dentro — o oposto dos botões cheio/contorno logo abaixo, que é o que
          confundia os três. */
       <div
-        /* #E1DDD6 é o creme com os mesmos 7% de preto que a versão translúcida rendia — mesma cor
-           de antes, só que chapada, senão o grão do fundo atravessa o trilho e a escavação some. */
-        className="relative inline-flex rounded-full bg-[#E1DDD6] p-[0.3em] shadow-[inset_0_1px_2px_rgba(16,16,16,0.16),inset_0_-1px_0_rgba(255,255,255,0.5)]"
+        /* `surface-sunken` é o creme com os mesmos 7% de preto que a versão translúcida rendia —
+           mesma cor de antes, só que chapada, senão o grão do fundo atravessa o trilho e a
+           escavação some. */
+        className="relative inline-flex rounded-full bg-surface-sunken p-[0.3em] shadow-[inset_0_1px_2px_rgb(var(--ink)/0.16),inset_0_-1px_0_rgba(255,255,255,0.5)]"
         role="group"
       >
         {/* Chip único que desliza em vez de reaparecer no outro botão. Os rótulos são flex-1, então
@@ -127,8 +135,8 @@ export default function Home() {
             ponytail: a conta só fecha com duas opções; uma terceira track pede width/translate por índice. */}
         <span
           aria-hidden
-          className={`pointer-events-none absolute inset-y-[0.3em] left-[0.3em] w-[calc(50%_-_0.3em)] rounded-full bg-gradient-to-b from-white to-[#F1ECE5] shadow-[0_1px_2px_rgba(16,16,16,0.14)] transition-transform duration-300 ease-out motion-reduce:transition-none ${
-            track === "thumbs" ? "translate-x-full" : "translate-x-0"
+          className={`pointer-events-none absolute inset-y-[0.3em] left-[0.3em] w-[calc(50%_-_0.3em)] rounded-full bg-gradient-to-b from-surface-raised to-surface shadow-[0_1px_2px_rgb(var(--ink)/0.14)] transition-transform duration-300 ease-out motion-reduce:transition-none ${
+            track ==="thumbs" ? "translate-x-full" : "translate-x-0"
           }`}
         />
 
@@ -138,7 +146,7 @@ export default function Home() {
             type="button"
             onClick={() => setTrack(key)}
             aria-pressed={track === key}
-            className={`relative ${PILL_BASE} ${track === key ? "text-[#101010]" : "text-[#101010]/45 hover:text-[#101010]"}`}
+            className={`relative ${PILL_BASE} ${track === key ?"text-ink" : "text-ink/45 hover:text-ink"}`}
           >
             {tracks[key].label}
           </button>

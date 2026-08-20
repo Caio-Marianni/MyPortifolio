@@ -28,7 +28,7 @@ function FlagUK() {
 
 const OPTION = [
   "group flex items-center gap-[0.9em] rounded-sm px-[1em] py-[0.8em] text-left",
-  "font-bold uppercase tracking-[0.12em] text-white/60",
+  "font-bold text-white/60",
   "transition-colors hover:bg-white/[0.07] hover:text-white",
   "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-white/60",
 ].join(" ");
@@ -73,12 +73,12 @@ export function CvPanel({ open, onClose, labels, variant = "rail" }: CvPanelProp
 
       {/* invisible (não hidden) tira do fluxo de foco sem matar a transição */}
       <div
-        className={`${style.panel} z-30 flex flex-col gap-[0.3em] bg-[#111111] p-[1em] shadow-[0_8px_28px_rgba(0,0,0,0.45)] transition-all duration-200 ease-out ${
+        className={`${style.panel} z-30 flex flex-col gap-[0.3em] bg-chrome p-[1em] shadow-[0_8px_28px_rgba(0,0,0,0.45)] transition-all duration-200 ease-out ${
           open ? style.open : style.closed
         }`}
         aria-hidden={!open}
       >
-        <span className="flex items-center gap-[0.5em] px-[1em] pb-[0.5em] text-[0.85em] uppercase tracking-[0.2em] text-white/35">
+        <span className="flex items-center gap-[0.5em] px-[1em] pb-[0.5em] text-[0.85em] text-white/35">
           <Download className="h-[1em] w-[1em]" strokeWidth={2} aria-hidden />
           {labels.title}
         </span>

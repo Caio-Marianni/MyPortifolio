@@ -20,11 +20,11 @@ export default function ThumbnailsPage() {
       {/* Grade sangrando até a viewport: sem SHELL, sem bordas laterais. O topo emenda na faixa
           de metadados e só a linha de baixo fecha a grade; as divisórias internas são o `gap-px`
           mostrando o fundo. */}
-      <div className="grid gap-px border-b border-[#101010]/15 bg-[#101010]/15 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-px border-b border-ink/15 bg-ink/15 sm:grid-cols-2 lg:grid-cols-3">
         {thumbnails.map((thumb, i) => (
           /* ponytail: mesma célula neutra da grade de projetos — o estilo de cada peça vem depois. */
-          <figure key={thumb.id} className="bg-[#F1ECE5] p-3">
-            <div className="relative aspect-video overflow-hidden rounded-md bg-[#1A1A1A]">
+          <figure key={thumb.id} className="bg-surface p-3">
+            <div className="relative aspect-video overflow-hidden rounded-md bg-surface-sunken">
               <Image
                 src={thumb.image}
                 alt=""
@@ -40,7 +40,7 @@ export default function ThumbnailsPage() {
               />
             </div>
 
-            <figcaption className="flex items-center justify-between gap-3 px-1 pb-1 pt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#101010]/45">
+            <figcaption className="flex items-center justify-between gap-3 px-1 pb-1 pt-3 text-[12.5px] text-ink/45">
               <span>{String(i + 1).padStart(2, "0")}</span>
               <span className="truncate">{thumb.tags.join(" · ")}</span>
             </figcaption>

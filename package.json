@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "check": "node scripts/check-reviews.ts",
+    "check": "node scripts/check-reviews.ts && node scripts/check-contrast.ts",
     "invite": "node --env-file=.env.local scripts/invite.ts"
   },
   "repository": {

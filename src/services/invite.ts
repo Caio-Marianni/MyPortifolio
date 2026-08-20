@@ -48,8 +48,16 @@ export function inviteId(name: string): string {
 }
 
 /** Monta o link inteiro. Vive aqui porque quem o gera são dois: o painel, que sabe o host pela
-    requisição, e o script de linha de comando, que recebe o host por variável de ambiente. */
-export function inviteLink(origin: string, invite: { name: string; company: string; track: string }): string {
+    requisição, e o script de linha de comando, que recebe o host por variável de ambiente.
+
+    `t` (trilha) e `p` (projeto) deixaram de ser campo do formulário: quem escolhe os dois é
+    você, aqui. Continuam fora da assinatura porque não são portão — o pior que um cliente
+    esperto faz mexendo neles é etiquetar errado a própria avaliação, que você lê no painel
+    antes de publicar. */
+export function inviteLink(
+  origin: string,
+  invite: { name: string; company: string; track: string; project?: number | null },
+): string {
   const id = inviteId(invite.name);
   const url = new URL("/avaliar", origin);
   url.searchParams.set("c", id);
@@ -57,5 +65,6 @@ export function inviteLink(origin: string, invite: { name: string; company: stri
   url.searchParams.set("n", invite.name);
   url.searchParams.set("e", invite.company);
   url.searchParams.set("t", invite.track);
+  if (invite.project) url.searchParams.set("p", String(invite.project));
   return url.toString();
 }
