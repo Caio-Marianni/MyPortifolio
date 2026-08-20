@@ -1,6 +1,6 @@
 "use client";
 
-import { CapaPage } from "@/components/capa/capa-page";
+import { CapaPage, SHELL } from "@/components/capa/capa-page";
 import { CapaContactForm } from "@/components/capa/capa-contact-form";
 import { ContactChannels } from "@/components/contact/contact-channels";
 import { useLanguage } from "@/contexts/language-context";
@@ -25,9 +25,11 @@ export default function ContactPage() {
           colunas viram uma faixa da altura da mais alta, então elas começam na mesma linha e
           o conjunto é que fica no meio da página. `safe` devolve o alinhamento ao topo se a
           faixa não couber, senão o começo dela sumiria por cima da navbar.
-          O preto de altura cheia é do `before`: metade esquerda da medida mais a sangria até
-          a borda da viewport, que fora do SHELL a página é creme. */}
-      <div className="relative isolate grid items-stretch lg:flex-1 lg:grid-cols-2 lg:[align-content:safe_center] lg:before:absolute lg:before:inset-y-0 lg:before:right-1/2 lg:before:-z-10 lg:before:w-screen lg:before:bg-[#101010]">
+          O conteúdo respeita o SHELL como o resto do sistema; só o preto passa dele. O
+          `before` fecha a diferença: ancorado no meio do bloco, corre `w-screen` para a
+          esquerda e cobre a sobra até a borda da viewport — à direita a sobra já é creme,
+          que é a cor da página. */}
+      <div className={`${SHELL} relative isolate grid items-stretch lg:flex-1 lg:grid-cols-2 lg:[align-content:safe_center] lg:before:absolute lg:before:inset-y-0 lg:before:right-1/2 lg:before:-z-10 lg:before:w-screen lg:before:bg-[#101010]`}>
         <div className="bg-[#F1ECE5] px-6 py-14 md:px-10">
           <CapaContactForm />
         </div>
