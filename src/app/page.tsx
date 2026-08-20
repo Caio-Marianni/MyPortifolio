@@ -5,11 +5,11 @@ import { ProposalSlide, type ProposalContent } from "@/components/proposal/propo
 import { ProposalStack } from "@/components/proposal/proposal-stack";
 import { CvPanel } from "@/components/proposal/cv-panel";
 import { LangSwitch, LogoMark } from "@/components/capa/capa-page";
-import { Stars } from "@/components/ui/brand-marks";
+import { RatingLink, Stars } from "@/components/ui/brand-marks";
+import { type Track } from "@/data/reviews";
 import { useLanguage } from "@/contexts/language-context";
+import { useRating } from "@/contexts/reviews-context";
 import { useGoiasClock } from "@/hooks/use-goias-clock";
-
-type Track = "web" | "thumbs";
 
 /* Tudo em `em`: cada composição define o corpo do slot e a pill acompanha, sem duplicar estilo.
    Peso e tracking são os dos CTAs logo abaixo — a pill governa aquele bloco, então lê como
@@ -26,6 +26,10 @@ export default function Home() {
   const [track, setTrack] = useState<Track>("web");
   const [cvOpen, setCvOpen] = useState(false);
   const pt = language === "pt";
+  /* Notas das avaliações publicadas: a geral fica no rail, a da trilha acompanha a pill.
+     Ausentes enquanto ninguém tiver avaliado — aí a nota simplesmente não aparece. */
+  const overall = useRating();
+  const trackRating = { web: useRating("web"), thumbs: useRating("thumbs") };
 
   /* ponytail: "—" marca número que ainda não existe em lugar nenhum do repo — em andamento e canais.
      Trocar pelos reais; o resto sai de data/ e das traduções. */
@@ -33,16 +37,16 @@ export default function Home() {
     web: {
       label: t("lobby.web.label"),
       stats: [t("status.stats"), `— ${pt ? "em andamento" : "in progress"}`],
-      rating: 5,
+      mark: trackRating.web,
       link: { href: "/projects", label: t("lobby.web.cta") },
     },
     thumbs: {
       label: t("status.thumbnails"),
       stats: [ `— ${pt ? "canais" : "channels"}`, `44 ${pt ? "thumbnails feitas" : "thumbnails made"}`],
-      rating: 5,
+      mark: trackRating.thumbs,
       link: { href: "/thumbnails", label: t("lobby.thumbs.cta") },
     },
-  } satisfies Record<Track, { label: string; stats: string[]; rating: number; link: { href: string; label: string } }>;
+  } satisfies Record<Track, { label: string; stats: string[]; mark: { value: string; stars: number } | null; link: { href: string; label: string } }>;
 
   const active = tracks[track];
 
@@ -61,7 +65,13 @@ export default function Home() {
   const since = pt ? "Desde 2022" : "Since 2022";
   /* versão curta só pra faixa do mobile; o rail do 16:9 tem espaço pra data inteira */
   const sinceShort = pt ? "Desde '22" : "Since '22";
-  const rating = { value: "5.0", stars: 5 };
+  /* Uma nota só no rail, a geral, e ela é o caminho pra página de avaliações. */
+  const rating = overall ? { ...overall, href: "/reviews", label: t("reviews.see") } : undefined;
+  const ratingStat = active.mark && (
+    <RatingLink key="rating" href="/reviews" label={t("reviews.see")} className="inline-flex">
+      <Stars count={active.mark.stars} className="text-[#101010]/60" />
+    </RatingLink>
+  );
 
   const content: ProposalContent = {
     priority: true,
@@ -96,7 +106,7 @@ export default function Home() {
     columns: [
       { stats: active.stats, link: active.link },
       {
-        stats: [<Stars key="rating" count={active.rating} className="text-[#101010]/60" />, t("status.clients")],
+        stats: ratingStat ? [ratingStat, t("status.clients")] : [t("status.clients")],
         /* contorno: o CTA cheio fica com a track que a pill governa, contato acompanha */
         link: { href: "/contact", label: t("lobby.contact"), variant: "outline" as const },
       },

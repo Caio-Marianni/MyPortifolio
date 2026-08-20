@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { LogoWatermark, RATING_FONT, Stars } from "@/components/ui/brand-marks";
+import { LogoWatermark, RATING_FONT, RatingLink, Stars } from "@/components/ui/brand-marks";
 
 export interface SlideLink {
   href: string;
@@ -56,8 +56,8 @@ export interface SlideRail {
   innerBottom?: ReactNode[];
   outerTop?: ReactNode[];
   outerBottom?: ReactNode[];
-  /** nota grande e apagada, com as estrelas por cima */
-  rating?: { value: string; stars: number };
+  /** nota grande e apagada, com as estrelas por cima; com `href`, vira link pras avaliações */
+  rating?: { value: string; stars: number; href?: string; label?: string };
 }
 
 /** Mesmo conteúdo alimenta o slide 16:9 e a pilha do mobile. */
@@ -153,7 +153,9 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
                 bottom={rail.innerBottom}
                 middle={
                   rail.rating && (
-                    <span className={`relative flex shrink-0 items-center justify-center ${RAIL_SIZE}`}>
+                    /* O link envolve a nota inteira — o algarismo é fundo, então a área
+                       clicável tem que ser a do bloco, não a das cinco estrelas. */
+                    <RatingLink href={rail.rating.href} label={rail.rating.label} className={`relative flex shrink-0 items-center justify-center ${RAIL_SIZE}`}>
                       {/* Duas correções para a nota bater com as estrelas, que é o que define o centro:
                           1. `leading-none` — sem ele a caixa da linha mede a entrelinha inteira, e como
                              o texto é vertical essa sobra fica no eixo horizontal, o eixo do desalinho.
@@ -170,7 +172,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
                         {rail.rating.value}
                       </span>
                       <Stars vertical count={rail.rating.stars} className="relative translate-x-1.5 text-white/75" />
-                    </span>
+                    </RatingLink>
                   )
                 }
               />

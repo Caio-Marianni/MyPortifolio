@@ -12,6 +12,7 @@ export default function ThumbnailsPage() {
   return (
     <CapaPage
       bleed
+      track="thumbs"
       wordmark={t("status.thumbnails")}
       descriptor={t("lobby.thumbs.line")}
       stats={[`${thumbnails.length} ${pt ? "na galeria" : "in gallery"}`, t("lobby.thumbs.stat")]}

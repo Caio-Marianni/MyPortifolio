@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { Star } from "lucide-react";
+import type { ReactNode } from "react";
 
 /* Peças de marca que apareciam copiadas em três arquivos cada (o slide 16:9, a pilha do
    mobile e a capa das páginas internas). Medem em `em` ou herdam classe, então continuam
@@ -22,6 +24,34 @@ export function Stars({ count, vertical, className = "" }: { count: number; vert
   );
 }
 
+/** Envelope que vira link quando recebe `href`, e continua um span quando não recebe. A nota
+    da faixa e a do rail do 16:9 desenham diferente mas apontam pro mesmo lugar, então o que
+    elas compartilham é só isto. O nome acessível vem de fora: as estrelas anunciam a nota,
+    não para onde o clique leva. */
+export function RatingLink({
+  href,
+  label,
+  className = "",
+  children,
+}: {
+  href?: string;
+  label?: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  if (!href) return <span className={className}>{children}</span>;
+
+  return (
+    <Link
+      href={href}
+      aria-label={label}
+      className={`${className} transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current`}
+    >
+      {children}
+    </Link>
+  );
+}
+
 /** Algarismo grande e apagado atrás das estrelas, cortado pela altura da faixa preta que o
     envolve — é fundo, não informação a ler, por isso o número vai em `aria-hidden` e quem
     anuncia a nota é o `Stars`. Faixa da pilha do mobile e faixa das páginas internas. */
@@ -29,13 +59,18 @@ export function RatingMark({
   value,
   stars,
   starsClassName = "text-white/75",
+  href,
+  label,
 }: {
   value: string;
   stars: number;
   starsClassName?: string;
+  /** quando vem, a nota vira a porta da página de avaliações */
+  href?: string;
+  label?: string;
 }) {
   return (
-    <span className="relative flex shrink-0 items-center justify-center">
+    <RatingLink href={href} label={label} className="relative flex shrink-0 items-center justify-center">
       <span
         className={`absolute ${RATING_FONT} text-[48px] font-bold leading-none tracking-[-0.04em] text-white opacity-10`}
         aria-hidden
@@ -43,7 +78,7 @@ export function RatingMark({
         {value}
       </span>
       <Stars count={stars} className={`relative ${starsClassName}`} />
-    </span>
+    </RatingLink>
   );
 }
 

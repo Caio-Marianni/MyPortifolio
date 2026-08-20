@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
+import { ReviewsProvider } from "@/contexts/reviews-context";
+import { getSummary } from "@/services/reviews";
 
 const baseUrl = "https://www.caiomarianni.com.br";
 
@@ -94,11 +96,19 @@ const jsonLd = {
   },
 };
 
-export default function RootLayout({
+/* A média das avaliações entra no cabeçalho de todas as páginas, então é buscada aqui, uma
+   vez por revalidação — sem isso cada página viraria um par servidor/cliente só pra ler o
+   mesmo número. 5 min de ISR só conta com o banco ligado; no arquivo estático o deploy
+   já é a atualização. */
+export const revalidate = 300;
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const summary = await getSummary();
+
   return (
     <html lang="pt-BR" translate="no">
       <head>
@@ -122,7 +132,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <ReviewsProvider summary={summary}>{children}</ReviewsProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

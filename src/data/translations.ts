@@ -9,6 +9,10 @@ const pt = {
   "status.clients": "2 Clientes felizes",
   "status.projects": "Projetos",
   "status.thumbnails": "Thumbnails",
+  "status.reviews": "Avaliações",
+
+  "reviews.line": "Quem contratou · Web e Thumbnails",
+  "reviews.see": "Ver avaliações",
 
   "lobby.thumbs.stat": "44 entregues",
   "lobby.thumbs.line": "Capas para YouTube · CTR",
@@ -57,6 +61,10 @@ const en: Record<TranslationKey, string> = {
   "status.clients": "2 Happy clients",
   "status.projects": "Projects",
   "status.thumbnails": "Thumbnails",
+  "status.reviews": "Reviews",
+
+  "reviews.line": "Past clients · Web and Thumbnails",
+  "reviews.see": "See reviews",
 
   "lobby.thumbs.stat": "44 delivered",
   "lobby.thumbs.line": "YouTube covers · CTR",

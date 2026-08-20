@@ -47,7 +47,15 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
             ))}
           </span>
 
-          {rail?.rating && <RatingMark value={rail.rating.value} stars={rail.rating.stars} starsClassName="text-white/50" />}
+          {rail?.rating && (
+            <RatingMark
+              value={rail.rating.value}
+              stars={rail.rating.stars}
+              starsClassName="text-white/50"
+              href={rail.rating.href}
+              label={rail.rating.label}
+            />
+          )}
 
           <span className="flex flex-1 items-center justify-end gap-3">
             {railRight.map((item, i) => (

@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check": "node scripts/check-reviews.ts",
+    "invite": "node --env-file=.env.local scripts/invite.ts"
   },
   "repository": {
     "type": "git",
@@ -15,12 +17,13 @@
   "keywords": [],
   "author": "Caio Marianni",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Caio-Marianni/MyPortifolio/issues"
   },
   "homepage": "https://github.com/Caio-Marianni/MyPortifolio#readme",
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "lucide-react": "^0.561.0",
     "next": "^14.2.35",
     "qrcode": "^1.5.4",

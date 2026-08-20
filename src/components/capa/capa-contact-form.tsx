@@ -4,14 +4,16 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 
-const EMAIL = "caiomarianni@gmail.com";
+/* Também é pra onde vai a avaliação enquanto não há banco. */
+export const EMAIL = "caiomarianni@gmail.com";
 
 const initialForm = { firstName: "", lastName: "", email: "", message: "" };
 
-/* Hairline embaixo do campo, como as divisórias da grade — nada de caixa. */
-const FIELD =
+/* Hairline embaixo do campo, como as divisórias da grade — nada de caixa. Exportados
+   porque o formulário de avaliação usa os mesmos campos; são a mesma peça, não uma cópia. */
+export const FIELD =
   "w-full border-b border-[#101010]/25 bg-transparent py-2 text-[14px] text-[#101010] placeholder:text-[#101010]/30 focus:border-[#101010] focus:outline-none transition-colors";
-const LABEL = "block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101010]/45";
+export const LABEL = "block font-mono text-[10px] uppercase tracking-[0.18em] text-[#101010]/45";
 
 export function CapaContactForm() {
   const { t, language } = useLanguage();

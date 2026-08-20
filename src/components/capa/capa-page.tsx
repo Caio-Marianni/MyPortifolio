@@ -5,7 +5,9 @@ import { usePathname } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { LogoWatermark, RatingMark } from "@/components/ui/brand-marks";
+import { type Track } from "@/data/reviews";
 import { useLanguage } from "@/contexts/language-context";
+import { useRating } from "@/contexts/reviews-context";
 
 /* Monograma vetorial do Logo-outline.svg, preenchido em vez de contornado — em ~30px o stroke some. */
 export function LogoMark() {
@@ -47,6 +49,11 @@ export function LangSwitch() {
    Exportado porque quem usa `bleed` monta as próprias faixas e precisa da mesma medida. */
 export const SHELL = "mx-auto w-full max-w-[1600px]";
 
+/* Páginas onde o CTA de contato é link morto ou ruído: na própria página de contato, e no
+   convite de avaliação, que é uma tarefa só — mandar o cliente pra outro lugar no meio dela
+   é o jeito mais fácil de não receber a avaliação; e no painel de moderação. */
+const NO_CTA = ["/contact", "/avaliar", "/admin"];
+
 export interface CapaPageProps {
   /** título da página, em Makaio, dentro da própria navbar */
   wordmark: string;
@@ -54,8 +61,9 @@ export interface CapaPageProps {
   descriptor?: string;
   /** números da frente, mostrados na faixa preta */
   stats?: ReactNode[];
-  /** nota da página — cada trilha tem a sua; a da home fica no rail do slide */
-  rating?: { value: string; stars: number };
+  /** trilha cuja nota a faixa mostra; sem ela, a média geral. A nota sai das avaliações
+      publicadas, então nada de número escrito à mão aqui. */
+  track?: Track;
   /** dispensa o respiro em volta do conteúdo, para quem sangra até a borda (o dossiê de projetos) */
   bleed?: boolean;
   children: ReactNode;
@@ -64,9 +72,10 @@ export interface CapaPageProps {
 /** Cabeçalho da capa aplicado a uma página de listagem: navbar com o título dentro e faixa
     de metadados. Compacto de propósito — quem chega pelo lobby já sabe o que veio ver, então
     o gesto de capa vira barra e a primeira peça começa logo abaixo. */
-export function CapaPage({ wordmark, descriptor, stats = [], rating = { value: "5.0", stars: 5 }, bleed = false, children }: CapaPageProps) {
+export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = false, children }: CapaPageProps) {
   const { t } = useLanguage();
   const pathname = usePathname();
+  const rating = useRating(track);
 
   /* `data-page` é o gancho do globals.css que pinta o canvas de preto no mobile: sem ele o
      bounce do topo abre um vão creme acima da navbar preta. */
@@ -135,8 +144,17 @@ export function CapaPage({ wordmark, descriptor, stats = [], rating = { value: "
             </span>
           </span>
 
-          {/* Mesma nota do rail do hero, mas a desta trilha: cada página passa a sua. */}
-          <RatingMark value={rating.value} stars={rating.stars} />
+          {/* Mesma nota do rail do hero, mas a desta trilha: cada página passa a sua. Some
+              enquanto não houver avaliação publicada — 0.0 na faixa seria pior que nada.
+              Clicar leva às avaliações, menos quando já se está nelas. */}
+          {rating && (
+            <RatingMark
+              value={rating.value}
+              stars={rating.stars}
+              href={pathname === "/reviews" ? undefined : "/reviews"}
+              label={t("reviews.see")}
+            />
+          )}
         </div>
       </div>
 
@@ -155,7 +173,7 @@ export function CapaPage({ wordmark, descriptor, stats = [], rating = { value: "
       {/* O CTA saiu da navbar e virou o fecho da página: faixa inteira clicável, sangrando até
           a viewport como as barras do topo. Some na própria página de contato — CTA para onde
           já se está é link morto. */}
-      {pathname !== "/contact" && (
+      {!NO_CTA.includes(pathname) && (
         <Link href="/contact" className="group block bg-[#FF5500] text-white transition-colors hover:bg-[#E64D00]">
           <span
             className={`${SHELL} flex flex-wrap items-center justify-between gap-x-8 gap-y-5 px-5 py-11 md:px-8 md:py-14`}
