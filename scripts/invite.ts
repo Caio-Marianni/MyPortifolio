@@ -8,7 +8,7 @@
    estiver errado. O que a assinatura protege é o identificador, que volta no painel dizendo
    qual link gerou cada avaliação.                                                          */
 
-import { inviteId, signInvite } from "../src/services/invite.ts";
+import { inviteLink } from "../src/services/invite.ts";
 
 const [name, company = "", track = "web"] = process.argv.slice(2);
 
@@ -17,13 +17,4 @@ if (!name || (track !== "web" && track !== "thumbs")) {
   process.exit(1);
 }
 
-const invite = inviteId(name);
-
-const url = new URL("/avaliar", process.env.SITE_URL ?? "https://www.caiomarianni.com.br");
-url.searchParams.set("c", invite);
-url.searchParams.set("k", signInvite(invite));
-url.searchParams.set("n", name);
-url.searchParams.set("e", company);
-url.searchParams.set("t", track);
-
-console.log(url.toString());
+console.log(inviteLink(process.env.SITE_URL ?? "https://www.caiomarianni.com.br", { name, company, track }));

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import { LogIn, LogOut } from "lucide-react";
+import { cookies, headers } from "next/headers";
+import { LogIn, LogOut, MessageCircle } from "lucide-react";
 import { CapaPage } from "@/components/capa/capa-page";
 import { FIELD, LABEL } from "@/components/capa/capa-contact-form";
+import { CopyField } from "@/components/admin/copy-field";
 import { Stars } from "@/components/ui/brand-marks";
-import { TRACK_LABEL, type ReviewRecord, type Status } from "@/data/reviews";
-import { cookies } from "next/headers";
+import { LIMITS, TRACKS, TRACK_LABEL, type ReviewRecord, type Status, type Track } from "@/data/reviews";
 import { COOKIE, MAX_TRIES, WINDOW_MINUTES, validSession } from "@/services/admin";
+import { inviteLink } from "@/services/invite";
 import { listAll } from "@/services/reviews";
 import { decide, login, logout } from "./actions";
 
@@ -84,6 +86,87 @@ function Login({ erro }: { erro?: string }) {
   );
 }
 
+/* Formulário GET, não server action: os campos viram a própria URL do painel, o servidor
+   assina e devolve a página com o link pronto. Sem estado e sem ida e volta de JavaScript —
+   e o endereço resultante é recarregável, então F5 não perde o link gerado. */
+function NovoConvite({
+  nome,
+  empresa,
+  trilha,
+  link,
+}: {
+  nome: string;
+  empresa: string;
+  trilha: Track;
+  link: string | null;
+}) {
+  const mensagem =
+    `Fala, ${nome}! Montei uma página de avaliações no meu site e queria muito a sua. ` +
+    `Leva menos de um minuto — já deixei seus dados preenchidos, você só escolhe a nota e escreve duas linhas: ${link}`;
+
+  return (
+    <section className="mb-10 border border-[#101010]/15 p-6">
+      <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#101010]/45">Novo convite</h2>
+
+      <form method="GET" action="/admin" className="mt-5 flex flex-col gap-5">
+        <div className="grid gap-5 sm:grid-cols-3">
+          <div>
+            <label htmlFor="n" className={LABEL}>
+              Nome do cliente
+            </label>
+            <input id="n" name="n" required defaultValue={nome} maxLength={LIMITS.name} className={FIELD} />
+          </div>
+
+          <div>
+            <label htmlFor="e" className={LABEL}>
+              Canal ou empresa
+            </label>
+            <input id="e" name="e" defaultValue={empresa} maxLength={LIMITS.company} className={FIELD} />
+          </div>
+
+          <div>
+            <label htmlFor="t" className={LABEL}>
+              Trabalho
+            </label>
+            <select id="t" name="t" defaultValue={trilha} className={FIELD}>
+              {TRACKS.map((track) => (
+                <option key={track} value={track}>
+                  {TRACK_LABEL[track]}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" className={`${BUTTON} self-start`}>
+          Gerar link
+        </button>
+      </form>
+
+      {link && (
+        <div className="mt-6 flex flex-col gap-4 border-t border-[#101010]/15 pt-5">
+          <CopyField value={link} />
+
+          {/* wa.me sem número: o WhatsApp abre com a mensagem escrita e você escolhe pra quem. */}
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(mensagem)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${BUTTON} inline-flex items-center gap-2 self-start`}
+          >
+            Mandar no WhatsApp
+            <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+          </a>
+
+          <p className="text-[13px] leading-relaxed text-[#101010]/55">
+            O link não expira e vale pra quantas avaliações a pessoa mandar — todas chegam aqui como pendentes.
+          </p>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function Card({ review }: { review: ReviewRecord }) {
   const meta = [review.company, TRACK_LABEL[review.track], review.email, `convite: ${review.invite}`, review.createdAt];
 
@@ -117,7 +200,9 @@ function Card({ review }: { review: ReviewRecord }) {
   );
 }
 
-export default async function AdminPage({ searchParams }: { searchParams: { erro?: string } }) {
+type Params = { searchParams: { erro?: string; n?: string; e?: string; t?: string } };
+
+export default async function AdminPage({ searchParams }: Params) {
   if (!validSession(cookies().get(COOKIE)?.value)) {
     return (
       <CapaPage wordmark="Moderar" descriptor="Área restrita">
@@ -125,6 +210,20 @@ export default async function AdminPage({ searchParams }: { searchParams: { erro
       </CapaPage>
     );
   }
+
+  /* O link sai do host da requisição, não de uma constante: assim o painel de um deploy de
+     preview gera link daquele preview, e o do localhost gera link local. */
+  const nome = (searchParams.n ?? "").trim();
+  const empresa = (searchParams.e ?? "").trim();
+  const trilha = TRACKS.includes(searchParams.t as Track) ? (searchParams.t as Track) : "web";
+  const cabecalhos = headers();
+  const link = nome
+    ? inviteLink(`${cabecalhos.get("x-forwarded-proto") ?? "http"}://${cabecalhos.get("host")}`, {
+        name: nome,
+        company: empresa,
+        track: trilha,
+      })
+    : null;
 
   let reviews: ReviewRecord[] = [];
   let erro: string | null = null;
@@ -150,6 +249,8 @@ export default async function AdminPage({ searchParams }: { searchParams: { erro
         </button>
       </form>
 
+      <NovoConvite nome={nome} empresa={empresa} trilha={trilha} link={link} />
+
       {erro && (
         <p role="alert" className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#B3261E]">
           {erro}
@@ -158,7 +259,7 @@ export default async function AdminPage({ searchParams }: { searchParams: { erro
 
       {!erro && reviews.length === 0 && (
         <p className="text-[15px] leading-relaxed text-[#101010]/55">
-          Nenhuma avaliação ainda. Gere um link com <code className="font-mono">npm run invite</code> e mande pro cliente.
+          Nenhuma avaliação ainda. Gere um convite aí em cima e mande pro cliente.
         </p>
       )}
 

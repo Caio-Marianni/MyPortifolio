@@ -46,3 +46,16 @@ export function inviteId(name: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 }
+
+/** Monta o link inteiro. Vive aqui porque quem o gera são dois: o painel, que sabe o host pela
+    requisição, e o script de linha de comando, que recebe o host por variável de ambiente. */
+export function inviteLink(origin: string, invite: { name: string; company: string; track: string }): string {
+  const id = inviteId(invite.name);
+  const url = new URL("/avaliar", origin);
+  url.searchParams.set("c", id);
+  url.searchParams.set("k", signInvite(id));
+  url.searchParams.set("n", invite.name);
+  url.searchParams.set("e", invite.company);
+  url.searchParams.set("t", invite.track);
+  return url.toString();
+}
