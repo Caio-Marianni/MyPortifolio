@@ -180,7 +180,10 @@ export function ReviewsBoard({
                   </span>
                 </figcaption>
 
-                <blockquote className="flex-1 text-[15px] leading-relaxed text-ink/80">{review.comment}</blockquote>
+                {/* Comentário é opcional: quem só deu a nota tem estrelas e nada de aspas vazias. */}
+                {review.comment && (
+                  <blockquote className="flex-1 text-[15px] leading-relaxed text-ink/80">{review.comment}</blockquote>
+                )}
 
                 {/* A ficha do projeto já mostra a avaliação; este é o caminho de volta, que faltava.
                     O nome acessível diz para onde vai — sozinho, o título não conta que é link. */}

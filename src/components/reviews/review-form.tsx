@@ -289,16 +289,15 @@ export function ReviewForm({
 
         <div>
           <label htmlFor="comment" className="sr-only">
-            {pt ? "O que achou do trabalho" : "How was the work"}
+            {pt ? "O que achou do trabalho (opcional)" : "How was the work (optional)"}
           </label>
           <textarea
             id="comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            required
             rows={5}
             maxLength={LIMITS.comment}
-            placeholder={pt ? "O que achou do trabalho?" : "How was the work?"}
+            placeholder={pt ? "O que achou do trabalho? (opcional)" : "How was the work? (optional)"}
             className={`${INSET} resize-none text-[15px] leading-relaxed`}
           />
           <p className="mt-1.5 text-right text-[12.5px] text-ink/35">

@@ -215,7 +215,11 @@ function Card({ review, excluindo }: { review: ReviewRecord; excluindo: boolean 
         </span>
       </header>
 
-      <blockquote className="text-[15px] leading-relaxed text-ink/80">{review.comment}</blockquote>
+      {review.comment ? (
+        <blockquote className="text-[15px] leading-relaxed text-ink/80">{review.comment}</blockquote>
+      ) : (
+        <p className="text-[15px] italic leading-relaxed text-ink/35">Só a nota, sem comentário.</p>
+      )}
 
       {/* As imagens só carregam aqui porque você tem sessão: a rota serve pendente e recusada
           apenas pra quem tem o cookie do painel. */}

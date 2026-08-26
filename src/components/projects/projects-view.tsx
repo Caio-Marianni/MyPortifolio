@@ -28,7 +28,9 @@ export function ProjectsView({ reviews }: { reviews: Review[] }) {
           project={project}
           index={i}
           /* a mais recente que o painel amarrou a este projeto; a lista já vem por data */
-          review={reviews.find((review) => review.project === project.id)}
+          /* Só serve de depoimento a avaliação que tem texto: o bloco da ficha é uma citação,
+             e nota sem comentário viraria um par de aspas vazio. */
+          review={reviews.find((review) => review.project === project.id && review.comment)}
         />
       ))}
     </CapaPage>

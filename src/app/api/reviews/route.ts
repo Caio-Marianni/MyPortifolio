@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
   if (!name || name.length > LIMITS.name) return fail("Preencha seu nome.", 400);
   if (company.length > LIMITS.company) return fail("Nome de empresa muito longo.", 400);
   if (!Number.isInteger(rating) || rating < 1 || rating > 5) return fail("Nota deve ser de 1 a 5.", 400);
-  if (!comment || comment.length > LIMITS.comment) return fail("Escreva um comentário.", 400);
+  if (comment.length > LIMITS.comment) return fail("Comentário muito longo.", 400);
   if (photo && !isJpegBase64(photo, LIMITS.photo)) return fail("Não consegui ler sua foto.", 400);
   if (shots.length > LIMITS.shots) return fail(`No máximo ${LIMITS.shots} fotos do projeto.`, 400);
   if (shots.some((shot) => !isJpegBase64(shot, LIMITS.shot))) return fail("Não consegui ler uma das fotos.", 400);

@@ -21,6 +21,8 @@ export interface Review {
   company: string | null;
   track: Track;
   rating: number;
+  /** opcional: quem só quer dar a nota manda string vazia. A coluna é `not null` no banco,
+      então o "sem comentário" é `""` e não `null` — nenhuma migração pra isso. */
   comment: string;
   /** id do projeto em data/projects.ts; nulo quando o trabalho avaliado não está publicado */
   project: number | null;
