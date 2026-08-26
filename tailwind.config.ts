@@ -30,9 +30,9 @@ const config: Config = {
       /* A voz técnica do site é o `font-mono` que já vem no Tailwind — nada a declarar aqui.
          Só as três famílias que o repo carrega de fato. */
       fontFamily: {
-        inter: ['"Inter"', "sans-serif"],
-        makaio: ['"Makaio"', "sans-serif"],
-        ricko: ['"Ricko"', "sans-serif"],
+        inter: ["var(--font-inter)", "sans-serif"],
+        makaio: ["var(--font-makaio)", "sans-serif"],
+        ricko: ["var(--font-ricko)", "sans-serif"],
       },
     },
   },

@@ -2,37 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Três famílias, que são as três que o site usa: Inter no corpo, Makaio nos títulos e
-   Ricko na nota grande do rail. O resto do acervo de display saiu junto com os arquivos —
-   voltar qualquer uma custa o .woff2 na pasta e o par @font-face + token no tailwind. */
+/* As três famílias moram em src/fonts/index.ts, via `next/font/local`: ele gera o
+   @font-face, o preload e — o que não dá pra escrever à mão — um fallback com as métricas
+   da fonte, que é o que impede o texto de pular quando o .woff2 chega.
 
-/* A linha técnica usa `font-mono`, a pilha do próprio Tailwind — nenhum arquivo a baixar.
+   A linha técnica usa `font-mono`, a pilha do próprio Tailwind — nenhum arquivo a baixar.
    Era o que já se via na tela: o @font-face do JetBrains apontava para um arquivo que não
    existe no repo e o texto caía no mono do sistema de qualquer jeito. */
-
-@font-face {
-  font-family: "Inter";
-  src: url("/assets/fonts/Inter.woff2") format("woff2");
-  font-weight: 100 900;
-  font-display: swap;
-}
-
-/* As display abaixo vieram em pastas próprias — caminho longo, arquivo no lugar em que foi baixado. */
-@font-face {
-  font-family: "Makaio";
-  src: url("/assets/fonts/modern-condensed-font-makaio-2026-07-29-19-34-48-utc/Makaio/Makaio.woff2") format("woff2"),
-    url("/assets/fonts/modern-condensed-font-makaio-2026-07-29-19-34-48-utc/Makaio/Makaio.woff") format("woff");
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Ricko";
-  src: url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.woff2") format("woff2"),
-    url("/assets/fonts/ricko-futuristic-modular-display-font-2026-08-03-21-52-02-utc/RICKO.woff") format("woff");
-  font-weight: 400;
-  font-display: swap;
-}
 
 /* Paleta em canais RGB soltos, sem `rgb()` e sem vírgula: é o formato que o
    `<alpha-value>` do tailwind.config.ts consome para montar `text-ink/45`.

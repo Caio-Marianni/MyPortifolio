@@ -33,7 +33,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
       <div className="relative min-h-[150px] w-full overflow-hidden bg-surface-sunken">
         {/* mesmo `sizes` do slide: as duas composições coexistem no DOM, e assim pedem a mesma
             variante ao otimizador — um download só, em vez de dois. */}
-        <Image src={image} alt="" fill sizes="50vw, 100vw" priority={priority} className="object-cover" style={{ objectPosition: imagePosition }} />
+        <Image src={image} alt="" fill sizes="(min-width: 1024px) 50vw, 100vw" priority={priority} className="object-cover" style={{ objectPosition: imagePosition }} />
         <div className="pointer-events-none absolute inset-0 bg-[url('/assets/images/noise.webp')] bg-repeat opacity-[0.22] mix-blend-overlay" aria-hidden />
       </div>
 
