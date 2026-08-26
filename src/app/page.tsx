@@ -7,6 +7,7 @@ import { CvPanel } from "@/components/proposal/cv-panel";
 import { LangSwitch, LogoMark, ThemeSwitch } from "@/components/capa/capa-page";
 import { RatingLink, Stars } from "@/components/ui/brand-marks";
 import { type Track } from "@/data/reviews";
+import { thumbnails } from "@/data/thumbnails";
 import { useLanguage } from "@/contexts/language-context";
 import { useRating } from "@/contexts/reviews-context";
 import { useGoiasClock } from "@/hooks/use-goias-clock";
@@ -44,7 +45,7 @@ export default function Home() {
     },
     thumbs: {
       label: t("status.thumbnails"),
-      stats: [ `— ${pt ? "canais" : "channels"}`, `44 ${pt ? "thumbnails feitas" : "thumbnails made"}`],
+      stats: [ `— ${pt ? "canais" : "channels"}`, `${thumbnails.length} ${pt ? "thumbnails feitas" : "thumbnails made"}`],
       mark: trackRating.thumbs,
       link: { href: "/thumbnails", label: t("lobby.thumbs.cta") },
     },
