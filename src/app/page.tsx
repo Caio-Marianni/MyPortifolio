@@ -12,10 +12,10 @@ import { useLanguage } from "@/contexts/language-context";
 import { useRating } from "@/contexts/reviews-context";
 import { useGoiasClock } from "@/hooks/use-goias-clock";
 
-/* Tudo em `em`: cada composição define o corpo do slot e a pill acompanha, sem duplicar estilo.
-   Peso e tracking são os dos CTAs logo abaixo — a pill governa aquele bloco, então lê como
-   parte dele e não como um controle vindo de outro sistema. */
-const PILL_BASE = "rounded-full px-[1.6em] py-[0.75em] font-bold transition-colors";
+/* Tudo em `em`: cada composição define o corpo do slot e as abas acompanham, sem duplicar estilo.
+   Mono, caixa alta e sem fundo de propósito — nada de pílula nem bold, pra não ler como mais um
+   CTA ao lado dos botões cheio/contorno logo abaixo. */
+const TAB_BASE = "pb-[0.7em] pt-[0.2em] font-mono uppercase tracking-[0.14em] transition-colors";
 
 const SCRIPT_FONT = "font-makaio";
 const WORDMARK_FONT = "font-makaio";
@@ -120,24 +120,17 @@ export default function Home() {
       },
     ],
     children: (
-      /* Controle, não CTA: trilho escavado (sombra interna + fio de luz embaixo) com o chip creme
-         correndo por dentro — o oposto dos botões cheio/contorno logo abaixo, que é o que
-         confundia os três. */
-      <div
-        /* `surface-sunken` é o creme com os mesmos 7% de preto que a versão translúcida rendia —
-           mesma cor de antes, só que chapada, senão o grão do fundo atravessa o trilho e a
-           escavação some. */
-        className="relative inline-flex rounded-full bg-surface-sunken p-[0.3em] shadow-[inset_0_1px_2px_rgb(var(--ink)/0.16),inset_0_-1px_0_rgba(255,255,255,0.5)]"
-        role="group"
-      >
-        {/* Chip único que desliza em vez de reaparecer no outro botão. Os rótulos são flex-1, então
-            a distância entre as duas posições é exatamente a largura dele — 100% de translate,
-            sem medir nada em JS. O gradiente claro no topo dá o volume que a sombra sozinha não dá.
+      /* Controle, não CTA: abas tipográficas sobre um fio fino, o oposto dos botões
+         cheio/contorno logo abaixo. */
+      <div className="relative inline-flex border-b border-ink/15" role="group">
+        {/* Sublinhado único que desliza em vez de reaparecer na outra aba. Os rótulos são flex-1 e o
+            container não tem padding, então a distância entre as posições é exatamente a largura
+            dele — 100% de translate, sem medir nada em JS.
             ponytail: a conta só fecha com duas opções; uma terceira track pede width/translate por índice. */}
         <span
           aria-hidden
-          className={`pointer-events-none absolute inset-y-[0.3em] left-[0.3em] w-[calc(50%_-_0.3em)] rounded-full bg-gradient-to-b from-surface-raised to-surface shadow-[0_1px_2px_rgb(var(--ink)/0.14)] transition-transform duration-300 ease-out motion-reduce:transition-none ${
-            track ==="thumbs" ? "translate-x-full" : "translate-x-0"
+          className={`pointer-events-none absolute -bottom-px left-0 h-[2px] w-1/2 bg-ink transition-transform duration-300 ease-out motion-reduce:transition-none ${
+            track === "thumbs" ? "translate-x-full" : "translate-x-0"
           }`}
         />
 
@@ -147,7 +140,7 @@ export default function Home() {
             type="button"
             onClick={() => setTrack(key)}
             aria-pressed={track === key}
-            className={`relative ${PILL_BASE} ${track === key ?"text-ink" : "text-ink/45 hover:text-ink"}`}
+            className={`relative ${TAB_BASE} focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink ${track === key ? "text-ink" : "text-ink/45 hover:text-ink"}`}
           >
             {tracks[key].label}
           </button>

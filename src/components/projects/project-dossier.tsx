@@ -9,17 +9,16 @@ import { ReviewPhoto } from "@/components/reviews/review-photo";
 import { Stars } from "@/components/ui/brand-marks";
 import { useLanguage } from "@/contexts/language-context";
 import { useInView } from "@/hooks/use-in-view";
-import type { Project } from "@/data/projects";
+import type { LighthouseScores, Project } from "@/data/projects";
 import type { Review } from "@/data/reviews";
 
-/** Par rótulo/valor da ficha, repetido uma dúzia de vezes entre a frente e as especificações.
-    O corpo não fixa tamanho: herda do <dl> que o envolve, que é o que deixa a frente do card
-    respirar mais que a lista técnica sem duas classes de tamanho brigando no mesmo elemento. */
+/** Par rótulo/valor da ficha. O rótulo manda: maior e quase cheio; o conteúdo vem abaixo,
+    menor e mais apagado — é o rótulo que o olho usa para achar o que procura. */
 function Field({ label, children, className = "" }: { label: string; children: ReactNode; className?: string }) {
   return (
     <div className={className}>
-      <dt className="text-[12px] text-[rgb(var(--card-ink)/0.35)]">{label}</dt>
-      <dd className="mt-1.5 leading-snug text-[rgb(var(--card-ink)/0.7)]">{children}</dd>
+      <dt className="text-[14px] font-medium text-[rgb(var(--card-ink)/0.9)]">{label}</dt>
+      <dd className="mt-2 text-[12px] leading-relaxed text-[rgb(var(--card-ink)/0.6)]">{children}</dd>
     </div>
   );
 }
@@ -34,6 +33,58 @@ function DashList({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/** Bloco que abre e fecha animando a altura — usado nas especificações e no depoimento.
+    Saiu do <details> nativo: o miolo que o navegador cria (::details-content) aceita um
+    conjunto próprio de propriedades, e sem `display:grid` valendo ali a altura pulava em vez
+    de crescer. Aqui a linha de grid vai de 0fr a 1fr — a única forma de ir até a altura do
+    conteúdo sem saber o número de antemão, e igual em qualquer navegador.
+    `visibility` entra na transição de propósito: fechado, o conteúdo continua no DOM mas sai
+    do alcance do leitor de tela, e a própria propriedade segura a troca até o fim da animação. */
+function Collapse({ id, open, children }: { id: string; open: boolean; children: ReactNode }) {
+  return (
+    <div
+      id={id}
+      className={`grid transition-[grid-template-rows,opacity,visibility] duration-[420ms] ease-in-out motion-reduce:transition-none ${
+        open ?"visible grid-rows-[1fr] opacity-100" : "invisible grid-rows-[0fr] opacity-0"
+      }`}
+    >
+      {/* o recorte mora no item do grid, não no container: é ele que precisa poder encolher
+          abaixo do próprio conteúdo, daí o `min-h-0` junto */}
+      <div className="min-h-0 overflow-hidden">{children}</div>
+    </div>
+  );
+}
+
+/** Rosca com a média das notas do Lighthouse, preenchida na proporção da nota. Mede em `em`
+    para acompanhar o título; o círculo tem circunferência 100 (`pathLength`), então a nota
+    já é o tamanho do traço. O detalhe das três notas fica no tooltip e no leitor de tela. */
+function ScoreDonut({ scores }: { scores: LighthouseScores }) {
+  const { performance, accessibility, bestPractices } = scores;
+  const average = Math.round((performance + accessibility + bestPractices) / 3);
+  const detail = `Lighthouse ${average} — performance ${performance}, accessibility ${accessibility}, best practices ${bestPractices}`;
+
+  return (
+    <svg viewBox="0 0 36 36" className="h-[1.3em] w-[1.3em] shrink-0" role="img" aria-label={detail}>
+      <title>{detail}</title>
+      <circle cx="18" cy="18" r="16" fill="none" strokeWidth="3" className="stroke-[rgb(var(--card-ink)/0.12)]" />
+      <circle
+        cx="18"
+        cy="18"
+        r="16"
+        fill="none"
+        strokeWidth="3"
+        pathLength={100}
+        strokeDasharray={`${average} 100`}
+        transform="rotate(-90 18 18)"
+        className="stroke-accent"
+      />
+      <text x="18" y="18" textAnchor="middle" dominantBaseline="central" className="fill-current text-[11px] font-medium">
+        {average}
+      </text>
+    </svg>
   );
 }
 
@@ -58,17 +109,18 @@ export interface ProjectDossierProps {
   review?: Review;
 }
 
-/** Ficha de dossiê: capa ocupando 35% da faixa e informação nos 65%, alternando de lado
-    a cada projeto. A colocação é por col-start explícito, não por `order` — as duas colunas
-    têm larguras diferentes, e `order` moveria o conteúdo sem mover a largura. */
+/** Ficha de dossiê: capa e informação dividindo a faixa ao meio, alternando de lado a cada
+    projeto. A foto é a prova do trabalho, por isso a metade inteira e em cor desde o início. */
 export function ProjectDossier({ project, index, review }: ProjectDossierProps) {
   const { t, language } = useLanguage();
   const [ref, centered] = useInView<HTMLElement>();
   const [specsOpen, setSpecsOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(false);
 
   const specsId = `specs-${project.id}`;
+  const reviewId = `review-${project.id}`;
   const pt = language === "pt";
-  const cover = project.mockups[0];
+  const { cover } = project;
   /* ímpares mostram informação à esquerda; pares invertem */
   const flipped = index % 2 === 1;
   /* A ficha toda é pintada por --card-ink/--card-paper. A ímpar é a página; a par troca as duas
@@ -90,33 +142,40 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
     <article
       ref={ref}
       id={`p${project.id}`}
-      className={`scroll-mt-16 border-t border-[rgb(var(--card-ink)/0.14)] bg-[rgb(var(--card-paper))] text-[rgb(var(--card-ink))] ${palette}`}
+      className={`scroll-mt-16 lg:border-t lg:border-[rgb(var(--card-ink)/0.14)] bg-[rgb(var(--card-paper))] text-[rgb(var(--card-ink))] ${palette}`}
     >
       <div
         /* piso de altura igual para todas as fichas: com as especificações fechadas o texto
            é que varia, e sem o mínimo cada card ficava de um tamanho */
-        className={`${SHELL} group grid min-h-[560px] lg:min-h-[600px] ${flipped ?"lg:grid-cols-[35%_65%]" : "lg:grid-cols-[65%_35%]"}`}
+        className={`${SHELL} group grid min-h-[520px] lg:min-h-[560px] lg:grid-cols-2`}
       >
-        <div
-          className={`relative min-h-[320px] overflow-hidden lg:row-start-1 lg:min-h-0 ${flipped ?"lg:col-start-1" : "lg:col-start-2"}`}
+        {/* A capa leva ao mesmo lugar que "Ver projeto". Fora da ordem de tabulação e do leitor
+            de tela: é um segundo link para o mesmo destino, e o botão já cumpre esse papel. */}
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex={-1}
+          aria-hidden
+          className={`relative block min-h-[320px] overflow-hidden lg:row-start-1 lg:min-h-0 ${flipped ?"lg:col-start-1" : "lg:col-start-2"}`}
         >
           {cover ? (
             <Image
               src={cover}
               alt=""
               fill
-              sizes="(min-width: 1024px) 35vw, 100vw"
+              sizes="(min-width: 1024px) 50vw, 100vw"
               priority={index === 0}
-              /* o mesmo realce do hover, disparado pela rolagem — só abaixo de lg, que é onde
-                 não há ponteiro para produzir hover; acima disso quem manda é o cursor. */
-              className={`object-cover grayscale transition-[filter,transform] duration-500 group-hover:scale-[1.03] group-hover:grayscale-0 ${centered ?"max-lg:scale-[1.03] max-lg:grayscale-0" : ""}`}
+              /* o zoom do hover, disparado pela rolagem abaixo de lg — onde não há ponteiro
+                 para produzir hover; acima disso quem manda é o cursor */
+              className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${centered ?"max-lg:scale-[1.03]" : ""}`}
             />
           ) : (
             <div className="flex h-full items-center justify-center bg-[repeating-linear-gradient(45deg,rgb(var(--card-ink)/0.05)_0_9px,transparent_9px_18px)] p-2 text-center text-[12px] text-[rgb(var(--card-ink)/0.4)]">
               {pt ? "capa pendente" : "cover pending"}
             </div>
           )}
-        </div>
+        </a>
 
         <div
           className={`relative flex flex-col justify-center overflow-hidden px-6 py-11 md:px-8 lg:row-start-1 lg:px-[60px] lg:py-14 ${flipped ?"lg:col-start-2" : "lg:col-start-1"}`}
@@ -126,7 +185,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               duas fichas são escuras, então a ímpar também inverte. Medida em vw, e não no `em`
               do título, para não mudar de tamanho a cada troca de fonte lá em cima. */}
           <span
-            className={`pointer-events-none absolute -left-[4%] top-[4%] h-[clamp(360px,44vw,580px)] w-[clamp(360px,44vw,580px)] opacity-[0.13] ${
+            className={`pointer-events-none absolute -left-[4%] top-[4%] h-[clamp(360px,44vw,580px)] w-[clamp(360px,44vw,580px)] opacity-[0.06] ${
               flipped ?"[filter:grayscale(1)_invert(1)]" : "[filter:grayscale(1)] dark:[filter:grayscale(1)_invert(1)]"
             }`}
             aria-hidden
@@ -143,66 +202,27 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
             </span>
 
             {project.title}
+
+            {project.lighthouse && <ScoreDonut scores={project.lighthouse} />}
           </h2>
 
-          {/* A frente fala com quem contrata, não com quem programa: qual era a dor, o que foi
-              construído e o que o cliente recebeu, em palavras de leigo. Todo o vocabulário
-              técnico mora em Especificações, logo abaixo. */}
-          <dl className="relative mt-6 grid gap-5 text-[13.5px] sm:grid-cols-2 sm:gap-x-8">
-            <Field label={t("projects.problem")}>{project.problem[language]}</Field>
-            <Field label={t("projects.solution")}>{project.solution[language]}</Field>
+          {/* A frente fala com quem contrata, não com quem programa: uma frase com a dor e o que
+              foi construído. Todo o vocabulário técnico mora em Especificações, logo abaixo. */}
+          <p className="relative mt-5 max-w-[56ch] text-[15px] leading-relaxed text-[rgb(var(--card-ink)/0.8)]">
+            {project.summary[language]}
+          </p>
 
-            <Field label={t("projects.delivers")} className="sm:col-span-2">
-              {/* chip cheio, sem o mono em caixa alta das tags: é o mesmo dado que o público
-                  leigo lê, então não pode soar como especificação de máquina */}
-              <span className="flex flex-wrap gap-1.5">
-                {project.delivers[language].map((item) => (
-                  <span key={item} className="bg-[rgb(var(--card-ink)/0.07)] px-2.5 py-[5px] text-[11.5px] leading-none text-[rgb(var(--card-ink)/0.75)]">
-                    {item}
-                  </span>
-                ))}
-              </span>
-            </Field>
-
-            {/* some inteiro quando o projeto não tem número que sustente — melhor ausente
-                que fraco, e o card fecha sem buraco */}
-            {project.results && (
-              <Field label={t("projects.results")} className="sm:col-span-2">
+          {/* some inteiro quando o projeto não tem número que sustente — melhor ausente que
+              fraco, e o card fecha sem buraco */}
+          {project.results && (
+            <dl className="relative mt-6">
+              <Field label={t("projects.results")}>
                 <DashList items={project.results[language]} />
               </Field>
-            )}
-          </dl>
-
-          {/* A voz do cliente logo abaixo do que foi entregue, e só quando existe: é a mesma
-              avaliação da página /reviews, amarrada a este projeto na hora de gerar o convite.
-              Corta em cinco linhas porque a ficha tem altura mínima e um depoimento de 600
-              caracteres empurraria as especificações pra fora do card. */}
-          {review && (
-            <figure className="relative mt-8 border-l-2 border-accent pl-5">
-              {/* Quem falou vem antes do que foi dito, como no quadro de avaliações. Sem rótulo
-                  em cima: a foto, o nome e as estrelas já dizem que ali embaixo é depoimento. */}
-              <figcaption className="flex items-center gap-3">
-                <ReviewPhoto review={review} className="h-9 w-9 bg-[rgb(var(--card-ink)/0.1)] text-[15px] text-[rgb(var(--card-ink)/0.55)]" />
-                <span className="flex min-w-0 flex-col gap-1.5">
-                  <span className="text-[12.5px] leading-tight text-[rgb(var(--card-ink)/0.55)]">
-                    {[review.name, review.company].filter(Boolean).join(" · ")}
-                  </span>
-                  <Stars count={review.rating} className="text-[11px] text-accent" />
-                </span>
-              </figcaption>
-
-              <blockquote className="mt-3 line-clamp-5 text-[13.5px] leading-snug text-[rgb(var(--card-ink)/0.7)]">
-                &ldquo;{review.comment}&rdquo;
-              </blockquote>
-            </figure>
+            </dl>
           )}
 
-          {/* Saiu do <details> nativo: o miolo que o navegador cria (::details-content) aceita
-              um conjunto próprio de propriedades, e sem `display:grid` valendo ali a altura
-              pulava em vez de crescer. Aqui quem anima é um elemento nosso, com o truque de
-              linha de grid indo de 0fr a 1fr — a única forma de ir até a altura do conteúdo
-              sem saber o número de antemão, e igual em qualquer navegador.
-              O rótulo fica no meio da divisória: a linha é do ::before e o chip a corta. */}
+          {/* O rótulo fica no meio da divisória: a linha é do ::before e o chip a corta. */}
           <div className="relative mt-8">
             <button
               type="button"
@@ -222,25 +242,14 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               </span>
             </button>
 
-            {/* `visibility` entra na transição de propósito: fechado, o conteúdo continua no
-                DOM mas sai do alcance do leitor de tela, e a própria propriedade segura a
-                troca até o fim da animação, sem precisar de timer. */}
-            <div
-              id={specsId}
-              className={`grid transition-[grid-template-rows,opacity,visibility] duration-[420ms] ease-in-out motion-reduce:transition-none ${
-                specsOpen ?"visible grid-rows-[1fr] opacity-100" : "invisible grid-rows-[0fr] opacity-0"
-              }`}
-            >
-              {/* o recorte mora no item do grid, não no container: é ele que precisa poder
-                  encolher abaixo do próprio conteúdo, daí o `min-h-0` junto */}
-              <div className="min-h-0 overflow-hidden">
-                <dl className="grid gap-4 pt-6 text-[12.5px] sm:grid-cols-2 sm:gap-x-8">
+            <Collapse id={specsId} open={specsOpen}>
+                <dl className="grid gap-6 pt-6 sm:grid-cols-2 sm:gap-x-8">
                   <Field label={t("projects.technologies")} className="sm:col-span-2">
                     <span className="flex flex-wrap gap-1.5">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="border border-[rgb(var(--card-ink)/0.2)] px-2.5 py-[5px] text-[12.5px]"
+                          className="border border-[rgb(var(--card-ink)/0.2)] px-2.5 py-[5px] text-[11.5px] leading-none"
                         >
                           {tag}
                         </span>
@@ -249,42 +258,61 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
                   </Field>
 
                   <Field label={t("projects.architecture")}>{project.devInfo.architecture[language]}</Field>
-                  <Field label={t("projects.deploy")}>{project.devInfo.deploy[language]}</Field>
                   <Field label={t("projects.security")}>{project.devInfo.security[language]}</Field>
-
-                  <Field label={t("projects.patterns")}>
-                    <span className="flex flex-wrap gap-x-3 gap-y-1 text-[12.5px]">
-                      {project.devInfo.patterns.map((pattern) => (
-                        <span key={pattern}>{pattern}</span>
-                      ))}
-                    </span>
-                  </Field>
 
                   <Field label={t("projects.features")} className="sm:col-span-2">
                     <DashList items={project.features[language]} />
                   </Field>
-
-                  <Field label="Lighthouse" className="sm:col-span-2">
-                    <span className="whitespace-nowrap text-accent">
-                      {project.lighthouse
-                        ? `${project.lighthouse.performance}/${project.lighthouse.accessibility}/${project.lighthouse.bestPractices}`
-                        : "—"}
-                    </span>
-                  </Field>
                 </dl>
-              </div>
-            </div>
+            </Collapse>
           </div>
 
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative mt-7 inline-flex items-center gap-2.5 self-start bg-accent px-6 py-3 text-[12.5px] text-white transition-[gap] hover:gap-[18px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
-          >
-            {t("projects.viewProject")}
-            <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
-          </a>
+          {/* O depoimento divide a linha com o botão, um em cada ponta: fechado é só quem falou
+              e a nota, que já dizem que o projeto foi aprovado; o texto abre embaixo, para quem
+              quiser ler. O botão fica sempre à direita (`ml-auto`), com ou sem depoimento. É a
+              mesma avaliação da página /reviews, amarrada a este projeto no convite. */}
+          <div className="relative mt-7 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+            {review && (
+              <button
+                type="button"
+                onClick={() => setReviewOpen((v) => !v)}
+                aria-expanded={reviewOpen}
+                aria-controls={reviewId}
+                className="group/review flex items-center gap-3 text-left focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+              >
+                <ReviewPhoto review={review} className="h-9 w-9 bg-[rgb(var(--card-ink)/0.1)] text-[15px] text-[rgb(var(--card-ink)/0.55)]" />
+                <span className="flex min-w-0 flex-col gap-1.5">
+                  <span className="text-[12.5px] leading-tight text-[rgb(var(--card-ink)/0.55)] transition-colors group-hover/review:text-[rgb(var(--card-ink))]">
+                    {[review.name, review.company].filter(Boolean).join(" · ")}
+                  </span>
+                  <Stars count={review.rating} className="text-[11px] text-accent" />
+                </span>
+                <ChevronDown
+                  className={`h-3 w-3 shrink-0 text-[rgb(var(--card-ink)/0.5)] transition-transform duration-300 ${reviewOpen ?"rotate-180" : ""}`}
+                  strokeWidth={2.5}
+                  aria-hidden
+                />
+              </button>
+            )}
+
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto inline-flex items-center gap-2.5 bg-accent px-6 py-3 text-[12.5px] text-white transition-[gap] hover:gap-[18px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+            >
+              {t("projects.viewProject")}
+              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+            </a>
+          </div>
+
+          {review && (
+            <Collapse id={reviewId} open={reviewOpen}>
+              <blockquote className="mt-5 border-l-2 border-accent pl-5 text-[13.5px] leading-relaxed text-[rgb(var(--card-ink)/0.7)]">
+                &ldquo;{review.comment}&rdquo;
+              </blockquote>
+            </Collapse>
+          )}
         </div>
       </div>
     </article>
