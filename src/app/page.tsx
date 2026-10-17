@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { ProposalSlide, type ProposalContent } from "@/components/proposal/proposal-slide";
 import { ProposalStack } from "@/components/proposal/proposal-stack";
 import { CvPanel } from "@/components/proposal/cv-panel";
 import { LangSwitch, LogoMark, ThemeSwitch } from "@/components/capa/capa-page";
 import { RatingLink, Stars } from "@/components/ui/brand-marks";
 import { type Track } from "@/data/reviews";
-import { thumbnails } from "@/data/thumbnails";
+import { projects } from "@/data/projects";
+import { niches, thumbnails } from "@/data/thumbnails";
 import { useLanguage } from "@/contexts/language-context";
-import { useRating } from "@/contexts/reviews-context";
+import { useHappyClients, useRating } from "@/contexts/reviews-context";
 import { useGoiasClock } from "@/hooks/use-goias-clock";
 
 /* Tudo em `em`: cada composição define o corpo do slot e as abas acompanham, sem duplicar estilo.
@@ -33,19 +34,21 @@ export default function Home() {
      Ausentes enquanto ninguém tiver avaliado — aí a nota simplesmente não aparece. */
   const overall = useRating();
   const trackRating = { web: useRating("web"), thumbs: useRating("thumbs") };
+  const happy = useHappyClients();
+  /* some enquanto ninguém tiver avaliado, como a nota — "0 clientes felizes" seria pior que nada */
+  const clients = happy ? `${happy} ${pt ? (happy === 1 ? "Cliente feliz" : "Clientes felizes") : happy === 1 ? "Happy client" : "Happy clients"}` : null;
 
-  /* ponytail: "—" marca número que ainda não existe em lugar nenhum do repo — em andamento e canais.
-     Trocar pelos reais; o resto sai de data/ e das traduções. */
+  /* Tudo que é contagem sai de data/: só o "+20 projetos" é número declarado, nas traduções. */
   const tracks = {
     web: {
       label: t("lobby.web.label"),
-      stats: [t("status.stats"), `— ${pt ? "em andamento" : "in progress"}`],
+      stats: [t("status.stats"), `${projects.length} ${pt ? "em produção" : "in production"}`],
       mark: trackRating.web,
       link: { href: "/projects", label: t("lobby.web.cta") },
     },
     thumbs: {
       label: t("status.thumbnails"),
-      stats: [ `— ${pt ? "canais" : "channels"}`, `${thumbnails.length} ${pt ? "thumbnails feitas" : "thumbnails made"}`],
+      stats: [`${niches} ${pt ? "nichos" : "niches"}`, `${thumbnails.length} ${pt ? "thumbnails feitas" : "thumbnails made"}`],
       mark: trackRating.thumbs,
       link: { href: "/thumbnails", label: t("lobby.thumbs.cta") },
     },
@@ -114,7 +117,7 @@ export default function Home() {
     columns: [
       { stats: active.stats, link: active.link },
       {
-        stats: ratingStat ? [ratingStat, t("status.clients")] : [t("status.clients")],
+        stats: [ratingStat, clients].filter(Boolean) as ReactNode[],
         /* contorno: o CTA cheio fica com a track que a pill governa, contato acompanha */
         link: { href: "/contact", label: t("lobby.contact"), variant: "outline" as const },
       },
@@ -140,7 +143,7 @@ export default function Home() {
             type="button"
             onClick={() => setTrack(key)}
             aria-pressed={track === key}
-            className={`relative ${TAB_BASE} focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink ${track === key ? "text-ink" : "text-ink/45 hover:text-ink"}`}
+            className={`relative ${TAB_BASE} focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink ${track === key ? "text-ink" : "text-ink/60 hover:text-ink"}`}
           >
             {tracks[key].label}
           </button>

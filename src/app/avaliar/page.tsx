@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ReviewInvite } from "@/components/reviews/review-invite";
 import type { ReviewFormProps } from "@/components/reviews/review-form";
 import { TRACKS, type Track } from "@/data/reviews";
-import { projects } from "@/data/projects";
+import { allProjects } from "@/data/projects";
 import { verifyInvite } from "@/services/invite";
 
 /* Página de link, não de site: fora do sitemap e fora do índice. O portão é a assinatura,
@@ -34,10 +34,10 @@ export default function AvaliarPage({ searchParams }: Params) {
         name: param(searchParams, "n"),
         company: param(searchParams, "e"),
         track: TRACKS.includes(track as Track) ? (track as Track) : "web",
-        project: projects.some((p) => p.id === project) ? project : null,
+        project: allProjects.some((p) => p.id === project) ? project : null,
         /* o título vem resolvido daqui: sem isso o formulário importaria data/projects inteiro
            pro pacote que o celular do cliente baixa, só pra ler uma palavra */
-        projectTitle: projects.find((p) => p.id === project)?.title ?? null,
+        projectTitle: allProjects.find((p) => p.id === project)?.title ?? null,
       }
     : null;
 

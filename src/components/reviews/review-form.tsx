@@ -36,7 +36,7 @@ const INSET =
 
 /** Botão que abre a galeria ou a câmera. O input mora dentro do label, então não há ref nem
     clique sintético — e o teclado continua alcançando o campo. */
-function PickerButton({
+export function PickerButton({
   onPick,
   multiple,
   disabled,
@@ -141,7 +141,7 @@ export function ReviewForm({
       const res = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ invite, token, name, company, track, project, rating, comment, photo, shots }),
+        body: JSON.stringify({ invite, token, name, company, track, project, rating, comment, photo, shots, lang: language }),
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => null)) as { error?: string } | null;
@@ -175,7 +175,7 @@ export function ReviewForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex max-w-[520px] flex-col gap-6">
-      <p className="text-[12.5px] text-ink/45">
+      <p className="text-[12.5px] text-ink/60">
         {pt ? "Sobre" : "About"}
         <span className="mx-2 text-accent">·</span>
         <span className="text-ink">{[projectTitle, TRACK_LABEL[track]].filter(Boolean).join(" · ")}</span>
@@ -198,7 +198,7 @@ export function ReviewForm({
                   className="h-full w-full object-cover"
                 />
               ) : inicial ? (
-                <span className="text-[26px] font-semibold uppercase leading-none text-ink/40" aria-hidden>
+                <span className="text-[26px] font-semibold uppercase leading-none text-ink/60" aria-hidden>
                   {inicial}
                 </span>
               ) : (
@@ -256,7 +256,7 @@ export function ReviewForm({
               maxLength={LIMITS.company}
               autoComplete="organization"
               placeholder={pt ? "Canal ou empresa" : "Channel or company"}
-              className={`${INSET} text-[16px] text-ink/50`}
+              className={`${INSET} text-[16px] text-ink/60`}
             />
           </div>
         </div>
@@ -300,7 +300,7 @@ export function ReviewForm({
             placeholder={pt ? "O que achou do trabalho? (opcional)" : "How was the work? (optional)"}
             className={`${INSET} resize-none text-[15px] leading-relaxed`}
           />
-          <p className="mt-1.5 text-right text-[12.5px] text-ink/35">
+          <p className="mt-1.5 text-right text-[12.5px] text-ink/60">
             {comment.length}/{LIMITS.comment}
           </p>
         </div>
@@ -308,7 +308,7 @@ export function ReviewForm({
         {/* Mesma grade 4:3 que o card usa no site, com a célula vaga servindo de botão. */}
         <div className="grid grid-cols-3 gap-1.5">
           {shots.map((shot, i) => (
-            <span key={shot.slice(0, 32)} className="relative aspect-[4/3] overflow-hidden bg-surface-sunken">
+            <span key={shot.slice(-32)} className="relative aspect-[4/3] overflow-hidden bg-surface-sunken">
               <Image src={preview(shot)} alt="" fill unoptimized sizes="33vw" className="object-cover" />
               <button
                 type="button"
@@ -326,7 +326,7 @@ export function ReviewForm({
               onPick={pickShots}
               multiple
               disabled={busy}
-              className="flex aspect-[4/3] flex-col items-center justify-center gap-1.5 border border-dashed border-ink/30 text-ink/45 transition-colors hover:border-ink/70 hover:text-ink peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
+              className="flex aspect-[4/3] flex-col items-center justify-center gap-1.5 border border-dashed border-ink/30 text-ink/60 transition-colors hover:border-ink/70 hover:text-ink peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
             >
               <ImagePlus className="h-5 w-5" strokeWidth={1.5} aria-hidden />
               <span className="text-[12px]">
@@ -338,7 +338,7 @@ export function ReviewForm({
       </div>
 
       {busy && (
-        <p className="text-[12.5px] text-ink/45">
+        <p className="text-[12.5px] text-ink/60">
           {pt ? "Preparando a imagem..." : "Preparing image..."}
         </p>
       )}

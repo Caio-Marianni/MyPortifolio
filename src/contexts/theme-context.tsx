@@ -49,7 +49,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const query = window.matchMedia("(prefers-color-scheme: dark)");
     const onChange = () => {
-      if (localStorage.getItem(STORAGE_KEY)) return;
+      try {
+        if (localStorage.getItem(STORAGE_KEY)) return;
+      } catch {}
       setTheme(query.matches ? "dark" : "light");
     };
     query.addEventListener("change", onChange);
@@ -63,7 +65,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       theme,
       toggleTheme: () => {
         const next = theme === "light" ? "dark" : "light";
-        localStorage.setItem(STORAGE_KEY, next);
+        try {
+          localStorage.setItem(STORAGE_KEY, next);
+        } catch {}
         setTheme(next);
       },
     }),

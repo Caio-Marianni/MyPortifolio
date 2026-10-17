@@ -11,7 +11,7 @@ export function ReviewPhoto({ review, className = "" }: { review: Review; classN
   return (
     <span className={`relative flex shrink-0 items-center justify-center overflow-hidden rounded-full ${className}`}>
       {review.photo ? (
-        <Image src={reviewImage(review.id)} alt="" fill unoptimized className="object-cover" />
+        <Image src={reviewImage(review)} alt="" fill unoptimized className="object-cover" />
       ) : (
         /* a inicial segue o corpo do nome: fonte do texto, não a Makaio. `uppercase` fica —
            é uma letra só, e sem ele um nome digitado em minúsculas viraria um "c" solto. */
@@ -38,13 +38,13 @@ export function ReviewShots({ review, label }: { review: Review; label: string }
       {Array.from({ length: review.shots }, (_, i) => (
         <a
           key={i}
-          href={reviewImage(review.id, i)}
+          href={reviewImage(review, i)}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${label} ${i + 1}`}
           className="relative aspect-[4/3] overflow-hidden bg-ink/[0.07] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
-          <Image src={reviewImage(review.id, i)} alt="" fill unoptimized sizes="180px" className="object-cover" />
+          <Image src={reviewImage(review, i)} alt="" fill unoptimized sizes="180px" className="object-cover" />
         </a>
       ))}
     </div>

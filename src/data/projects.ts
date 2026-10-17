@@ -154,6 +154,19 @@ export const projects: Project[] = [
     demo: "",
   },
   */
+];
+
+/** Projeto secundário: sem capa, sem ficha técnica — só o bastante pra uma linha na lista de
+    "mais projetos". Os ids vêm do mesmo espaço de `projects` e também não se reaproveitam. */
+export interface SideProject {
+  id: number;
+  title: string;
+  summary: { pt: string; en: string };
+  tags: string[];
+  demo: string;
+}
+
+export const sideProjects: SideProject[] = [
   {
     id: 2,
     title: "Ana Carolina",
@@ -162,31 +175,10 @@ export const projects: Project[] = [
       en: "Her own portfolio with a project gallery and testimonials that she updates herself in Portuguese and English — instead of work scattered across Instagram.",
     },
     tags: ["Next.js 14", "TypeScript", "Framer Motion", "Drizzle ORM", "Vercel Blob"],
-    features: {
-      pt: [
-        "Upload com conversão automática para WebP no servidor (Sharp)",
-        "Painel com CRUD, controle de visibilidade e aprovação de avaliações",
-        "PT/EN com geração estática das duas versões",
-      ],
-      en: [
-        "Upload with automatic server-side WebP conversion (Sharp)",
-        "Panel with CRUD, visibility control and review approval",
-        "PT/EN with both versions statically generated",
-      ],
-    },
-    devInfo: {
-      architecture: {
-        pt: "Next.js com ISR (revalidação a cada hora) e API Routes internas, na Vercel; imagens no Vercel Blob",
-        en: "Next.js with ISR (hourly revalidation) and internal API Routes on Vercel; images on Vercel Blob",
-      },
-      security: {
-        pt: "Autenticação no painel, sanitização e conversão de uploads no servidor",
-        en: "Panel authentication, server-side upload sanitization and conversion",
-      },
-    },
-    logo: "/projects/icon/ana.svg",
-    cover: "/projects/cover/ana2.webp",
     demo: "https://portfolio-ana-carol.vercel.app",
-    lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
   },
 ];
+
+/** Principais e secundários juntos, para quem só precisa do par id/título: convite, rota e
+    painel de avaliações. Uma avaliação pode ser de qualquer um dos dois. */
+export const allProjects: { id: number; title: string }[] = [...projects, ...sideProjects];

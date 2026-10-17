@@ -15,6 +15,14 @@ const nextConfig = {
         source: "/assets/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
+      {
+        /* Versões da galeria, servidas direto pelo loader de app/thumbnails. Sem isto o padrão
+           de /public é revalidar a cada visita — dezenas de idas ao servidor por página. Não é
+           `immutable` porque uma peça pode ser trocada mantendo o nome: um dia fresco, e depois
+           o navegador mostra a guardada enquanto confere em segundo plano. */
+        source: "/thumbnail/:width(640|1280)/:file*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=2592000" }],
+      },
     ];
   },
 };

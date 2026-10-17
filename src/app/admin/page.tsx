@@ -5,14 +5,16 @@ import { LogIn, LogOut, MessageCircle } from "lucide-react";
 import { CapaPage } from "@/components/capa/capa-page";
 import { FIELD, LABEL } from "@/components/capa/capa-contact-form";
 import { CopyField } from "@/components/admin/copy-field";
+import { ReviewEditor } from "@/components/admin/review-editor";
 import { Stars } from "@/components/ui/brand-marks";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
 import { LIMITS, TRACKS, TRACK_LABEL, type ReviewRecord, type Status, type Track } from "@/data/reviews";
-import { projects } from "@/data/projects";
+import { allProjects } from "@/data/projects";
 import { COOKIE, MAX_TRIES, WINDOW_MINUTES, validSession } from "@/services/admin";
 import { inviteLink } from "@/services/invite";
+import { listMessages, type Message } from "@/services/contact";
 import { listAll } from "@/services/reviews";
-import { decide, login, logout, remove } from "./actions";
+import { decide, login, logout, remove, removeMessage } from "./actions";
 
 /* Painel só seu: em português e fora do índice. Tudo aqui é componente de servidor com
    `<form action={...}>` — moderar funciona mesmo antes do JS carregar, e não há um byte de
@@ -31,7 +33,7 @@ const STATUS_LABEL: Record<Status, string> = {
 const STATUS_STYLE: Record<Status, string> = {
   pending: "bg-accent text-white",
   approved: "bg-fill text-fill-ink",
-  rejected: "bg-ink/10 text-ink/50",
+  rejected: "bg-ink/10 text-ink/60",
 };
 
 /* Botão pra cada destino diferente do estado atual: a mesma fileira serve às três situações,
@@ -112,7 +114,7 @@ function NovoConvite({
 
   return (
     <section className="mb-10 border border-ink/15 p-6">
-      <h2 className="text-[12.5px] text-ink/45">Novo convite</h2>
+      <h2 className="text-[12.5px] text-ink/60">Novo convite</h2>
 
       <form method="GET" action="/admin" className="mt-5 flex flex-col gap-5">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -151,7 +153,7 @@ function NovoConvite({
             </label>
             <select id="p" name="p" defaultValue={projeto ?? ""} className={FIELD}>
               <option value="">— nenhum —</option>
-              {projects.map((project) => (
+              {allProjects.map((project) => (
                 <option key={project.id} value={project.id}>
                   {project.title}
                 </option>
@@ -180,7 +182,7 @@ function NovoConvite({
             <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           </a>
 
-          <p className="text-[13px] leading-relaxed text-ink/55">
+          <p className="text-[13px] leading-relaxed text-ink/65">
             O link não expira e vale pra quantas avaliações a pessoa mandar — todas chegam aqui como pendentes.
           </p>
         </div>
@@ -192,19 +194,29 @@ function NovoConvite({
 /* Mesma anatomia do quadro público e da ficha de projeto — foto, nome, nota e só então o texto —
    e nos mesmos corpos, pra que a avaliação tenha o mesmo peso nas três telas. O que é só seu
    (trilha, projeto, e-mail, convite, data) fica embaixo, longe da voz do cliente. */
-function Card({ review, excluindo }: { review: ReviewRecord; excluindo: boolean }) {
-  const projeto = projects.find((project) => project.id === review.project)?.title;
+function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo: boolean; editando: boolean }) {
+  const projeto = allProjects.find((project) => project.id === review.project)?.title;
   const meta = [TRACK_LABEL[review.track], projeto, review.email, `convite: ${review.invite}`, review.createdAt];
+
+  /* Editar troca o card inteiro pelo formulário, no mesmo lugar da lista: a decisão de
+     publicar continua nos botões de baixo, depois de salvar. */
+  if (editando) {
+    return (
+      <article className="flex flex-col gap-4 border border-ink p-6">
+        <ReviewEditor review={review} />
+      </article>
+    );
+  }
 
   return (
     <article className="flex flex-col gap-4 border border-ink/15 p-6">
       <header className="flex items-center gap-4">
-        <ReviewPhoto review={review} className="h-12 w-12 bg-ink/[0.07] text-[19px] text-ink/45" />
+        <ReviewPhoto review={review} className="h-12 w-12 bg-ink/[0.07] text-[19px] text-ink/60" />
 
         <span className="flex min-w-0 flex-col gap-1.5">
           <span className="text-[15px] leading-tight">
             <span className="font-semibold">{review.name}</span>
-            {review.company && <span className="text-ink/45"> · {review.company}</span>}
+            {review.company && <span className="text-ink/60"> · {review.company}</span>}
           </span>
 
           <Stars count={review.rating} className="text-[13px] text-accent" />
@@ -218,14 +230,14 @@ function Card({ review, excluindo }: { review: ReviewRecord; excluindo: boolean 
       {review.comment ? (
         <blockquote className="text-[15px] leading-relaxed text-ink/80">{review.comment}</blockquote>
       ) : (
-        <p className="text-[15px] italic leading-relaxed text-ink/35">Só a nota, sem comentário.</p>
+        <p className="text-[15px] italic leading-relaxed text-ink/60">Só a nota, sem comentário.</p>
       )}
 
       {/* As imagens só carregam aqui porque você tem sessão: a rota serve pendente e recusada
           apenas pra quem tem o cookie do painel. */}
       <ReviewShots review={review} label="Foto do projeto" />
 
-      <p className="text-[13px] leading-tight text-ink/45">{meta.filter(Boolean).join(" · ")}</p>
+      <p className="text-[13px] leading-tight text-ink/60">{meta.filter(Boolean).join(" · ")}</p>
 
       {excluindo ? (
         /* A confirmação é a própria tela, sem `confirm()` do navegador: o painel inteiro é
@@ -251,7 +263,11 @@ function Card({ review, excluindo }: { review: ReviewRecord; excluindo: boolean 
 
           {/* Link e não botão: excluir é decisão em duas etapas, e a primeira é só abrir o painel
               de novo marcando qual card perguntou. */}
-          <Link href={`/admin?excluir=${review.id}`} className={`${BUTTON} ml-auto text-danger`}>
+          <Link href={`/admin?editar=${review.id}`} className={`${BUTTON} ml-auto`}>
+            Editar
+          </Link>
+
+          <Link href={`/admin?excluir=${review.id}`} className={`${BUTTON} text-danger`}>
             Excluir
           </Link>
         </form>
@@ -260,7 +276,45 @@ function Card({ review, excluindo }: { review: ReviewRecord; excluindo: boolean 
   );
 }
 
-type Params = { searchParams: { erro?: string; n?: string; e?: string; t?: string; p?: string; excluir?: string } };
+/* Mensagens do formulário de contato. Responder é pelo e-mail — o nome da pessoa já é o link
+   pro mailto —, e a que já foi respondida sai com o botão. */
+function Mensagens({ messages }: { messages: Message[] | null }) {
+  return (
+    <section className="mb-10 border border-ink/15 p-6">
+      <h2 className="text-[12.5px] text-ink/60">Mensagens{messages && ` (${messages.length})`}</h2>
+
+      {messages === null ? (
+        <p role="alert" className="mt-4 text-[13px] text-danger">
+          Não consegui ler as mensagens. A tabela foi criada? Rode a terceira leva do sql/reviews.sql no Neon.
+        </p>
+      ) : messages.length === 0 ? (
+        <p className="mt-4 text-[14px] text-ink/65">Nenhuma mensagem pelo formulário de contato.</p>
+      ) : (
+        <ul className="mt-4 divide-y divide-ink/15">
+          {messages.map((message) => (
+            <li key={message.id} className="flex flex-col gap-2 py-4">
+              <p className="text-[13px] text-ink/60">
+                <a href={`mailto:${message.email}`} className="font-semibold text-ink underline-offset-4 hover:underline">
+                  {message.name}
+                </a>
+                {` · ${message.email} · ${message.createdAt}`}
+              </p>
+              <p className="whitespace-pre-line text-[15px] leading-relaxed text-ink/80">{message.message}</p>
+              <form action={removeMessage}>
+                <input type="hidden" name="id" value={message.id} />
+                <button type="submit" className={`${BUTTON} mt-1`}>
+                  Respondida, tirar da lista
+                </button>
+              </form>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+type Params = { searchParams: { erro?: string; n?: string; e?: string; t?: string; p?: string; excluir?: string; editar?: string; nova?: string } };
 
 export default async function AdminPage({ searchParams }: Params) {
   if (!validSession(cookies().get(COOKIE)?.value)) {
@@ -277,7 +331,7 @@ export default async function AdminPage({ searchParams }: Params) {
   const empresa = (searchParams.e ?? "").trim();
   const trilha = TRACKS.includes(searchParams.t as Track) ? (searchParams.t as Track) : "web";
   const escolhido = Number(searchParams.p);
-  const projeto = projects.some((project) => project.id === escolhido) ? escolhido : null;
+  const projeto = allProjects.some((project) => project.id === escolhido) ? escolhido : null;
   const cabecalhos = headers();
   const link = nome
     ? inviteLink(`${cabecalhos.get("x-forwarded-proto") ?? "http"}://${cabecalhos.get("host")}`, {
@@ -290,6 +344,12 @@ export default async function AdminPage({ searchParams }: Params) {
 
   let reviews: ReviewRecord[] = [];
   let erro: string | null = null;
+  /* Leitura à parte: sem a tabela `messages` criada (terceira leva do sql/reviews.sql), as
+     avaliações continuam aparecendo e só esta seção avisa. */
+  const messages = await listMessages().catch((error: unknown) => {
+    console.error("[admin] falha ao ler mensagens:", error);
+    return null;
+  });
   try {
     reviews = await listAll();
   } catch (error) {
@@ -314,6 +374,21 @@ export default async function AdminPage({ searchParams }: Params) {
 
       <NovoConvite nome={nome} empresa={empresa} trilha={trilha} projeto={projeto} link={link} />
 
+      {/* Avaliação que chegou por fora do site: o mesmo editor, vazio. Link e não estado de
+          cliente, como o excluir — abrir é só recarregar o painel com `?nova`. */}
+      {searchParams.nova !== undefined ? (
+        <section className="mb-10 border border-ink p-6">
+          <h2 className="mb-5 text-[12.5px] text-ink/60">Nova avaliação (WhatsApp, e-mail…)</h2>
+          <ReviewEditor />
+        </section>
+      ) : (
+        <Link href="/admin?nova" className={`${BUTTON} mb-10 inline-flex`}>
+          Nova avaliação
+        </Link>
+      )}
+
+      <Mensagens messages={messages} />
+
       {erro && (
         <p role="alert" className="text-[13px] text-danger">
           {erro}
@@ -321,7 +396,7 @@ export default async function AdminPage({ searchParams }: Params) {
       )}
 
       {!erro && reviews.length === 0 && (
-        <p className="text-[15px] leading-relaxed text-ink/55">
+        <p className="text-[15px] leading-relaxed text-ink/65">
           Nenhuma avaliação ainda. Gere um convite aí em cima e mande pro cliente.
         </p>
       )}
@@ -329,7 +404,12 @@ export default async function AdminPage({ searchParams }: Params) {
       {/* A consulta já devolve as pendentes em cima; a ordem da lista é a ordem da fila. */}
       <div className="grid gap-4 lg:grid-cols-2">
         {reviews.map((review) => (
-          <Card key={review.id} review={review} excluindo={searchParams.excluir === String(review.id)} />
+          <Card
+            key={review.id}
+            review={review}
+            excluindo={searchParams.excluir === String(review.id)}
+            editando={searchParams.editar === String(review.id)}
+          />
         ))}
       </div>
     </CapaPage>

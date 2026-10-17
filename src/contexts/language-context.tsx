@@ -24,15 +24,20 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
      conteúdo para o robô que não executa JS. O servidor entrega PT, que é o `lang` do
      documento e o idioma da maioria; quem tem EN salvo vê a troca no primeiro frame. */
   useEffect(() => {
-    const saved = localStorage.getItem("language");
-    /* validação em vez de cast: o valor vem do storage, que qualquer um edita */
-    if (saved === "pt" || saved === "en") setLanguage(saved);
+    /* try/catch: localStorage lança com storage bloqueado, e aqui isso derrubaria o site inteiro */
+    try {
+      const saved = localStorage.getItem("language");
+      /* validação em vez de cast: o valor vem do storage, que qualquer um edita */
+      if (saved === "pt" || saved === "en") setLanguage(saved);
+    } catch {}
     setMounted(true);
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
-    localStorage.setItem("language", language);
+    try {
+      localStorage.setItem("language", language);
+    } catch {}
     document.documentElement.lang = LOCALE[language];
   }, [language, mounted]);
 

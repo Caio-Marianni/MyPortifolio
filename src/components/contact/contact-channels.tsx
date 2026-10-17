@@ -75,7 +75,7 @@ export function ContactChannels() {
           />
 
           <span className="relative text-[12.5px]">{label}</span>
-          <span className="relative truncate text-[11px] tracking-[0.02em] text-chrome-ink/45 transition-colors group-hover/tile:text-white/85">
+          <span className="relative truncate text-[11px] tracking-[0.02em] text-chrome-ink/55 transition-colors group-hover/tile:text-white/85">
             {value}
           </span>
         </a>

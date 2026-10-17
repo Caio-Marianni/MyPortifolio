@@ -6,7 +6,6 @@ export type Language = "pt" | "en";
 const pt = {
   "status.location": "Brasil-GO",
   "status.stats": "+20 Projetos",
-  "status.clients": "2 Clientes felizes",
   "status.projects": "Projetos",
   "status.thumbnails": "Thumbnails",
   "status.reviews": "Avaliações",
@@ -14,12 +13,10 @@ const pt = {
   "reviews.line": "Quem contratou · Web e Thumbnails",
   "reviews.see": "Ver avaliações",
 
-  "lobby.thumbs.stat": "44 entregues",
   "lobby.thumbs.line": "Capas para YouTube · CTR",
   "lobby.thumbs.cta": "ver galeria",
   /* abreviado: no toggle do mobile as duas pills dividem 360px e "Web Development" quebrava */
   "lobby.web.label": "Web Dev",
-  "lobby.web.stat": "4 em produção",
   "lobby.web.line": "Fullstack · Next.js · Node",
   "lobby.web.cta": "ver projetos",
   "lobby.contact": "fale comigo",
@@ -35,6 +32,7 @@ const pt = {
   "projects.features": "Destaques técnicos",
   "projects.sourceCode": "Código fonte",
   "projects.security": "Segurança",
+  "projects.more": "Ver mais projetos",
 
   "contact.title": "Entre em Contato",
   "contact.subtitle": "Adoraria ouvir de você!",
@@ -53,7 +51,6 @@ export type TranslationKey = keyof typeof pt;
 const en: Record<TranslationKey, string> = {
   "status.location": "Brazil-GO",
   "status.stats": "+20 Projects",
-  "status.clients": "2 Happy clients",
   "status.projects": "Projects",
   "status.thumbnails": "Thumbnails",
   "status.reviews": "Reviews",
@@ -61,11 +58,9 @@ const en: Record<TranslationKey, string> = {
   "reviews.line": "Past clients · Web and Thumbnails",
   "reviews.see": "See reviews",
 
-  "lobby.thumbs.stat": "44 delivered",
   "lobby.thumbs.line": "YouTube covers · CTR",
   "lobby.thumbs.cta": "view gallery",
   "lobby.web.label": "Web Dev",
-  "lobby.web.stat": "4 in production",
   "lobby.web.line": "Fullstack · Next.js · Node",
   "lobby.web.cta": "view projects",
   "lobby.contact": "get in touch",
@@ -79,6 +74,7 @@ const en: Record<TranslationKey, string> = {
   "projects.features": "Technical highlights",
   "projects.sourceCode": "Source code",
   "projects.security": "Security",
+  "projects.more": "See more projects",
 
   "contact.title": "Get in Touch",
   "contact.subtitle": "I'd like to hear from you!",

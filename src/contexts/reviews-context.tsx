@@ -19,3 +19,8 @@ export function useRating(track?: Track) {
   if (!summary) return null;
   return ratingMark(track ? summary[track] : summary.overall);
 }
+
+/** Quantos clientes deram 4 ou 5 — sai das avaliações publicadas, não de número escrito à mão. */
+export function useHappyClients(): number {
+  return useContext(ReviewsContext)?.overall.happy ?? 0;
+}

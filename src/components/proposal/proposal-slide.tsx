@@ -245,7 +245,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
                 <div key={column.link.href} className="grid grid-rows-subgrid" style={{ gridRow: `span ${gridRows}` }}>
                   {column.stats.map((stat, i) => (
                     /* centralizado pra bater com o rótulo do CTA logo abaixo, que também é centrado */
-                    <span key={i} className="flex h-[1.3em] items-center justify-center text-center text-ink/55">
+                    <span key={i} className="flex h-[1.3em] items-center justify-center text-center text-ink/65">
                       {stat}
                     </span>
                   ))}

@@ -43,7 +43,7 @@ function DashList({ items }: { items: string[] }) {
     conteúdo sem saber o número de antemão, e igual em qualquer navegador.
     `visibility` entra na transição de propósito: fechado, o conteúdo continua no DOM mas sai
     do alcance do leitor de tela, e a própria propriedade segura a troca até o fim da animação. */
-function Collapse({ id, open, children }: { id: string; open: boolean; children: ReactNode }) {
+export function Collapse({ id, open, children }: { id: string; open: boolean; children: ReactNode }) {
   return (
     <div
       id={id}
@@ -171,7 +171,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${centered ?"max-lg:scale-[1.03]" : ""}`}
             />
           ) : (
-            <div className="flex h-full items-center justify-center bg-[repeating-linear-gradient(45deg,rgb(var(--card-ink)/0.05)_0_9px,transparent_9px_18px)] p-2 text-center text-[12px] text-[rgb(var(--card-ink)/0.4)]">
+            <div className="flex h-full items-center justify-center bg-[repeating-linear-gradient(45deg,rgb(var(--card-ink)/0.05)_0_9px,transparent_9px_18px)] p-2 text-center text-[12px] text-[rgb(var(--card-ink)/0.6)]">
               {pt ? "capa pendente" : "cover pending"}
             </div>
           )}
@@ -232,7 +232,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               className="relative flex w-full justify-center before:absolute before:inset-x-0 before:top-1/2 before:border-t before:border-[rgb(var(--card-ink)/0.14)] focus-visible:outline-none"
             >
               {/* hover e foco pintam o chip, não a faixa inteira do botão */}
-              <span className="relative flex items-center gap-2.5 bg-[rgb(var(--card-paper))] px-4 py-1 text-[12.5px] text-[rgb(var(--card-ink)/0.5)] transition-colors [button:focus-visible>&]:outline [button:focus-visible>&]:outline-1 [button:focus-visible>&]:outline-offset-4 [button:focus-visible>&]:outline-current [button:hover>&]:text-[rgb(var(--card-ink))]">
+              <span className="relative flex items-center gap-2.5 bg-[rgb(var(--card-paper))] px-4 py-1 text-[12.5px] text-[rgb(var(--card-ink)/0.6)] transition-colors [button:focus-visible>&]:outline [button:focus-visible>&]:outline-1 [button:focus-visible>&]:outline-offset-4 [button:focus-visible>&]:outline-current [button:hover>&]:text-[rgb(var(--card-ink))]">
                 <ChevronDown
                   className={`h-3 w-3 transition-transform duration-300 ${specsOpen ?"rotate-180" : ""}`}
                   strokeWidth={2.5}
@@ -280,15 +280,15 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
                 aria-controls={reviewId}
                 className="group/review flex items-center gap-3 text-left focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
               >
-                <ReviewPhoto review={review} className="h-9 w-9 bg-[rgb(var(--card-ink)/0.1)] text-[15px] text-[rgb(var(--card-ink)/0.55)]" />
+                <ReviewPhoto review={review} className="h-9 w-9 bg-[rgb(var(--card-ink)/0.1)] text-[15px] text-[rgb(var(--card-ink)/0.65)]" />
                 <span className="flex min-w-0 flex-col gap-1.5">
-                  <span className="text-[12.5px] leading-tight text-[rgb(var(--card-ink)/0.55)] transition-colors group-hover/review:text-[rgb(var(--card-ink))]">
+                  <span className="text-[12.5px] leading-tight text-[rgb(var(--card-ink)/0.65)] transition-colors group-hover/review:text-[rgb(var(--card-ink))]">
                     {[review.name, review.company].filter(Boolean).join(" · ")}
                   </span>
                   <Stars count={review.rating} className="text-[11px] text-accent" />
                 </span>
                 <ChevronDown
-                  className={`h-3 w-3 shrink-0 text-[rgb(var(--card-ink)/0.5)] transition-transform duration-300 ${reviewOpen ?"rotate-180" : ""}`}
+                  className={`h-3 w-3 shrink-0 text-[rgb(var(--card-ink)/0.6)] transition-transform duration-300 ${reviewOpen ?"rotate-180" : ""}`}
                   strokeWidth={2.5}
                   aria-hidden
                 />

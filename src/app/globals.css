@@ -11,7 +11,7 @@
    existe no repo e o texto caía no mono do sistema de qualquer jeito. */
 
 /* Paleta em canais RGB soltos, sem `rgb()` e sem vírgula: é o formato que o
-   `<alpha-value>` do tailwind.config.ts consome para montar `text-ink/45`.
+   `<alpha-value>` do tailwind.config.ts consome para montar `text-ink/60`.
    Editar cor do site é editar estas duas listas — nenhum hex solto nos componentes.
 
    O tema é a classe `dark` no <html>, posta pelo script do layout antes do primeiro paint.
@@ -30,8 +30,8 @@
      não serve — no escuro o botão inverte e a conta iria para o lado errado. */
   --fill-lip: 74 68 60; /* #4A443C */
   --surface-hover: 255 255 255; /* hover do botão de contorno, um degrau acima do raised */
-  --accent: 255 85 0; /* #FF5500 */
-  --accent-hover: 230 77 0; /* #E64D00 */
+  --accent: 209 71 0; /* #D14700 — o #FF5500 de antes dava 3.2:1 com texto branco */
+  --accent-hover: 184 61 0; /* #B83D00 */
   --danger: 179 38 30; /* #B3261E */
 
   /* Ficha alternada do dossiê de projetos. No claro é a inversão cheia — creme, preto, creme.

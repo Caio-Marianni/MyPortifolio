@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ReviewsBoard } from "@/components/reviews/reviews-board";
-import { projects } from "@/data/projects";
+import { allProjects } from "@/data/projects";
 import { summarize } from "@/data/reviews";
 import { getReviews } from "@/services/reviews";
 
@@ -29,7 +29,7 @@ export default async function ReviewsPage() {
      importar data/projects lá arrastaria a lista inteira pro pacote do visitante pra ler uma
      palavra por card — o mesmo motivo do prefill em app/avaliar/page.tsx. */
   const projectTitles: Record<number, string> = Object.fromEntries(
-    projects.filter((p) => reviews.some((r) => r.project === p.id)).map((p) => [p.id, p.title] as const),
+    allProjects.filter((p) => reviews.some((r) => r.project === p.id)).map((p) => [p.id, p.title] as const),
   );
 
   return <ReviewsBoard reviews={reviews} summary={summarize(reviews)} projectTitles={projectTitles} />;

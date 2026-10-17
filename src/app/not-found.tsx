@@ -11,7 +11,7 @@ export default function NotFound() {
         <LogoMark />
       </span>
 
-      <p className="text-[12.5px] text-ink/45">Erro</p>
+      <p className="text-[12.5px] text-ink/60">Erro</p>
 
       <h1 className="my-2 font-makaio text-[26vw] font-black leading-[0.85] tracking-widest md:text-[180px]">404</h1>
 

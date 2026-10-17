@@ -14,7 +14,7 @@ import localFont from "next/font/local";
    `font-display: swap` cobrava toda vez que a fonte real chegava.
    Os arquivos são recortes latinos: o Inter cheio pesava 133 KB, o recorte pesa 33 KB. */
 
-export const inter = localFont({
+const inter = localFont({
   src: "../fonts/inter.woff2",
   weight: "100 900",
   display: "swap",
@@ -22,7 +22,7 @@ export const inter = localFont({
   adjustFontFallback: "Arial",
 });
 
-export const makaio = localFont({
+const makaio = localFont({
   src: "../fonts/makaio.woff2",
   weight: "400",
   display: "swap",
@@ -32,7 +32,7 @@ export const makaio = localFont({
 
 /* Só a nota gigante e apagada do rail usa Ricko — decoração, nunca o LCP. Sem preload
    para não disputar banda com o retrato e o wordmark na primeira dobra. */
-export const ricko = localFont({
+const ricko = localFont({
   src: "../fonts/ricko.woff2",
   weight: "400",
   display: "swap",
@@ -98,12 +98,10 @@ export const metadata: Metadata = {
     description:
       "Desenvolvedor fullstack especializado em criar interfaces modernas, experiências web interativas e design visual.",
   },
+  /* Sem `languages`: o inglês é toggle no cliente, na mesma URL — um hreflang para /en
+     apontava o Google para uma página que não existe. */
   alternates: {
     canonical: baseUrl,
-    languages: {
-      "pt-BR": baseUrl,
-      "en-US": `${baseUrl}/en`,
-    },
   },
   category: "technology",
 };
@@ -132,11 +130,11 @@ const jsonLd = {
   mainEntity: {
     "@type": "Person",
     name: "Caio Marianni",
-    jobTitle: "Desenvolvedor Front-end",
+    jobTitle: "Desenvolvedor Fullstack",
     url: baseUrl,
     sameAs: [
       "https://github.com/Caio-Marianni",
-      "https://linkedin.com/in/caio-mariann",
+      "https://www.linkedin.com/in/caio-marianni/",
     ],
     knowsAbout: [
       "React",
@@ -172,7 +170,7 @@ export default async function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* O site tem toggle PT/EN próprio — a barra de tradução do navegador só quebra o layout. */}
         <meta name="google" content="notranslate" />
-        {/* Os preloads de Inter e Makaio agora saem do `next/font` (src/fonts/index.ts), com o
+        {/* Os preloads de Inter e Makaio agora saem do `next/font` (no topo deste arquivo), com o
             hash do arquivo no href — escrever <link rel="preload"> aqui duplicaria o download.
             O preconnect para o próprio domínio também saiu: a conexão que serve este HTML já
             está aberta, e o Lighthouse conta preconnect ocioso como aviso. */}

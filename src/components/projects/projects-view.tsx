@@ -2,8 +2,9 @@
 
 import { CapaPage } from "@/components/capa/capa-page";
 import { ProjectDossier } from "@/components/projects/project-dossier";
+import { SideProjects } from "@/components/projects/side-projects";
 import { useLanguage } from "@/contexts/language-context";
-import { projects } from "@/data/projects";
+import { projects, sideProjects } from "@/data/projects";
 import type { Review } from "@/data/reviews";
 
 /* Separado da page porque a página virou componente de servidor pra buscar as avaliações —
@@ -11,6 +12,10 @@ import type { Review } from "@/data/reviews";
 export function ProjectsView({ reviews }: { reviews: Review[] }) {
   const { t, language } = useLanguage();
   const pt = language === "pt";
+  /* nota cheia nas três medidas do Lighthouse — é dado do próprio projeto, não número à mão */
+  const perfect = projects.filter(
+    ({ lighthouse: l }) => l && l.performance === 100 && l.accessibility === 100 && l.bestPractices === 100,
+  ).length;
 
   return (
     <CapaPage
@@ -18,7 +23,10 @@ export function ProjectsView({ reviews }: { reviews: Review[] }) {
       track="web"
       wordmark={t("status.projects")}
       descriptor={t("lobby.web.line")}
-      stats={[`${projects.length} ${pt ? "publicados" : "published"}`, t("lobby.web.stat")]}
+      stats={[
+        `${projects.length} ${pt ? "publicados" : "published"}`,
+        `${perfect} ${pt ? "com Lighthouse 100" : "with Lighthouse 100"}`,
+      ]}
     >
       {/* Cada ficha pinta o próprio fundo, alternando creme/preto — a primeira é preta
           para emendar na faixa de metadados da capa, e o `bleed` leva até a borda. */}
@@ -33,6 +41,8 @@ export function ProjectsView({ reviews }: { reviews: Review[] }) {
           review={reviews.find((review) => review.project === project.id && review.comment)}
         />
       ))}
+
+      <SideProjects projects={sideProjects} />
     </CapaPage>
   );
 }

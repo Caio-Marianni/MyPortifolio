@@ -1,7 +1,7 @@
 /* A paleta escura é escolha de olho, mas tem um jeito de errar que passa despercebido: um par
-   que no creme lê bem e no escuro encosta no fundo. A régua aqui não é o WCAG absoluto — o tema
-   claro já mora onde mora e não é isto que vai mudá-lo. É comparativa: **o escuro não pode ler
-   pior que o claro**. Sem framework — `node scripts/check-contrast.ts` passa calado ou joga.   */
+   que no creme lê bem e no escuro encosta no fundo. Duas réguas: o claro tem que
+   passar no WCAG (piso por par, abaixo), e o escuro não pode ler pior que o claro.
+   Sem framework — `node scripts/check-contrast.ts` passa calado ou joga.   */
 
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
@@ -45,25 +45,26 @@ const over = (
   alpha: number
 ): [number, number, number] => [0, 1, 2].map((i) => fg[i] * alpha + bg[i] * (1 - alpha)) as unknown as [number, number, number];
 
-/* Os pares que carregam texto. Alpha onde o site usa o token esmaecido — os rótulos em
-   font-mono e as dicas dos formulários são /45 e /55, e é neles que o escuro erraria. */
-const PAIRS: Array<[string, string, string, number]> = [
-  ["corpo", "ink", "surface", 1],
-  ["corpo esmaecido", "ink", "surface", 0.55],
-  ["rótulo mono", "ink", "surface", 0.45],
-  ["sobre superfície elevada", "ink", "surface-raised", 1],
-  ["texto na tarja", "chrome-ink", "chrome", 1],
-  ["botão sólido", "fill-ink", "fill", 1],
-  ["erro de formulário", "danger", "surface", 1],
-  ["acento sobre a página", "accent", "surface", 1],
-  ["ficha alternada", "card-flip-ink", "card-flip-paper", 1],
-  ["ficha alternada, corpo", "card-flip-ink", "card-flip-paper", 0.7],
-  ["ficha alternada, rótulo", "card-flip-ink", "card-flip-paper", 0.35],
+/* Os pares que carregam texto, com o piso de cada um. Alpha onde o site usa o token esmaecido:
+   rótulos e dicas são /60 e /65. Piso 4.5 é o AA de texto corrido; 3 é o de gráfico (estrelas,
+   logo), que é o que o acento pinta sobre a página. O travessão das listas é decoração, sem piso. */
+const PAIRS: Array<[string, string, string, number, number]> = [
+  ["corpo", "ink", "surface", 1, 4.5],
+  ["corpo esmaecido", "ink", "surface", 0.65, 4.5],
+  ["rótulo mono", "ink", "surface", 0.6, 4.5],
+  ["sobre superfície elevada", "ink", "surface-raised", 1, 4.5],
+  ["texto na tarja", "chrome-ink", "chrome", 1, 4.5],
+  ["botão sólido", "fill-ink", "fill", 1, 4.5],
+  ["erro de formulário", "danger", "surface", 1, 4.5],
+  ["acento sobre a página", "accent", "surface", 1, 3],
+  ["ficha alternada", "card-flip-ink", "card-flip-paper", 1, 4.5],
+  ["ficha alternada, corpo", "card-flip-ink", "card-flip-paper", 0.7, 4.5],
+  ["ficha alternada, rótulo", "card-flip-ink", "card-flip-paper", 0.35, 0],
 ];
 
 let worst = Infinity;
 
-for (const [nome, fg, bg, alpha] of PAIRS) {
+for (const [nome, fg, bg, alpha, piso] of PAIRS) {
   const [L, D] = [light, dark].map((theme) => {
     assert.ok(theme[fg] && theme[bg], `token ${fg}/${bg} faltando num dos temas`);
     return ratio(alpha === 1 ? theme[fg] : over(theme[fg], theme[bg], alpha), theme[bg]);
@@ -77,7 +78,8 @@ for (const [nome, fg, bg, alpha] of PAIRS) {
      apertados — os rótulos em mono a 45%, que o desenho aceita em ambos. */
   const barra = Math.min(L, 4.5) * 0.95;
   assert.ok(D >= barra, `"${nome}" lê pior no escuro (${D.toFixed(2)}) que no claro (${L.toFixed(2)})`);
-  worst = Math.min(worst, L, D);
+  assert.ok(L >= piso, `"${nome}" abaixo do WCAG no claro (${L.toFixed(2)} < ${piso})`);
+  if (piso) worst = Math.min(worst, L, D);
 }
 
 /* O dossiê alterna ficha a ficha, e no escuro a alternância é um degrau de superfície em vez da

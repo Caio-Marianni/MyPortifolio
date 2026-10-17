@@ -15,7 +15,7 @@ export default function QrPage() {
       <div className="mx-auto flex min-h-[80vh] max-w-6xl flex-col items-center justify-center gap-10">
         <div className="space-y-1 text-center">
           <h1 className="text-2xl font-bold tracking-tight">QR Generator</h1>
-          <p className="text-sm text-chrome-ink/45">Cole uma URL e gere seu QR code</p>
+          <p className="text-sm text-chrome-ink/55">Cole uma URL e gere seu QR code</p>
         </div>
         <QrGenerator />
       </div>

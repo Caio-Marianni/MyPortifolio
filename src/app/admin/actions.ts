@@ -14,6 +14,7 @@ import {
   tooManyTries,
   validSession,
 } from "@/services/admin";
+import { deleteMessage } from "@/services/contact";
 import { deleteReview, setStatus } from "@/services/reviews";
 import type { Status } from "@/data/reviews";
 
@@ -98,4 +99,16 @@ export async function remove(formData: FormData) {
 
   /* volta pro painel limpo: sem isso a URL seguiria com `?excluir=` de um id que não existe mais */
   redirect("/admin");
+}
+
+/** Mensagem de contato já respondida sai da lista. Mesma tranca das outras: action é endpoint
+    público, então a sessão é conferida aqui de novo. */
+export async function removeMessage(formData: FormData) {
+  if (!authed()) redirect("/admin");
+
+  const id = Number(formData.get("id"));
+  if (!Number.isInteger(id)) return;
+
+  await deleteMessage(id);
+  revalidatePath("/admin");
 }

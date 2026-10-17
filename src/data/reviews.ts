@@ -30,6 +30,10 @@ export interface Review {
   photo: boolean;
   /** quantas fotos do projeto ele anexou — as URLs são `reviewImage(id, 0..shots-1)` */
   shots: number;
+  /** mês em que chegou, "YYYY-MM" — o card mostra mês e ano, o dia não acrescenta nada */
+  month: string;
+  /** sobe a cada edição no painel; entra na URL das imagens pra furar o cache de um ano */
+  version: number;
 }
 
 /** o que o painel mostra: tudo do site mais o que só interessa a você */
@@ -40,17 +44,38 @@ export interface ReviewRecord extends Review {
   status: Status;
   /** já formatado no `select`; nada de Intl no cliente pra não brigar com a hidratação */
   createdAt: string;
+  /** a mesma data em "YYYY-MM-DD", o formato do <input type="date"> do editor */
+  date: string;
 }
 
 /** Endereço da imagem de uma avaliação: sem índice é a foto do cliente, com índice é a
-    enésima foto do projeto. Uma função só porque quem monta a URL são quatro telas. */
-export function reviewImage(id: number, index?: number): string {
-  return index === undefined ? `/api/reviews/${id}/image` : `/api/reviews/${id}/image?i=${index}`;
+    enésima foto do projeto. Uma função só porque quem monta a URL são quatro telas.
+    `v` é a versão da avaliação: a rota serve com cache de um ano, e editar no painel troca o
+    endereço — sem ela a foto nova nunca chegaria a quem já viu a antiga. */
+export function reviewImage(review: Pick<Review, "id" | "version">, index?: number): string {
+  const base = `/api/reviews/${review.id}/image?v=${review.version}`;
+  return index === undefined ? base : `${base}&i=${index}`;
+}
+
+const MONTHS = {
+  pt: ["jan.", "fev.", "mar.", "abr.", "mai.", "jun.", "jul.", "ago.", "set.", "out.", "nov.", "dez."],
+  en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+};
+
+/** "2026-10" vira "out. 2026" / "Oct 2026". Tabela fixa e não Intl: o texto sai idêntico no
+    servidor e no navegador, então não há o que divergir na hidratação. */
+export function formatMonth(month: string, language: "pt" | "en"): string {
+  const [year, index] = month.split("-");
+  const name = MONTHS[language][Number(index) - 1];
+  return name ? `${name} ${year}` : "";
 }
 
 export interface TrackStats {
   avg: number;
   count: number;
+  /** clientes distintos (pelo nome) que deram 4 ou 5 — o "clientes felizes" do lobby. Por nome
+      porque o mesmo link aceita mais de uma avaliação, e duas da mesma pessoa são um cliente só. */
+  happy: number;
 }
 
 export type ReviewSummary = Record<"overall" | Track, TrackStats>;
@@ -58,6 +83,7 @@ export type ReviewSummary = Record<"overall" | Track, TrackStats>;
 const stats = (list: Review[]): TrackStats => ({
   count: list.length,
   avg: list.length ? list.reduce((sum, r) => sum + r.rating, 0) / list.length : 0,
+  happy: new Set(list.filter((r) => r.rating >= 4).map((r) => r.name.trim().toLowerCase())).size,
 });
 
 /* ponytail: média em JS em cima da lista que a página já busca, em vez de um segundo

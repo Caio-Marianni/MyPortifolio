@@ -24,7 +24,11 @@ export function useGoiasClock(): Clock | null {
 
   useEffect(() => {
     setClock(getTimeInGoias());
-    const interval = setInterval(() => setClock(getTimeInGoias()), 1000);
+    /* devolve o mesmo objeto enquanto o minuto não vira: sem isso a home inteira re-renderizava a cada segundo */
+    const interval = setInterval(() => {
+      const next = getTimeInGoias();
+      setClock((prev) => (prev?.time === next.time && prev.period === next.period ? prev : next));
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 

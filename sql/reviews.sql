@@ -38,3 +38,21 @@ alter table reviews add column if not exists project smallint;-- id em data/proj
 -- O binário nunca sai daqui num `select` de listagem: as páginas pedem só `photo is not null` e
 -- `array_length(shots,1)`, e o byte vem por /api/reviews/[id]/image. Sem isso o HTML de toda
 -- página de avaliação carregaria alguns MB de base64.
+
+-- ── terceira leva: mensagens do formulário de contato ──
+-- Rode uma vez; idempotente. Antes o formulário só abria o programa de e-mail (mailto) e quem
+-- não tinha um configurado perdia a mensagem. Agora ela fica aqui e aparece no /admin.
+create table if not exists messages (
+  id         serial primary key,
+  name       text        not null,
+  email      text        not null,
+  message    text        not null,
+  -- só pro limite de envios por IP; nunca aparece no painel
+  ip         text        not null,
+  created_at timestamptz not null default now()
+);
+
+-- ── quarta leva: edição de avaliação pelo painel ──
+-- Rode uma vez; idempotente. A versão sobe a cada edição e entra na URL das imagens: a rota
+-- serve foto com cache de um ano, então sem ela a foto trocada continuaria a antiga na tela.
+alter table reviews add column if not exists version int not null default 1;

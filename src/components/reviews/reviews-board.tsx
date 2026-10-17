@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { CapaPage, SHELL } from "@/components/capa/capa-page";
 import { RATING_FONT, Stars } from "@/components/ui/brand-marks";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
-import { TRACKS, TRACK_LABEL, type Review, type ReviewSummary, type Track, type TrackStats } from "@/data/reviews";
+import { TRACKS, TRACK_LABEL, formatMonth, type Review, type ReviewSummary, type Track, type TrackStats } from "@/data/reviews";
 import { useLanguage } from "@/contexts/language-context";
 
 type Filter = Track | "all";
@@ -111,7 +111,7 @@ export function ReviewsBoard({
                   label={TRACK_LABEL[track]}
                   stats={summary[track]}
                   size="text-[clamp(40px,4.4vw,64px)]"
-                  starsClassName="text-ink/55"
+                  starsClassName="text-ink/65"
                 />
               </div>
             ))}
@@ -132,7 +132,7 @@ export function ReviewsBoard({
               onClick={() => setFilter(key)}
               aria-pressed={filter === key}
               className={`border-b pb-1 transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current ${
-                filter === key ?"border-accent text-ink" : "border-transparent text-ink/40 hover:text-ink"
+                filter === key ?"border-accent text-ink" : "border-transparent text-ink/60 hover:text-ink"
               }`}
             >
               {key === "all" ? (pt ? "Todas" : "All") : TRACK_LABEL[key]} <span className="opacity-45">({count(key)})</span>
@@ -148,7 +148,7 @@ export function ReviewsBoard({
       </p>
 
       {visible.length === 0 ? (
-        <p className={`${SHELL} px-5 py-16 text-[15px] leading-relaxed text-ink/55 md:px-8`}>
+        <p className={`${SHELL} px-5 py-16 text-[15px] leading-relaxed text-ink/65 md:px-8`}>
           {filter === "all"
             ? pt
               ? "Nenhuma avaliação publicada por aqui ainda. As que chegam passam por conferência antes de aparecer."
@@ -168,15 +168,20 @@ export function ReviewsBoard({
                     A trilha saiu daqui: ela já é o filtro no alto da página e a nota da faixa de
                     cima, então repetir "Web Dev" em cada card não conta nada de novo. */}
                 <figcaption className="flex items-center gap-4">
-                  <ReviewPhoto review={review} className="h-12 w-12 bg-ink/[0.07] text-[19px] text-ink/45" />
+                  <ReviewPhoto review={review} className="h-12 w-12 bg-ink/[0.07] text-[19px] text-ink/60" />
 
                   <span className="flex min-w-0 flex-col gap-1.5">
                     <span className="text-[15px] leading-tight">
                       <span className="font-semibold">{review.name}</span>
-                      {review.company && <span className="text-ink/45"> · {review.company}</span>}
+                      {review.company && <span className="text-ink/60"> · {review.company}</span>}
                     </span>
 
-                    <Stars count={review.rating} className="text-[13px] text-accent" />
+                    <span className="flex items-center gap-2.5">
+                      <Stars count={review.rating} className="text-[13px] text-accent" />
+                      <time dateTime={review.month} className="text-[12px] text-ink/60">
+                        {formatMonth(review.month, language)}
+                      </time>
+                    </span>
                   </span>
                 </figcaption>
 
@@ -191,7 +196,7 @@ export function ReviewsBoard({
                   <Link
                     href={`/projects#p${review.project}`}
                     aria-label={`${pt ? "Ver projeto" : "See project"}: ${projectTitles[review.project]}`}
-                    className="group inline-flex items-center gap-2 self-start text-[12.5px] text-ink/45 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+                    className="group inline-flex items-center gap-2 self-start text-[12.5px] text-ink/60 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
                   >
                     {projectTitles[review.project]}
                     <ArrowUpRight
