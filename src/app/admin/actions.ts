@@ -31,16 +31,16 @@ const COOKIE_OPTIONS = {
   maxAge: MAX_AGE,
 };
 
-const authed = () => validSession(cookies().get(COOKIE)?.value);
+const authed = async () => validSession((await cookies()).get(COOKIE)?.value);
 
 /** IP de quem tentou, atrás do proxy da Vercel. Sem ele o limite seria global e a tentativa de
     um desconhecido trancaria você junto. */
-function clientIp(): string {
-  return headers().get("x-forwarded-for")?.split(",")[0].trim() || "desconhecido";
+async function clientIp(): Promise<string> {
+  return (await headers()).get("x-forwarded-for")?.split(",")[0].trim() || "desconhecido";
 }
 
 export async function login(formData: FormData) {
-  const ip = clientIp();
+  const ip = await clientIp();
   const user = String(formData.get("user") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
@@ -52,7 +52,7 @@ export async function login(formData: FormData) {
       destino = "/admin?erro=bloqueado";
     } else if (credentialsOk(user, password)) {
       await clearFailures(ip);
-      cookies().set(COOKIE, newSession(), COOKIE_OPTIONS);
+      (await cookies()).set(COOKIE, newSession(), COOKIE_OPTIONS);
       destino = "/admin";
     } else {
       await registerFailure(ip);
@@ -67,12 +67,12 @@ export async function login(formData: FormData) {
 }
 
 export async function logout() {
-  cookies().delete({ name: COOKIE, path: COOKIE_OPTIONS.path });
+  (await cookies()).delete({ name: COOKIE, path: COOKIE_OPTIONS.path });
   redirect("/admin");
 }
 
 export async function decide(formData: FormData) {
-  if (!authed()) redirect("/admin");
+  if (!(await authed())) redirect("/admin");
 
   const id = Number(formData.get("id"));
   const status = String(formData.get("status"));
@@ -89,7 +89,7 @@ export async function decide(formData: FormData) {
     botão depois de `?excluir=<id>` —, então aqui não há segunda pergunta a fazer: mesma sessão
     conferida de novo, porque a action é endpoint público como a de cima. */
 export async function remove(formData: FormData) {
-  if (!authed()) redirect("/admin");
+  if (!(await authed())) redirect("/admin");
 
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) return;
@@ -104,7 +104,7 @@ export async function remove(formData: FormData) {
 /** Mensagem de contato já respondida sai da lista. Mesma tranca das outras: action é endpoint
     público, então a sessão é conferida aqui de novo. */
 export async function removeMessage(formData: FormData) {
-  if (!authed()) redirect("/admin");
+  if (!(await authed())) redirect("/admin");
 
   const id = Number(formData.get("id"));
   if (!Number.isInteger(id)) return;

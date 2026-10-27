@@ -6,6 +6,7 @@ import { CapaPage } from "@/components/capa/capa-page";
 import { FIELD, LABEL } from "@/components/capa/capa-contact-form";
 import { CopyField } from "@/components/admin/copy-field";
 import { ReviewEditor } from "@/components/admin/review-editor";
+import { BUTTON } from "@/components/admin/styles";
 import { Stars } from "@/components/ui/brand-marks";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
 import { LIMITS, TRACKS, TRACK_LABEL, type ReviewRecord, type Status, type Track } from "@/data/reviews";
@@ -43,9 +44,6 @@ const MOVES: { status: Status; label: string }[] = [
   { status: "pending", label: "Voltar pra fila" },
   { status: "rejected", label: "Recusar" },
 ];
-
-const BUTTON =
-  "rounded-full border border-ink/25 px-4 py-2 text-[12.5px] transition-colors hover:border-ink hover:bg-fill hover:text-fill-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 /* Uma mensagem por motivo, e nenhuma delas diz qual metade errou: quem tenta adivinhar não
    ganha pista, e você sabe na hora se foi digitação, tranca ou banco fora do ar. */
@@ -314,10 +312,13 @@ function Mensagens({ messages }: { messages: Message[] | null }) {
   );
 }
 
-type Params = { searchParams: { erro?: string; n?: string; e?: string; t?: string; p?: string; excluir?: string; editar?: string; nova?: string } };
+type Params = {
+  searchParams: Promise<{ erro?: string; n?: string; e?: string; t?: string; p?: string; excluir?: string; editar?: string; nova?: string }>;
+};
 
-export default async function AdminPage({ searchParams }: Params) {
-  if (!validSession(cookies().get(COOKIE)?.value)) {
+export default async function AdminPage(props: Params) {
+  const searchParams = await props.searchParams;
+  if (!validSession((await cookies()).get(COOKIE)?.value)) {
     return (
       <CapaPage wordmark="Moderar" descriptor="Área restrita">
         <Login erro={searchParams.erro} />
@@ -332,7 +333,7 @@ export default async function AdminPage({ searchParams }: Params) {
   const trilha = TRACKS.includes(searchParams.t as Track) ? (searchParams.t as Track) : "web";
   const escolhido = Number(searchParams.p);
   const projeto = allProjects.some((project) => project.id === escolhido) ? escolhido : null;
-  const cabecalhos = headers();
+  const cabecalhos = await headers();
   const link = nome
     ? inviteLink(`${cabecalhos.get("x-forwarded-proto") ?? "http"}://${cabecalhos.get("host")}`, {
         name: nome,
@@ -365,7 +366,10 @@ export default async function AdminPage({ searchParams }: Params) {
       descriptor="Área restrita"
       stats={[`${reviews.length} no total`, `${pendentes} aguardando você`]}
     >
-      <form action={logout} className="mb-8">
+      <form action={logout} className="mb-8 flex flex-wrap gap-2">
+        <Link href="/admin/clientes" className={BUTTON}>
+          Clientes
+        </Link>
         <button type="submit" className={`${BUTTON} inline-flex items-center gap-2`}>
           Sair
           <LogOut className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

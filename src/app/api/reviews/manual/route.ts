@@ -13,7 +13,7 @@ const fail = (error: string, status: number) => NextResponse.json({ error }, { s
 const pt = (message: string) => message;
 
 export async function POST(request: NextRequest) {
-  if (!validSession(cookies().get(COOKIE)?.value)) return fail("Sessão expirada. Entre de novo.", 401);
+  if (!validSession((await cookies()).get(COOKIE)?.value)) return fail("Sessão expirada. Entre de novo.", 401);
 
   const body = await request.json().catch(() => null);
   if (!body || typeof body !== "object") return fail("Corpo inválido.", 400);

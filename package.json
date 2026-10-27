@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "check": "node scripts/check-reviews.ts && node scripts/check-contrast.ts",
+    "lint": "eslint .",
+    "check": "node scripts/check-reviews.ts && node scripts/check-clients.ts && node scripts/check-contrast.ts",
     "thumbs": "node scripts/thumbs.ts",
     "invite": "node --env-file=.env.local scripts/invite.ts"
   },
@@ -26,21 +26,21 @@
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
     "lucide-react": "^0.561.0",
-    "next": "^14.2.35",
+    "next": "^16.4.3",
     "qrcode": "^1.5.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@types/node": "^25.0.2",
     "@types/qrcode": "^1.5.6",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.23",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.35",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.3",
     "postcss": "^8.5.6",
-    "sharp": "^0.33.5",
+    "sharp": "^0.35.5",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3"
   }

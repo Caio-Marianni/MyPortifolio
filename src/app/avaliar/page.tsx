@@ -12,14 +12,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-type Params = { searchParams: Record<string, string | string[] | undefined> };
+type SearchParams = Record<string, string | string[] | undefined>;
 
-const param = (searchParams: Params["searchParams"], key: string): string => {
+const param = (searchParams: SearchParams, key: string): string => {
   const value = searchParams[key];
   return typeof value === "string" ? value : "";
 };
 
-export default function AvaliarPage({ searchParams }: Params) {
+export default async function AvaliarPage(props: { searchParams: Promise<SearchParams> }) {
+  const searchParams = await props.searchParams;
   /* `c` é o identificador do convite e `k` a assinatura dele. O resto do link é o que você
      preencheu ao gerar: nome e empresa como sugestão que o contratante corrige, trilha e
      projeto como decisão sua — por isso nada disso entra na conta da assinatura. */

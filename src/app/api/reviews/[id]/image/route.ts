@@ -14,8 +14,8 @@ import { getImage } from "@/services/reviews";
    e a borda pedirem uma vez só, e o volume é de dezenas de arquivos — trocar por blob storage
    se um dia virar centenas. */
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const id = Number((await params).id);
   if (!Number.isInteger(id) || id < 1) return new NextResponse(null, { status: 404 });
 
   const raw = request.nextUrl.searchParams.get("i");
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
   /* Sessão do painel abre as não publicadas — sem ela, foto de avaliação pendente ou recusada
      não existe pra quem chutar o id. */
-  const admin = validSession(cookies().get(COOKIE)?.value);
+  const admin = validSession((await cookies()).get(COOKIE)?.value);
 
   let data: string | null;
   try {

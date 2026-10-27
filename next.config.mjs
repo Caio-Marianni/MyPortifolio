@@ -12,6 +12,19 @@ const nextConfig = {
   async headers() {
     return [
       {
+        /* Ninguém embute o site num iframe: sem isto, outra página poderia sobrepor o /admin
+           invisível e induzir o clique (clickjacking). CSP completa fica de fora — o Next
+           injeta script inline, e nonce por requisição seria configuração demais pra um
+           portfólio. */
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+        ],
+      },
+      {
         source: "/assets/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },

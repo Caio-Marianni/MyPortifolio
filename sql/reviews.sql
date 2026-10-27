@@ -56,3 +56,20 @@ create table if not exists messages (
 -- Rode uma vez; idempotente. A versão sobe a cada edição e entra na URL das imagens: a rota
 -- serve foto com cache de um ano, então sem ela a foto trocada continuaria a antiga na tela.
 alter table reviews add column if not exists version int not null default 1;
+
+-- ── quinta leva: clientes e o "pago até" do plano mensal (/admin/clientes) ──
+-- Rode uma vez; idempotente. O repositório é público e o banco não: aqui entra onde o site do
+-- cliente mora, nunca a senha dele — senha fica no gerenciador de senhas.
+create table if not exists clients (
+  id           serial primary key,
+  name         text        not null,
+  contact      text,                  -- WhatsApp ou e-mail
+  track        text        not null check (track in ('web', 'thumbs')),
+  site         text,                  -- domínio do cliente
+  hosting      text,                  -- "Vercel", "VPS Hostinger"… o lugar, não o acesso
+  domain_until date,                  -- vencimento do domínio
+  monthly_fee  int         not null default 0 check (monthly_fee >= 0), -- centavos; 0 = sem plano
+  paid_until   date,                  -- vencido = atrasado
+  notes        text,
+  created_at   timestamptz not null default now()
+);

@@ -12,10 +12,10 @@ import { updateReview } from "@/services/reviews";
 const fail = (error: string, status: number) => NextResponse.json({ error }, { status });
 const pt = (message: string) => message;
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
-  if (!validSession(cookies().get(COOKIE)?.value)) return fail("Sessão expirada. Entre de novo.", 401);
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (!validSession((await cookies()).get(COOKIE)?.value)) return fail("Sessão expirada. Entre de novo.", 401);
 
-  const id = Number(params.id);
+  const id = Number((await params).id);
   if (!Number.isInteger(id) || id < 1) return fail("Avaliação inexistente.", 404);
 
   const body = await request.json().catch(() => null);
