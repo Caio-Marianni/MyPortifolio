@@ -4,7 +4,7 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import { CONTACT_LIMITS } from "@/data/contact";
-import { FIELD, LABEL } from "@/components/ui/form-styles";
+import { FIELD, LABEL, button } from "@/components/ui/styles";
 
 /* Saída de reserva: aparece quando o envio falha, pra mensagem nunca morrer no formulário. */
 export const EMAIL = "caiomarianni@gmail.com";
@@ -155,7 +155,7 @@ export function CapaContactForm() {
       <button
         type="submit"
         disabled={sending}
-        className="mt-2 flex items-center justify-center gap-2 self-start rounded-full bg-fill px-7 py-3 text-ui text-fill-ink transition-opacity hover:opacity-80 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className={`mt-2 self-start ${button("solid", "lg")}`}
       >
         {sending ? (pt ? "Enviando…" : "Sending…") : t("contact.send")}
         <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

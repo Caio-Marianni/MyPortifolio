@@ -37,7 +37,7 @@ export default function ThumbnailsPage() {
         {thumbnails.map((thumb, i) => (
           /* ponytail: mesma célula neutra da grade de projetos — o estilo de cada peça vem depois. */
           <figure key={thumb.id} className="bg-surface sm:p-3">
-            <div className="relative aspect-video overflow-hidden bg-surface-sunken sm:rounded-md">
+            <div className="relative aspect-video overflow-hidden bg-surface-sunken">
               <Image
                 src={thumb.image}
                 loader={thumbLoader}

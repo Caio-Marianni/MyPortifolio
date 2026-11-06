@@ -1,6 +1,6 @@
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { LogoMark } from "@/components/capa/capa-page";
+import { LogoMark } from "@/components/ui/brand-marks";
 import { change, channelLabel, deviceLabel, eventLabel, pageLabel, type Metric, type Totals } from "@/services/analytics";
 import { monthLabel, monthName, previousMonth } from "@/services/dates";
 import { SECTION_LABEL, type Report, type Section } from "@/services/reports";
@@ -49,7 +49,7 @@ function Bars({ items, label }: { items: Metric[]; label: (name: string) => stri
           </div>
           <div className="h-2 bg-ink/[0.07]" aria-hidden>
             {/* a largura é o dado, não estilo — não há classe que a escreva de antemão */}
-            <div className="h-full rounded-r-[4px] bg-accent" style={{ width: `${(item.value / max) * 100}%` }} />
+            <div className="h-full bg-accent" style={{ width: `${(item.value / max) * 100}%` }} />
           </div>
         </li>
       ))}

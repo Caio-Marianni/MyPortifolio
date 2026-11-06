@@ -7,7 +7,7 @@ import { DocStatusBadge } from "@/components/admin/documents/doc-status";
 import { DocumentBody } from "@/components/admin/documents/document-body";
 import { Field, FormError, TextArea } from "@/components/admin/fields";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { br, todayInBrazil } from "@/services/dates";
 import { DOC_KIND_LABEL, DOC_LIMITS, getDocument, type Document } from "@/services/documents";
@@ -31,7 +31,7 @@ function Next({ doc, excluindo }: { doc: Document; excluindo: boolean }) {
         </p>
         <p className="text-ink/65">Travado: o texto não muda mais. Mudança agora é um aditivo — um documento novo.</p>
         {doc.signedUrl && (
-          <a href={doc.signedUrl} target="_blank" rel="noopener noreferrer" className={`${BUTTON} inline-flex items-center gap-2 self-start`}>
+          <a href={doc.signedUrl} target="_blank" rel="noopener noreferrer" className={`${BUTTON} self-start`}>
             Abrir PDF assinado
             <ExternalLink className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           </a>
@@ -122,7 +122,7 @@ export default async function DocumentoPage(props: Params) {
           </span>
         }
         actions={
-          <Link href={`/admin/imprimir/${doc.id}`} target="_blank" className={`${BUTTON_SOLID} inline-flex items-center gap-2`}>
+          <Link href={`/admin/imprimir/${doc.id}`} target="_blank" className={`${BUTTON_SOLID}`}>
             Ver PDF
             <Printer className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           </Link>

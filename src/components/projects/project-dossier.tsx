@@ -4,9 +4,10 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { LogoMark, SHELL } from "@/components/capa/capa-page";
+import { SHELL } from "@/components/capa/capa-page";
 import { ReviewPhoto } from "@/components/reviews/review-photo";
-import { Stars } from "@/components/ui/brand-marks";
+import { LogoMark, Stars } from "@/components/ui/brand-marks";
+import { button } from "@/components/ui/styles";
 import { useLanguage } from "@/contexts/language-context";
 import { useInView } from "@/hooks/use-in-view";
 import type { LighthouseScores, Project } from "@/data/projects";
@@ -314,7 +315,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-auto inline-flex items-center gap-2.5 bg-accent px-6 py-3 text-meta text-accent-ink transition-[gap] hover:gap-[18px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+              className={`ml-auto hover:gap-[18px] ${button("accent")}`}
             >
               {t("projects.viewProject")}
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />

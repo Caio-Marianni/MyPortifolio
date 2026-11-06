@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { CapaPage, SHELL } from "@/components/capa/capa-page";
+import { CapaPage, SHELL, SPLIT_BAND } from "@/components/capa/capa-page";
 import { RATING_FONT, Stars } from "@/components/ui/brand-marks";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
 import { TRACKS, TRACK_LABEL, formatMonth, type Review, type ReviewSummary, type Track, type TrackStats } from "@/data/reviews";
@@ -92,7 +92,7 @@ export function ReviewsBoard({
           blocos de nota empilhados enterravam a primeira avaliação abaixo da dobra no celular. */}
       <div className="border-b border-ink/15">
         <div
-          className={`${SHELL} relative isolate grid lg:grid-cols-2 lg:before:absolute lg:before:inset-y-0 lg:before:right-1/2 lg:before:-z-10 lg:before:w-screen lg:before:bg-chrome`}
+          className={`${SPLIT_BAND} lg:grid-cols-2`}
         >
           <div className="bg-chrome text-chrome-ink">
             <Score

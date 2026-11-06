@@ -1,5 +1,5 @@
 import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
-import { FIELD, LABEL } from "@/components/ui/form-styles";
+import { FIELD, LABEL } from "@/components/ui/styles";
 
 /* Rótulo + campo, nos traços de linha fina do resto do site. `prefix` separa os ids quando duas
    fichas abertas na mesma tela têm campo de mesmo nome. */

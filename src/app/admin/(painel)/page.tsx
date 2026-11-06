@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Badge } from "@/components/admin/badge";
 import { PageHeader } from "@/components/admin/page-header";
-import { CARD, CARD_TITLE, NUM } from "@/components/admin/styles";
+import { CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { br, longDate, monthLabel, monthName, todayInBrazil } from "@/services/dates";
 import { brl } from "@/services/money";

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { ProposalSlide, type ProposalContent } from "@/components/proposal/proposal-slide";
-import { ProposalStack } from "@/components/proposal/proposal-stack";
-import { CvPanel } from "@/components/proposal/cv-panel";
-import { LangSwitch, LogoMark, ThemeSwitch } from "@/components/capa/capa-page";
-import { RatingLink, Stars } from "@/components/ui/brand-marks";
+import { ProposalSlide, type ProposalContent } from "@/components/home/proposal-slide";
+import { ProposalStack } from "@/components/home/proposal-stack";
+import { CvPanel } from "@/components/home/cv-panel";
+import { LangSwitch, ThemeSwitch } from "@/components/ui/switches";
+import { LogoMark, RatingLink, Stars } from "@/components/ui/brand-marks";
 import { type Track } from "@/data/reviews";
 import { projects } from "@/data/projects";
 import { niches, thumbnails } from "@/data/thumbnails";

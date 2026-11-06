@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { DocStatusBadge } from "@/components/admin/documents/doc-status";
 import { Select } from "@/components/admin/fields";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/ui/styles";
 import { DOC_KIND_LABEL, type Document, type Template } from "@/services/documents";
 import type { Plan } from "@/services/plans";
 import type { Project } from "@/services/projects";
@@ -44,7 +44,7 @@ export function ClientDocuments({
       {templates.length === 0 ? (
         <p className="text-ui text-ink/60">
           Pra gerar proposta ou contrato, crie um modelo primeiro.{" "}
-          <Link href="/admin/documentos/modelos" className={`${BUTTON} ml-1 inline-flex`}>
+          <Link href="/admin/documentos/modelos" className={`${BUTTON} ml-1`}>
             Criar modelo
           </Link>
         </p>

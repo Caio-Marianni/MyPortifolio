@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BarChart3, ExternalLink, FileText, Inbox, LayoutDashboard, LogOut, QrCode, Star, Users } from "lucide-react";
-import { LogoMark, ThemeSwitch } from "@/components/capa/capa-page";
+import { LogoMark } from "@/components/ui/brand-marks";
+import { ThemeSwitch } from "@/components/ui/switches";
 import { logout } from "@/app/admin/actions";
 
 /* Menu do painel. Cliente só por causa do `usePathname`, que marca a tela atual. Na tela larga
@@ -25,7 +26,7 @@ const isActive = (pathname: string, href: string) =>
   href === "/admin" ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 
 const ITEM =
-  "flex shrink-0 items-center gap-3 rounded-md px-3 py-2 text-ui transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-chrome-ink";
+  "flex shrink-0 items-center gap-3 px-3 py-2 text-ui transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-chrome-ink";
 
 export function AdminNav() {
   const pathname = usePathname();

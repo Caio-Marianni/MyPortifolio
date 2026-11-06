@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/admin/badge";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { Field, FormError, Select, TextArea } from "@/components/admin/fields";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
 import { ACCOUNT_LIMITS, OWNERS, OWNER_LABEL, type Account } from "@/services/accounts";
 import { br } from "@/services/dates";
 import { removeAccount, saveAccount } from "@/app/admin/(painel)/clientes/[id]/actions";

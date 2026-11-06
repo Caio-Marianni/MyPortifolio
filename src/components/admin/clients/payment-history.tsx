@@ -1,4 +1,4 @@
-import { CARD, CARD_TITLE, NUM } from "@/components/admin/styles";
+import { CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
 import { br } from "@/services/dates";
 import { brl } from "@/services/money";
 import type { Payment } from "@/services/payments";

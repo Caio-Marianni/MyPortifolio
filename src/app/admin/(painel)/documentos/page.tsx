@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DocStatusBadge } from "@/components/admin/documents/doc-status";
 import { FilterTabs } from "@/components/admin/filter-tabs";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, CARD, NUM } from "@/components/admin/styles";
+import { BUTTON, CARD, NUM } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { DOC_KIND_LABEL, DOC_STATUSES, DOC_STATUS_LABEL, listDocuments } from "@/services/documents";
 

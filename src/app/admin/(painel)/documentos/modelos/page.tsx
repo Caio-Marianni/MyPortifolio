@@ -3,7 +3,7 @@ import Link from "next/link";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { Field, FormError, Select, TextArea } from "@/components/admin/fields";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
 import { STARTERS } from "@/data/document-starters";
 import { requireAdmin } from "@/services/admin-session";
 import { DOC_KINDS, DOC_KIND_LABEL, DOC_LIMITS, PLACEHOLDERS, listTemplates, type Template, type TemplateFields } from "@/services/documents";

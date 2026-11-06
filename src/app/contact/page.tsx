@@ -1,6 +1,6 @@
 "use client";
 
-import { CapaPage, SHELL } from "@/components/capa/capa-page";
+import { CapaPage, SPLIT_BAND } from "@/components/capa/capa-page";
 import { CapaContactForm } from "@/components/capa/capa-contact-form";
 import { ContactChannels } from "@/components/contact/contact-channels";
 import { useLanguage } from "@/contexts/language-context";
@@ -29,7 +29,7 @@ export default function ContactPage() {
           `before` fecha a diferença: ancorado no meio do bloco, corre `w-screen` para a
           esquerda e cobre a sobra até a borda da viewport — à direita a sobra já é creme,
           que é a cor da página. */}
-      <div className={`${SHELL} relative isolate grid items-stretch lg:flex-1 lg:grid-cols-2 lg:[align-content:safe_center] lg:before:absolute lg:before:inset-y-0 lg:before:right-1/2 lg:before:-z-10 lg:before:w-screen lg:before:bg-chrome`}>
+      <div className={`${SPLIT_BAND} items-stretch lg:flex-1 lg:grid-cols-2 lg:[align-content:safe_center]`}>
         <div className="bg-surface px-6 py-14 md:px-10">
           <CapaContactForm />
         </div>

@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { MessageCircle } from "lucide-react";
-import { FIELD, LABEL } from "@/components/ui/form-styles";
+import { FIELD, LABEL, BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/ui/styles";
 import { Badge, type Tone } from "@/components/admin/badge";
 import { CopyField } from "@/components/admin/copy-field";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { FilterTabs } from "@/components/admin/filter-tabs";
 import { PageHeader } from "@/components/admin/page-header";
 import { ReviewEditor } from "@/components/admin/review-editor";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/admin/styles";
 import { Stars } from "@/components/ui/brand-marks";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
 import { LIMITS, TRACKS, TRACK_LABEL, type ReviewRecord, type Status, type Track } from "@/data/reviews";
@@ -131,7 +130,7 @@ function NovoConvite({
             href={`https://wa.me/?text=${encodeURIComponent(mensagem)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${BUTTON} inline-flex items-center gap-2 self-start`}
+            className={`${BUTTON} self-start`}
           >
             Mandar no WhatsApp
             <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

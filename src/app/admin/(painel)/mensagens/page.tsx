@@ -5,7 +5,7 @@ import { Badge } from "@/components/admin/badge";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { FilterTabs } from "@/components/admin/filter-tabs";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, CARD } from "@/components/admin/styles";
+import { BUTTON, CARD } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { listMessages, type Message } from "@/services/contact";
 import { removeMessage, toggleAnswered } from "./actions";
@@ -43,7 +43,7 @@ function MessageItem({ message, excluindo }: { message: Message; excluindo: bool
           <input type="hidden" name="answered" value={message.answered ? "0" : "1"} />
           <a
             href={`mailto:${message.email}?subject=${encodeURIComponent("Re: contato pelo site")}`}
-            className={`${BUTTON} inline-flex items-center gap-2`}
+            className={`${BUTTON}`}
           >
             Responder
             <Mail className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { LogIn } from "lucide-react";
-import { LogoMark } from "@/components/capa/capa-page";
-import { FIELD, LABEL } from "@/components/ui/form-styles";
-import { BUTTON_SOLID } from "@/components/admin/styles";
+import { LogoMark } from "@/components/ui/brand-marks";
+import { FIELD, LABEL, button } from "@/components/ui/styles";
 import { MAX_TRIES, WINDOW_MINUTES } from "@/services/admin";
 import { isAdmin } from "@/services/admin-session";
 import { login } from "../actions";
@@ -63,7 +62,7 @@ export default async function LoginPage(props: Params) {
             </p>
           )}
 
-          <button type="submit" className={`${BUTTON_SOLID} flex items-center justify-center gap-2 py-3`}>
+          <button type="submit" className={`${button("solid", "lg")} w-full`}>
             Entrar
             <LogIn className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           </button>

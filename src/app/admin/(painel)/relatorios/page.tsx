@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/admin/badge";
 import { FormError } from "@/components/admin/fields";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, BUTTON_SOLID, CARD, NUM } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, NUM } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { br, monthLabel, previousMonth, todayInBrazil } from "@/services/dates";
 import { listQueue, readMonth, reportMonth, type QueueItem } from "@/services/reports";
@@ -53,11 +53,11 @@ export default async function RelatoriosPage(props: Params) {
         description={`${monthLabel(month)} · ${pending ? `${pending} por enviar` : "nada pendente"}`}
         actions={
           <>
-            <Link href={`${PAGE}?mes=${previousMonth(month)}`} className={`${BUTTON} inline-flex items-center gap-1`} aria-label="Mês anterior">
+            <Link href={`${PAGE}?mes=${previousMonth(month)}`} className={`${BUTTON}`} aria-label="Mês anterior">
               <ChevronLeft className="h-4 w-4" strokeWidth={2.5} aria-hidden />
             </Link>
             {month < current && (
-              <Link href={`${PAGE}?mes=${nextMonth(month)}`} className={`${BUTTON} inline-flex items-center gap-1`} aria-label="Mês seguinte">
+              <Link href={`${PAGE}?mes=${nextMonth(month)}`} className={`${BUTTON}`} aria-label="Mês seguinte">
                 <ChevronRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               </Link>
             )}

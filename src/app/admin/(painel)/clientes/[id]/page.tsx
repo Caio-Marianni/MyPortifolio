@@ -11,7 +11,7 @@ import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { ClientDocuments } from "@/components/admin/documents/client-documents";
 import { FormError } from "@/components/admin/fields";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, CARD, CARD_TITLE } from "@/components/admin/styles";
+import { BUTTON, CARD, CARD_TITLE } from "@/components/ui/styles";
 import { listAccounts } from "@/services/accounts";
 import { isAdmin, requireAdmin } from "@/services/admin-session";
 import { formatWhatsapp, getClient, siteHref, whatsappLink } from "@/services/clients";
@@ -95,7 +95,7 @@ export default async function ClientePage(props: Params) {
                 href={whatsappLink(client.whatsapp)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${BUTTON} inline-flex items-center gap-2`}
+                className={`${BUTTON}`}
               >
                 {formatWhatsapp(client.whatsapp)}
                 <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

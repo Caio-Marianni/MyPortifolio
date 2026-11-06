@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Badge, type Tone } from "@/components/admin/badge";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { Field, FormError, Select, TextArea } from "@/components/admin/fields";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
 import { br } from "@/services/dates";
 import { MONEY_PATTERN, brl, moneyField } from "@/services/money";
 import { PAYMENT_LIMITS, type Payment } from "@/services/payments";

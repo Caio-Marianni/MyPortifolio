@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ImagePlus, X } from "lucide-react";
-import { FIELD, LABEL } from "@/components/ui/form-styles";
+import { BUTTON, FIELD, LABEL } from "@/components/ui/styles";
 import { PickerButton } from "@/components/reviews/review-form";
 import { allProjects } from "@/data/projects";
 import { LIMITS, TRACKS, TRACK_LABEL, reviewImage, type ReviewRecord, type Track } from "@/data/reviews";
@@ -20,9 +20,6 @@ import { PHOTO_SIZE, SHOT_SIZE, preview, shrink } from "@/services/image";
 
    Sem `review` é cadastro: o mesmo formulário vazio, que posta em /api/reviews/manual em vez
    de editar — pra avaliação que chegou por WhatsApp ou e-mail. */
-
-const BUTTON =
-  "rounded-full border border-ink/25 px-4 py-2 text-meta transition-colors hover:border-ink hover:bg-fill hover:text-fill-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:opacity-40";
 
 const REMOVE =
   "absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-black/70 text-white transition-colors hover:bg-black";

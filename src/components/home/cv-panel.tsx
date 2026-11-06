@@ -27,7 +27,7 @@ function FlagUK() {
 }
 
 const OPTION = [
-  "group flex items-center gap-[0.9em] rounded-sm px-[1em] py-[0.8em] text-left",
+  "group flex items-center gap-[0.9em] px-[1em] py-[0.8em] text-left",
   "font-bold text-chrome-ink/60",
   "transition-colors hover:bg-chrome-ink/[0.07] hover:text-chrome-ink",
   "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-chrome-ink/60",

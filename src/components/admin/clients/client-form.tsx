@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Field, FormError, TextArea } from "@/components/admin/fields";
-import { BUTTON, BUTTON_SOLID } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID } from "@/components/ui/styles";
 import { CLIENT_LIMITS, formatWhatsapp, type Client } from "@/services/clients";
 import { saveClient } from "@/app/admin/(painel)/clientes/actions";
 

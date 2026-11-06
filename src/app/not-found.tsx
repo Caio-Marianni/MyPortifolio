@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { LogoMark } from "@/components/capa/capa-page";
+import { LogoMark } from "@/components/ui/brand-marks";
+import { button } from "@/components/ui/styles";
 
 /* Mesma gramática das outras páginas: creme, Makaio no número, corpo na escala do site.
    Texto fixo em PT — a 404 não monta o provider de idioma. */
@@ -21,7 +22,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="mt-10 flex items-center gap-2 rounded-full bg-fill px-7 py-3 text-ui text-fill-ink transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className={`mt-10 ${button("solid", "lg")}`}
       >
         <ArrowLeft className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
         Voltar ao início

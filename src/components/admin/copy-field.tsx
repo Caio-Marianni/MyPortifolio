@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { BUTTON } from "@/components/ui/styles";
 import { Check, Copy } from "lucide-react";
 
 /* Único pedaço de JavaScript do painel: copiar não tem equivalente em HTML. O link fica num
@@ -31,7 +32,7 @@ export function CopyField({ value, className = "" }: { value: string; className?
       <button
         type="button"
         onClick={copiar}
-        className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ink/25 px-4 py-2 text-meta transition-colors hover:border-ink hover:bg-fill hover:text-fill-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className={`shrink-0 ${BUTTON}`}
       >
         {copiado ? "Copiado" : "Copiar"}
         {copiado ? (

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BUTTON, BUTTON_DANGER } from "@/components/admin/styles";
+import { BUTTON, BUTTON_DANGER } from "@/components/ui/styles";
 
 /** Segunda etapa de toda exclusão do painel. A primeira é só um link que reabre a tela marcando
     o item (`?excluir=`); esta é a pergunta, no lugar do item — sem `confirm()` do navegador, que

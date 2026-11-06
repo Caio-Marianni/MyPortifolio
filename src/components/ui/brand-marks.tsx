@@ -93,3 +93,16 @@ export function LogoWatermark({ className = "-left-1.5" }: { className?: string 
     />
   );
 }
+
+/* Monograma vetorial do Logo-outline.svg, preenchido em vez de contornado — em ~30px o stroke some.
+   O laranja entra por `currentColor`: atributo `fill` com hex não enxerga variável de tema. */
+export function LogoMark() {
+  return (
+    <svg viewBox="-6 -6 512 512" className="h-full w-full text-accent" aria-hidden>
+      <path
+        d="M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}

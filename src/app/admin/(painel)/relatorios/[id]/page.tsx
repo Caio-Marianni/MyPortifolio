@@ -7,7 +7,7 @@ import { Badge } from "@/components/admin/badge";
 import { CopyField } from "@/components/admin/copy-field";
 import { FormError, TextArea } from "@/components/admin/fields";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/ui/styles";
 import { ReportView } from "@/components/reports/report-view";
 import { requireAdmin } from "@/services/admin-session";
 import { whatsappLink } from "@/services/clients";
@@ -51,7 +51,7 @@ export default async function RelatorioAdminPage(props: Params) {
           </span>
         }
         actions={
-          <a href={link} target="_blank" rel="noopener noreferrer" className={`${BUTTON} inline-flex items-center gap-2`}>
+          <a href={link} target="_blank" rel="noopener noreferrer" className={`${BUTTON}`}>
             Abrir como o cliente
             <ExternalLink className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           </a>
@@ -80,7 +80,7 @@ export default async function RelatorioAdminPage(props: Params) {
               href={report.whatsapp ? whatsappLink(report.whatsapp, reportMessage(report, link)) : `https://wa.me/?text=${encodeURIComponent(reportMessage(report, link))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${BUTTON_SOLID} inline-flex items-center justify-center gap-2`}
+              className={`${BUTTON_SOLID}`}
             >
               Mandar no WhatsApp
               <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

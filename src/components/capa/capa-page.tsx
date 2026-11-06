@@ -2,77 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowLeft, ArrowRight, Moon, Sun } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
 import { LogoWatermark, RatingMark } from "@/components/ui/brand-marks";
+import { LangSwitch, ThemeSwitch } from "@/components/ui/switches";
 import { type Track } from "@/data/reviews";
 import { useLanguage } from "@/contexts/language-context";
 import { useRating } from "@/contexts/reviews-context";
-import { useTheme } from "@/contexts/theme-context";
-
-/* Monograma vetorial do Logo-outline.svg, preenchido em vez de contornado — em ~30px o stroke some.
-   O laranja entra por `currentColor`: atributo `fill` com hex não enxerga variável de tema. */
-export function LogoMark() {
-  return (
-    <svg viewBox="-6 -6 512 512" className="h-full w-full text-accent" aria-hidden>
-      <path
-        d="M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-/** PT / EN: rótulos fixos, só a opacidade muda. Tamanho em `em` — herda de quem envolve.
-    Um botão só, não dois: clicar em qualquer ponto intercala os dois idiomas. O nome acessível
-    vai no idioma de destino, então diz o que o clique faz sem precisar de chave de tradução. */
-export function LangSwitch() {
-  const { language, toggleLanguage } = useLanguage();
-
-  return (
-    <button
-      type="button"
-      onClick={toggleLanguage}
-      aria-label={language === "pt" ? "Switch to English" : "Mudar para português"}
-      className="group flex items-center gap-[0.5em] font-bold focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
-    >
-      {(["pt", "en"] as const).map((code, i) => (
-        <span key={code} className="flex items-center gap-[0.5em]">
-          {i > 0 && <span className="opacity-30">/</span>}
-          <span className={`transition-opacity ${language === code ?"opacity-100" : "opacity-40 group-hover:opacity-70"}`}>{code.toUpperCase()}</span>
-        </span>
-      ))}
-    </button>
-  );
-}
-
-/** Sol/lua no mesmo corpo do LangSwitch ao lado, medido em `em` para herdar de quem envolve.
-    Quem troca o ícone é o CSS, não o estado: os dois são renderizados e o `dark:` esconde um.
-    Isso resolve de graça o problema que o LangSwitch não tem — o servidor não sabe o tema do
-    visitante, então qualquer ícone escolhido em JS erraria no primeiro render e piscaria.
-    O nome acessível não cita o tema atual pelo mesmo motivo: diz o que o clique faz, e vale
-    nos dois sentidos. */
-export function ThemeSwitch() {
-  const { toggleTheme } = useTheme();
-  const { language } = useLanguage();
-
-  return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      aria-label={language === "pt" ? "Alternar tema claro e escuro" : "Toggle light and dark theme"}
-      className="opacity-50 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
-    >
-      <Moon className="h-[1.35em] w-[1.35em] dark:hidden" strokeWidth={2.5} aria-hidden />
-      <Sun className="hidden h-[1.35em] w-[1.35em] dark:block" strokeWidth={2.5} aria-hidden />
-    </button>
-  );
-}
 
 /* O limite de largura da página. As faixas pretas sangram até a viewport; só o que vai
    dentro delas respeita a medida, senão a barra ficaria com ombros creme nas laterais.
    Exportado porque quem usa `bleed` monta as próprias faixas e precisa da mesma medida. */
 export const SHELL = "mx-auto w-full max-w-[1600px]";
+
+/* Faixa partida ao meio: metade preta à esquerda, creme à direita. O conteúdo para no SHELL e
+   só o preto passa dele — o `before`, ancorado no meio, corre `w-screen` para a esquerda até a
+   borda da viewport; à direita a sobra já é creme, a cor da página. Quem usa põe as colunas
+   (`lg:grid-cols-2`) e pinta a própria célula preta. Contato e avaliações. */
+export const SPLIT_BAND = `${SHELL} relative isolate grid lg:before:absolute lg:before:inset-y-0 lg:before:right-1/2 lg:before:-z-10 lg:before:w-screen lg:before:bg-chrome`;
 
 /* Páginas onde o CTA de contato é link morto ou ruído: na própria página de contato, e no
    convite de avaliação, que é uma tarefa só — mandar o cliente pra outro lugar no meio dela

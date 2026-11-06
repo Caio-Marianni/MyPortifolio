@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Badge } from "@/components/admin/badge";
 import { ClientForm } from "@/components/admin/clients/client-form";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/admin/styles";
+import { BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { formatWhatsapp, listClients, type ClientRow } from "@/services/clients";
 import { brl } from "@/services/money";

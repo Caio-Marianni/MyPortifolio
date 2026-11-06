@@ -3,6 +3,7 @@
 import { useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Check, ImagePlus, Star, UserRound, X } from "lucide-react";
+import { button } from "@/components/ui/styles";
 import { LIMITS, TRACK_LABEL, type Track } from "@/data/reviews";
 import { PHOTO_SIZE, SHOT_SIZE, preview, shrink } from "@/services/image";
 import { useLanguage } from "@/contexts/language-context";
@@ -353,7 +354,7 @@ export function ReviewForm({
       <button
         type="submit"
         disabled={sending || busy}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-fill px-7 py-4 text-ui text-fill-ink transition-opacity hover:opacity-80 disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:w-auto sm:self-start sm:py-3"
+        className={`w-full sm:w-auto sm:self-start ${button("solid", "lg")}`}
       >
         {sending ? (pt ? "Enviando..." : "Sending...") : pt ? "Enviar avaliação" : "Send review"}
         <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

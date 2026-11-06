@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ArrowLeft, RotateCw } from "lucide-react";
-import { LogoMark } from "@/components/capa/capa-page";
+import { LogoMark } from "@/components/ui/brand-marks";
+import { button } from "@/components/ui/styles";
 
 /* Mesma gramática da 404. Pega o que estoura dentro de qualquer página — banco fora do ar
    numa action do painel, por exemplo — em vez da tela crua do Next. O detalhe do erro já
@@ -29,7 +30,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
         <button
           type="button"
           onClick={reset}
-          className="flex items-center gap-2 rounded-full bg-fill px-7 py-3 text-ui text-fill-ink transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className={button("solid", "lg")}
         >
           <RotateCw className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           Tentar de novo
@@ -37,7 +38,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
 
         <Link
           href="/"
-          className="flex items-center gap-2 rounded-full border border-ink/25 px-7 py-3 text-ui transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+          className={button("outline", "lg")}
         >
           <ArrowLeft className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           Voltar ao início
