@@ -121,7 +121,7 @@ function Installment({ payment, clientId, page, excluir }: { payment: Payment; c
             Recebi
           </button>
         )}
-        <Link href={`${page}?excluir=parcela-${payment.id}`} className="text-[12.5px] text-ink/50 hover:text-danger">
+        <Link href={`${page}?excluir=parcela-${payment.id}`} className="text-meta text-ink/50 hover:text-danger">
           excluir
         </Link>
       </form>
@@ -155,32 +155,32 @@ function ProjectCard({
         {project.overdue && <Badge tone="danger">Parcela atrasada</Badge>}
       </header>
 
-      <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-[14px] sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-ui sm:grid-cols-4">
         <div>
-          <dt className="text-[12.5px] text-ink/60">Valor</dt>
+          <dt className="text-meta text-ink/60">Valor</dt>
           <dd className={NUM}>{project.total ? brl(project.total) : "a combinar"}</dd>
         </div>
         <div>
-          <dt className="text-[12.5px] text-ink/60">Recebido</dt>
+          <dt className="text-meta text-ink/60">Recebido</dt>
           <dd className={NUM}>{brl(project.paid)}</dd>
         </div>
         <div>
-          <dt className="text-[12.5px] text-ink/60">Prazo</dt>
+          <dt className="text-meta text-ink/60">Prazo</dt>
           <dd className={NUM}>{project.deadline ? br(project.deadline) : "—"}</dd>
         </div>
         {unscheduled > 0 && (
           <div>
-            <dt className="text-[12.5px] text-ink/60">Sem parcela marcada</dt>
+            <dt className="text-meta text-ink/60">Sem parcela marcada</dt>
             <dd className={NUM}>{brl(unscheduled)}</dd>
           </div>
         )}
       </dl>
 
-      {project.scope && <p className="whitespace-pre-line text-[14px] leading-relaxed text-ink/75">{project.scope}</p>}
-      {project.notes && <p className="whitespace-pre-line text-[13px] leading-relaxed text-ink/60">{project.notes}</p>}
+      {project.scope && <p className="whitespace-pre-line text-ui leading-relaxed text-ink/75">{project.scope}</p>}
+      {project.notes && <p className="whitespace-pre-line text-ui leading-relaxed text-ink/60">{project.notes}</p>}
 
       {payments.length > 0 && (
-        <ul className="divide-y divide-ink/10 border-y border-ink/10 text-[13.5px]">
+        <ul className="divide-y divide-ink/10 border-y border-ink/10 text-ui">
           {/* a consulta vem da mais recente pra mais antiga; parcela se lê na ordem do calendário */}
           {[...payments].reverse().map((payment) => (
             <Installment key={payment.id} payment={payment} clientId={project.clientId} page={page} excluir={excluir} />
@@ -250,7 +250,7 @@ export function ProjectSection({
 
       {open === "novo" && <ProjectForm clientId={clientId} erro={erro} cancelHref={page} />}
 
-      {projects.length === 0 && open !== "novo" && <p className="text-[14px] text-ink/60">Nenhum projeto ainda.</p>}
+      {projects.length === 0 && open !== "novo" && <p className="text-ui text-ink/60">Nenhum projeto ainda.</p>}
 
       {projects.map((project) =>
         open === String(project.id) ? (

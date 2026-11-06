@@ -17,8 +17,8 @@ import type { Review } from "@/data/reviews";
 function Field({ label, children, className = "" }: { label: string; children: ReactNode; className?: string }) {
   return (
     <div className={className}>
-      <dt className="text-[14px] font-medium text-[rgb(var(--card-ink)/0.9)]">{label}</dt>
-      <dd className="mt-2 text-[12px] leading-relaxed text-[rgb(var(--card-ink)/0.6)]">{children}</dd>
+      <dt className="text-ui font-medium text-card-ink/90">{label}</dt>
+      <dd className="mt-2 text-meta leading-relaxed text-card-ink/60">{children}</dd>
     </div>
   );
 }
@@ -28,7 +28,7 @@ function DashList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-1">
       {items.map((item) => (
-        <li key={item} className="before:mr-2 before:text-[rgb(var(--card-ink)/0.35)] before:content-['—']">
+        <li key={item} className="before:mr-2 before:text-card-ink/35 before:content-['—']">
           {item}
         </li>
       ))}
@@ -69,7 +69,7 @@ function ScoreDonut({ scores }: { scores: LighthouseScores }) {
   return (
     <svg viewBox="0 0 36 36" className="h-[1.3em] w-[1.3em] shrink-0" role="img" aria-label={detail}>
       <title>{detail}</title>
-      <circle cx="18" cy="18" r="16" fill="none" strokeWidth="3" className="stroke-[rgb(var(--card-ink)/0.12)]" />
+      <circle cx="18" cy="18" r="16" fill="none" strokeWidth="3" className="stroke-card-ink/12" />
       <circle
         cx="18"
         cy="18"
@@ -141,7 +141,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
     <article
       ref={ref}
       id={`p${project.id}`}
-      className={`scroll-mt-16 bg-[rgb(var(--card-paper))] text-[rgb(var(--card-ink))] ${palette}`}
+      className={`scroll-mt-16 bg-card-paper text-card-ink ${palette}`}
     >
       <div
         /* a altura da ficha vem da capa em 4:3, igual para todas; só cresce quando o texto
@@ -173,7 +173,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               className={`object-cover transition-transform duration-500 group-hover:scale-[1.03] ${centered ?"max-lg:scale-[1.03]" : ""}`}
             />
           ) : (
-            <div className="flex h-full items-center justify-center bg-[repeating-linear-gradient(45deg,rgb(var(--card-ink)/0.05)_0_9px,transparent_9px_18px)] p-2 text-center text-[12px] text-[rgb(var(--card-ink)/0.6)]">
+            <div className="flex h-full items-center justify-center bg-[repeating-linear-gradient(45deg,rgb(var(--card-ink)/0.05)_0_9px,transparent_9px_18px)] p-2 text-center text-meta text-card-ink/60">
               {pt ? "capa pendente" : "cover pending"}
             </div>
           )}
@@ -223,7 +223,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
 
           {/* A frente fala com quem contrata, não com quem programa: uma frase com a dor e o que
               foi construído. Todo o vocabulário técnico mora em Especificações, logo abaixo. */}
-          <p className="relative mt-5 max-w-[56ch] text-[15px] leading-relaxed text-[rgb(var(--card-ink)/0.8)]">
+          <p className="relative mt-5 max-w-[56ch] text-body leading-relaxed text-card-ink/80">
             {project.summary[language]}
           </p>
 
@@ -244,10 +244,10 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               onClick={() => setSpecsOpen((v) => !v)}
               aria-expanded={specsOpen}
               aria-controls={specsId}
-              className="relative flex w-full justify-center before:absolute before:inset-x-0 before:top-1/2 before:border-t before:border-[rgb(var(--card-ink)/0.14)] focus-visible:outline-none"
+              className="relative flex w-full justify-center before:absolute before:inset-x-0 before:top-1/2 before:border-t before:border-card-ink/14 focus-visible:outline-none"
             >
               {/* hover e foco pintam o chip, não a faixa inteira do botão */}
-              <span className="relative flex items-center gap-2.5 bg-[rgb(var(--card-paper))] px-4 py-1 text-[12.5px] text-[rgb(var(--card-ink)/0.6)] transition-colors [button:focus-visible>&]:outline [button:focus-visible>&]:outline-1 [button:focus-visible>&]:outline-offset-4 [button:focus-visible>&]:outline-current [button:hover>&]:text-[rgb(var(--card-ink))]">
+              <span className="relative flex items-center gap-2.5 bg-card-paper px-4 py-1 text-meta text-card-ink/60 transition-colors [button:focus-visible>&]:outline [button:focus-visible>&]:outline-1 [button:focus-visible>&]:outline-offset-4 [button:focus-visible>&]:outline-current [button:hover>&]:text-card-ink">
                 <ChevronDown
                   className={`h-3 w-3 transition-transform duration-300 ${specsOpen ?"rotate-180" : ""}`}
                   strokeWidth={2.5}
@@ -264,7 +264,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="border border-[rgb(var(--card-ink)/0.2)] px-2.5 py-[5px] text-[11.5px] leading-none"
+                          className="border border-card-ink/20 px-2.5 py-[5px] text-meta leading-none"
                         >
                           {tag}
                         </span>
@@ -295,15 +295,15 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
                 aria-controls={reviewId}
                 className="group/review flex items-center gap-3 text-left focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
               >
-                <ReviewPhoto review={review} className="h-9 w-9 bg-[rgb(var(--card-ink)/0.1)] text-[15px] text-[rgb(var(--card-ink)/0.65)]" />
+                <ReviewPhoto review={review} className="h-9 w-9 bg-card-ink/10 text-body text-card-ink/65" />
                 <span className="flex min-w-0 flex-col gap-1.5">
-                  <span className="text-[12.5px] leading-tight text-[rgb(var(--card-ink)/0.65)] transition-colors group-hover/review:text-[rgb(var(--card-ink))]">
+                  <span className="text-meta leading-tight text-card-ink/65 transition-colors group-hover/review:text-card-ink">
                     {[review.name, review.company].filter(Boolean).join(" · ")}
                   </span>
-                  <Stars count={review.rating} className="text-[11px] text-accent" />
+                  <Stars count={review.rating} className="text-meta text-accent" />
                 </span>
                 <ChevronDown
-                  className={`h-3 w-3 shrink-0 text-[rgb(var(--card-ink)/0.6)] transition-transform duration-300 ${reviewOpen ?"rotate-180" : ""}`}
+                  className={`h-3 w-3 shrink-0 text-card-ink/60 transition-transform duration-300 ${reviewOpen ?"rotate-180" : ""}`}
                   strokeWidth={2.5}
                   aria-hidden
                 />
@@ -314,7 +314,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-auto inline-flex items-center gap-2.5 bg-accent px-6 py-3 text-[12.5px] text-white transition-[gap] hover:gap-[18px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+              className="ml-auto inline-flex items-center gap-2.5 bg-accent px-6 py-3 text-meta text-accent-ink transition-[gap] hover:gap-[18px] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
             >
               {t("projects.viewProject")}
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
@@ -323,7 +323,7 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
 
           {review && (
             <Collapse id={reviewId} open={reviewOpen}>
-              <blockquote className="mt-5 border-l-2 border-accent pl-5 text-[13.5px] leading-relaxed text-[rgb(var(--card-ink)/0.7)]">
+              <blockquote className="mt-5 border-l-2 border-accent pl-5 text-ui leading-relaxed text-card-ink/70">
                 &ldquo;{review.comment}&rdquo;
               </blockquote>
             </Collapse>

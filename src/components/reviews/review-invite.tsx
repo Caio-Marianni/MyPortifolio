@@ -20,10 +20,10 @@ export function ReviewInvite({ invite }: { invite: ReviewFormProps | null }) {
         <ReviewForm {...invite} />
       ) : (
         <div className="max-w-[46ch]">
-          <h2 className="font-makaio text-[clamp(28px,4.5vw,44px)] font-black uppercase leading-none tracking-[0.04em]">
+          <h2 className="font-makaio text-[clamp(28px,4.5vw,44px)] font-black uppercase leading-none tracking-display">
             {pt ? "Link inválido" : "Invalid link"}
           </h2>
-          <p className="mt-4 text-[15px] leading-relaxed text-ink/70">
+          <p className="mt-4 text-body leading-relaxed text-ink/70">
             {pt
               ? "Este link de avaliação não confere — pode ter sido copiado pela metade. Me chame e eu mando outro."
               : "This review link doesn't check out — it may have been copied halfway. Ping me and I'll send another."}

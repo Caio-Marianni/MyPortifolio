@@ -28,9 +28,9 @@ function FlagUK() {
 
 const OPTION = [
   "group flex items-center gap-[0.9em] rounded-sm px-[1em] py-[0.8em] text-left",
-  "font-bold text-white/60",
-  "transition-colors hover:bg-white/[0.07] hover:text-white",
-  "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-white/60",
+  "font-bold text-chrome-ink/60",
+  "transition-colors hover:bg-chrome-ink/[0.07] hover:text-chrome-ink",
+  "focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-1 focus-visible:outline-chrome-ink/60",
 ].join(" ");
 
 const FLAG_WRAP = "grayscale opacity-70 transition duration-200 group-hover:grayscale-0 group-hover:opacity-100";
@@ -43,7 +43,7 @@ const VARIANT = {
     closed: "invisible -translate-x-[1cqw] opacity-0",
   },
   sheet: {
-    panel: "absolute inset-x-0 top-0 text-[12px]",
+    panel: "absolute inset-x-0 top-0 text-meta",
     open: "visible translate-y-0 opacity-100",
     closed: "invisible -translate-y-4 opacity-0",
   },
@@ -78,7 +78,7 @@ export function CvPanel({ open, onClose, labels, variant = "rail" }: CvPanelProp
         }`}
         aria-hidden={!open}
       >
-        <span className="flex items-center gap-[0.5em] px-[1em] pb-[0.5em] text-[0.85em] text-white/35">
+        <span className="flex items-center gap-[0.5em] px-[1em] pb-[0.5em] text-[0.85em] text-chrome-ink/35">
           <Download className="h-[1em] w-[1em]" strokeWidth={2} aria-hidden />
           {labels.title}
         </span>

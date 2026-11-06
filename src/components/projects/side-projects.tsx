@@ -35,7 +35,7 @@ export function SideProjects({ projects }: { projects: SideProject[] }) {
           /* mesmo desenho do "Especificações" da ficha: o rótulo no meio de uma divisória */
           className="relative flex w-full justify-center before:absolute before:inset-x-0 before:top-1/2 before:border-t before:border-ink/15 focus-visible:outline-none"
         >
-          <span className="relative flex items-center gap-2.5 bg-surface px-4 py-1 text-[12.5px] text-ink/65 transition-colors [button:focus-visible>&]:outline [button:focus-visible>&]:outline-1 [button:focus-visible>&]:outline-offset-4 [button:focus-visible>&]:outline-current [button:hover>&]:text-ink">
+          <span className="relative flex items-center gap-2.5 bg-surface px-4 py-1 text-meta text-ink/65 transition-colors [button:focus-visible>&]:outline [button:focus-visible>&]:outline-1 [button:focus-visible>&]:outline-offset-4 [button:focus-visible>&]:outline-current [button:hover>&]:text-ink">
             <ChevronDown
               className={`h-3 w-3 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
               strokeWidth={2.5}
@@ -58,10 +58,10 @@ export function SideProjects({ projects }: { projects: SideProject[] }) {
                   <span className="text-[17px] tracking-tight">{project.title}</span>
 
                   <span className="flex flex-col gap-2">
-                    <span className="max-w-[64ch] text-[14px] leading-relaxed text-ink/70">
+                    <span className="max-w-[64ch] text-ui leading-relaxed text-ink/70">
                       {project.summary[language]}
                     </span>
-                    <span className="text-[11.5px] text-ink/60">{project.tags.join(" · ")}</span>
+                    <span className="text-meta text-ink/60">{project.tags.join(" · ")}</span>
                   </span>
 
                   <ArrowUpRight

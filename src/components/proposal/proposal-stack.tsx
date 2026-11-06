@@ -25,7 +25,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
         <LogoWatermark />
 
         {tab && <span className="flex h-7 w-7 items-center justify-center">{tab}</span>}
-        {corner && <span className="text-[11px]">{corner}</span>}
+        {corner && <span className="text-meta">{corner}</span>}
       </div>
 
       {/* basis-0 + flex-1 nos dois blocos: foto e infos dividem o que sobra em 50/50.
@@ -40,7 +40,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
       {(railLeft.length > 0 || railRight.length > 0 || rail?.rating) && (
         /* flex-1 nos dois lados: o centro fica centrado de verdade, não importa o texto das pontas.
            Com justify-between a zona mais larga empurrava as estrelas pro lado. */
-        <div className="flex shrink-0 items-center gap-3 overflow-hidden bg-chrome px-5 py-3 text-[12.5px] text-white/70">
+        <div className="flex shrink-0 items-center gap-3 overflow-hidden bg-chrome px-5 py-3 text-meta text-chrome-ink/70">
           <span className="flex flex-1 items-center gap-3">
             {railLeft.map((item, i) => (
               <span key={i}>{item}</span>
@@ -51,7 +51,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
             <RatingMark
               value={rail.rating.value}
               stars={rail.rating.stars}
-              starsClassName="text-white/50"
+              starsClassName="text-chrome-ink/50"
               href={rail.rating.href}
               label={rail.rating.label}
             />
@@ -101,7 +101,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
             porque o markup dela é compartilhado com o slide 16:9, onde ela tem que continuar
             do tamanho do conteúdo. */}
         <div className="mx-auto w-full max-w-[360px]">
-          {children && <div className="flex justify-center text-[11px] [&>*]:w-full [&_button]:flex-1">{children}</div>}
+          {children && <div className="flex justify-center text-meta [&>*]:w-full [&_button]:flex-1">{children}</div>}
 
           {columns && (
             /* subgrid: as linhas são definidas aqui e as duas colunas herdam, então cada stat da
@@ -109,7 +109,7 @@ export function ProposalStack({ image, wordmark, descriptor, script, scriptFont 
                duas linhas — e os CTAs sempre fecham na última linha. Antes cada coluna empilhava
                por conta própria e um texto mais longo desalinhava a linha de baixo. */
             <div
-              className="mt-5 grid grid-cols-2 gap-x-3 gap-y-[0.6em] text-[13px] font-bold"
+              className="mt-5 grid grid-cols-2 gap-x-3 gap-y-[0.6em] text-ui font-bold"
               style={{ gridTemplateRows: `repeat(${gridRows}, auto)` }}
             >
               {columns.map((column) => (

@@ -56,20 +56,20 @@ export default async function ClientesPage(props: Params) {
       )}
 
       {clients === null && (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           Não consegui ler os clientes. As tabelas foram criadas? Rode `npm run migrate`.
         </p>
       )}
 
       {clients?.length === 0 && searchParams.novo === undefined && (
-        <p className="text-[14px] text-ink/60">Nenhum cliente ainda. Cadastre o primeiro no botão aí em cima.</p>
+        <p className="text-ui text-ink/60">Nenhum cliente ainda. Cadastre o primeiro no botão aí em cima.</p>
       )}
 
       {list.length > 0 && (
         /* tabela de verdade: no celular ela rola de lado em vez de espremer as colunas */
         <div className={`${CARD} overflow-x-auto p-0 md:p-0`}>
-          <table className="w-full min-w-[640px] text-left text-[14px]">
-            <thead className="border-b border-ink/10 text-[12.5px] text-ink/60">
+          <table className="w-full min-w-[640px] text-left text-ui">
+            <thead className="border-b border-ink/10 text-meta text-ink/60">
               <tr>
                 <th className="px-5 py-3 font-normal">Cliente</th>
                 <th className="px-5 py-3 font-normal">WhatsApp</th>
@@ -85,7 +85,7 @@ export default async function ClientesPage(props: Params) {
                     <Link href={`${PAGE}/${client.id}`} className="font-semibold underline-offset-4 hover:underline">
                       {client.name}
                     </Link>
-                    {client.site && <span className="block text-[12.5px] text-ink/55">{client.site}</span>}
+                    {client.site && <span className="block text-meta text-ink/55">{client.site}</span>}
                   </td>
                   <td className={`px-5 py-3 text-ink/75 ${NUM}`}>{client.whatsapp ? formatWhatsapp(client.whatsapp) : "—"}</td>
                   <td className="px-5 py-3 text-ink/75">

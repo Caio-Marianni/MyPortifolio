@@ -66,7 +66,7 @@ export default async function RelatoriosPage(props: Params) {
       />
 
       {early && (
-        <p className="mb-6 border-l-2 border-accent pl-4 text-[14px] leading-relaxed text-ink/75">
+        <p className="mb-6 border-l-2 border-accent pl-4 text-ui leading-relaxed text-ink/75">
           Hoje é dia {Number(today.slice(8))}: os números de {monthLabel(month)} fecham no dia 3. Dá pra gerar agora e clicar em
           &ldquo;Atualizar números&rdquo; depois.
         </p>
@@ -77,19 +77,19 @@ export default async function RelatoriosPage(props: Params) {
       </div>
 
       {queue === null && (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           Não consegui ler os relatórios. A tabela foi criada? Rode `npm run migrate`.
         </p>
       )}
 
       {queue?.length === 0 && (
-        <p className="text-[14px] text-ink/60">Nenhum plano ativo com relatório neste mês. O relatório se liga no plano, na ficha do cliente.</p>
+        <p className="text-ui text-ink/60">Nenhum plano ativo com relatório neste mês. O relatório se liga no plano, na ficha do cliente.</p>
       )}
 
       {queue && queue.length > 0 && (
         <div className={`${CARD} overflow-x-auto p-0 md:p-0`}>
-          <table className="w-full min-w-[620px] text-left text-[14px]">
-            <thead className="border-b border-ink/10 text-[12.5px] text-ink/60">
+          <table className="w-full min-w-[620px] text-left text-ui">
+            <thead className="border-b border-ink/10 text-meta text-ink/60">
               <tr>
                 <th className="px-5 py-3 font-normal">Cliente</th>
                 <th className="px-5 py-3 font-normal">Plano</th>
@@ -106,7 +106,7 @@ export default async function RelatoriosPage(props: Params) {
                     <Link href={`/admin/clientes/${item.clientId}`} className="font-semibold underline-offset-4 hover:underline">
                       {item.clientName}
                     </Link>
-                    {!item.hasAnalytics && <span className="block text-[12.5px] text-ink/55">sem GA4 — só o recado</span>}
+                    {!item.hasAnalytics && <span className="block text-meta text-ink/55">sem GA4 — só o recado</span>}
                   </td>
                   <td className="px-5 py-3 text-ink/75">{item.planName}</td>
                   <td className={`px-5 py-3 ${NUM}`}>

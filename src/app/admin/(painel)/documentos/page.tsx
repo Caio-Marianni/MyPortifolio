@@ -53,21 +53,21 @@ export default async function DocumentosPage(props: Params) {
       />
 
       {docs === null && (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           Não consegui ler os documentos. A tabela foi criada? Rode `npm run migrate`.
         </p>
       )}
 
       {docs !== null && shown.length === 0 && (
-        <p className="text-[14px] text-ink/60">
+        <p className="text-ui text-ink/60">
           {all.length === 0 ? "Nenhum documento ainda. Crie um modelo e gere o documento pela ficha do cliente." : "Nada neste filtro."}
         </p>
       )}
 
       {shown.length > 0 && (
         <div className={`${CARD} overflow-x-auto p-0 md:p-0`}>
-          <table className="w-full min-w-[640px] text-left text-[14px]">
-            <thead className="border-b border-ink/10 text-[12.5px] text-ink/60">
+          <table className="w-full min-w-[640px] text-left text-ui">
+            <thead className="border-b border-ink/10 text-meta text-ink/60">
               <tr>
                 <th className="px-5 py-3 font-normal">Documento</th>
                 <th className="px-5 py-3 font-normal">Cliente</th>

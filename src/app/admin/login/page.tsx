@@ -35,8 +35,8 @@ export default async function LoginPage(props: Params) {
             <LogoMark />
           </span>
           <span>
-            <span className="block font-makaio text-[22px] uppercase leading-none tracking-[0.08em]">Painel</span>
-            <span className="text-[12.5px] text-ink/60">Área restrita</span>
+            <span className="block font-makaio text-[22px] font-black uppercase leading-none tracking-display">Painel</span>
+            <span className="text-meta text-ink/60">Área restrita</span>
           </span>
         </div>
 
@@ -58,7 +58,7 @@ export default async function LoginPage(props: Params) {
           </div>
 
           {erro && ERROS[erro] && (
-            <p role="alert" className="text-[13px] text-danger">
+            <p role="alert" className="text-ui text-danger">
               {ERROS[erro]}
             </p>
           )}

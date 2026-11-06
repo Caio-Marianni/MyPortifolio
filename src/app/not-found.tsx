@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { LogoMark } from "@/components/capa/capa-page";
 
-/* Mesma gramática das outras páginas: creme, Makaio no número, mono na linha técnica.
+/* Mesma gramática das outras páginas: creme, Makaio no número, corpo na escala do site.
    Texto fixo em PT — a 404 não monta o provider de idioma. */
 export default function NotFound() {
   return (
@@ -11,17 +11,17 @@ export default function NotFound() {
         <LogoMark />
       </span>
 
-      <p className="text-[12.5px] text-ink/60">Erro</p>
+      <p className="text-meta text-ink/60">Erro</p>
 
-      <h1 className="my-2 font-makaio text-[26vw] font-black leading-[0.85] tracking-widest md:text-[180px]">404</h1>
+      <h1 className="my-2 font-makaio text-[26vw] font-black leading-[0.85] tracking-display md:text-[180px]">404</h1>
 
-      <p className="max-w-xs text-[14px] leading-[1.6] text-ink/60">
+      <p className="max-w-xs text-ui leading-[1.6] text-ink/60">
         A página que você está procurando não existe ou foi removida.
       </p>
 
       <Link
         href="/"
-        className="mt-10 flex items-center gap-2 rounded-full bg-fill px-7 py-3 text-[13px] text-fill-ink transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="mt-10 flex items-center gap-2 rounded-full bg-fill px-7 py-3 text-ui text-fill-ink transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
         <ArrowLeft className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
         Voltar ao início

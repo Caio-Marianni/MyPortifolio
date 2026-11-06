@@ -58,7 +58,7 @@ export function RatingLink({
 export function RatingMark({
   value,
   stars,
-  starsClassName = "text-white/75",
+  starsClassName = "text-chrome-ink/75",
   href,
   label,
 }: {
@@ -72,7 +72,7 @@ export function RatingMark({
   return (
     <RatingLink href={href} label={label} className="relative flex shrink-0 items-center justify-center">
       <span
-        className={`absolute ${RATING_FONT} text-[48px] font-bold leading-none tracking-[-0.04em] text-white opacity-10`}
+        className={`absolute ${RATING_FONT} text-[48px] font-bold leading-none tracking-[-0.04em] text-chrome-ink opacity-10`}
         aria-hidden
       >
         {value}

@@ -25,7 +25,7 @@ const isActive = (pathname: string, href: string) =>
   href === "/admin" ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 
 const ITEM =
-  "flex shrink-0 items-center gap-3 rounded-md px-3 py-2 text-[13.5px] transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-chrome-ink";
+  "flex shrink-0 items-center gap-3 rounded-md px-3 py-2 text-ui transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-chrome-ink";
 
 export function AdminNav() {
   const pathname = usePathname();
@@ -37,9 +37,9 @@ export function AdminNav() {
           <span className="h-7 w-7">
             <LogoMark />
           </span>
-          <span className="font-makaio text-[20px] uppercase leading-none tracking-[0.08em]">Painel</span>
+          <span className="font-makaio text-[20px] font-black uppercase leading-none tracking-display">Painel</span>
         </Link>
-        <span className="flex items-center gap-4 text-[14px] lg:hidden">
+        <span className="flex items-center gap-4 text-ui lg:hidden">
           <ThemeSwitch />
           <form action={logout} className="flex">
             <button type="submit" aria-label="Sair" className="opacity-60 transition-opacity hover:opacity-100">
@@ -77,7 +77,7 @@ export function AdminNav() {
             Sair
           </button>
         </form>
-        <span className="px-3 pt-2 text-[14px]">
+        <span className="px-3 pt-2 text-ui">
           <ThemeSwitch />
         </span>
       </div>

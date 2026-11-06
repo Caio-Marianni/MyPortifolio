@@ -35,7 +35,7 @@ function TemplateForm({ id, template, erro }: { id?: number; template: TemplateF
         rows={26}
         defaultValue={template.body}
         maxLength={DOC_LIMITS.body}
-        className="[&_textarea]:font-mono [&_textarea]:text-[13.5px] [&_textarea]:leading-relaxed"
+        className="[&_textarea]:font-mono [&_textarea]:text-ui [&_textarea]:leading-relaxed"
       />
       <FormError message={erro} />
       <div className="flex flex-wrap gap-2">
@@ -54,8 +54,8 @@ function TemplateRow({ template, excluindo }: { template: Template; excluindo: b
   return (
     <li className="flex flex-wrap items-center gap-x-4 gap-y-2 py-3">
       <span className="font-semibold">{template.name}</span>
-      <span className="text-[13px] text-ink/60">{DOC_KIND_LABEL[template.kind]}</span>
-      <span className={`text-[13px] text-ink/50 ${NUM}`}>editado {template.updatedAt}</span>
+      <span className="text-ui text-ink/60">{DOC_KIND_LABEL[template.kind]}</span>
+      <span className={`text-ui text-ink/50 ${NUM}`}>editado {template.updatedAt}</span>
       {excluindo ? (
         <DeleteConfirm
           action={removeTemplate}
@@ -106,7 +106,7 @@ export default async function ModelosPage(props: Params) {
           {!starter && !editing && (
             <section className={`${CARD} flex flex-col gap-4`}>
               <h2 className={CARD_TITLE}>Novo modelo</h2>
-              <p className="text-[13.5px] leading-relaxed text-ink/65">
+              <p className="text-ui leading-relaxed text-ink/65">
                 Os esqueletos já trazem os campos no lugar. Troque o que está entre colchetes pelos seus dados e revise com um advogado antes do primeiro uso.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -120,14 +120,14 @@ export default async function ModelosPage(props: Params) {
           )}
 
           {templates === null ? (
-            <p role="alert" className="text-[13px] text-danger">
+            <p role="alert" className="text-ui text-danger">
               Não consegui ler os modelos. A tabela foi criada? Rode `npm run migrate`.
             </p>
           ) : (
             templates.length > 0 && (
               <section className={CARD}>
                 <h2 className={CARD_TITLE}>Seus modelos</h2>
-                <ul className="mt-2 divide-y divide-ink/10 text-[14px]">
+                <ul className="mt-2 divide-y divide-ink/10 text-ui">
                   {templates.map((template) => (
                     <TemplateRow key={template.id} template={template} excluindo={searchParams.excluir === String(template.id)} />
                   ))}
@@ -137,7 +137,7 @@ export default async function ModelosPage(props: Params) {
           )}
         </div>
 
-        <aside className={`${CARD} text-[13px]`}>
+        <aside className={`${CARD} text-ui`}>
           <h2 className={CARD_TITLE}>Campos</h2>
           <dl className="mt-3 flex flex-col gap-1.5">
             {PLACEHOLDERS.map((placeholder) => (

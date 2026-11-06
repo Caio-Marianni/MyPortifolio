@@ -24,7 +24,7 @@ const PAGE = "/admin/documentos";
 function Next({ doc, excluindo }: { doc: Document; excluindo: boolean }) {
   if (doc.status === "signed") {
     return (
-      <div className="flex flex-col gap-3 text-[14px]">
+      <div className="flex flex-col gap-3 text-ui">
         <p className="flex items-center gap-2 font-semibold">
           <Lock className="h-4 w-4" strokeWidth={2.5} aria-hidden />
           Assinado em {doc.signedOn && br(doc.signedOn)}
@@ -44,7 +44,7 @@ function Next({ doc, excluindo }: { doc: Document; excluindo: boolean }) {
     <div className="flex flex-col gap-5">
       {doc.status === "draft" ? (
         <>
-          <p className="text-[13.5px] leading-relaxed text-ink/65">
+          <p className="text-ui leading-relaxed text-ink/65">
             Revise o texto, procure campos que ficaram entre chaves — {"{assim}"} — e gere o PDF. Depois de mandar ao cliente, marque como enviado.
           </p>
           <form action={markSent}>
@@ -57,7 +57,7 @@ function Next({ doc, excluindo }: { doc: Document; excluindo: boolean }) {
         </>
       ) : (
         <>
-          <p className="text-[13.5px] leading-relaxed text-ink/65">
+          <p className="text-ui leading-relaxed text-ink/65">
             Peça a assinatura pelo{" "}
             <a href="https://assinador.iti.br" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
               assinador do gov.br
@@ -89,7 +89,7 @@ function Next({ doc, excluindo }: { doc: Document; excluindo: boolean }) {
         {excluindo ? (
           <DeleteConfirm action={removeDocument} fields={{ id: doc.id }} message="Exclui o documento." cancelHref={`${PAGE}/${doc.id}`} />
         ) : (
-          <Link href={`${PAGE}/${doc.id}?excluir`} className="text-[12.5px] text-ink/50 hover:text-danger">
+          <Link href={`${PAGE}/${doc.id}?excluir`} className="text-meta text-ink/50 hover:text-danger">
             Excluir documento
           </Link>
         )}
@@ -145,7 +145,7 @@ export default async function DocumentoPage(props: Params) {
               rows={28}
               defaultValue={doc.body}
               maxLength={DOC_LIMITS.body}
-              className="[&_textarea]:font-mono [&_textarea]:text-[13.5px] [&_textarea]:leading-relaxed"
+              className="[&_textarea]:font-mono [&_textarea]:text-ui [&_textarea]:leading-relaxed"
             />
             <button type="submit" className={`${BUTTON_SOLID} self-start`}>
               Salvar texto

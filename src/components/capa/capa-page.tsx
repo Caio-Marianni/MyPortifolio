@@ -122,7 +122,7 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
           barra passa a flutuar sobre o conteúdo, sem precisar de listener de scroll. */}
       <div className="sticky top-0 z-50 bg-chrome text-chrome-ink shadow-[0_14px_28px_-16px_rgba(0,0,0,0.75)]">
         <div
-          className={`${SHELL} relative isolate flex items-center gap-4 px-5 py-3 text-[13px] md:px-8`}
+          className={`${SHELL} relative isolate flex items-center gap-4 px-5 py-3 text-ui md:px-8`}
         >
           {/* Fica no bloco de dentro, não no fundo sangrado, senão em tela larga a marca d'água
               some lá na borda da viewport, longe do resto do cabeçalho. */}
@@ -143,7 +143,7 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
 
           {/* `shrink-0` + `whitespace-nowrap`: o título manda na altura da barra e nunca quebra
               em duas linhas — quem cede espaço são as pontas. */}
-          <h1 className="shrink-0 whitespace-nowrap font-makaio text-[clamp(26px,3.4vw,40px)] font-black uppercase leading-none tracking-[0.08em]">
+          <h1 className="shrink-0 whitespace-nowrap font-makaio text-[clamp(26px,3.4vw,40px)] font-black uppercase leading-none tracking-display">
             {wordmark}
           </h1>
 
@@ -162,10 +162,10 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
       {showMeta && (
         <div className="border-t border-chrome-ink/10 bg-chrome">
           <div
-            className={`${SHELL} flex items-center justify-between gap-4 overflow-hidden px-5 py-3 text-[12.5px] text-white/60 md:px-8`}
+            className={`${SHELL} flex items-center justify-between gap-4 overflow-hidden px-5 py-3 text-meta text-chrome-ink/60 md:px-8`}
           >
             <span className="flex flex-col-reverse items-start gap-1.5 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
-              {descriptor && <span className="text-white/90">{descriptor}</span>}
+              {descriptor && <span className="text-chrome-ink/90">{descriptor}</span>}
               {/* Duas linhas no mobile, nunca uma por item: os números viajam juntos numa linha
                   só. `flex-col-reverse` põe essa linha em cima e a linha técnica — a mais longa,
                   por causa do tracking do mono — embaixo, de base da pirâmide. A partir de md o
@@ -201,14 +201,14 @@ export function CapaPage({ wordmark, descriptor, stats = [], track, bleed = fals
           a viewport como as barras do topo. Some na própria página de contato — CTA para onde
           já se está é link morto. */}
       {!NO_CTA.includes(pathname) && (
-        <Link href="/contact" className="group block bg-accent text-white transition-colors hover:bg-accent-hover">
+        <Link href="/contact" className="group block bg-accent text-accent-ink transition-colors hover:bg-accent-hover">
           <span
             className={`${SHELL} flex flex-wrap items-center justify-between gap-x-8 gap-y-5 px-5 py-11 md:px-8 md:py-14`}
           >
-            <span className="font-makaio text-[clamp(28px,4vw,52px)] font-black uppercase leading-none tracking-[0.06em]">
+            <span className="font-makaio text-[clamp(28px,4vw,52px)] font-black uppercase leading-none tracking-display">
               {t("contact.subtitle")}
             </span>
-            <span className="inline-flex items-center gap-2.5 text-[12.5px] transition-[gap] group-hover:gap-[18px]">
+            <span className="inline-flex items-center gap-2.5 text-meta transition-[gap] group-hover:gap-[18px]">
               {t("contact.title")}
               <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
             </span>

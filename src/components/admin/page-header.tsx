@@ -18,7 +18,7 @@ export function PageHeader({
   return (
     <header className="mb-8 border-b border-ink/10 pb-6">
       {back && (
-        <Link href={back.href} className="mb-3 inline-flex items-center gap-1.5 text-[12.5px] text-ink/60 hover:text-ink">
+        <Link href={back.href} className="mb-3 inline-flex items-center gap-1.5 text-meta text-ink/60 hover:text-ink">
           <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
           {back.label}
         </Link>
@@ -26,7 +26,7 @@ export function PageHeader({
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-[26px] font-semibold leading-tight tracking-tight">{title}</h1>
-          {description && <div className="mt-1.5 text-[14px] text-ink/60">{description}</div>}
+          {description && <div className="mt-1.5 text-ui text-ink/60">{description}</div>}
         </div>
         {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
       </div>

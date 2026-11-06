@@ -59,7 +59,7 @@ export function Select({
 export function FormError({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <p role="alert" className="text-[13px] text-danger">
+    <p role="alert" className="text-ui text-danger">
       {message}
     </p>
   );

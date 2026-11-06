@@ -61,10 +61,10 @@ export function CapaContactForm() {
   if (sent) {
     return (
       <div role="status" className="flex flex-col items-start gap-4">
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-accent-ink">
           <Check className="h-5 w-5" strokeWidth={3} aria-hidden />
         </span>
-        <p className="max-w-[46ch] text-[15px] leading-relaxed text-ink/70">
+        <p className="max-w-[46ch] text-body leading-relaxed text-ink/70">
           {pt
             ? "Mensagem enviada! Respondo no seu e-mail assim que puder."
             : "Message sent! I'll reply to your email as soon as I can."}
@@ -72,7 +72,7 @@ export function CapaContactForm() {
         <button
           type="button"
           onClick={() => setSent(false)}
-          className="text-[12.5px] text-ink/65 underline underline-offset-4 transition-colors hover:text-ink"
+          className="text-meta text-ink/65 underline underline-offset-4 transition-colors hover:text-ink"
         >
           {pt ? "Enviar outra" : "Send another"}
         </button>
@@ -144,7 +144,7 @@ export function CapaContactForm() {
       </div>
 
       {error && (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           {error}{" "}
           <a href={`mailto:${EMAIL}`} className="underline underline-offset-4">
             {pt ? `Ou escreva direto pra ${EMAIL}.` : `Or email me at ${EMAIL}.`}
@@ -155,7 +155,7 @@ export function CapaContactForm() {
       <button
         type="submit"
         disabled={sending}
-        className="mt-2 flex items-center justify-center gap-2 self-start rounded-full bg-fill px-7 py-3 text-[13px] text-fill-ink transition-opacity hover:opacity-80 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="mt-2 flex items-center justify-center gap-2 self-start rounded-full bg-fill px-7 py-3 text-ui text-fill-ink transition-opacity hover:opacity-80 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
         {sending ? (pt ? "Enviando…" : "Sending…") : t("contact.send")}
         <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

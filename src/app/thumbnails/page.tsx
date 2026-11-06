@@ -55,7 +55,7 @@ export default function ThumbnailsPage() {
               />
             </div>
 
-            <figcaption className="hidden items-center justify-between gap-3 px-1 pb-1 pt-3 text-[12.5px] text-ink/60 sm:flex">
+            <figcaption className="hidden items-center justify-between gap-3 px-1 pb-1 pt-3 text-meta text-ink/60 sm:flex">
               <span>{String(i + 1).padStart(2, "0")}</span>
               <span className="truncate">{thumb.tags.join(" · ")}</span>
             </figcaption>

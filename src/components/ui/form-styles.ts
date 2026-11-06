@@ -5,4 +5,4 @@
    toda ao focar o campo, e o visitante fica com o layout torto e sem saber por quê. */
 export const FIELD =
   "w-full border-b border-ink/25 bg-transparent py-2 text-[16px] text-ink placeholder:text-ink/30 focus:border-ink focus:outline-none transition-colors";
-export const LABEL = "block text-[12.5px] text-ink/60";
+export const LABEL = "block text-meta text-ink/60";

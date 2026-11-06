@@ -35,7 +35,7 @@ export default function ContactPage() {
         </div>
 
         <div className="bg-chrome px-6 py-14 text-chrome-ink md:px-10 lg:order-first">
-          <h2 className="font-makaio text-[clamp(32px,4vw,46px)] font-black uppercase leading-none tracking-wider">
+          <h2 className="font-makaio text-[clamp(32px,4vw,46px)] font-black uppercase leading-none tracking-display">
             {t("contact.whereToFind")}
           </h2>
 

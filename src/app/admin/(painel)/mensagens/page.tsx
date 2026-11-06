@@ -27,13 +27,13 @@ function MessageItem({ message, excluindo }: { message: Message; excluindo: bool
   return (
     <li className="flex flex-col gap-3 py-5">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span className="text-[15px] font-semibold">{message.name}</span>
-        <span className="text-[13px] text-ink/60">{message.email}</span>
-        <span className="text-[13px] text-ink/50">{message.createdAt}</span>
+        <span className="text-body font-semibold">{message.name}</span>
+        <span className="text-ui text-ink/60">{message.email}</span>
+        <span className="text-ui text-ink/50">{message.createdAt}</span>
         {!message.answered && <Badge tone="accent">Nova</Badge>}
       </div>
 
-      <p className="whitespace-pre-line text-[15px] leading-relaxed text-ink/85">{message.message}</p>
+      <p className="whitespace-pre-line text-body leading-relaxed text-ink/85">{message.message}</p>
 
       {excluindo ? (
         <DeleteConfirm action={removeMessage} fields={{ id: message.id }} message="Some de vez." cancelHref={PAGE} />
@@ -89,11 +89,11 @@ export default async function MensagensPage(props: Params) {
       />
 
       {messages === null ? (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           Não consegui ler as mensagens. A tabela foi criada? Rode `npm run migrate`.
         </p>
       ) : shown.length === 0 ? (
-        <p className="text-[14px] text-ink/60">{ver === "novas" ? "Caixa de entrada vazia." : "Nada por aqui."}</p>
+        <p className="text-ui text-ink/60">{ver === "novas" ? "Caixa de entrada vazia." : "Nada por aqui."}</p>
       ) : (
         <ul className={`${CARD} divide-y divide-ink/10 py-0 md:py-0`}>
           {shown.map((message) => (

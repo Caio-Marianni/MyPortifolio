@@ -72,7 +72,7 @@ export function AccountSection({
       {open === "nova" && <AccountForm clientId={clientId} erro={erro} cancelHref={page} />}
 
       {accounts.length === 0 && open !== "nova" && (
-        <p className="text-[13.5px] leading-relaxed text-ink/60">Domínio, hospedagem, Google Analytics… quem é o dono e qual acesso você tem.</p>
+        <p className="text-ui leading-relaxed text-ink/60">Domínio, hospedagem, Google Analytics… quem é o dono e qual acesso você tem.</p>
       )}
 
       <ul className="divide-y divide-ink/10">
@@ -82,7 +82,7 @@ export function AccountSection({
               <AccountForm clientId={clientId} account={account} erro={erro} cancelHref={page} />
             </li>
           ) : (
-            <li key={account.id} className="flex flex-col gap-1.5 py-3 text-[13.5px]">
+            <li key={account.id} className="flex flex-col gap-1.5 py-3 text-ui">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-semibold">{account.service}</span>
                 <Badge tone={account.owner === "me" ? "accent" : "neutral"}>{OWNER_LABEL[account.owner]}</Badge>
@@ -95,7 +95,7 @@ export function AccountSection({
               {excluir === `conta-${account.id}` ? (
                 <DeleteConfirm action={removeAccount} fields={{ clientId, id: account.id }} message="Tira da lista." cancelHref={page} />
               ) : (
-                <span className="flex gap-4 text-[12.5px] text-ink/50">
+                <span className="flex gap-4 text-meta text-ink/50">
                   <Link href={`${page}?conta=${account.id}`} className="hover:text-ink">
                     editar
                   </Link>

@@ -158,13 +158,13 @@ export function ReviewForm({
   if (sent) {
     return (
       <div className="flex flex-col items-start gap-4">
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-white">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-accent-ink">
           <Check className="h-5 w-5" strokeWidth={3} aria-hidden />
         </span>
-        <h2 className="font-makaio text-[clamp(30px,5vw,48px)] font-black uppercase leading-none tracking-[0.04em]">
+        <h2 className="font-makaio text-[clamp(30px,5vw,48px)] font-black uppercase leading-none tracking-display">
           {pt ? "Obrigado!" : "Thank you!"}
         </h2>
-        <p className="max-w-[46ch] text-[15px] leading-relaxed text-ink/70">
+        <p className="max-w-[46ch] text-body leading-relaxed text-ink/70">
           {pt
             ? "Sua avaliação chegou. Assim que eu conferir, ela entra na página de avaliações do site."
             : "Your review is in. Once I check it, it goes live on the reviews page."}
@@ -175,7 +175,7 @@ export function ReviewForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex max-w-[520px] flex-col gap-6">
-      <p className="text-[12.5px] text-ink/60">
+      <p className="text-meta text-ink/60">
         {pt ? "Sobre" : "About"}
         <span className="mx-2 text-accent">·</span>
         <span className="text-ink">{[projectTitle, TRACK_LABEL[track]].filter(Boolean).join(" · ")}</span>
@@ -220,7 +220,7 @@ export function ReviewForm({
             <PickerButton
               onPick={pickPhoto}
               disabled={busy}
-              className="rounded-full border border-ink/25 px-4 py-1.5 text-[12px] text-ink/60 transition-colors hover:border-ink hover:text-ink peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
+              className="rounded-full border border-ink/25 px-4 py-1.5 text-meta text-ink/60 transition-colors hover:border-ink hover:text-ink peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
             >
               {pt ? "Editar" : "Edit"}
             </PickerButton>
@@ -298,9 +298,9 @@ export function ReviewForm({
             rows={5}
             maxLength={LIMITS.comment}
             placeholder={pt ? "O que achou do trabalho? (opcional)" : "How was the work? (optional)"}
-            className={`${INSET} resize-none text-[15px] leading-relaxed`}
+            className={`${INSET} resize-none text-body leading-relaxed`}
           />
-          <p className="mt-1.5 text-right text-[12.5px] text-ink/60">
+          <p className="mt-1.5 text-right text-meta text-ink/60">
             {comment.length}/{LIMITS.comment}
           </p>
         </div>
@@ -329,7 +329,7 @@ export function ReviewForm({
               className="flex aspect-[4/3] flex-col items-center justify-center gap-1.5 border border-dashed border-ink/30 text-ink/60 transition-colors hover:border-ink/70 hover:text-ink peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
             >
               <ImagePlus className="h-5 w-5" strokeWidth={1.5} aria-hidden />
-              <span className="text-[12px]">
+              <span className="text-meta">
                 {shots.length}/{LIMITS.shots}
               </span>
             </PickerButton>
@@ -338,13 +338,13 @@ export function ReviewForm({
       </div>
 
       {busy && (
-        <p className="text-[12.5px] text-ink/60">
+        <p className="text-meta text-ink/60">
           {pt ? "Preparando a imagem..." : "Preparing image..."}
         </p>
       )}
 
       {error && (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           {error}
         </p>
       )}
@@ -353,7 +353,7 @@ export function ReviewForm({
       <button
         type="submit"
         disabled={sending || busy}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-fill px-7 py-4 text-[13px] text-fill-ink transition-opacity hover:opacity-80 disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:w-auto sm:self-start sm:py-3"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-fill px-7 py-4 text-ui text-fill-ink transition-opacity hover:opacity-80 disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:w-auto sm:self-start sm:py-3"
       >
         {sending ? (pt ? "Enviando..." : "Sending...") : pt ? "Enviar avaliação" : "Send review"}
         <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />

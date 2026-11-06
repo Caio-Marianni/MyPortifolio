@@ -159,7 +159,7 @@ export default async function ClientePage(props: Params) {
 
         <div className="flex min-w-0 flex-col gap-6">
           {(client.address || client.notes) && (
-            <section className={`${CARD} flex flex-col gap-3 text-[13.5px]`}>
+            <section className={`${CARD} flex flex-col gap-3 text-ui`}>
               <h2 className={CARD_TITLE}>Dados</h2>
               {client.address && <p className="text-ink/75">{client.address}</p>}
               {client.notes && <p className="whitespace-pre-line leading-relaxed text-ink/75">{client.notes}</p>}

@@ -57,6 +57,8 @@ const PAIRS: Array<[string, string, string, number, number]> = [
   ["botão sólido", "fill-ink", "fill", 1, 4.5],
   ["erro de formulário", "danger", "surface", 1, 4.5],
   ["acento sobre a página", "accent", "surface", 1, 3],
+  ["texto sobre o acento", "accent-ink", "accent", 1, 4.5],
+  ["texto sobre o acento, hover", "accent-ink", "accent-hover", 1, 4.5],
   ["ficha alternada", "card-flip-ink", "card-flip-paper", 1, 4.5],
   ["ficha alternada, corpo", "card-flip-ink", "card-flip-paper", 0.7, 4.5],
   ["ficha alternada, rótulo", "card-flip-ink", "card-flip-paper", 0.35, 0],

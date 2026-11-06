@@ -27,7 +27,7 @@ export function ClientDocuments({
       <h2 className={CARD_TITLE}>Documentos</h2>
 
       {documents.length > 0 && (
-        <ul className="divide-y divide-ink/10 border-y border-ink/10 text-[14px]">
+        <ul className="divide-y divide-ink/10 border-y border-ink/10 text-ui">
           {documents.map((doc) => (
             <li key={doc.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5">
               <Link href={`/admin/documentos/${doc.id}`} className="font-semibold underline-offset-4 hover:underline">
@@ -42,7 +42,7 @@ export function ClientDocuments({
       )}
 
       {templates.length === 0 ? (
-        <p className="text-[14px] text-ink/60">
+        <p className="text-ui text-ink/60">
           Pra gerar proposta ou contrato, crie um modelo primeiro.{" "}
           <Link href="/admin/documentos/modelos" className={`${BUTTON} ml-1 inline-flex`}>
             Criar modelo

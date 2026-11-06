@@ -22,7 +22,7 @@ import { PHOTO_SIZE, SHOT_SIZE, preview, shrink } from "@/services/image";
    de editar — pra avaliação que chegou por WhatsApp ou e-mail. */
 
 const BUTTON =
-  "rounded-full border border-ink/25 px-4 py-2 text-[12.5px] transition-colors hover:border-ink hover:bg-fill hover:text-fill-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:opacity-40";
+  "rounded-full border border-ink/25 px-4 py-2 text-meta transition-colors hover:border-ink hover:bg-fill hover:text-fill-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:opacity-40";
 
 const REMOVE =
   "absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-black/70 text-white transition-colors hover:bg-black";
@@ -131,12 +131,12 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
             <PickerButton
               onPick={(files) => pick(files, true)}
               disabled={busy}
-              className="text-[12px] text-ink/65 underline underline-offset-4 hover:text-ink"
+              className="text-meta text-ink/65 underline underline-offset-4 hover:text-ink"
             >
               {photo ? "Trocar" : "Pôr foto"}
             </PickerButton>
             {photo && (
-              <button type="button" onClick={() => setPhoto(null)} className="text-[12px] text-danger underline underline-offset-4">
+              <button type="button" onClick={() => setPhoto(null)} className="text-meta text-danger underline underline-offset-4">
                 Tirar
               </button>
             )}
@@ -257,7 +257,7 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
               className="flex aspect-[4/3] flex-col items-center justify-center gap-1.5 border border-dashed border-ink/30 text-ink/60 transition-colors hover:border-ink/70 hover:text-ink"
             >
               <ImagePlus className="h-5 w-5" strokeWidth={1.5} aria-hidden />
-              <span className="text-[12px]">
+              <span className="text-meta">
                 {shots.length}/{LIMITS.shots}
               </span>
             </PickerButton>
@@ -265,16 +265,16 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
         </div>
       </div>
 
-      {busy && <p className="text-[12.5px] text-ink/60">Preparando a imagem...</p>}
+      {busy && <p className="text-meta text-ink/60">Preparando a imagem...</p>}
 
       {error && (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           {error}
         </p>
       )}
 
       {!review && (
-        <label className="flex items-center gap-2.5 text-[13px] text-ink/70">
+        <label className="flex items-center gap-2.5 text-ui text-ink/70">
           <input type="checkbox" checked={publish} onChange={(e) => setPublish(e.target.checked)} className="h-4 w-4 accent-[rgb(var(--accent))]" />
           Publicar já (desmarcado, entra na fila como pendente)
         </label>

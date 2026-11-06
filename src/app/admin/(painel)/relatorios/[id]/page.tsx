@@ -65,7 +65,7 @@ export default async function RelatorioAdminPage(props: Params) {
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className={`${CARD} min-w-0 bg-surface py-8 md:py-10`}>
           {!report.data && (
-            <p className="mx-auto mb-6 max-w-[760px] text-[13.5px] text-ink/60">
+            <p className="mx-auto mb-6 max-w-[760px] text-ui text-ink/60">
               Sem números: o plano não tem o ID da propriedade do GA4. O cliente vê só o recado.
             </p>
           )}
@@ -85,7 +85,7 @@ export default async function RelatorioAdminPage(props: Params) {
               Mandar no WhatsApp
               <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
             </a>
-            {!report.whatsapp && <p className="text-[12.5px] text-ink/55">Cliente sem WhatsApp na ficha: o WhatsApp abre pra você escolher a conversa.</p>}
+            {!report.whatsapp && <p className="text-meta text-ink/55">Cliente sem WhatsApp na ficha: o WhatsApp abre pra você escolher a conversa.</p>}
             <form action={markReportSent}>
               <input type="hidden" name="id" value={report.id} />
               <input type="hidden" name="sent" value={sent ? "0" : "1"} />
@@ -99,7 +99,7 @@ export default async function RelatorioAdminPage(props: Params) {
             <form action={saveReport} className={`${CARD} flex flex-col gap-4`}>
               <input type="hidden" name="id" value={report.id} />
               <h2 className={CARD_TITLE}>O que o cliente vê</h2>
-              <fieldset className="flex flex-col gap-2 text-[13.5px]">
+              <fieldset className="flex flex-col gap-2 text-ui">
                 <legend className="sr-only">Seções</legend>
                 {SECTIONS.map((section) => (
                   <label key={section} className="flex items-center gap-2.5">
@@ -133,7 +133,7 @@ export default async function RelatorioAdminPage(props: Params) {
               <input type="hidden" name="planId" value={report.planId} />
               <input type="hidden" name="month" value={report.month} />
               <input type="hidden" name="from" value={`${PAGE}/${report.id}`} />
-              <p className="text-[13px] leading-relaxed text-ink/65">
+              <p className="text-ui leading-relaxed text-ink/65">
                 Os números ficam congelados no dia em que você gera. Gerou antes do dia 3, ou acabou de pôr o GA4 no plano? Atualize.
               </p>
               <button type="submit" className={`${BUTTON} self-start`}>

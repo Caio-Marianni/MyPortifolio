@@ -55,7 +55,7 @@ function PlanForm({ clientId, plan, erro, cancelHref }: { clientId: number; plan
           defaultValue={plan?.gaProperty ?? ""}
           maxLength={PLAN_LIMITS.gaProperty}
         />
-        <label className="flex items-center gap-2.5 self-end pb-2 text-[13px] text-ink/75">
+        <label className="flex items-center gap-2.5 self-end pb-2 text-ui text-ink/75">
           <input type="checkbox" name="reports" defaultChecked={plan?.reports ?? true} className="h-4 w-4 accent-[rgb(var(--accent))]" />
           Inclui relatório mensal
         </label>
@@ -88,31 +88,31 @@ function PlanCard({ plan, payments, page, excluir }: { plan: Plan; payments: Pay
         {plan.overdue && <Badge tone="danger">Atrasado</Badge>}
       </header>
 
-      <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-[14px] sm:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-ui sm:grid-cols-4">
         <div>
-          <dt className="text-[12.5px] text-ink/60">Mensalidade</dt>
+          <dt className="text-meta text-ink/60">Mensalidade</dt>
           <dd className={NUM}>{brl(plan.monthlyFee)}</dd>
         </div>
         <div>
-          <dt className="text-[12.5px] text-ink/60">Vence</dt>
+          <dt className="text-meta text-ink/60">Vence</dt>
           <dd>todo dia {day}</dd>
         </div>
         {plan.status === "active" && (
           <div>
-            <dt className="text-[12.5px] text-ink/60">Próximo vencimento</dt>
+            <dt className="text-meta text-ink/60">Próximo vencimento</dt>
             <dd className={`${NUM} ${plan.overdue ? "font-semibold text-danger" : ""}`}>{br(plan.nextDue)}</dd>
           </div>
         )}
         <div>
-          <dt className="text-[12.5px] text-ink/60">Relatório</dt>
+          <dt className="text-meta text-ink/60">Relatório</dt>
           <dd>{plan.reports ? (plan.gaProperty ? "Mensal, com GA4" : "Mensal, falta o GA4") : "Não inclui"}</dd>
         </div>
       </dl>
 
-      {plan.includes && <p className="whitespace-pre-line text-[14px] leading-relaxed text-ink/75">{plan.includes}</p>}
+      {plan.includes && <p className="whitespace-pre-line text-ui leading-relaxed text-ink/75">{plan.includes}</p>}
 
       {payments.length > 0 && (
-        <ul className="divide-y divide-ink/10 border-y border-ink/10 text-[13.5px]">
+        <ul className="divide-y divide-ink/10 border-y border-ink/10 text-ui">
           {payments.slice(0, 4).map((payment) => (
             <li key={payment.id} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2">
               <span className="text-ink/75">{payment.description}</span>
@@ -126,7 +126,7 @@ function PlanCard({ plan, payments, page, excluir }: { plan: Plan; payments: Pay
                   cancelHref={page}
                 />
               ) : (
-                <Link href={`${page}?excluir=pagamento-${payment.id}`} className="text-[12.5px] text-ink/50 hover:text-danger">
+                <Link href={`${page}?excluir=pagamento-${payment.id}`} className="text-meta text-ink/50 hover:text-danger">
                   desfazer
                 </Link>
               )}
@@ -189,7 +189,7 @@ export function PlanSection({
 
       {open === "novo" && <PlanForm clientId={clientId} erro={erro} cancelHref={page} />}
 
-      {plans.length === 0 && open !== "novo" && <p className="text-[14px] text-ink/60">Sem plano mensal — só projeto, por enquanto.</p>}
+      {plans.length === 0 && open !== "novo" && <p className="text-ui text-ink/60">Sem plano mensal — só projeto, por enquanto.</p>}
 
       {plans.map((plan) =>
         open === String(plan.id) ? (

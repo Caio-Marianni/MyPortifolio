@@ -137,7 +137,7 @@ function NovoConvite({
             <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
           </a>
 
-          <p className="text-[13px] leading-relaxed text-ink/65">
+          <p className="text-ui leading-relaxed text-ink/65">
             O link não expira e vale pra quantas avaliações a pessoa mandar — todas chegam aqui como pendentes.
           </p>
         </div>
@@ -169,12 +169,12 @@ function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo
         <ReviewPhoto review={review} className="h-12 w-12 bg-ink/[0.07] text-[19px] text-ink/60" />
 
         <span className="flex min-w-0 flex-col gap-1.5">
-          <span className="text-[15px] leading-tight">
+          <span className="text-body leading-tight">
             <span className="font-semibold">{review.name}</span>
             {review.company && <span className="text-ink/60"> · {review.company}</span>}
           </span>
 
-          <Stars count={review.rating} className="text-[13px] text-accent" />
+          <Stars count={review.rating} className="text-ui text-accent" />
         </span>
 
         <span className="ml-auto">
@@ -183,16 +183,16 @@ function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo
       </header>
 
       {review.comment ? (
-        <blockquote className="text-[15px] leading-relaxed text-ink/80">{review.comment}</blockquote>
+        <blockquote className="text-body leading-relaxed text-ink/80">{review.comment}</blockquote>
       ) : (
-        <p className="text-[15px] italic leading-relaxed text-ink/60">Só a nota, sem comentário.</p>
+        <p className="text-body italic leading-relaxed text-ink/60">Só a nota, sem comentário.</p>
       )}
 
       {/* As imagens só carregam aqui porque você tem sessão: a rota serve pendente e recusada
           apenas pra quem tem o cookie do painel. */}
       <ReviewShots review={review} label="Foto do projeto" />
 
-      <p className="text-[13px] leading-tight text-ink/60">{meta.filter(Boolean).join(" · ")}</p>
+      <p className="text-ui leading-tight text-ink/60">{meta.filter(Boolean).join(" · ")}</p>
 
       {excluindo ? (
         <DeleteConfirm action={remove} fields={{ id: review.id }} message="Some com texto e fotos. Não dá pra desfazer." cancelHref={PAGE} />
@@ -292,13 +292,13 @@ export default async function AvaliacoesPage(props: Params) {
       />
 
       {erro && (
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           {erro}
         </p>
       )}
 
       {!erro && shown.length === 0 && (
-        <p className="text-[14px] text-ink/60">
+        <p className="text-ui text-ink/60">
           {reviews.length === 0 ? "Nenhuma avaliação ainda. Gere um convite aí em cima e mande pro cliente." : "Nada neste filtro."}
         </p>
       )}

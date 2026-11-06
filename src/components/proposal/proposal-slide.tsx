@@ -90,7 +90,7 @@ const VERT = "[writing-mode:vertical-rl] rotate-180 whitespace-nowrap";
 
 /* Tetos em px: acima de ~1400px de quadro o cqw puro incha a micro-tipografia junto com o pôster. */
 const RAIL_SIZE = "text-[clamp(10px,0.95cqw,12px)]";
-const TAG = `${VERT} ${RAIL_SIZE} text-white/70`;
+const TAG = `${VERT} ${RAIL_SIZE} text-chrome-ink/70`;
 
 /* Wordmark ocupa sempre a mesma largura ótica: 4 letras a 9cqw é a proporção da referência. */
 const WORDMARK_SPAN = 66;
@@ -166,12 +166,12 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
                           pede reconferir só esse número. `left/top-1/2` deixa a centragem explícita
                           em vez de depender da posição estática que o flex dá a filho absoluto. */}
                       <span
-                        className={`${VERT} absolute left-1/2 top-1/2 -translate-x-[calc(50%_-_0.09em)] -translate-y-1/2 ${RATING_FONT} text-[4.2cqw] font-bold leading-none tracking-[-0.02em] text-white/[0.1]`}
+                        className={`${VERT} absolute left-1/2 top-1/2 -translate-x-[calc(50%_-_0.09em)] -translate-y-1/2 ${RATING_FONT} text-[4.2cqw] font-bold leading-none tracking-[-0.02em] text-chrome-ink/[0.1]`}
                         aria-hidden
                       >
                         {rail.rating.value}
                       </span>
-                      <Stars vertical count={rail.rating.stars} className="relative translate-x-1.5 text-white/75" />
+                      <Stars vertical count={rail.rating.stars} className="relative translate-x-1.5 text-chrome-ink/75" />
                     </RatingLink>
                   )
                 }
@@ -268,7 +268,7 @@ export function ProposalSlide({ image, wordmark, descriptor, script, scriptFont 
         /* Sangra da borda da viewport até 8% do quadro: (100vw - quadro)/2 é a sobra de um lado.
            Os 8% posicionam a marca — ancorada à direita, com 1cqw de respiro — a partir de 3.6%,
            já dentro da foto, que começa em 3.2%. */
-        <div className="absolute left-[calc((100%_-_100vw)_/_2)] top-[45%] isolate flex min-h-[11%] w-[calc(8%_+_(100vw_-_100%)_/_2)] items-center justify-end overflow-hidden bg-chrome p-[1cqw] text-[clamp(11px,1.05cqw,14px)] font-semibold uppercase tracking-[0.14em] text-white shadow-[0_3px_12px_rgba(0,0,0,0.3)]">
+        <div className="absolute left-[calc((100%_-_100vw)_/_2)] top-[45%] isolate flex min-h-[11%] w-[calc(8%_+_(100vw_-_100%)_/_2)] items-center justify-end overflow-hidden bg-chrome p-[1cqw] text-[clamp(11px,1.05cqw,14px)] font-semibold uppercase tracking-[0.14em] text-chrome-ink shadow-[0_3px_12px_rgba(0,0,0,0.3)]">
           <LogoWatermark className="-left-[0.6cqw]" />
 
           <span className="aspect-square w-[3.4cqw]">{tab}</span>

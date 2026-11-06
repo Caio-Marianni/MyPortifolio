@@ -41,7 +41,7 @@ function Score({
 
   return (
     <div className={`flex flex-col justify-center gap-3 px-5 py-9 md:px-8 ${className}`}>
-      <span className="text-[12.5px] opacity-45">{label}</span>
+      <span className="text-meta opacity-45">{label}</span>
 
       {stats.count ? (
         <>
@@ -49,12 +49,12 @@ function Score({
             <span className={`${RATING_FONT} font-bold leading-[0.8] tracking-[-0.04em]`}>{stats.avg.toFixed(1)}</span>
             <Stars count={Math.round(stats.avg)} className={`pb-[0.14em] text-[0.26em] ${starsClassName}`} />
           </span>
-          <span className="text-[12.5px] opacity-45">
+          <span className="text-meta opacity-45">
             {stats.count} {plural(stats.count, pt)}
           </span>
         </>
       ) : (
-        <span className="text-[13px] opacity-45">
+        <span className="text-ui opacity-45">
           {pt ? "sem avaliações ainda" : "no reviews yet"}
         </span>
       )}
@@ -123,7 +123,7 @@ export function ReviewsBoard({
           opções, e aqui são três. Sublinhado marca o recorte ativo. */}
       <div className="border-b border-ink/15">
         <div
-          className={`${SHELL} flex flex-wrap items-center gap-x-7 gap-y-3 px-5 py-5 text-[12.5px] md:px-8`}
+          className={`${SHELL} flex flex-wrap items-center gap-x-7 gap-y-3 px-5 py-5 text-meta md:px-8`}
         >
           {(["all", ...TRACKS] as Filter[]).map((key) => (
             <button
@@ -148,7 +148,7 @@ export function ReviewsBoard({
       </p>
 
       {visible.length === 0 ? (
-        <p className={`${SHELL} px-5 py-16 text-[15px] leading-relaxed text-ink/65 md:px-8`}>
+        <p className={`${SHELL} px-5 py-16 text-body leading-relaxed text-ink/65 md:px-8`}>
           {filter === "all"
             ? pt
               ? "Nenhuma avaliação publicada por aqui ainda. As que chegam passam por conferência antes de aparecer."
@@ -171,14 +171,14 @@ export function ReviewsBoard({
                   <ReviewPhoto review={review} className="h-12 w-12 bg-ink/[0.07] text-[19px] text-ink/60" />
 
                   <span className="flex min-w-0 flex-col gap-1.5">
-                    <span className="text-[15px] leading-tight">
+                    <span className="text-body leading-tight">
                       <span className="font-semibold">{review.name}</span>
                       {review.company && <span className="text-ink/60"> · {review.company}</span>}
                     </span>
 
                     <span className="flex items-center gap-2.5">
-                      <Stars count={review.rating} className="text-[13px] text-accent" />
-                      <time dateTime={review.month} className="text-[12px] text-ink/60">
+                      <Stars count={review.rating} className="text-ui text-accent" />
+                      <time dateTime={review.month} className="text-meta text-ink/60">
                         {formatMonth(review.month, language)}
                       </time>
                     </span>
@@ -187,7 +187,7 @@ export function ReviewsBoard({
 
                 {/* Comentário é opcional: quem só deu a nota tem estrelas e nada de aspas vazias. */}
                 {review.comment && (
-                  <blockquote className="flex-1 text-[15px] leading-relaxed text-ink/80">{review.comment}</blockquote>
+                  <blockquote className="flex-1 text-body leading-relaxed text-ink/80">{review.comment}</blockquote>
                 )}
 
                 {/* A ficha do projeto já mostra a avaliação; este é o caminho de volta, que faltava.
@@ -196,7 +196,7 @@ export function ReviewsBoard({
                   <Link
                     href={`/projects#p${review.project}`}
                     aria-label={`${pt ? "Ver projeto" : "See project"}: ${projectTitles[review.project]}`}
-                    className="group inline-flex items-center gap-2 self-start text-[12.5px] text-ink/60 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+                    className="group inline-flex items-center gap-2 self-start text-meta text-ink/60 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
                   >
                     {projectTitles[review.project]}
                     <ArrowUpRight

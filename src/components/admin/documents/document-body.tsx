@@ -13,7 +13,7 @@ function Inline({ text }: { text: string }) {
 
 export function DocumentBody({ body }: { body: string }) {
   return (
-    <div className="flex flex-col gap-3 font-inter text-[13px] leading-[1.65] text-neutral-900">
+    <div className="flex flex-col gap-3 font-inter text-ui leading-[1.65] text-neutral-900">
       {parseBlocks(body).map((block, i) => {
         if (block.type === "h1") {
           return (
@@ -24,7 +24,7 @@ export function DocumentBody({ body }: { body: string }) {
         }
         if (block.type === "h2") {
           return (
-            <h2 key={i} className="mt-3 text-[13.5px] font-bold uppercase tracking-[0.04em]">
+            <h2 key={i} className="mt-3 text-ui font-bold uppercase tracking-[0.04em]">
               <Inline text={block.text} />
             </h2>
           );

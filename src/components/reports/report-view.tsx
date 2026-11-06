@@ -15,10 +15,10 @@ function Stat({ label, value, previous, before }: { label: string; value: number
   const delta = change(value, previous);
   return (
     <div className="flex flex-col gap-1 border border-ink/15 bg-surface-raised p-4">
-      <span className="text-[12.5px] text-ink/60">{label}</span>
+      <span className="text-meta text-ink/60">{label}</span>
       <span className="text-[30px] font-semibold leading-tight">{number(value)}</span>
       {delta !== null && (
-        <span className="flex items-center gap-1 text-[12.5px] text-ink/65">
+        <span className="flex items-center gap-1 text-meta text-ink/65">
           {delta >= 0 ? (
             <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
           ) : (
@@ -41,7 +41,7 @@ function Bars({ items, label }: { items: Metric[]; label: (name: string) => stri
     <ul className="flex flex-col gap-3.5">
       {items.map((item) => (
         <li key={item.name} className="flex flex-col gap-1.5">
-          <div className="flex items-baseline justify-between gap-3 text-[14px]">
+          <div className="flex items-baseline justify-between gap-3 text-ui">
             <span className="min-w-0">{label(item.name)}</span>
             <span className="shrink-0 tabular-nums text-ink/75">
               {number(item.value)} <span className="text-ink/50">· {Math.round((item.value / total) * 100)}%</span>
@@ -60,7 +60,7 @@ function Bars({ items, label }: { items: Metric[]; label: (name: string) => stri
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="flex flex-col gap-4 border-t border-ink/10 pt-6">
-      <h2 className="text-[13px] font-semibold uppercase tracking-[0.06em] text-ink/70">{title}</h2>
+      <h2 className="text-ui font-semibold uppercase tracking-[0.06em] text-ink/70">{title}</h2>
       {children}
     </section>
   );
@@ -87,9 +87,9 @@ export function ReportView({ report }: { report: Report }) {
   return (
     <article className="mx-auto flex max-w-[760px] flex-col gap-8 font-inter text-ink">
       <header className="flex flex-col gap-1.5">
-        <span className="text-[12.5px] uppercase tracking-[0.08em] text-ink/55">Relatório mensal do site</span>
+        <span className="text-meta uppercase tracking-[0.08em] text-ink/55">Relatório mensal do site</span>
         <h1 className="text-[30px] font-semibold leading-tight tracking-tight">{title.charAt(0).toUpperCase() + title.slice(1)}</h1>
-        <p className="text-[15px] text-ink/70">
+        <p className="text-body text-ink/70">
           {report.clientName}
           {report.site && ` · ${report.site}`}
         </p>
@@ -108,7 +108,7 @@ export function ReportView({ report }: { report: Report }) {
           {data.events.length ? (
             <Bars items={data.events} label={eventLabel} />
           ) : (
-            <p className="text-[14px] text-ink/65">Nenhum contato registrado pelo site neste mês.</p>
+            <p className="text-ui text-ink/65">Nenhum contato registrado pelo site neste mês.</p>
           )}
         </Block>
       )}
@@ -127,11 +127,11 @@ export function ReportView({ report }: { report: Report }) {
 
       {show("note") && report.note && (
         <Block title={SECTION_LABEL.note}>
-          <p className="whitespace-pre-line text-[15px] leading-relaxed text-ink/85">{report.note}</p>
+          <p className="whitespace-pre-line text-body leading-relaxed text-ink/85">{report.note}</p>
         </Block>
       )}
 
-      <footer className="flex items-center gap-3 border-t border-ink/10 pt-6 text-[12.5px] text-ink/55">
+      <footer className="flex items-center gap-3 border-t border-ink/10 pt-6 text-meta text-ink/55">
         <span className="h-6 w-6">
           <LogoMark />
         </span>

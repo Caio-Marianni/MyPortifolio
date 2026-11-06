@@ -17,7 +17,7 @@ export const metadata: Metadata = { title: "Visão geral" };
 function Stat({ label, value, alert = false }: { label: string; value: string; alert?: boolean }) {
   return (
     <div className={`${CARD} flex flex-col gap-1 ${alert ? "border-danger" : ""}`}>
-      <span className="text-[12.5px] text-ink/60">{label}</span>
+      <span className="text-meta text-ink/60">{label}</span>
       {/* escala com a tela: "R$ 12.500,00" precisa caber em meia largura de celular */}
       <span className={`whitespace-nowrap text-[clamp(18px,4.8vw,28px)] font-semibold leading-tight ${alert ? "text-danger" : ""}`}>{value}</span>
     </div>
@@ -28,7 +28,7 @@ function Stat({ label, value, alert = false }: { label: string; value: string; a
 function Item({ href, children, aside }: { href: string; children: ReactNode; aside?: ReactNode }) {
   return (
     <li>
-      <Link href={href} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-3 text-[14px] hover:bg-ink/[0.03]">
+      <Link href={href} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-3 text-ui hover:bg-ink/[0.03]">
         <span className="min-w-0 flex-1">{children}</span>
         {aside}
       </Link>
@@ -43,7 +43,7 @@ function DueItem({ due, late }: { due: Due; late: boolean }) {
       aside={
         <>
           <span className={`${NUM} ${late ? "font-semibold text-danger" : "text-ink/70"}`}>{brl(due.amount)}</span>
-          <span className={`w-[78px] text-right text-[13px] text-ink/55 ${NUM}`}>{br(due.dueOn)}</span>
+          <span className={`w-[78px] text-right text-ui text-ink/55 ${NUM}`}>{br(due.dueOn)}</span>
         </>
       }
     >
@@ -65,7 +65,7 @@ export default async function VisaoGeralPage() {
     return (
       <>
         <PageHeader title="Visão geral" />
-        <p role="alert" className="text-[13px] text-danger">
+        <p role="alert" className="text-ui text-danger">
           Não consegui ler o banco. As tabelas foram criadas? Rode `npm run migrate`.
         </p>
       </>
@@ -98,7 +98,7 @@ export default async function VisaoGeralPage() {
           <h2 className={CARD_TITLE}>Precisa de você</h2>
 
           {actions === 0 ? (
-            <p className="mt-4 text-[14px] text-ink/60">Tudo em dia.</p>
+            <p className="mt-4 text-ui text-ink/60">Tudo em dia.</p>
           ) : (
             <ul className="mt-2 divide-y divide-ink/10">
               {data.overdue.map((due, i) => (
@@ -122,7 +122,7 @@ export default async function VisaoGeralPage() {
                 <Item
                   key={`account-${i}`}
                   href={`/admin/clientes/${account.clientId}`}
-                  aside={<span className={`text-[13px] text-danger ${NUM}`}>renova {br(account.expiresOn)}</span>}
+                  aside={<span className={`text-ui text-danger ${NUM}`}>renova {br(account.expiresOn)}</span>}
                 >
                   <span className="font-semibold">{account.clientName}</span> <span className="text-ink/60">· {account.service}</span>
                 </Item>
@@ -146,7 +146,7 @@ export default async function VisaoGeralPage() {
         <section className={CARD}>
           <h2 className={CARD_TITLE}>Vence nos próximos 7 dias</h2>
           {data.upcoming.length === 0 ? (
-            <p className="mt-4 text-[14px] text-ink/60">Nada vencendo.</p>
+            <p className="mt-4 text-ui text-ink/60">Nada vencendo.</p>
           ) : (
             <ul className="mt-2 divide-y divide-ink/10">
               {data.upcoming.map((due, i) => (

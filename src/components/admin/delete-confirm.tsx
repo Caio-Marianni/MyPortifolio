@@ -21,7 +21,7 @@ export function DeleteConfirm({
       {Object.entries(fields).map(([name, value]) => (
         <input key={name} type="hidden" name={name} value={value} />
       ))}
-      <span className="text-[13px] text-danger">{message}</span>
+      <span className="text-ui text-danger">{message}</span>
       <button type="submit" className={BUTTON_DANGER}>
         Excluir mesmo
       </button>

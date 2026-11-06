@@ -62,7 +62,7 @@ export default function Home() {
       type="button"
       onClick={() => setCvOpen((v) => !v)}
       aria-expanded={cvOpen}
-      className="whitespace-nowrap transition-colors hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+      className="whitespace-nowrap transition-colors hover:text-chrome-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-chrome-ink/60"
     >
       {/* latim, então serve nos dois idiomas sem tradução */}
       Curric. Vitae
