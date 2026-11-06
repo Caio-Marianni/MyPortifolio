@@ -14,7 +14,7 @@ interface Channel {
 
 /* Marcas que o lucide não traz, em traçado da simpleicons.org — desenho sólido de 24×24,
    sem stroke, então o `strokeWidth` que o ladrilho passa junto não tem efeito aqui. */
-function BrandIcon({ path, ...props }: SVGProps<SVGSVGElement> & { path: string }) {
+export function BrandIcon({ path, ...props }: SVGProps<SVGSVGElement> & { path: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
       <path d={path} />
@@ -43,11 +43,13 @@ const Upwork: IconComponent = (props) => (
   />
 );
 
+export const WHATSAPP_URL = "https://wa.me/5562981160081";
+
 /* Índice de canais: cada um entra com a marca real da plataforma. O rótulo continua visível
    porque o ícone é marca d'água de canto, não legenda. */
-const CHANNELS: Channel[] = [
+export const CHANNELS: Channel[] = [
   { label: "E-mail", value: "caiomarianni@gmail.com", href: "mailto:caiomarianni@gmail.com", Icon: Mail },
-  { label: "WhatsApp", value: "+55 62 98116-0081", href: "https://wa.me/5562981160081", Icon: WhatsApp },
+  { label: "WhatsApp", value: "+55 62 98116-0081", href: WHATSAPP_URL, Icon: WhatsApp },
   { label: "Discord", value: "marinomad", href: "https://discord.com/users/marinomad", Icon: Discord },
   { label: "GitHub", value: "Caio-Marianni", href: "https://github.com/Caio-Marianni", Icon: Github },
   { label: "LinkedIn", value: "caio-marianni", href: "https://www.linkedin.com/in/caio-marianni/", Icon: Linkedin },

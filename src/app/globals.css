@@ -16,8 +16,12 @@
 
    O tema é a classe `dark` no <html>, posta pelo script do layout antes do primeiro paint.
    Nada de `@media (prefers-color-scheme)` aqui: o script já resolveu sistema + escolha salva,
-   e duplicar a regra em media query faria o SO ganhar de quem escolheu o contrário. */
-:root {
+   e duplicar a regra em media query faria o SO ganhar de quem escolheu o contrário.
+
+   `.theme-light` reaproveita esta lista para prender um trecho no claro mesmo com `.dark` no
+   <html>: variável CSS herda, então redeclarar no elemento vence o que vem de cima. */
+:root,
+.theme-light {
   --surface: 241 236 229; /* #F1ECE5 creme da página */
   --surface-raised: 248 245 239; /* #F8F5EF botão outline, cartão */
   --surface-sunken: 225 221 214; /* #E1DDD6 trilho, poço de imagem */

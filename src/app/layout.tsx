@@ -162,7 +162,9 @@ export default async function RootLayout({
   const summary = await getSummary();
 
   return (
-    <html lang="pt-BR" translate="no" className={fontVariables}>
+    /* suppressHydrationWarning: o themeScript põe a classe do tema no <html> antes do React,
+       então o className do cliente nunca bate com o do servidor — é esperado, só neste nó. */
+    <html lang="pt-BR" translate="no" className={fontVariables} suppressHydrationWarning>
       <head>
         {/* Primeiro de tudo no <head>: script sem `async`/`defer` bloqueia o parser, que é
             justamente o que se quer aqui — a classe do tema tem que estar no <html> antes

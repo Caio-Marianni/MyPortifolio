@@ -10,7 +10,8 @@ const css = readFileSync(new URL("../src/app/globals.css", import.meta.url), "ut
 
 /** Canais soltos de um bloco de tema do globals.css, no formato `--nome: r g b`. */
 function palette(selector: string): Record<string, [number, number, number]> {
-  const block = css.match(new RegExp(`${selector}\\s*\\{([^}]*)\\}`))?.[1];
+  /* o seletor pode abrir uma lista (`:root, .theme-light {`): o bloco é o mesmo */
+  const block = css.match(new RegExp(`${selector}(?:\\s*,\\s*[.\\w-]+)*\\s*\\{([^}]*)\\}`))?.[1];
   assert.ok(block, `bloco ${selector} sumiu do globals.css`);
 
   const tokens: Record<string, [number, number, number]> = {};
