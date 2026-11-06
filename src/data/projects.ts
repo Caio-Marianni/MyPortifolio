@@ -25,6 +25,9 @@ export interface Project {
   devInfo: DevInfo;
   /** marca do cliente, usada de fundo atrás do título — cai no nosso monograma quando falta */
   logo?: string;
+  /** versão da marca só para o fundo, quando a logo inteira é horizontal demais e some na
+      caixa quadrada — sem ela o fundo usa `logo` */
+  backgroundMark?: string;
   /** foto única do projeto; sem ela a ficha mostra "capa pendente" */
   cover?: string;
   demo: string;
@@ -55,8 +58,8 @@ export const projects: Project[] = [
     },
     devInfo: {
       architecture: {
-        pt: "Frontend SSG na Vercel, desacoplado de uma REST API Node.js em VPS (Docker + Nginx)",
-        en: "SSG frontend on Vercel, decoupled from a Node.js REST API on a VPS (Docker + Nginx)",
+        pt: "Frontend SSG no Cloudflare Pages, desacoplado de uma REST API Node.js no servidor da própria empresa (Docker + Nginx)",
+        en: "SSG frontend on Cloudflare Pages, decoupled from a Node.js REST API on the company's own server (Docker + Nginx)",
       },
       security: {
         pt: "JWT com papéis Admin/Employee, CORS configurado e validação de entrada",
@@ -129,6 +132,41 @@ export const projects: Project[] = [
     cover: "/projects/cover/nogs3.webp",
     demo: "https://caionogueira.vercel.app",
     lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
+  },
+  {
+    id: 7,
+    title: "Método USD",
+    summary: {
+      pt: "Página de vendas de um curso para designers que querem atender clientes pagando em dólar, levando direto ao checkout da Kiwify, onde o pagamento é feito por Pix ou cartão.",
+      en: "A sales page for a course that teaches designers to land clients who pay in dollars, sending visitors straight to a Kiwify checkout that takes Pix or card.",
+    },
+    tags: ["HTML", "CSS", "JavaScript", "Cloudflare"],
+    features: {
+      pt: [
+        "HTML, CSS e JS puros, sem framework, com fontes locais pré-carregadas",
+        "Checkout e garantia de 7 dias delegados à Kiwify, sem pagamento no próprio site",
+        "Copy em seções de dor, módulos, depoimentos e FAQ em acordeão",
+      ],
+      en: [
+        "Plain HTML, CSS and JS with no framework, plus preloaded self-hosted fonts",
+        "Checkout and 7-day guarantee handled by Kiwify, with no payments on the site itself",
+        "Copy split into pain points, modules, testimonials and an accordion FAQ",
+      ],
+    },
+    devInfo: {
+      architecture: {
+        pt: "Site estático de página única servido pela Cloudflare",
+        en: "Static single-page site served through Cloudflare",
+      },
+      security: {
+        pt: "Sem servidor nem dados de pagamento no site; cabeçalhos nosniff e referrer-policy",
+        en: "No server or payment data on the site; nosniff and referrer-policy headers",
+      },
+    },
+    logo: "/projects/icon/usd-logo.webp",
+    backgroundMark: "/projects/icon/usd-mark.webp",
+    cover: "/projects/cover/usd-cover-3.webp",
+    demo: "https://metodousd.com.br",
   },
   /* Lumière — estúdio de gravação. Fica comentado até ter capa, link e texto revisado; o id 6
      já é dele, e não deve ser reaproveitado: as avaliações no banco apontam para o projeto

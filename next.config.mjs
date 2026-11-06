@@ -4,6 +4,8 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     minimumCacheTTL: 31536000,
+    /* 75 é o padrão; 90 só nas capas, que são a vitrine e não aguentam o artefato */
+    qualities: [75, 90],
   },
   /* Cabeçalho que o servidor manda de graça e nada mais — o Next não assina o que está em
      /public, então cada visita revalidava o grão e as capas dos projetos. São arquivos que

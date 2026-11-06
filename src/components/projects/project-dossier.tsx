@@ -88,9 +88,8 @@ function ScoreDonut({ scores }: { scores: LighthouseScores }) {
   );
 }
 
-/** Marca do cliente, ou o nosso monograma quando o projeto não tem arquivo. Aparece duas
-    vezes na ficha — na linha do título e de textura no fundo —, e a única diferença entre as
-    duas é o tamanho pedido ao otimizador; o pai é quem manda na medida final. */
+/** Marca do cliente, ou o nosso monograma quando o projeto não tem arquivo, como textura de
+    fundo da ficha; o pai é quem manda na medida final. */
 function ProjectMark({ logo, sizes }: { logo?: string; sizes: string }) {
   if (!logo) return <LogoMark />;
   return <Image src={logo} alt="" fill sizes={sizes} className="object-contain" />;
@@ -142,12 +141,12 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
     <article
       ref={ref}
       id={`p${project.id}`}
-      className={`scroll-mt-16 lg:border-t lg:border-[rgb(var(--card-ink)/0.14)] bg-[rgb(var(--card-paper))] text-[rgb(var(--card-ink))] ${palette}`}
+      className={`scroll-mt-16 bg-[rgb(var(--card-paper))] text-[rgb(var(--card-ink))] ${palette}`}
     >
       <div
-        /* piso de altura igual para todas as fichas: com as especificações fechadas o texto
-           é que varia, e sem o mínimo cada card ficava de um tamanho */
-        className={`${SHELL} group grid min-h-[520px] lg:min-h-[560px] lg:grid-cols-2`}
+        /* a altura da ficha vem da capa em 4:3, igual para todas; só cresce quando o texto
+           (especificações abertas) passa dela */
+        className={`${SHELL} group grid lg:grid-cols-2`}
       >
         {/* A capa leva ao mesmo lugar que "Ver projeto". Fora da ordem de tabulação e do leitor
             de tela: é um segundo link para o mesmo destino, e o botão já cumpre esse papel. */}
@@ -157,14 +156,17 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
           rel="noopener noreferrer"
           tabIndex={-1}
           aria-hidden
-          className={`relative block min-h-[320px] overflow-hidden lg:row-start-1 lg:min-h-0 ${flipped ?"lg:col-start-1" : "lg:col-start-2"}`}
+          /* 4:3 fixo, o formato em que as capas são exportadas: a foto aparece inteira em
+             qualquer largura, em vez de virar uma faixa cortada em tela larga */
+          className={`relative block aspect-[4/3] overflow-hidden lg:row-start-1 ${flipped ?"lg:col-start-1" : "lg:col-start-2"}`}
         >
           {cover ? (
             <Image
               src={cover}
               alt=""
               fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
+              quality={90}
+              sizes="(min-width: 1600px) 800px, (min-width: 1024px) 50vw, 100vw"
               priority={index === 0}
               /* o zoom do hover, disparado pela rolagem abaixo de lg — onde não há ponteiro
                  para produzir hover; acima disso quem manda é o cursor */
@@ -190,16 +192,29 @@ export function ProjectDossier({ project, index, review }: ProjectDossierProps) 
             }`}
             aria-hidden
           >
-            <ProjectMark logo={project.logo} sizes="580px" />
+            <ProjectMark logo={project.backgroundMark ?? project.logo} sizes="580px" />
           </span>
 
           {/* A marca abre a linha do título, aqui em cor cheia. Mede em `em` para acompanhar o
               corpo do h2 em qualquer largura; `shrink-0` porque quem cede espaço num título
-              longo é o texto, não a logo. */}
+              longo é o texto, não a logo. Com arquivo, a altura é fixa e a largura segue a
+              proporção dele: logo quadrada fica igual, logo horizontal não encolhe na caixa. */}
           <h2 className={`relative flex items-center gap-[0.5em] leading-none ${TITLE_FONT}`}>
-            <span className="relative h-[1.15em] w-[1.15em] shrink-0" aria-hidden>
-              <ProjectMark logo={project.logo} sizes="60px" />
-            </span>
+            {project.logo ? (
+              <Image
+                src={project.logo}
+                alt=""
+                width={0}
+                height={0}
+                sizes="240px"
+                className="h-[1.15em] w-auto max-w-[4em] shrink-0"
+                aria-hidden
+              />
+            ) : (
+              <span className="relative h-[1.15em] w-[1.15em] shrink-0" aria-hidden>
+                <LogoMark />
+              </span>
+            )}
 
             {project.title}
 
