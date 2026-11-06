@@ -42,3 +42,5 @@ yarn-error.log*
 *.swo
 .claude
 CLAUDE.md
+# Originais pesados de imagem (fonte dos webp em public/)
+design/

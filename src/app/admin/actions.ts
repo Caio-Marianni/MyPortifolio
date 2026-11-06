@@ -1,27 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import {
-  COOKIE,
-  COOKIE_PATH,
-  MAX_AGE,
-  clearFailures,
-  credentialsOk,
-  newSession,
-  registerFailure,
-  tooManyTries,
-  validSession,
-} from "@/services/admin";
-import { deleteMessage } from "@/services/contact";
-import { deleteReview, setStatus } from "@/services/reviews";
-import type { Status } from "@/data/reviews";
+import { COOKIE, COOKIE_PATH, MAX_AGE, clearFailures, credentialsOk, newSession, registerFailure, tooManyTries } from "@/services/admin";
+import { clientIp } from "@/services/client-ip";
 
-/* Server action é endpoint público: quem descobre o id da action consegue chamá-la de fora do
-   painel. Por isso `decide` confere a sessão de novo — a tela escondida não é a tranca. */
-
-const STATUSES: Status[] = ["pending", "approved", "rejected"];
+/* Entrar e sair. As ações de cada tela moram ao lado dela, em (painel)/<tela>/actions.ts. */
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
@@ -31,16 +15,8 @@ const COOKIE_OPTIONS = {
   maxAge: MAX_AGE,
 };
 
-const authed = async () => validSession((await cookies()).get(COOKIE)?.value);
-
-/** IP de quem tentou, atrás do proxy da Vercel. Sem ele o limite seria global e a tentativa de
-    um desconhecido trancaria você junto. */
-async function clientIp(): Promise<string> {
-  return (await headers()).get("x-forwarded-for")?.split(",")[0].trim() || "desconhecido";
-}
-
 export async function login(formData: FormData) {
-  const ip = await clientIp();
+  const ip = clientIp(await headers());
   const user = String(formData.get("user") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
@@ -49,18 +25,18 @@ export async function login(formData: FormData) {
   let destino: string;
   try {
     if (await tooManyTries(ip)) {
-      destino = "/admin?erro=bloqueado";
+      destino = "/admin/login?erro=bloqueado";
     } else if (credentialsOk(user, password)) {
       await clearFailures(ip);
       (await cookies()).set(COOKIE, newSession(), COOKIE_OPTIONS);
       destino = "/admin";
     } else {
       await registerFailure(ip);
-      destino = "/admin?erro=credenciais";
+      destino = "/admin/login?erro=credenciais";
     }
   } catch (error) {
     console.error("[admin] falha no login:", error);
-    destino = "/admin?erro=banco";
+    destino = "/admin/login?erro=banco";
   }
 
   redirect(destino);
@@ -68,47 +44,5 @@ export async function login(formData: FormData) {
 
 export async function logout() {
   (await cookies()).delete({ name: COOKIE, path: COOKIE_OPTIONS.path });
-  redirect("/admin");
-}
-
-export async function decide(formData: FormData) {
-  if (!(await authed())) redirect("/admin");
-
-  const id = Number(formData.get("id"));
-  const status = String(formData.get("status"));
-  if (!Number.isInteger(id) || !STATUSES.includes(status as Status)) return;
-
-  await setStatus(id, status as Status);
-
-  /* A nota aparece no cabeçalho de toda página, e o layout raiz é quem a busca — revalidar só
-     `/reviews` deixaria o hero mostrando a média antiga até o ISR virar. */
-  revalidatePath("/", "layout");
-}
-
-/** Exclusão de verdade, sem volta. A confirmação é a própria tela — o painel só mostra este
-    botão depois de `?excluir=<id>` —, então aqui não há segunda pergunta a fazer: mesma sessão
-    conferida de novo, porque a action é endpoint público como a de cima. */
-export async function remove(formData: FormData) {
-  if (!(await authed())) redirect("/admin");
-
-  const id = Number(formData.get("id"));
-  if (!Number.isInteger(id)) return;
-
-  await deleteReview(id);
-  revalidatePath("/", "layout");
-
-  /* volta pro painel limpo: sem isso a URL seguiria com `?excluir=` de um id que não existe mais */
-  redirect("/admin");
-}
-
-/** Mensagem de contato já respondida sai da lista. Mesma tranca das outras: action é endpoint
-    público, então a sessão é conferida aqui de novo. */
-export async function removeMessage(formData: FormData) {
-  if (!(await authed())) redirect("/admin");
-
-  const id = Number(formData.get("id"));
-  if (!Number.isInteger(id)) return;
-
-  await deleteMessage(id);
-  revalidatePath("/admin");
+  redirect("/admin/login");
 }

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { LIMITS } from "@/data/reviews";
-import { COOKIE, validSession } from "@/services/admin";
+import { isAdmin } from "@/services/admin-session";
 import { getImage } from "@/services/reviews";
 
 /* As imagens da avaliação moram no banco em base64 e saem por aqui, uma requisição por
@@ -26,7 +25,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
   /* Sessão do painel abre as não publicadas — sem ela, foto de avaliação pendente ou recusada
      não existe pra quem chutar o id. */
-  const admin = validSession((await cookies()).get(COOKIE)?.value);
+  const admin = await isAdmin();
 
   let data: string | null;
   try {

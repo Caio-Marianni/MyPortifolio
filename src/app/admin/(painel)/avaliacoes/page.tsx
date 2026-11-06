@@ -1,29 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { cookies, headers } from "next/headers";
-import { LogIn, LogOut, MessageCircle } from "lucide-react";
-import { CapaPage } from "@/components/capa/capa-page";
-import { FIELD, LABEL } from "@/components/capa/capa-contact-form";
+import { headers } from "next/headers";
+import { MessageCircle } from "lucide-react";
+import { FIELD, LABEL } from "@/components/ui/form-styles";
+import { Badge, type Tone } from "@/components/admin/badge";
 import { CopyField } from "@/components/admin/copy-field";
+import { DeleteConfirm } from "@/components/admin/delete-confirm";
+import { FilterTabs } from "@/components/admin/filter-tabs";
+import { PageHeader } from "@/components/admin/page-header";
 import { ReviewEditor } from "@/components/admin/review-editor";
-import { BUTTON } from "@/components/admin/styles";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/admin/styles";
 import { Stars } from "@/components/ui/brand-marks";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
 import { LIMITS, TRACKS, TRACK_LABEL, type ReviewRecord, type Status, type Track } from "@/data/reviews";
 import { allProjects } from "@/data/projects";
-import { COOKIE, MAX_TRIES, WINDOW_MINUTES, validSession } from "@/services/admin";
+import { requireAdmin } from "@/services/admin-session";
 import { inviteLink } from "@/services/invite";
-import { listMessages, type Message } from "@/services/contact";
 import { listAll } from "@/services/reviews";
-import { decide, login, logout, remove, removeMessage } from "./actions";
+import { decide, remove } from "./actions";
 
-/* Painel só seu: em português e fora do índice. Tudo aqui é componente de servidor com
-   `<form action={...}>` — moderar funciona mesmo antes do JS carregar, e não há um byte de
-   estado no cliente pra sincronizar com o banco. */
-export const metadata: Metadata = {
-  title: "Moderar",
-  robots: { index: false, follow: false },
-};
+/* Avaliações das duas trilhas — web e thumbnails. Tudo aqui é componente de servidor com
+   `<form action={...}>`: moderar funciona antes do JS carregar, e não há estado no cliente pra
+   sincronizar com o banco. */
+export const metadata: Metadata = { title: "Avaliações" };
+
+const PAGE = "/admin/avaliacoes";
 
 const STATUS_LABEL: Record<Status, string> = {
   pending: "Pendente",
@@ -31,10 +32,10 @@ const STATUS_LABEL: Record<Status, string> = {
   rejected: "Recusada",
 };
 
-const STATUS_STYLE: Record<Status, string> = {
-  pending: "bg-accent text-white",
-  approved: "bg-fill text-fill-ink",
-  rejected: "bg-ink/10 text-ink/60",
+const STATUS_TONE: Record<Status, Tone> = {
+  pending: "accent",
+  approved: "ok",
+  rejected: "neutral",
 };
 
 /* Botão pra cada destino diferente do estado atual: a mesma fileira serve às três situações,
@@ -45,53 +46,9 @@ const MOVES: { status: Status; label: string }[] = [
   { status: "rejected", label: "Recusar" },
 ];
 
-/* Uma mensagem por motivo, e nenhuma delas diz qual metade errou: quem tenta adivinhar não
-   ganha pista, e você sabe na hora se foi digitação, tranca ou banco fora do ar. */
-const ERROS: Record<string, string> = {
-  credenciais: "Usuário ou senha incorretos.",
-  bloqueado: `Errou ${MAX_TRIES} vezes. Espere ${WINDOW_MINUTES} minutos antes de tentar de novo.`,
-  banco: "Não consegui falar com o banco. Confira a DATABASE_URL.",
-};
-
-function Login({ erro }: { erro?: string }) {
-  return (
-    /* autoComplete off nos dois campos: o gerenciador de senhas preencheria o usuário, que
-       precisa ficar vazio, e o login falharia sem você entender por quê. */
-    <form action={login} autoComplete="off" className="flex max-w-[360px] flex-col gap-5">
-      <div>
-        <label htmlFor="user" className={LABEL}>
-          Usuário
-        </label>
-        <input type="text" id="user" name="user" autoComplete="off" className={FIELD} />
-      </div>
-
-      <div>
-        <label htmlFor="password" className={LABEL}>
-          Senha
-        </label>
-        <input type="password" id="password" name="password" required autoComplete="off" className={FIELD} />
-      </div>
-
-      {erro && ERROS[erro] && (
-        <p role="alert" className="text-[13px] text-danger">
-          {ERROS[erro]}
-        </p>
-      )}
-
-      <button
-        type="submit"
-        className="flex items-center gap-2 self-start rounded-full bg-fill px-7 py-3 text-[13px] text-fill-ink transition-opacity hover:opacity-80"
-      >
-        Entrar
-        <LogIn className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
-      </button>
-    </form>
-  );
-}
-
-/* Formulário GET, não server action: os campos viram a própria URL do painel, o servidor
-   assina e devolve a página com o link pronto. Sem estado e sem ida e volta de JavaScript —
-   e o endereço resultante é recarregável, então F5 não perde o link gerado. */
+/* Formulário GET, não server action: os campos viram a própria URL da tela, o servidor assina
+   e devolve a página com o link pronto. Sem estado e sem ida e volta de JavaScript — e o
+   endereço resultante é recarregável, então F5 não perde o link gerado. */
 function NovoConvite({
   nome,
   empresa,
@@ -111,10 +68,10 @@ function NovoConvite({
     `Leva menos de um minuto — já deixei seus dados preenchidos, você só escolhe a nota e escreve duas linhas: ${link}`;
 
   return (
-    <section className="mb-10 border border-ink/15 p-6">
-      <h2 className="text-[12.5px] text-ink/60">Novo convite</h2>
+    <section className={`${CARD} mb-8`}>
+      <h2 className={CARD_TITLE}>Novo convite</h2>
 
-      <form method="GET" action="/admin" className="mt-5 flex flex-col gap-5">
+      <form method="GET" action={PAGE} className="mt-5 flex flex-col gap-5">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <label htmlFor="n" className={LABEL}>
@@ -130,8 +87,8 @@ function NovoConvite({
             <input id="e" name="e" defaultValue={empresa} maxLength={LIMITS.company} className={FIELD} />
           </div>
 
-          {/* Trilha e projeto saíram do formulário do cliente e vieram pra cá: quem sabe de
-              qual trabalho é a avaliação é você, na hora de mandar o link. */}
+          {/* Trilha e projeto ficam aqui, não no formulário do cliente: quem sabe de qual
+              trabalho é a avaliação é você, na hora de mandar o link. */}
           <div>
             <label htmlFor="t" className={LABEL}>
               Trabalho
@@ -160,7 +117,7 @@ function NovoConvite({
           </div>
         </div>
 
-        <button type="submit" className={`${BUTTON} self-start`}>
+        <button type="submit" className={`${BUTTON_SOLID} self-start`}>
           Gerar link
         </button>
       </form>
@@ -189,9 +146,9 @@ function NovoConvite({
   );
 }
 
-/* Mesma anatomia do quadro público e da ficha de projeto — foto, nome, nota e só então o texto —
-   e nos mesmos corpos, pra que a avaliação tenha o mesmo peso nas três telas. O que é só seu
-   (trilha, projeto, e-mail, convite, data) fica embaixo, longe da voz do cliente. */
+/* Mesma anatomia do quadro público e da ficha de projeto — foto, nome, nota e só então o texto —,
+   pra que a avaliação tenha o mesmo peso nas três telas. O que é só seu (trilha, projeto, e-mail,
+   convite, data) fica embaixo, longe da voz do cliente. */
 function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo: boolean; editando: boolean }) {
   const projeto = allProjects.find((project) => project.id === review.project)?.title;
   const meta = [TRACK_LABEL[review.track], projeto, review.email, `convite: ${review.invite}`, review.createdAt];
@@ -200,14 +157,14 @@ function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo
      publicar continua nos botões de baixo, depois de salvar. */
   if (editando) {
     return (
-      <article className="flex flex-col gap-4 border border-ink p-6">
+      <article className={`${CARD} flex flex-col gap-4 border-ink`}>
         <ReviewEditor review={review} />
       </article>
     );
   }
 
   return (
-    <article className="flex flex-col gap-4 border border-ink/15 p-6">
+    <article className={`${CARD} flex flex-col gap-4`}>
       <header className="flex items-center gap-4">
         <ReviewPhoto review={review} className="h-12 w-12 bg-ink/[0.07] text-[19px] text-ink/60" />
 
@@ -220,8 +177,8 @@ function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo
           <Stars count={review.rating} className="text-[13px] text-accent" />
         </span>
 
-        <span className={`ml-auto shrink-0 rounded-full px-3 py-1 text-[12px] ${STATUS_STYLE[review.status]}`}>
-          {STATUS_LABEL[review.status]}
+        <span className="ml-auto">
+          <Badge tone={STATUS_TONE[review.status]}>{STATUS_LABEL[review.status]}</Badge>
         </span>
       </header>
 
@@ -238,18 +195,7 @@ function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo
       <p className="text-[13px] leading-tight text-ink/60">{meta.filter(Boolean).join(" · ")}</p>
 
       {excluindo ? (
-        /* A confirmação é a própria tela, sem `confirm()` do navegador: o painel inteiro é
-           servidor, e um diálogo de JS pediria um componente de cliente só pra fazer perguntas. */
-        <form action={remove} className="flex flex-wrap items-center gap-3 pt-1">
-          <input type="hidden" name="id" value={review.id} />
-          <span className="text-[13px] text-danger">Some com texto e fotos. Não dá pra desfazer.</span>
-          <button type="submit" className={`${BUTTON} border-danger text-danger hover:border-danger hover:bg-danger hover:text-white`}>
-            Excluir mesmo
-          </button>
-          <Link href="/admin" className={BUTTON}>
-            Cancelar
-          </Link>
-        </form>
+        <DeleteConfirm action={remove} fields={{ id: review.id }} message="Some com texto e fotos. Não dá pra desfazer." cancelHref={PAGE} />
       ) : (
         <form action={decide} className="flex flex-wrap items-center gap-2 pt-1">
           <input type="hidden" name="id" value={review.id} />
@@ -259,13 +205,11 @@ function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo
             </button>
           ))}
 
-          {/* Link e não botão: excluir é decisão em duas etapas, e a primeira é só abrir o painel
-              de novo marcando qual card perguntou. */}
-          <Link href={`/admin?editar=${review.id}`} className={`${BUTTON} ml-auto`}>
+          <Link href={`${PAGE}?editar=${review.id}`} className={`${BUTTON} ml-auto`}>
             Editar
           </Link>
 
-          <Link href={`/admin?excluir=${review.id}`} className={`${BUTTON} text-danger`}>
+          <Link href={`${PAGE}?excluir=${review.id}`} className={`${BUTTON} text-danger`}>
             Excluir
           </Link>
         </form>
@@ -274,57 +218,13 @@ function Card({ review, excluindo, editando }: { review: ReviewRecord; excluindo
   );
 }
 
-/* Mensagens do formulário de contato. Responder é pelo e-mail — o nome da pessoa já é o link
-   pro mailto —, e a que já foi respondida sai com o botão. */
-function Mensagens({ messages }: { messages: Message[] | null }) {
-  return (
-    <section className="mb-10 border border-ink/15 p-6">
-      <h2 className="text-[12.5px] text-ink/60">Mensagens{messages && ` (${messages.length})`}</h2>
-
-      {messages === null ? (
-        <p role="alert" className="mt-4 text-[13px] text-danger">
-          Não consegui ler as mensagens. A tabela foi criada? Rode a terceira leva do sql/reviews.sql no Neon.
-        </p>
-      ) : messages.length === 0 ? (
-        <p className="mt-4 text-[14px] text-ink/65">Nenhuma mensagem pelo formulário de contato.</p>
-      ) : (
-        <ul className="mt-4 divide-y divide-ink/15">
-          {messages.map((message) => (
-            <li key={message.id} className="flex flex-col gap-2 py-4">
-              <p className="text-[13px] text-ink/60">
-                <a href={`mailto:${message.email}`} className="font-semibold text-ink underline-offset-4 hover:underline">
-                  {message.name}
-                </a>
-                {` · ${message.email} · ${message.createdAt}`}
-              </p>
-              <p className="whitespace-pre-line text-[15px] leading-relaxed text-ink/80">{message.message}</p>
-              <form action={removeMessage}>
-                <input type="hidden" name="id" value={message.id} />
-                <button type="submit" className={`${BUTTON} mt-1`}>
-                  Respondida, tirar da lista
-                </button>
-              </form>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
-  );
-}
-
 type Params = {
-  searchParams: Promise<{ erro?: string; n?: string; e?: string; t?: string; p?: string; excluir?: string; editar?: string; nova?: string }>;
+  searchParams: Promise<{ ver?: string; n?: string; e?: string; t?: string; p?: string; excluir?: string; editar?: string; nova?: string }>;
 };
 
-export default async function AdminPage(props: Params) {
+export default async function AvaliacoesPage(props: Params) {
+  await requireAdmin();
   const searchParams = await props.searchParams;
-  if (!validSession((await cookies()).get(COOKIE)?.value)) {
-    return (
-      <CapaPage wordmark="Moderar" descriptor="Área restrita">
-        <Login erro={searchParams.erro} />
-      </CapaPage>
-    );
-  }
 
   /* O link sai do host da requisição, não de uma constante: assim o painel de um deploy de
      preview gera link daquele preview, e o do localhost gera link local. */
@@ -345,12 +245,6 @@ export default async function AdminPage(props: Params) {
 
   let reviews: ReviewRecord[] = [];
   let erro: string | null = null;
-  /* Leitura à parte: sem a tabela `messages` criada (terceira leva do sql/reviews.sql), as
-     avaliações continuam aparecendo e só esta seção avisa. */
-  const messages = await listMessages().catch((error: unknown) => {
-    console.error("[admin] falha ao ler mensagens:", error);
-    return null;
-  });
   try {
     reviews = await listAll();
   } catch (error) {
@@ -358,40 +252,44 @@ export default async function AdminPage(props: Params) {
     erro = "Não consegui falar com o banco. Confira DATABASE_URL.";
   }
 
-  const pendentes = reviews.filter((review) => review.status === "pending").length;
+  const ver = (["pending", "approved", "rejected"] as const).find((status) => status === searchParams.ver) ?? "todas";
+  const shown = ver === "todas" ? reviews : reviews.filter((review) => review.status === ver);
+  const count = (status: Status) => reviews.filter((review) => review.status === status).length;
 
   return (
-    <CapaPage
-      wordmark="Moderar"
-      descriptor="Área restrita"
-      stats={[`${reviews.length} no total`, `${pendentes} aguardando você`]}
-    >
-      <form action={logout} className="mb-8 flex flex-wrap gap-2">
-        <Link href="/admin/clientes" className={BUTTON}>
-          Clientes
-        </Link>
-        <button type="submit" className={`${BUTTON} inline-flex items-center gap-2`}>
-          Sair
-          <LogOut className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
-        </button>
-      </form>
+    <>
+      <PageHeader
+        title="Avaliações"
+        description="Web e thumbnails. O que você publica aqui aparece no site."
+        actions={
+          searchParams.nova === undefined && (
+            <Link href={`${PAGE}?nova`} className={BUTTON_SOLID}>
+              Nova avaliação
+            </Link>
+          )
+        }
+      />
+
+      {/* Avaliação que chegou por fora do site: o mesmo editor, vazio. */}
+      {searchParams.nova !== undefined && (
+        <section className={`${CARD} mb-8 border-ink`}>
+          <h2 className={`${CARD_TITLE} mb-5`}>Nova avaliação (WhatsApp, e-mail…)</h2>
+          <ReviewEditor />
+        </section>
+      )}
 
       <NovoConvite nome={nome} empresa={empresa} trilha={trilha} projeto={projeto} link={link} />
 
-      {/* Avaliação que chegou por fora do site: o mesmo editor, vazio. Link e não estado de
-          cliente, como o excluir — abrir é só recarregar o painel com `?nova`. */}
-      {searchParams.nova !== undefined ? (
-        <section className="mb-10 border border-ink p-6">
-          <h2 className="mb-5 text-[12.5px] text-ink/60">Nova avaliação (WhatsApp, e-mail…)</h2>
-          <ReviewEditor />
-        </section>
-      ) : (
-        <Link href="/admin?nova" className={`${BUTTON} mb-10 inline-flex`}>
-          Nova avaliação
-        </Link>
-      )}
-
-      <Mensagens messages={messages} />
+      <FilterTabs
+        base={PAGE}
+        current={ver}
+        options={[
+          { value: "todas", label: "Todas", count: reviews.length },
+          { value: "pending", label: "Pendentes", count: count("pending") },
+          { value: "approved", label: "No site", count: count("approved") },
+          { value: "rejected", label: "Recusadas", count: count("rejected") },
+        ]}
+      />
 
       {erro && (
         <p role="alert" className="text-[13px] text-danger">
@@ -399,15 +297,15 @@ export default async function AdminPage(props: Params) {
         </p>
       )}
 
-      {!erro && reviews.length === 0 && (
-        <p className="text-[15px] leading-relaxed text-ink/65">
-          Nenhuma avaliação ainda. Gere um convite aí em cima e mande pro cliente.
+      {!erro && shown.length === 0 && (
+        <p className="text-[14px] text-ink/60">
+          {reviews.length === 0 ? "Nenhuma avaliação ainda. Gere um convite aí em cima e mande pro cliente." : "Nada neste filtro."}
         </p>
       )}
 
       {/* A consulta já devolve as pendentes em cima; a ordem da lista é a ordem da fila. */}
       <div className="grid gap-4 lg:grid-cols-2">
-        {reviews.map((review) => (
+        {shown.map((review) => (
           <Card
             key={review.id}
             review={review}
@@ -416,6 +314,6 @@ export default async function AdminPage(props: Params) {
           />
         ))}
       </div>
-    </CapaPage>
+    </>
   );
 }

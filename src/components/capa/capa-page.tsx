@@ -76,8 +76,8 @@ export const SHELL = "mx-auto w-full max-w-[1600px]";
 
 /* Páginas onde o CTA de contato é link morto ou ruído: na própria página de contato, e no
    convite de avaliação, que é uma tarefa só — mandar o cliente pra outro lugar no meio dela
-   é o jeito mais fácil de não receber a avaliação; e no painel de moderação. */
-const NO_CTA = ["/contact", "/avaliar", "/admin"];
+   é o jeito mais fácil de não receber a avaliação. O painel nem usa esta capa. */
+const NO_CTA = ["/contact", "/avaliar"];
 
 export interface CapaPageProps {
   /** título da página, em Makaio, dentro da própria navbar */

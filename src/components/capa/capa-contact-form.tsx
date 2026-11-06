@@ -4,6 +4,7 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { ArrowUpRight, Check } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import { CONTACT_LIMITS } from "@/data/contact";
+import { FIELD, LABEL } from "@/components/ui/form-styles";
 
 /* Saída de reserva: aparece quando o envio falha, pra mensagem nunca morrer no formulário. */
 export const EMAIL = "caiomarianni@gmail.com";
@@ -11,13 +12,6 @@ export const EMAIL = "caiomarianni@gmail.com";
 /* `website` é isca: escondido de gente, preenchido por robô — a rota descarta quem mexer nele */
 const initialForm = { firstName: "", lastName: "", email: "", message: "", website: "" };
 
-/* Hairline embaixo do campo, como as divisórias da grade — nada de caixa. Exportados
-   porque o formulário de avaliação usa os mesmos campos; são a mesma peça, não uma cópia.
-   16px é piso, não escolha de tipografia: abaixo disso o Safari do iPhone dá zoom na página
-   toda ao focar o campo, e o visitante fica com o layout torto e sem saber por quê. */
-export const FIELD =
-  "w-full border-b border-ink/25 bg-transparent py-2 text-[16px] text-ink placeholder:text-ink/30 focus:border-ink focus:outline-none transition-colors";
-export const LABEL = "block text-[12.5px] text-ink/60";
 
 export function CapaContactForm() {
   const { t, language } = useLanguage();

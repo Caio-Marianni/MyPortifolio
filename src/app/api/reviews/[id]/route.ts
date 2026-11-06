@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
-import { COOKIE, validSession } from "@/services/admin";
+import { isAdmin } from "@/services/admin-session";
 import { readFields, readImages, text, validDate } from "@/services/review-input";
 import { updateReview } from "@/services/reviews";
 
@@ -13,7 +12,7 @@ const fail = (error: string, status: number) => NextResponse.json({ error }, { s
 const pt = (message: string) => message;
 
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  if (!validSession((await cookies()).get(COOKIE)?.value)) return fail("Sessão expirada. Entre de novo.", 401);
+  if (!(await isAdmin())) return fail("Sessão expirada. Entre de novo.", 401);
 
   const id = Number((await params).id);
   if (!Number.isInteger(id) || id < 1) return fail("Avaliação inexistente.", 404);

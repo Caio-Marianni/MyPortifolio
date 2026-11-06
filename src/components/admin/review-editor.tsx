@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ImagePlus, X } from "lucide-react";
-import { FIELD, LABEL } from "@/components/capa/capa-contact-form";
+import { FIELD, LABEL } from "@/components/ui/form-styles";
 import { PickerButton } from "@/components/reviews/review-form";
 import { allProjects } from "@/data/projects";
 import { LIMITS, TRACKS, TRACK_LABEL, reviewImage, type ReviewRecord, type Track } from "@/data/reviews";
@@ -104,7 +104,7 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
         throw new Error(data?.error ?? "Não consegui salvar.");
       }
       /* volta pro painel já com os dados novos: o replace tira o `?editar=`/`?nova=` e o refresh relê o banco */
-      router.replace("/admin");
+      router.replace("/admin/avaliacoes");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error && err.message ? err.message : "Não consegui salvar.");
@@ -284,7 +284,7 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
         <button type="submit" disabled={saving || busy} className={BUTTON}>
           {saving ? "Salvando..." : review ? "Salvar" : "Cadastrar avaliação"}
         </button>
-        <Link href="/admin" className={BUTTON}>
+        <Link href="/admin/avaliacoes" className={BUTTON}>
           Cancelar
         </Link>
       </div>

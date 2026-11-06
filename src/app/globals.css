@@ -154,3 +154,10 @@ textarea:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
   caret-color: rgb(var(--ink));
 }
+
+/* Folha dos documentos do painel (/admin/imprimir): A4 com as margens de um contrato. A página
+   de imprimir zera o próprio respiro na impressão e deixa a margem toda por conta daqui. */
+@page {
+  size: A4;
+  margin: 20mm 18mm;
+}

@@ -10,7 +10,8 @@ import { db } from "./db.ts";
    Uma pessoa só e uma senha só: NextAuth aqui seria mais configuração que produto. */
 
 export const COOKIE = "admin";
-export const MAX_AGE = 60 * 60 * 24 * 30;
+/** 7 dias: o painel guarda dados de cliente, e um notebook esquecido aberto não deve valer um mês */
+export const MAX_AGE = 60 * 60 * 24 * 7;
 
 /** Raiz, e não `/admin`: a foto de avaliação pendente sai por /api/reviews/[id]/image, e o
     navegador só manda o cookie pra caminho que casa com este. Preso no painel, a rota nunca

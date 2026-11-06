@@ -14,6 +14,8 @@ export interface Message {
   message: string;
   /** já formatada no `select`, pelo mesmo motivo do painel de avaliações: nada de Intl no cliente */
   createdAt: string;
+  /** respondida sai da caixa de entrada mas fica no histórico */
+  answered: boolean;
 }
 
 /* O intervalo entra concatenado e convertido pelo mesmo motivo de services/admin.ts: o driver
@@ -36,10 +38,15 @@ export async function createMessage(message: { name: string; email: string; mess
 
 export async function listMessages(): Promise<Message[]> {
   return (await db().query(`
-    select id, name, email, message, to_char(created_at, 'DD/MM/YYYY HH24:MI') as "createdAt"
+    select id, name, email, message, to_char(created_at, 'DD/MM/YYYY HH24:MI') as "createdAt",
+           answered_at is not null as answered
     from messages
-    order by created_at desc
+    order by (answered_at is null) desc, created_at desc
   `)) as Message[];
+}
+
+export async function setAnswered(id: number, answered: boolean): Promise<void> {
+  await db()`update messages set answered_at = case when ${answered}::boolean then now() end where id = ${id}`;
 }
 
 export async function deleteMessage(id: number): Promise<void> {

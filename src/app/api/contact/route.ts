@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CONTACT_LIMITS, isEmail } from "@/data/contact";
+import { clientIp } from "@/services/client-ip";
 import { createMessage, tooManyMessages } from "@/services/contact";
 
 /* Fronteira de confiança do formulário de contato. Diferente da de avaliação, aqui não há
@@ -31,8 +32,8 @@ export async function POST(request: NextRequest) {
     return fail(t("Escreva sua mensagem (até 4000 caracteres).", "Write your message (up to 4000 characters)."), 400);
   }
 
-  /* IP de quem enviou, atrás do proxy da Vercel — mesmo critério do login do painel */
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "desconhecido";
+  /* mesmo critério do login do painel */
+  const ip = clientIp(request.headers);
 
   try {
     if (await tooManyMessages(ip)) {

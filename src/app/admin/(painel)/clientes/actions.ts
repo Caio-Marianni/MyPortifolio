@@ -1,54 +1,42 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { COOKIE, validSession } from "@/services/admin";
-import { createClient, deleteClient, markPaid, readClient, updateClient } from "@/services/clients";
-
-/* Mesma tranca de admin/actions.ts: action é endpoint público, então cada uma confere a
-   sessão de novo — a tela escondida não é a tranca. */
-
-const authed = async () => validSession((await cookies()).get(COOKIE)?.value);
+import { requireAdmin } from "@/services/admin-session";
+import { createClient, deleteClient, readClient, updateClient } from "@/services/clients";
+import { readId } from "@/services/form-input";
 
 const PAGE = "/admin/clientes";
 
-/** Cadastra (sem `id`) ou edita. O erro volta na URL: os campos do formulário já têm `required`,
-    `maxLength`, `type="date"` e `pattern`, então chegar aqui com erro é raro. */
+/** Cadastra (sem `id`) e abre a ficha, ou edita e volta pra ela. O erro volta na URL. */
 export async function saveClient(formData: FormData) {
-  if (!(await authed())) redirect("/admin");
+  await requireAdmin();
 
-  const id = Number(formData.get("id"));
+  const id = readId(formData.get("id"));
   const read = readClient(formData);
   if ("error" in read) {
-    redirect(`${PAGE}?${id ? `editar=${id}` : "nova"}&erro=${encodeURIComponent(read.error)}`);
+    redirect(id ? `${PAGE}/${id}?editar&erro=${encodeURIComponent(read.error)}` : `${PAGE}?novo&erro=${encodeURIComponent(read.error)}`);
   }
 
-  if (Number.isInteger(id) && id > 0) await updateClient(id, read.fields);
-  else await createClient(read.fields);
+  const target = id ?? (await createClient(read.fields));
+  if (id) await updateClient(id, read.fields);
 
-  revalidatePath(PAGE);
-  redirect(PAGE);
+  revalidatePath("/admin", "layout");
+  redirect(`${PAGE}/${target}`);
 }
 
-/** Exclusão sem volta; a confirmação é a própria tela (`?excluir=<id>`), como nas avaliações. */
+/** Exclusão sem volta; a confirmação é a própria tela (`?excluir=cliente`). */
 export async function removeClient(formData: FormData) {
-  if (!(await authed())) redirect("/admin");
+  await requireAdmin();
 
-  const id = Number(formData.get("id"));
-  if (!Number.isInteger(id)) return;
+  const id = readId(formData.get("id"));
+  if (!id) return;
 
-  await deleteClient(id);
-  revalidatePath(PAGE);
+  if (!(await deleteClient(id))) {
+    const erro = "Este cliente tem pagamento recebido ou documento enviado. Isso é histórico e não sai — encerre os planos em vez de excluir.";
+    redirect(`${PAGE}/${id}?erro=${encodeURIComponent(erro)}`);
+  }
+
+  revalidatePath("/admin", "layout");
   redirect(PAGE);
-}
-
-export async function paid(formData: FormData) {
-  if (!(await authed())) redirect("/admin");
-
-  const id = Number(formData.get("id"));
-  if (!Number.isInteger(id)) return;
-
-  await markPaid(id);
-  revalidatePath(PAGE);
 }
