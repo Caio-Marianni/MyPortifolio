@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback } from "react";
 import QRCode from "qrcode";
 import { Download, QrCode, Loader2 } from "lucide-react";
+import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, FIELD, LABEL } from "@/components/ui/styles";
 
 const SIZE = 400;
 type Format = "png" | "jpeg" | "webp";
@@ -157,102 +158,79 @@ export function QrGenerator() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-7 w-full max-w-sm mx-auto">
-      <div className="w-full space-y-2">
-        <div className="relative">
-          <QrCode className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-chrome-ink/40 pointer-events-none" />
+    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
+      <section className={`${CARD} flex flex-col gap-6`}>
+        <div>
+          <label htmlFor="qr-url" className={LABEL}>
+            Endereço
+          </label>
           <input
+            id="qr-url"
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
             placeholder="https://exemplo.com"
-            className="w-full bg-chrome-ink/[0.04] border border-chrome-ink/20 hover:border-chrome-ink/35 focus:border-accent rounded-lg pl-10 pr-4 py-3 text-chrome-ink placeholder-chrome-ink/30 outline-none transition-colors text-sm"
+            className={FIELD}
           />
         </div>
-        {error && <p className="text-accent text-sm">{error}</p>}
-        {logoWarning && (
-          <p className="text-chrome-ink/55 text-xs">
-            Favicon não encontrado para este domínio.
+
+        {/* checkbox nativo: teclado, foco e leitor de tela de graça; a cor vem do `accent-` */}
+        <fieldset className="flex flex-col gap-3">
+          <legend className={`${LABEL} mb-3`}>Opções</legend>
+          <Check label="Inverter cores" checked={inverted} onChange={handleInverted} />
+          <Check label="Ícone do site no centro" checked={showLogo} onChange={handleLogo} />
+          {showLogo && <Check label="Ícone em preto e branco" checked={logoGrayscale} onChange={handleLogoGrayscale} />}
+        </fieldset>
+
+        {error && (
+          <p role="alert" className="text-ui text-danger">
+            {error}
           </p>
         )}
-      </div>
+        {logoWarning && <p className="text-meta text-ink/60">Não achei o ícone deste domínio — o QR saiu sem ele.</p>}
 
-      <div className="flex flex-col gap-3 w-full">
-        <div className="flex justify-center gap-8">
-          <Toggle label="Inverter cores" checked={inverted} onChange={handleInverted} />
-          <Toggle label="Logo no centro" checked={showLogo} onChange={handleLogo} />
+        <button type="button" onClick={handleGenerate} disabled={!url.trim() || loading} className={`self-start ${BUTTON_SOLID}`}>
+          {loading ? <Loader2 className="h-[1.1em] w-[1.1em] animate-spin" aria-hidden /> : <QrCode className="h-[1.1em] w-[1.1em]" aria-hidden />}
+          {loading ? "Gerando…" : "Gerar QR code"}
+        </button>
+      </section>
+
+      <section className={`${CARD} flex flex-col gap-5`}>
+        <h2 className={CARD_TITLE}>Prévia</h2>
+        {/* o canvas fica sempre montado: é nele que applyToCanvas desenha */}
+        <div className="flex aspect-square items-center justify-center bg-surface-sunken">
+          <canvas
+            ref={canvasRef}
+            className={`w-full [image-rendering:pixelated] ${generated ? "block" : "hidden"}`}
+          />
+          {!generated && <QrCode className="h-12 w-12 text-ink/20" strokeWidth={1.5} aria-hidden />}
         </div>
-        {showLogo && (
-          <div className="flex justify-center">
-            <Toggle label="Logo em P&B" checked={logoGrayscale} onChange={handleLogoGrayscale} />
+
+        {generated && (
+          <div className="flex flex-wrap gap-2">
+            {(["png", "jpeg", "webp"] as Format[]).map((fmt) => (
+              <button key={fmt} type="button" onClick={() => handleDownload(fmt)} className={BUTTON}>
+                <Download className="h-[1.1em] w-[1.1em]" aria-hidden />.{fmt}
+              </button>
+            ))}
           </div>
         )}
-      </div>
-
-      <button
-        onClick={handleGenerate}
-        disabled={!url.trim() || loading}
-        className="w-full flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-medium py-3 rounded-lg transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
-      >
-        {loading ? (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        ) : (
-          <QrCode className="w-4 h-4" />
-        )}
-        {loading ? "Gerando..." : "Gerar QR Code"}
-      </button>
-
-      <canvas
-        ref={canvasRef}
-        className={`rounded-xl w-full border border-chrome-ink/15 ${!generated ?"hidden" : "block"}`}
-        style={{ imageRendering: "pixelated" }}
-      />
-
-      {generated && (
-        <div className="grid grid-cols-3 gap-2 w-full">
-          {(["png", "jpeg", "webp"] as Format[]).map((fmt) => (
-            <button
-              key={fmt}
-              onClick={() => handleDownload(fmt)}
-              className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg border border-chrome-ink/20 hover:border-chrome-ink/45 text-chrome-ink/60 hover:text-chrome-ink text-xs font-medium transition-colors hover:bg-chrome-ink/5"
-            >
-              <Download className="w-3.5 h-3.5" />
-              .{fmt}
-            </button>
-          ))}
-        </div>
-      )}
+      </section>
     </div>
   );
 }
 
-function Toggle({
-  label,
-  checked,
-  onChange,
-}: {
-  label: string;
-  checked: boolean;
-  onChange: (val: boolean) => void;
-}) {
+function Check({ label, checked, onChange }: { label: string; checked: boolean; onChange: (val: boolean) => void }) {
   return (
-    <label className="flex items-center gap-2.5 cursor-pointer select-none">
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        onClick={() => onChange(!checked)}
-        className={`relative w-10 h-5 rounded-full flex-shrink-0 transition-colors duration-200 ${
-          checked ?"bg-accent" : "bg-chrome-ink/20 hover:bg-chrome-ink/30"
-        }`}
-      >
-        <span
-          className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow-sm transition-transform duration-200"
-          style={{ transform: checked ? "translateX(20px)" : "translateX(0)" }}
-        />
-      </button>
-      <span className="text-sm text-chrome-ink/75">{label}</span>
+    <label className="flex cursor-pointer items-center gap-3 text-ui">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="h-4 w-4 accent-ink"
+      />
+      {label}
     </label>
   );
 }
