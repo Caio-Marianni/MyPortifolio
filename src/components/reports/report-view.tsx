@@ -1,6 +1,7 @@
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { LogoMark } from "@/components/ui/brand-marks";
+import { LogoMark, LogoWatermark } from "@/components/ui/brand-marks";
+import { CARD_TITLE } from "@/components/ui/styles";
 import { change, channelLabel, deviceLabel, eventLabel, pageLabel, type Metric, type Totals } from "@/services/analytics";
 import { monthLabel, monthName, previousMonth } from "@/services/dates";
 import { SECTION_LABEL, type Report, type Section } from "@/services/reports";
@@ -14,9 +15,9 @@ const number = (value: number) => value.toLocaleString("pt-BR");
 function Stat({ label, value, previous, before }: { label: string; value: number; previous: number; before: string }) {
   const delta = change(value, previous);
   return (
-    <div className="flex flex-col gap-1 border border-ink/15 bg-surface-raised p-4">
+    <div className="flex flex-col gap-1 border border-ink/15 bg-surface-raised p-4 md:p-5">
       <span className="text-meta text-ink/60">{label}</span>
-      <span className="text-[30px] font-semibold leading-tight">{number(value)}</span>
+      <span className="text-[clamp(26px,5vw,34px)] font-semibold leading-tight tabular-nums tracking-tight">{number(value)}</span>
       {delta !== null && (
         <span className="flex items-center gap-1 text-meta text-ink/65">
           {delta >= 0 ? (
@@ -60,7 +61,7 @@ function Bars({ items, label }: { items: Metric[]; label: (name: string) => stri
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="flex flex-col gap-4 border-t border-ink/10 pt-6">
-      <h2 className="text-ui font-semibold uppercase tracking-[0.06em] text-ink/70">{title}</h2>
+      <h2 className={CARD_TITLE}>{title}</h2>
       {children}
     </section>
   );
@@ -86,10 +87,18 @@ export function ReportView({ report }: { report: Report }) {
 
   return (
     <article className="mx-auto flex max-w-[760px] flex-col gap-8 font-inter text-ink">
-      <header className="flex flex-col gap-1.5">
-        <span className="text-meta uppercase tracking-[0.08em] text-ink/55">Relatório mensal do site</span>
-        <h1 className="text-[30px] font-semibold leading-tight tracking-tight">{title.charAt(0).toUpperCase() + title.slice(1)}</h1>
-        <p className="text-body text-ink/70">
+      {/* A capa do relatório é a tarja das páginas do site: preto, marca d'água da logo e o mês
+          em Makaio. É o que o cliente abre pelo WhatsApp — a primeira tela tem que ser a marca. */}
+      <header className="relative isolate flex flex-col gap-3 overflow-hidden bg-chrome px-6 py-8 text-chrome-ink md:px-9 md:py-10">
+        <LogoWatermark />
+        <span className="flex items-center gap-2.5 text-meta uppercase tracking-[0.08em] text-chrome-ink/60">
+          <span className="h-4 w-4">
+            <LogoMark />
+          </span>
+          Relatório mensal do site
+        </span>
+        <h1 className="font-makaio text-[clamp(30px,6vw,48px)] font-black uppercase leading-none tracking-display">{title}</h1>
+        <p className="text-body text-chrome-ink/75">
           {report.clientName}
           {report.site && ` · ${report.site}`}
         </p>

@@ -25,8 +25,9 @@ export function PageHeader({
       )}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
-          <h1 className="text-[26px] font-semibold leading-tight tracking-tight">{title}</h1>
-          {description && <div className="mt-1.5 text-ui text-ink/60">{description}</div>}
+          {/* o mesmo título das capas do site: Makaio em caixa alta, só que sobre o creme */}
+          <h1 className="font-makaio text-[clamp(26px,3vw,36px)] font-black uppercase leading-none tracking-display">{title}</h1>
+          {description && <div className="mt-2.5 text-ui text-ink/60">{description}</div>}
         </div>
         {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
       </div>
