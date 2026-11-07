@@ -4,16 +4,16 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { LogoMark, Stars } from "@/components/ui/brand-marks";
+import { LogoMark } from "@/components/ui/brand-marks";
+import { Quote, type QuoteReview } from "@/components/estilo-b/quote";
 import { FOCUS } from "@/components/ui/styles";
 import { projects, type Project } from "@/data/projects";
-import { formatMonth, type Review } from "@/data/reviews";
 
 /* A coluna de projetos do Estilo B, no formato "híbrido": um projeto em destaque contado como
    estudo de caso (problema → solução → resultado, com a avaliação do cliente inteira) e os
    outros num índice compacto, com a avaliação recolhida atrás de um botão. */
 
-export type ProjectReview = Pick<Review, "comment" | "name" | "company" | "rating" | "month">;
+export type ProjectReview = QuoteReview;
 type Language = "pt" | "en";
 
 /* ponytail: escolha à mão enquanto o Estilo B é proposta. Quando virar a home, o destaque e a
@@ -26,13 +26,12 @@ const indexed = INDEX_IDS.map(byId).filter((p) => p !== undefined);
 
 const LABEL = "text-meta font-semibold uppercase tracking-[0.06em] text-ink/70";
 const TERM = "font-mono text-[11px] uppercase tracking-[0.08em] text-ink/60";
-const QUOTE_BOX = "flex flex-col gap-1.5 bg-[#F6F4F1] px-4 py-3.5";
 
 /** a nota Lighthouse do card é a menor das três: "100" só quando as três são 100 */
 const lighthouse = (project: Project) => (project.lighthouse ? Math.min(...Object.values(project.lighthouse)) : null);
 const host = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 
-function Cover({ project, sizes, className }: { project: Project; sizes: string; className: string }) {
+function Cover({ project, sizes, className }: { project: Pick<Project, "cover">; sizes: string; className: string }) {
   return (
     <span className={`relative block shrink-0 overflow-hidden bg-chrome ${className}`}>
       {project.cover ? (
@@ -52,19 +51,6 @@ function Cover({ project, sizes, className }: { project: Project; sizes: string;
         </span>
       )}
     </span>
-  );
-}
-
-function Quote({ review, language, withStars }: { review: ProjectReview; language: Language; withStars?: boolean }) {
-  return (
-    <figure className={QUOTE_BOX}>
-      {withStars && <Stars count={review.rating} className="text-[13px] text-accent" />}
-      <blockquote className="text-ui leading-relaxed sm:text-[14px]">“{review.comment}”</blockquote>
-      <figcaption className="text-meta text-ink/65">
-        <strong className="text-ink">{review.name}</strong>
-        {review.company && ` · ${review.company}`} · {formatMonth(review.month, language)}
-      </figcaption>
-    </figure>
   );
 }
 

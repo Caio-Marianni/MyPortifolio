@@ -36,6 +36,9 @@ export interface Project {
   backgroundMark?: string;
   /** foto única do projeto; sem ela a ficha mostra "capa pendente" */
   cover?: string;
+  /** onde a capa é recortada quando aparece bem aproximada (rodapé dos cards de avaliação), em
+      `object-position`: ex. "20% 35%" mira o logo ou o título do hero. Sem ele, o centro. */
+  coverFocus?: string;
   demo: string;
   /** sem nota medida, o card simplesmente não mostra a rosca */
   lighthouse?: LighthouseScores;

@@ -47,6 +47,31 @@ const config: Config = {
       },
       /* A voz técnica do site é o `font-mono` que já vem no Tailwind — nada a declarar aqui.
          Só as três famílias que o repo carrega de fato. */
+      /* Brilho das estrelas da nota: parado quase o tempo todo, um lampejo curto e volta.
+         O `drop-shadow` em `em` acompanha o tamanho da estrela. */
+      keyframes: {
+        "star-shine": {
+          "0%, 70%, 100%": { filter: "brightness(1)" },
+          "78%": { filter: "brightness(1.55) drop-shadow(0 0 0.3em rgb(var(--accent) / 0.75))" },
+        },
+        /* estrela da nota acendendo no fim da contagem: cresce, passa um pouco do tamanho e assenta */
+        "star-pop": {
+          "0%": { opacity: "0", transform: "scale(0.3)" },
+          "70%": { opacity: "1", transform: "scale(1.18)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        /* entrada dos cards de avaliação ao trocar o filtro: sobe um pouco e aparece */
+        "review-in": {
+          from: { opacity: "0", transform: "translateY(12px)" },
+          to: { opacity: "1", transform: "none" },
+        },
+      },
+      animation: {
+        "star-shine": "star-shine 4.5s ease-in-out infinite",
+        "star-pop": "star-pop 380ms cubic-bezier(0.3, 0.7, 0.4, 1.3) both",
+        /* `both`: o card fica invisível durante o próprio atraso, senão piscava antes de entrar */
+        "review-in": "review-in 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both",
+      },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
         makaio: ["var(--font-makaio)", "sans-serif"],

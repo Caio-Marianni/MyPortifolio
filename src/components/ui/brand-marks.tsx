@@ -10,16 +10,55 @@ import type { ReactNode } from "react";
 export const RATING_FONT = "font-ricko";
 
 /** Tamanho em `em` — acompanha o corpo de texto de quem a envolve, em qualquer composição. */
-export function Stars({ count, vertical, className = "" }: { count: number; vertical?: boolean; className?: string }) {
+/* Atraso de cada estrela na onda de brilho, da primeira à quinta. Classes inteiras porque o
+   Tailwind lê o código-fonte — montadas em pedaços não seriam geradas. */
+const SHINE_DELAY = ["[animation-delay:0ms]", "[animation-delay:110ms]", "[animation-delay:220ms]", "[animation-delay:330ms]", "[animation-delay:440ms]"];
+
+/* Atraso de cada estrela ao acender (`reveal`): começam quando a contagem da nota termina
+   (~800ms, ver use-count-up) e vêm uma por uma. */
+const REVEAL_DELAY = ["[animation-delay:700ms]", "[animation-delay:790ms]", "[animation-delay:880ms]", "[animation-delay:970ms]", "[animation-delay:1060ms]"];
+
+/** `reveal`: as estrelas acendem uma por uma ao montar, no fim da contagem da nota.
+    `shine`: de tempos em tempos uma onda de luz passa pelas estrelas, da esquerda para a
+    direita. Só para a nota em destaque — em toda lista de card viraria pisca-pisca. */
+export function Stars({
+  count,
+  vertical,
+  shine,
+  reveal,
+  className = "",
+}: {
+  count: number;
+  vertical?: boolean;
+  shine?: boolean;
+  reveal?: boolean;
+  className?: string;
+}) {
   return (
     <span
       className={`inline-flex ${vertical ? "flex-col" : "flex-row"} items-center gap-[0.25em] ${className}`}
       role="img"
       aria-label={`${count} de 5`}
     >
-      {Array.from({ length: count }, (_, i) => (
-        <Star key={i} className="h-[1em] w-[1em] fill-current" strokeWidth={0} aria-hidden />
-      ))}
+      {Array.from({ length: count }, (_, i) => {
+        const star = (
+          <Star
+            key={i}
+            className={`h-[1em] w-[1em] fill-current ${shine ? `animate-star-shine motion-reduce:animate-none ${SHINE_DELAY[i]}` : ""}`}
+            strokeWidth={0}
+            aria-hidden
+          />
+        );
+        /* o acender vai num invólucro: duas animações no mesmo elemento brigariam pela mesma
+           propriedade `animation`, e o brilho sumiria */
+        return reveal ? (
+          <span key={i} className={`inline-flex animate-star-pop motion-reduce:animate-none ${REVEAL_DELAY[i]}`}>
+            {star}
+          </span>
+        ) : (
+          star
+        );
+      })}
     </span>
   );
 }
