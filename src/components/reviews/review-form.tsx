@@ -3,9 +3,8 @@
 import { useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Camera, Check, ImagePlus, Star, UserRound, X } from "lucide-react";
-import { CONTACT_3D } from "@/components/estilo-b/tarja";
 import { RATING_FONT } from "@/components/ui/brand-marks";
-import { FOCUS } from "@/components/ui/styles";
+import { CONTACT_3D, FOCUS } from "@/components/ui/styles";
 import { LIMITS, TRACKS, TRACK_LABEL, type Track } from "@/data/reviews";
 import { PHOTO_SIZE, SHOT_SIZE, preview, shrink } from "@/services/image";
 import { useLanguage } from "@/contexts/language-context";
@@ -34,7 +33,7 @@ export interface ReviewFormProps {
 
 /* O card é o mesmo creme da citação publicada (Quote); cada campo é um poço branco dentro dele —
    dá para ver o que é editável sem que a moldura brigue com o que está sendo mostrado. */
-const CARD = "flex flex-col gap-6 bg-[#F6F4F1] p-5 sm:p-6";
+const CARD = "flex flex-col gap-6 bg-paper p-5 sm:p-6";
 const INSET =
   "w-full rounded-md border border-ink/10 bg-white px-3 py-2.5 text-ink placeholder:text-ink/35 transition-[border-color,box-shadow] focus:border-ink/40 focus:outline-none focus:ring-2 focus:ring-accent/25";
 /* rótulo visível de cada parte do card, no mesmo desenho dos rótulos da folha */
@@ -259,7 +258,7 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
                   <UserRound className="h-8 w-8 text-ink/25" strokeWidth={1.5} aria-hidden />
                 )}
               </span>
-              <span className="absolute -bottom-0.5 -right-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-chrome text-chrome-ink ring-2 ring-[#F6F4F1] transition-transform group-hover:scale-110">
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-chrome text-chrome-ink ring-2 ring-paper transition-transform group-hover:scale-110">
                 <Camera className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
               </span>
             </PickerButton>

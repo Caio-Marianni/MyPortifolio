@@ -2,7 +2,7 @@
    convite. Sem framework — `node scripts/check-reviews.ts` passa calado ou joga.            */
 
 import assert from "node:assert/strict";
-import { LIMITS, formatMonth, isJpegBase64, ratingMark, reviewImage, summarize, type Review } from "../src/data/reviews.ts";
+import { LIMITS, bestByProject, formatMonth, isJpegBase64, ratingMark, reviewImage, summarize, type Review } from "../src/data/reviews.ts";
 /* o segredo é lido na hora de assinar, não no import — daí dá pra plantá-lo aqui embaixo */
 import { inviteId, inviteLink, signInvite, verifyInvite } from "../src/services/invite.ts";
 import { COOKIE_PATH, credentialsOk, newSession, validSession } from "../src/services/admin.ts";
@@ -24,6 +24,14 @@ const review = (id: number, track: Review["track"], rating: number): Review => (
   month: "2026-10",
   version: 1,
 });
+
+// melhor avaliação por projeto: maior nota, empate pelo comentário mais longo; sem projeto ou sem comentário fica de fora
+{
+  const r = (id: number, project: number | null, rating: number, comment: string): Review => ({ ...review(id, "web", rating), project, comment });
+  const best = bestByProject([r(1, 7, 4, "longo comentário"), r(2, 7, 5, "curto"), r(3, 7, 5, "mais longo"), r(4, 8, 5, "  "), r(5, null, 5, "x")]);
+  assert.deepEqual(Object.keys(best), ["7"]);
+  assert.equal(best[7].id, 3);
+}
 
 // data do card: mês e ano nos dois idiomas; valor torto vira vazio em vez de "undefined 2026"
 assert.equal(formatMonth("2026-10", "pt"), "out. 2026");

@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { RATING_FONT } from "@/components/ui/brand-marks";
-import { FOCUS } from "@/components/ui/styles";
-import { DARK_3D, MONOGRAM, MarkBackdrop, Tarja, TarjaSheet } from "@/components/estilo-b/tarja";
+import { MONOGRAM, RATING_FONT } from "@/components/ui/brand-marks";
+import { DARK_3D, FOCUS } from "@/components/ui/styles";
+import { MarkBackdrop, Tarja, TarjaSheet } from "@/components/site/tarja";
 import { useLanguage } from "@/contexts/language-context";
 
-/* A 404 no Estilo B: a tarja com o monograma marcado a ferro e o número grande, a folha com o recado
+/* A 404 no site: a tarja com o monograma marcado a ferro e o número grande, a folha com o recado
    e o caminho de volta. Mora dentro do layout raiz, então tem idioma e o PT/EN da tarja funciona. */
 export default function NotFound() {
   const { language } = useLanguage();
   const pt = language === "pt";
 
   return (
-    <main data-page="estilo-b-404" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
+    <main data-page="404" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
       <Tarja homeHref="/" backdrop={<MarkBackdrop path={MONOGRAM} />}>
         {/* o número no corpo do placar das avaliações: preenche a largura útil da tarja */}
         <p className={`${RATING_FONT} mt-40 text-[min(calc((100vw-40px)/1.6),200px)] font-bold leading-[0.8] tracking-[-0.04em] lg:mt-auto lg:text-[200px]`} aria-hidden>

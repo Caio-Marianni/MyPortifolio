@@ -4,53 +4,17 @@ import Link from "next/link";
 import { ViewTransition, type ReactNode, type SVGProps } from "react";
 import { ArrowUpRight, Download, FileDown } from "lucide-react";
 import { BrandIcon, CHANNELS, WHATSAPP_URL } from "@/components/contact/contact-channels";
-import { LogoMark } from "@/components/ui/brand-marks";
+import { BrandedMark, LogoMark, STAR } from "@/components/ui/brand-marks";
 import { LangSwitch } from "@/components/ui/switches";
-import { FOCUS } from "@/components/ui/styles";
+import { CONTACT_3D, CV_3D, DARK_3D, FOCUS, ON_CHROME_FOCUS } from "@/components/ui/styles";
 import { useLanguage } from "@/contexts/language-context";
 import { skipIntro } from "@/hooks/use-intro";
 import { usePointerShift } from "@/hooks/use-pointer-shift";
+import { useWhatsapp } from "@/hooks/use-whatsapp";
 
-/* A tarja do Estilo B, compartilhada pela home e pelas avaliações: a faixa preta com o relevo,
+/* A tarja do site, compartilhada pela home e pelas avaliações: a faixa preta com o relevo,
    o cabeçalho (logo + PT/EN) e o contato no pé. O miolo e o fundo (retrato, marca) vêm de fora. */
 
-/* o contorno padrão é `ink`, que na tarja preta some — aqui o foco é creme */
-export const ON_CHROME_FOCUS = "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-chrome-ink";
-/* Botão 3D em três camadas de sombra: um fio claro no topo (a luz batendo na quina), o lábio
-   sólido — a lateral da tecla, sempre a própria cor da face escurecida — e uma sombra difusa de
-   verdade no chão. No clique a tecla desce o lábio inteiro e a sombra encolhe junto.
-   Sem pílula de propósito: é a peça que mais tem que parecer tecla. Cada variante só define
-   `--face` e `--lip`; a mecânica é uma só. `--drop` troca só a sombra do chão e `--hover` o filtro
-   do hover, para a variante que pede outro. */
-const PRESS_3D =
-  "inline-flex min-h-[52px] select-none items-center justify-center gap-2 rounded-lg bg-[var(--face)] px-7 text-ui font-bold transition-[transform,box-shadow,filter,background-color] duration-150 hover:[filter:var(--hover,brightness(1.1))] " +
-  "[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_6px_0_0_var(--lip),var(--drop,0_14px_18px_-4px_rgb(0_0_0/0.6))] " +
-  "active:translate-y-[6px] active:[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_0_0_0_var(--lip),0_3px_6px_-2px_rgb(0_0_0/0.6)]";
-/* laranja; o lábio é o próprio laranja com preto, não outro tom de laranja */
-export const CONTACT_3D = `${PRESS_3D} text-accent-ink [--face:rgb(var(--accent))] [--lip:color-mix(in_srgb,rgb(var(--accent))_60%,black)]`;
-/* Creme: o CV da tarja e o "Ver o site" dos destaques, a mesma tecla nos dois. Na tarja,
-   grafite com lábio escuro sumia no preto; na folha branca é o lábio escuro que desenha a tecla. */
-export const CV_3D = `${PRESS_3D} text-chrome [--face:rgb(var(--chrome-ink))] [--lip:color-mix(in_srgb,rgb(var(--chrome-ink))_55%,black)]`;
-/* a mesma tecla em grafite, para a folha branca (CV da barra do celular) */
-export const DARK_3D = `${PRESS_3D} text-chrome-ink [--face:rgb(var(--chrome))] [--lip:black]`;
-/* Tecla pequena de alternar (o filtro de trilha da tarja): a mesma mecânica em escala menor.
-   Solta é creme, como o CV; ligada fica laranja, como o contato, e meio afundada — o lábio desce
-   pela metade, então dá para ver de longe qual está apertada. */
-const TOGGLE_BASE =
-  "inline-flex min-h-[34px] select-none items-center gap-1.5 rounded-md bg-[var(--face)] px-3 text-meta font-bold transition-[transform,box-shadow,filter] duration-150 hover:brightness-110 active:translate-y-[4px] active:[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_0_0_0_var(--lip),0_2px_4px_-2px_rgb(0_0_0/0.6)]";
-const TOGGLE_OFF =
-  "text-chrome [--face:rgb(var(--chrome-ink))] [--lip:color-mix(in_srgb,rgb(var(--chrome-ink))_55%,black)] [box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_4px_0_0_var(--lip),0_9px_12px_-3px_rgb(0_0_0/0.6)]";
-const TOGGLE_ON =
-  "translate-y-[2px] text-accent-ink [--face:rgb(var(--accent))] [--lip:color-mix(in_srgb,rgb(var(--accent))_60%,black)] [box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_2px_0_0_var(--lip),0_5px_8px_-3px_rgb(0_0_0/0.6)]";
-export const toggleKey = (on: boolean) => `${TOGGLE_BASE} ${on ? TOGGLE_ON : TOGGLE_OFF} ${ON_CHROME_FOCUS}`;
-export const ON_CHROME_LINK = "hover:text-chrome-ink hover:underline";
-/* Cabeçalho de seção da folha: título à esquerda, número à direita e o fio embaixo de borda a borda
-   da folha — as margens negativas desfazem o padding dela (px-5 / lg:px-14) e o padding devolve o
-   alinhamento do texto. Toda seção da folha usa este, para o fio nunca parar antes da borda. */
-export const SHEET_HEADER =
-  "-mx-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-ink/15 px-5 pb-3 lg:-mx-14 lg:px-14";
-export const SHEET_TITLE = "text-ui font-bold uppercase tracking-[0.06em] text-ink";
-export const SHEET_COUNT = "font-mono text-meta text-ink/60";
 const ICON = "h-[1.1em] w-[1.1em]";
 /* Na tarja os ícones vão cheios; os da página de contato seguem em traço (lá são marca d'água).
    GitHub e LinkedIn da simpleicons.org, envelope do Material Icons. */
@@ -90,51 +54,6 @@ const SOCIALS = [
 ];
 export const WhatsAppIcon = CHANNELS.find((c) => c.href === WHATSAPP_URL)?.Icon ?? ArrowUpRight;
 
-export const MONOGRAM =
-  "M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z";
-
-/** O monograma marcado a ferro na tarja, como couro queimado: a forma cheia, não o contorno.
-    Quatro passadas da mesma forma, do fundo para a frente: o chamuscado em volta (marrom-escuro,
-    borrado e irregular), a quina de baixo pegando luz (é o que faz a marca parecer afundada), o
-    queimado marrom e o carvão no miolo — a mesma forma encolhida por `feMorphology`, então a borda
-    fica mais clara que o centro, como ferro que esquentou mais no meio.
-    O `feTurbulence` + `feDisplacementMap` é o que tira o traço de régua e deixa a borda comida.
-    `evenodd`: forma com furo (o play vazado do ícone do YouTube) queima só a moldura. */
-/** a estrela das avaliações, no mesmo quadro de 500 do monograma */
-export const STAR = "M250 12L309 181L488 185L345 293L397 464L250 362L103 464L155 293L12 185L191 181Z";
-
-export function BrandedMark({ className = "", path = MONOGRAM }: { className?: string; path?: string }) {
-  return (
-    <svg viewBox="-40 -40 580 580" className={className} aria-hidden>
-      <defs>
-        <filter id="estilo-b-burn-rough" x="-10%" y="-10%" width="120%" height="120%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="7" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" />
-        </filter>
-        <filter id="estilo-b-burn-core" x="-10%" y="-10%" width="120%" height="120%">
-          <feMorphology operator="erode" radius="6" result="core" />
-          <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="4" result="noise" />
-          <feDisplacementMap in="core" in2="noise" scale="10" result="rough" />
-          <feGaussianBlur in="rough" stdDeviation="2.5" />
-        </filter>
-        <filter id="estilo-b-burn-scorch" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" seed="2" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" result="warped" />
-          <feGaussianBlur in="warped" stdDeviation="10" />
-        </filter>
-      </defs>
-      {/* tudo mais escuro que a tarja, só um pouco quente: é textura, não segundo protagonista —
-          o laranja da tarja fica com o monograma pequeno e o botão de contato */}
-      <path d={path} fillRule="evenodd" fill="#2b170c" stroke="#2b170c" strokeWidth={24} strokeLinejoin="round" opacity={0.55} filter="url(#estilo-b-burn-scorch)" />
-      <g filter="url(#estilo-b-burn-rough)">
-        <path d={path} fillRule="evenodd" fill="rgb(var(--chrome-ink))" opacity={0.06} transform="translate(0 2.5)" />
-        <path d={path} fillRule="evenodd" fill="#0b0705" />
-      </g>
-      <path d={path} fillRule="evenodd" fill="#000" opacity={0.7} filter="url(#estilo-b-burn-core)" />
-    </svg>
-  );
-}
-
 /** O fundo grande da tarja nas páginas sem retrato (avaliações, avaliar, 404): uma forma marcada a
     ferro — a estrela, por padrão. Inclinada e cortada pela borda direita, como o retrato cortado no
     topo da home: enquadramento, não ícone centralizado. Fica atrás do conteúdo como textura.
@@ -155,16 +74,6 @@ export function MarkBackdrop({ path = STAR }: { path?: string }) {
   );
 }
 
-/** link e rótulo do WhatsApp, com a mensagem pronta no idioma da página */
-export function useWhatsapp() {
-  const { language } = useLanguage();
-  const pt = language === "pt";
-  return {
-    href: `${WHATSAPP_URL}?text=${encodeURIComponent(pt ? "Oi Caio, vim pelo seu site." : "Hi Caio, I found you through your website.")}`,
-    label: pt ? "Fale comigo" : "Get in touch",
-  };
-}
-
 /** a tarja: relevo atrás, cabeçalho em cima, contato no pé. `backdrop` entra entre a luz rasante e
     a vinheta (é onde mora o retrato da home); `homeHref` faz do logo o caminho de volta.
     `noContact` tira contato, CV e redes do pé: no convite de avaliação a página é uma tarefa só, e
@@ -179,7 +88,7 @@ export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: 
        parada e só o que muda dentro dela (retrato ↔ estrela, nome ↔ placar) faz crossfade. Logo,
        PT/EN e contatos são iguais nos dois lados e o crossfade deles não aparece.
        `default="none"`: sem isso ela animaria em qualquer transição da página. */
-    <ViewTransition name="estilo-b-tarja" share="estilo-b-tarja" default="none">
+    <ViewTransition name="tarja" share="tarja" default="none">
       <aside className="relative isolate z-10 flex shrink-0 flex-col gap-6 overflow-hidden bg-chrome px-5 py-6 text-chrome-ink max-lg:pb-12 shadow-[0_10px_24px_rgba(0,0,0,0.25)] lg:sticky lg:top-0 lg:h-screen lg:w-[440px] lg:gap-7 lg:px-12 lg:py-10 lg:shadow-[12px_0_28px_rgba(0,0,0,0.22)]">
         {/* Relevo da tarja, do fundo para a frente: hachura fina na diagonal do monograma (a placa
           gravada), luz rasante vindo do canto de baixo, o fundo de cada página, vinheta escurecendo
@@ -297,8 +206,8 @@ export function TarjaSheet({ children, footer, noContact }: { children: ReactNod
   return (
     /* é a tarja que faz sombra nela, para baixo no celular e para a direita no desktop */
     /* Na troca de página a folha antiga some rápido e a nova sobe, enquanto a tarja fica parada.
-       Classes em globals.css (".estilo-b-sheet-*"). */
-    <ViewTransition enter="estilo-b-sheet-in" exit="estilo-b-sheet-out" default="none">
+       Classes em globals.css (".sheet-*"). */
+    <ViewTransition enter="sheet-in" exit="sheet-out" default="none">
       <div className="flex min-w-0 flex-1 flex-col">
         {/* No celular a folha sobe 24px sobre a tarja, com os cantos de cima arredondados (o pb-12 da
           tarja deixa a folga): na primeira tela ela já aparece como uma peça por cima, convidando a

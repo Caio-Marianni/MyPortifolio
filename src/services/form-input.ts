@@ -27,3 +27,6 @@ export const oneOf = <T extends string>(value: string, options: readonly T[]): T
 export function tooLong<K extends string>(values: Record<K, string>, limits: Record<K, number>): K | undefined {
   return (Object.keys(limits) as K[]).find((key) => values[key].length > limits[key]);
 }
+
+/** Mesma checagem do `type="email"` do navegador, no essencial: algo@algo.algo, sem espaço. */
+export const isEmail = (value: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);

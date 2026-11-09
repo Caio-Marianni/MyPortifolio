@@ -5,37 +5,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, PenLine, X } from "lucide-react";
 import { RATING_FONT, Stars } from "@/components/ui/brand-marks";
-import { FOCUS } from "@/components/ui/styles";
+import { CARD_TITLE, CONTACT_3D, FOCUS, ON_CHROME_FOCUS, rise, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE, toggleKey } from "@/components/ui/styles";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
-import { Quote } from "@/components/estilo-b/quote";
-import { CONTACT_3D, MarkBackdrop, ON_CHROME_FOCUS, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE, SheetFooter, Tarja, TarjaSheet, toggleKey } from "@/components/estilo-b/tarja";
+import { Quote } from "@/components/site/quote";
+import { MarkBackdrop, SheetFooter, Tarja, TarjaSheet } from "@/components/site/tarja";
 import { ReviewForm } from "@/components/reviews/review-form";
 import { useCountUp } from "@/hooks/use-count-up";
 import { useKeyClick } from "@/hooks/use-key-click";
 import { TRACKS, TRACK_LABEL, formatMonth, type Review, type ReviewSummary, type Track } from "@/data/reviews";
 import { useLanguage } from "@/contexts/language-context";
 
-/* As avaliações no Estilo B: a tarja deixa de ser a coluna da pessoa e vira o placar — média geral
+/* As avaliações no site: a tarja deixa de ser a coluna da pessoa e vira o placar — média geral
    grande, as duas trilhas e o filtro —, e a folha branca fica inteira para o que foi dito.
    Abre com a avaliação que mais diz, em corpo grande, como o projeto em destaque da home. */
 
 type Filter = Track | "all";
 
-const LABEL = "text-meta font-semibold uppercase tracking-[0.06em] text-ink/70";
-
-/* Entrada em cascata: cada card espera um pouco mais que o anterior. Classes inteiras porque o
-   Tailwind lê o código-fonte; do oitavo em diante entram todos juntos com o último atraso. */
-const STAGGER = [
-  "[animation-delay:0ms]",
-  "[animation-delay:60ms]",
-  "[animation-delay:120ms]",
-  "[animation-delay:180ms]",
-  "[animation-delay:240ms]",
-  "[animation-delay:300ms]",
-  "[animation-delay:360ms]",
-  "[animation-delay:420ms]",
-];
-const enter = (i: number) => `animate-rise motion-reduce:animate-none ${STAGGER[Math.min(i, STAGGER.length - 1)]}`;
 
 /* sempre há mais de uma avaliação publicada, então o rótulo é só o plural */
 const reviewsWord = (pt: boolean) => (pt ? "avaliações" : "reviews");
@@ -129,7 +114,7 @@ function StarOnlyRow({ review, project, tag, className = "" }: { review: Review;
   const pt = language === "pt";
 
   return (
-    <li className={`flex items-center gap-3 bg-[#F6F4F1] px-3 py-2.5 ${className}`}>
+    <li className={`flex items-center gap-3 bg-paper px-3 py-2.5 ${className}`}>
       <ReviewPhoto review={review} className="h-8 w-8 bg-ink/[0.07] text-[13px] text-ink/60" />
       <span className="flex min-w-0 flex-1 flex-col">
         {/* estrelas na linha do nome, como nos cards com comentário */}
@@ -152,7 +137,7 @@ function StarOnlyRow({ review, project, tag, className = "" }: { review: Review;
   );
 }
 
-export function EstiloBReviews({
+export function ReviewsPage({
   reviews,
   summary,
   projects,
@@ -187,7 +172,7 @@ export function EstiloBReviews({
   const formDialog = useRef<HTMLDialogElement>(null);
 
   return (
-    <main data-page="estilo-b-reviews" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
+    <main data-page="reviews" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
       <Tarja homeHref="/" backdrop={<MarkBackdrop />}>
         <div className="mt-40 flex flex-col gap-6 lg:mt-auto">
           {/* A nota vem primeiro e preenche a largura: número à esquerda, estrelas encostando na
@@ -251,7 +236,7 @@ export function EstiloBReviews({
       <TarjaSheet
         footer={
           <SheetFooter
-            id="estilo-b-avaliar"
+            id="avaliar"
             title={pt ? "Trabalhou comigo?" : "Worked with me?"}
             text={pt ? "Conta como foi. Leva um minuto, e entra aqui assim que eu conferir." : "Tell me how it went. Takes a minute, and it shows up here once I check it."}
           >
@@ -273,9 +258,9 @@ export function EstiloBReviews({
           </SheetFooter>
         }
       >
-        <section aria-labelledby="estilo-b-avaliacoes" className="flex flex-col">
+        <section aria-labelledby="avaliacoes" className="flex flex-col">
           <div className={SHEET_HEADER}>
-            <h2 id="estilo-b-avaliacoes" className={SHEET_TITLE}>
+            <h2 id="avaliacoes" className={SHEET_TITLE}>
               {pt ? "O que os clientes disseram" : "What clients said"}
             </h2>
             {/* o filtro troca a lista sem mexer no foco: é esta contagem que o leitor de tela anuncia */}
@@ -292,7 +277,7 @@ export function EstiloBReviews({
               linha. Aqui cada card ocupa só a altura que tem, e todos têm o mesmo peso. */}
             <div className="gap-4 pt-6 md:columns-2">
               {written.map((review, i) => (
-                <div key={review.id} className={`mb-4 break-inside-avoid ${enter(i)}`}>
+                <div key={review.id} className={`mb-4 break-inside-avoid ${rise(i)}`}>
                   <ReviewCard review={review} project={projectOf(review)} tag={tagOf(review)} />
                 </div>
               ))}
@@ -301,12 +286,12 @@ export function EstiloBReviews({
             {/* nem toda trilha tem avaliação só com nota: sem nenhuma, o título também não aparece */}
             {ratedOnly.length > 0 && (
               <>
-                <h3 className={`${LABEL} mb-3 mt-6`}>{pt ? "Também avaliaram" : "Also rated"}</h3>
+                <h3 className={`${CARD_TITLE} mb-3 mt-6`}>{pt ? "Também avaliaram" : "Also rated"}</h3>
                 {/* colunas pela largura de cada linha (mín. 260px), não por breakpoint: em 3 colunas fixas
                     a linha ficava estreita demais e o mês quebrava em dois */}
                 <ul className="grid gap-2 sm:grid-cols-[repeat(auto-fill,minmax(260px,1fr))]">
                   {ratedOnly.map((review, i) => (
-                    <StarOnlyRow key={review.id} review={review} project={projectOf(review)} tag={tagOf(review)} className={enter(written.length + i)} />
+                    <StarOnlyRow key={review.id} review={review} project={projectOf(review)} tag={tagOf(review)} className={rise(written.length + i)} />
                   ))}
                 </ul>
               </>

@@ -4,17 +4,20 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Users } from "lucide-react";
-import { Stars } from "@/components/ui/brand-marks";
+import { BrandedMark, Stars } from "@/components/ui/brand-marks";
 import { useLanguage } from "@/contexts/language-context";
 import { useHappyClients, useRating } from "@/contexts/reviews-context";
 import { useCountUp } from "@/hooks/use-count-up";
 import { useIntro } from "@/hooks/use-intro";
 import { usePointerShift } from "@/hooks/use-pointer-shift";
-import { ProjectShowcase, type ProjectReview } from "@/components/estilo-b/project-showcase";
-import { ThumbStrip } from "@/components/estilo-b/thumb-strip";
-import { BrandedMark, CONTACT_3D, ON_CHROME_FOCUS, ON_CHROME_LINK, SheetFooter, Tarja, TarjaSheet, WhatsAppIcon, useWhatsapp } from "@/components/estilo-b/tarja";
+import { ProjectShowcase } from "@/components/site/project-showcase";
+import type { Review } from "@/data/reviews";
+import { ThumbStrip } from "@/components/site/thumb-strip";
+import { useWhatsapp } from "@/hooks/use-whatsapp";
+import { CONTACT_3D, ON_CHROME_FOCUS, ON_CHROME_LINK } from "@/components/ui/styles";
+import { SheetFooter, Tarja, TarjaSheet, WhatsAppIcon } from "@/components/site/tarja";
 
-/* Estilo B, a "tarja lateral": a faixa preta da marca vira a coluna da pessoa (foto, nome, nota,
+/* A home, na "tarja lateral": a faixa preta da marca vira a coluna da pessoa (foto, nome, nota,
    contato) e a área creme fica inteira para o trabalho. Abaixo de lg a tarja vira o topo da página. */
 
 /* Retrato recortado (public/caio-portrait.webp: cores da image.jpg com a máscara da image.png, em 5:4 pelo topo) com o
@@ -63,7 +66,7 @@ function Portrait() {
 /* quando o nome e a nota começam a subir na intro: o `[animation-delay:950ms]` logo abaixo */
 const INTRO_CONTENT_MS = 950;
 
-export function EstiloB({ reviews }: { reviews: Record<number, ProjectReview> }) {
+export function HomePage({ reviews }: { reviews: Record<number, Review> }) {
   const { language } = useLanguage();
   const pt = language === "pt";
   const rating = useRating();
@@ -78,7 +81,7 @@ export function EstiloB({ reviews }: { reviews: Record<number, ProjectReview> })
   const score = useCountUp<HTMLElement>(rating ? Number(rating.value) : 0, 1, 800, countDelay);
 
   return (
-    <main data-page="estilo-b" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
+    <main data-page="home" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
       <Tarja backdrop={<Portrait />}>
         <div className="mt-56 animate-rise [animation-delay:950ms] motion-reduce:animate-none lg:mt-auto [[data-intro=off]_&]:animate-none">
           <h1 className="font-makaio text-[clamp(48px,20vw,112px)] font-black uppercase leading-[0.95] tracking-display">
@@ -117,7 +120,7 @@ export function EstiloB({ reviews }: { reviews: Record<number, ProjectReview> })
       <TarjaSheet
         footer={
           <SheetFooter
-            id="estilo-b-cta"
+            id="cta"
             title={pt ? "Tem um projeto em mente?" : "Got a project in mind?"}
             text={pt ? "Me conta a ideia pelo WhatsApp e eu volto com os próximos passos." : "Tell me the idea on WhatsApp and I'll come back with next steps."}
           >

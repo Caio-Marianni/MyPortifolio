@@ -97,6 +97,20 @@ export function summarize(reviews: Review[]): ReviewSummary {
   };
 }
 
+/** A avaliação que representa cada projeto na home: a de maior nota e, no empate, o comentário
+    mais longo — é a que mais diz. Sem comentário não entra: a coluna mostra o que o cliente escreveu. */
+export function bestByProject(reviews: Review[]): Record<number, Review> {
+  const best: Record<number, Review> = {};
+  for (const r of reviews) {
+    if (r.project === null || !r.comment.trim()) continue;
+    const current = best[r.project];
+    if (!current || r.rating > current.rating || (r.rating === current.rating && r.comment.length > current.comment.length)) {
+      best[r.project] = r;
+    }
+  }
+  return best;
+}
+
 /** O par que as peças de marca consomem. `null` sem avaliação nenhuma: a faixa esconde a nota
     em vez de anunciar 0.0 — quem monta rail e capa já trata rating ausente. */
 export function ratingMark(stats: TrackStats): { value: string; stars: number } | null {

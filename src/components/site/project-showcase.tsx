@@ -3,20 +3,18 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, ChevronDown, Gauge, Plus, Star } from "lucide-react";
-import { DeviceShowcase } from "@/components/estilo-b/device-showcase";
-import { FeaturedQuote } from "@/components/estilo-b/featured-quote";
-import { CV_3D, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE } from "@/components/estilo-b/tarja";
+import { DeviceShowcase } from "@/components/site/device-showcase";
+import { FeaturedQuote } from "@/components/site/featured-quote";
 import { LogoMark, RATING_FONT } from "@/components/ui/brand-marks";
-import { FOCUS } from "@/components/ui/styles";
+import { CARD_TITLE, CV_3D, FOCUS, rise, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE } from "@/components/ui/styles";
 import { HOME_FEATURED, HOME_INDEX, projects, screens, sideProjects, type Project } from "@/data/projects";
 import type { Review } from "@/data/reviews";
 import { useProjectVideo } from "@/hooks/use-project-video";
 
-/* A coluna de projetos do Estilo B, no formato "híbrido": os projetos em destaque com o site nas
+/* A coluna de projetos do site, no formato "híbrido": os projetos em destaque com o site nas
    molduras, uma frase e a avaliação do cliente inteira, e os outros num índice compacto, com a
    avaliação recolhida atrás de um botão. */
 
-export type ProjectReview = Review;
 type Language = "pt" | "en";
 
 /* a escolha e a ordem moram em data/projects.ts (HOME_FEATURED, HOME_INDEX) */
@@ -26,15 +24,12 @@ const indexed = HOME_INDEX.map(byId).filter((p) => p !== undefined);
 /* Quantos secundários cada "Ver mais" carrega. Vão para o fim do índice, na mesma linha dos
    outros, com o monograma no lugar da capa. */
 const PAGE = 6;
-/* atraso de cada linha de uma leva, em classes inteiras porque o Tailwind lê o código-fonte */
-const STAGGER = ["[animation-delay:0ms]", "[animation-delay:70ms]", "[animation-delay:140ms]", "[animation-delay:210ms]", "[animation-delay:280ms]", "[animation-delay:350ms]"];
 /* número declarado, não contado, como o das thumbnails: a home só mostra parte do que já foi feito */
 const MADE = 20;
 
 /** O que uma linha do índice usa: o projeto principal inteiro ou o secundário, que não tem capa nem nota. */
 type IndexProject = Pick<Project, "id" | "title" | "summary" | "demo"> & Partial<Pick<Project, "cover" | "tile" | "lighthouse">>;
 
-const LABEL = "text-meta font-semibold uppercase tracking-[0.06em] text-ink/70";
 /* Entrada pela rolagem, sem JavaScript (`animation-timeline: view()`). Só longhands: o atalho
    `animation` zeraria o timeline. Onde não há suporte (Firefox) a duração fica em 0s e o card já
    aparece no lugar. Fica fora do primeiro destaque: ele sobe com a intro, e na dobra do celular
@@ -75,7 +70,7 @@ function Cover({ src, sizes, className }: { src?: string; sizes: string; classNa
 /** As insígnias ao lado do título, iguais no destaque e no índice — só o corpo muda, por
     `className`. Subordinadas ao título por tamanho e cor: número apagado e só os ícones em cor.
     Sem Lighthouse nem avaliação, não renderiza nada. */
-function Badges({ project, review, language, className }: { project: IndexProject; review?: ProjectReview; language: Language; className: string }) {
+function Badges({ project, review, language, className }: { project: IndexProject; review?: Review; language: Language; className: string }) {
   const score = lighthouse(project);
   if (score === null && !review) return null;
 
@@ -102,7 +97,7 @@ function Badges({ project, review, language, className }: { project: IndexProjec
   );
 }
 
-function Featured({ project, review, language, first }: { project: Project; review?: ProjectReview; language: Language; first: boolean }) {
+function Featured({ project, review, language, first }: { project: Project; review?: Review; language: Language; first: boolean }) {
   const pt = language === "pt";
   const screen = screens(project);
   /* o card inteiro comanda o vídeo: hover com mouse, meio da tela no celular */
@@ -170,7 +165,7 @@ function Featured({ project, review, language, first }: { project: Project; revi
 /* Mesma linguagem do destaque em escala menor: título em Ricko com as insígnias ao lado, sem
    numeração, rótulo de tipo de cliente nem etiqueta de "em desenvolvimento". A nota já está ao
    lado do título, então a avaliação abre por um link de texto, no mesmo card dos destaques. */
-function IndexRow({ project, review, language, className = "" }: { project: IndexProject; review?: ProjectReview; language: Language; className?: string }) {
+function IndexRow({ project, review, language, className = "" }: { project: IndexProject; review?: Review; language: Language; className?: string }) {
   const [open, setOpen] = useState(false);
   const pt = language === "pt";
 
@@ -222,7 +217,7 @@ function IndexRow({ project, review, language, className = "" }: { project: Inde
   );
 }
 
-export function ProjectShowcase({ reviews, language }: { reviews: Record<number, ProjectReview>; language: Language }) {
+export function ProjectShowcase({ reviews, language }: { reviews: Record<number, Review>; language: Language }) {
   const pt = language === "pt";
   const [shown, setShown] = useState(0);
   const [target, setTarget] = useState<string | null>(null);
@@ -240,9 +235,9 @@ export function ProjectShowcase({ reviews, language }: { reviews: Record<number,
   }, [target]);
 
   return (
-    <section aria-labelledby="estilo-b-projetos" className="flex w-full flex-col">
+    <section aria-labelledby="projetos" className="flex w-full flex-col">
       <div className={SHEET_HEADER}>
-        <h2 id="estilo-b-projetos" className={SHEET_TITLE}>
+        <h2 id="projetos" className={SHEET_TITLE}>
           {pt ? "Projetos selecionados" : "Selected projects"}
         </h2>
         <span className={SHEET_COUNT}>{pt ? `+${MADE} projetos feitos` : `${MADE}+ projects made`}</span>
@@ -255,7 +250,7 @@ export function ProjectShowcase({ reviews, language }: { reviews: Record<number,
         ))}
       </div>
 
-      <h3 className={`${LABEL} mt-8`}>{pt ? "Mais projetos" : "More projects"}</h3>
+      <h3 className={`${CARD_TITLE} mt-8`}>{pt ? "Mais projetos" : "More projects"}</h3>
       <ul>
         {indexed.map((project) => (
           <IndexRow key={project.id} project={project} review={reviews[project.id]} language={language} />
@@ -267,7 +262,7 @@ export function ProjectShowcase({ reviews, language }: { reviews: Record<number,
             project={project}
             review={reviews[project.id]}
             language={language}
-            className={`animate-rise motion-reduce:animate-none ${STAGGER[i % PAGE]}`}
+            className={rise(i % PAGE)}
           />
         ))}
       </ul>

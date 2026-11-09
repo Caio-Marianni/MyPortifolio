@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { INTRO_KEY } from "@/components/estilo-b/intro-key";
+import { INTRO_KEY } from "@/components/site/intro-key";
 
-/* Intro da home do Estilo B: toca uma vez por sessão do navegador e qualquer clique, tecla,
+/* Intro da home do site: toca uma vez por sessão do navegador e qualquer clique, tecla,
    toque ou rolagem durante ela abre a capa na hora.
 
    O "já vi" é o atributo `data-intro="off"` no <html>, que o CSS lê para esconder a capa e

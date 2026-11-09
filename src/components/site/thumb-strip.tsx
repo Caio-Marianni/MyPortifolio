@@ -3,12 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import { FOCUS } from "@/components/ui/styles";
-import { SHEET_COUNT, SHEET_HEADER, SHEET_TITLE } from "@/components/estilo-b/tarja";
+import { CAROUSEL_ARROW, FOCUS, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE } from "@/components/ui/styles";
 import { thumbLoader, thumbnails } from "@/data/thumbnails";
 import { useScrollStrip } from "@/hooks/use-scroll-strip";
 
-/* A segunda trilha na home do Estilo B: em vez de um link "Thumbnails" no canto, uma faixa com uma
+/* A segunda trilha na home do site: em vez de um link "Thumbnails" no canto, uma faixa com uma
    peça de cada nicho, que rola de lado (polegar, trackpad ou as setas) e encaixa peça a peça. A
    última peça é o "ver mais", e tudo leva à galeria.
 
@@ -29,8 +28,6 @@ export const THUMB_BAR =
   "pointer-events-none absolute inset-x-0 bottom-0 z-10 h-1 origin-left scale-x-0 bg-accent transition-transform duration-500 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none";
 /* seta por cima da faixa, centrada na altura das peças (a faixa tem pt-2 de folga para a peça subir
    no hover e pb-4 para a sombra) */
-const ARROW =
-  "absolute top-[calc(50%-4px)] z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-ink shadow-[0_6px_16px_-4px_rgb(0_0_0/0.4)] transition-[opacity,transform] hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 export function ThumbStrip({ language }: { language: "pt" | "en" }) {
   const pt = language === "pt";
@@ -47,9 +44,9 @@ export function ThumbStrip({ language }: { language: "pt" | "en" }) {
           : "[mask-image:linear-gradient(to_right,transparent,black_12%,black_85%,transparent)]";
 
   return (
-    <section aria-labelledby="estilo-b-thumbs" className="mt-16 flex flex-col">
+    <section aria-labelledby="thumbs" className="mt-16 flex flex-col">
       <div className={SHEET_HEADER}>
-        <h2 id="estilo-b-thumbs" className={SHEET_TITLE}>
+        <h2 id="thumbs" className={SHEET_TITLE}>
           Thumbnails
         </h2>
         {/* número declarado, não contado: a galeria do site é só uma amostra do que já foi feito */}
@@ -104,7 +101,7 @@ export function ThumbStrip({ language }: { language: "pt" | "en" }) {
           onClick={() => scroll(-1)}
           tabIndex={-1}
           aria-label={pt ? "Thumbnails anteriores" : "Previous thumbnails"}
-          className={`${ARROW} -left-2 lg:-left-5 ${atStart ? "pointer-events-none scale-90 opacity-0" : "opacity-100"}`}
+          className={`${CAROUSEL_ARROW} top-[calc(50%-4px)] z-10 focus-visible:outline-ink -left-2 lg:-left-5 ${atStart ? "pointer-events-none scale-90 opacity-0" : "opacity-100"}`}
         >
           <ChevronLeft className="h-5 w-5" strokeWidth={2.5} aria-hidden />
         </button>
@@ -113,7 +110,7 @@ export function ThumbStrip({ language }: { language: "pt" | "en" }) {
           onClick={() => scroll(1)}
           tabIndex={-1}
           aria-label={pt ? "Próximas thumbnails" : "Next thumbnails"}
-          className={`${ARROW} -right-2 lg:-right-5 ${atEnd ? "pointer-events-none scale-90 opacity-0" : "opacity-100"}`}
+          className={`${CAROUSEL_ARROW} top-[calc(50%-4px)] z-10 focus-visible:outline-ink -right-2 lg:-right-5 ${atEnd ? "pointer-events-none scale-90 opacity-0" : "opacity-100"}`}
         >
           <ChevronRight className="h-5 w-5" strokeWidth={2.5} aria-hidden />
         </button>

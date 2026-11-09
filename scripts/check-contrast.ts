@@ -60,9 +60,6 @@ const PAIRS: Array<[string, string, string, number, number]> = [
   ["acento sobre a página", "accent", "surface", 1, 3],
   ["texto sobre o acento", "accent-ink", "accent", 1, 4.5],
   ["texto sobre o acento, hover", "accent-ink", "accent-hover", 1, 4.5],
-  ["ficha alternada", "card-flip-ink", "card-flip-paper", 1, 4.5],
-  ["ficha alternada, corpo", "card-flip-ink", "card-flip-paper", 0.7, 4.5],
-  ["ficha alternada, rótulo", "card-flip-ink", "card-flip-paper", 0.35, 0],
 ];
 
 let worst = Infinity;
@@ -83,15 +80,6 @@ for (const [nome, fg, bg, alpha, piso] of PAIRS) {
   assert.ok(D >= barra, `"${nome}" lê pior no escuro (${D.toFixed(2)}) que no claro (${L.toFixed(2)})`);
   assert.ok(L >= piso, `"${nome}" abaixo do WCAG no claro (${L.toFixed(2)} < ${piso})`);
   if (piso) worst = Math.min(worst, L, D);
-}
-
-/* O dossiê alterna ficha a ficha, e no escuro a alternância é um degrau de superfície em vez da
-   inversão cheia do claro. Degrau pequeno demais e a lista vira um bloco só; grande demais e
-   volta a acender metade da página. A régua de baixo é o que separa "alterna" de "não alterna". */
-for (const [nome, theme] of [["claro", light], ["escuro", dark]] as const) {
-  const passo = ratio(theme["card-flip-paper"], theme.surface);
-  console.log(`${`degrau da ficha alternada (${nome})`.padEnd(34)} ${passo.toFixed(2)}`);
-  assert.ok(passo >= 1.2, `ficha alternada quase igual à página no tema ${nome} (${passo.toFixed(2)}) — a alternância some`);
 }
 
 /* A tarja é o gesto da capa: mais escura que a página nos dois temas. Se um ajuste de paleta

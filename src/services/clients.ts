@@ -1,8 +1,7 @@
 /* caminho relativo com extensão, como em services/admin.ts: o `npm run check` roda isto no node
    puro, que não conhece o alias `@/` */
 import { TODAY, db, isForeignKeyError } from "./db.ts";
-import { isEmail } from "../data/contact.ts";
-import { field, tooLong } from "./form-input.ts";
+import { field, isEmail, tooLong } from "./form-input.ts";
 import { NEXT_DUE } from "./plans.ts";
 
 /* Clientes de web dev. Onde o site mora e quem é dono de cada conta ficam em "contas e acessos"

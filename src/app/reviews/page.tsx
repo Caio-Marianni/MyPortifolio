@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { EstiloBReviews, type ReviewProject } from "@/components/estilo-b/estilo-b-reviews";
+import { ReviewsPage, type ReviewProject } from "@/components/site/reviews-page";
 import { allProjects, projects as mainProjects } from "@/data/projects";
 import { summarize } from "@/data/reviews";
 import { getReviews } from "@/services/reviews";
@@ -19,14 +19,14 @@ export const metadata: Metadata = {
 };
 
 /* No celular o topo da página é a tarja preta: a barra do navegador emenda com ela, nos dois temas
-   (o Estilo B fica sempre no claro, e a tarja do claro é --chrome #111111). */
+   (o site fica sempre no claro, e a tarja do claro é --chrome #111111). */
 export const viewport: Viewport = { themeColor: "#111111" };
 
 /* Avaliação nova entra pela moderação, não pelo minuto: 5 min de ISR é atualização de sobra
    e a página continua servindo HTML pronto em vez de bater no Neon a cada visita. */
 export const revalidate = 300;
 
-export default async function ReviewsPage() {
+export default async function Reviews() {
   const reviews = await getReviews();
 
   /* Só nome, capa e logo dos projetos que alguma avaliação cita: o quadro é componente de cliente
@@ -41,5 +41,5 @@ export default async function ReviewsPage() {
       }),
   );
 
-  return <EstiloBReviews reviews={reviews} summary={summarize(reviews)} projects={projects} />;
+  return <ReviewsPage reviews={reviews} summary={summarize(reviews)} projects={projects} />;
 }

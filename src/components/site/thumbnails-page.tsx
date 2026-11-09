@@ -5,29 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { RATING_FONT, Stars } from "@/components/ui/brand-marks";
-import { FOCUS } from "@/components/ui/styles";
-import {
-  CONTACT_3D,
-  MarkBackdrop,
-  ON_CHROME_FOCUS,
-  ON_CHROME_LINK,
-  SHEET_COUNT,
-  SHEET_HEADER,
-  SHEET_TITLE,
-  SheetFooter,
-  Tarja,
-  TarjaSheet,
-  WhatsAppIcon,
-  toggleKey,
-  useWhatsapp,
-} from "@/components/estilo-b/tarja";
+import { CAROUSEL_ARROW, CONTACT_3D, FOCUS, ON_CHROME_FOCUS, ON_CHROME_LINK, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE, toggleKey } from "@/components/ui/styles";
+import { MarkBackdrop, SheetFooter, Tarja, TarjaSheet, WhatsAppIcon } from "@/components/site/tarja";
 import { useLanguage } from "@/contexts/language-context";
 import { useRating } from "@/contexts/reviews-context";
 import { NICHES, thumbLoader, thumbnails, type Thumbnail } from "@/data/thumbnails";
 import { useKeyClick } from "@/hooks/use-key-click";
-import { THUMB_BAR, THUMB_TILE } from "@/components/estilo-b/thumb-strip";
+import { useWhatsapp } from "@/hooks/use-whatsapp";
+import { THUMB_BAR, THUMB_TILE } from "@/components/site/thumb-strip";
 
-/* A galeria de thumbnails no Estilo B, no molde das avaliações: a tarja vira o painel da trilha
+/* A galeria de thumbnails no site, no molde das avaliações: a tarja vira o painel da trilha
    (título, quantas já foram feitas, a nota de quem contratou e os nichos como teclas de filtro) e a
    folha branca fica inteira para as peças. Clicar abre a peça grande por cima da página. */
 
@@ -38,12 +25,10 @@ const PLAY = "M95 85H405A95 95 0 0 1 500 180V320A95 95 0 0 1 405 415H95A95 95 0 
 const MADE = 300;
 
 /* seta do visor: círculo branco por cima da peça, como as da faixa da home */
-const ARROW =
-  "absolute top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-ink shadow-[0_6px_16px_-4px_rgb(0_0_0/0.4)] transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
 const label = (thumb: Thumbnail) => thumb.tags.join(" · ");
 
-export function EstiloBThumbnails() {
+export function ThumbnailsPage() {
   const { language } = useLanguage();
   const pt = language === "pt";
   const rating = useRating("thumbs");
@@ -70,7 +55,7 @@ export function EstiloBThumbnails() {
   const step = (delta: number) => setOpen((i) => (i === null ? i : (i + delta + visible.length) % visible.length));
 
   return (
-    <main data-page="estilo-b-thumbnails" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
+    <main data-page="thumbnails" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
       <Tarja homeHref="/" backdrop={<MarkBackdrop path={PLAY} />}>
         <div className="mt-40 flex flex-col gap-5 lg:mt-auto">
           <div className="flex flex-col gap-2">
@@ -102,7 +87,7 @@ export function EstiloBThumbnails() {
         footer={
           /* no celular o botão fica de fora, como na home: a barra presa no pé da folha já é o WhatsApp */
           <SheetFooter
-            id="estilo-b-thumbs-cta"
+            id="thumbs-cta"
             title={pt ? "Precisa de thumbnails?" : "Need thumbnails?"}
             text={pt ? "Me manda o canal e o próximo vídeo pelo WhatsApp e eu volto com a proposta." : "Send me the channel and the next video on WhatsApp and I'll come back with a proposal."}
           >
@@ -113,9 +98,9 @@ export function EstiloBThumbnails() {
           </SheetFooter>
         }
       >
-        <section aria-labelledby="estilo-b-galeria" className="flex flex-col">
+        <section aria-labelledby="galeria" className="flex flex-col">
           <div className={SHEET_HEADER}>
-            <h2 id="estilo-b-galeria" className={SHEET_TITLE}>
+            <h2 id="galeria" className={SHEET_TITLE}>
               {niche ?? (pt ? "Galeria" : "Gallery")}
             </h2>
             {/* o filtro troca a grade sem mexer no foco: é esta contagem que o leitor de tela anuncia */}
@@ -168,10 +153,10 @@ export function EstiloBThumbnails() {
                 </span>
                 {visible.length > 1 && (
                   <>
-                    <button type="button" onClick={() => step(-1)} aria-label={pt ? "Anterior" : "Previous"} className={`${ARROW} left-2 sm:-left-5`}>
+                    <button type="button" onClick={() => step(-1)} aria-label={pt ? "Anterior" : "Previous"} className={`${CAROUSEL_ARROW} top-1/2 focus-visible:outline-white left-2 sm:-left-5`}>
                       <ChevronLeft className="h-5 w-5" strokeWidth={2.5} aria-hidden />
                     </button>
-                    <button type="button" onClick={() => step(1)} aria-label={pt ? "Próxima" : "Next"} className={`${ARROW} right-2 sm:-right-5`}>
+                    <button type="button" onClick={() => step(1)} aria-label={pt ? "Próxima" : "Next"} className={`${CAROUSEL_ARROW} top-1/2 focus-visible:outline-white right-2 sm:-right-5`}>
                       <ChevronRight className="h-5 w-5" strokeWidth={2.5} aria-hidden />
                     </button>
                   </>

@@ -127,7 +127,7 @@ async function main() {
     capture(project.demo, phoneShot, "492,1065", 2);
 
     await cover(project.brand, desktopShot, phoneShot, join(PUBLIC, `projects/cover/p${project.id}.webp`));
-    /* as telas cruas, para as molduras em CSS dos destaques da home (estilo-b/device-showcase) */
+    /* as telas cruas, para as molduras em CSS dos destaques da home (site/device-showcase) */
     const screen = screens(project);
     if (screen) {
       await sharp(desktopShot).resize(1200).webp({ quality: 80 }).toFile(join(PUBLIC, screen.desktop));

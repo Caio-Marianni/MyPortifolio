@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/contexts/theme-context";
 import { getSummary } from "@/services/reviews";
 
 import localFont from "next/font/local";
-import { INTRO_KEY } from "@/components/estilo-b/intro-key";
+import { INTRO_KEY } from "@/components/site/intro-key";
 
 /* Os .woff2 saem daqui e não de /public por dois motivos que valem nota no PageSpeed:
    o Next os serve de /_next/static com cache imutável de 1 ano (em /public a resposta é
@@ -121,7 +121,7 @@ export const viewport: Viewport = {
    primeiro frame só muda texto, trocar o tema é um flash creme na cara de quem pediu escuro.
    Sem valor salvo segue o SO; com valor salvo ele manda. try/catch porque localStorage
    lança em navegação restrita, e aí o site simplesmente fica no claro. */
-/* Junto com o tema, a intro do Estilo B: quem já a viu nesta sessão não vê a capa piscar até o
+/* Junto com o tema, a intro do site: quem já a viu nesta sessão não vê a capa piscar até o
    React chegar (detalhes em hooks/use-intro.ts). Mora aqui, e não na página, porque um <script> num
    componente de página não roda na navegação interna e o React avisa. */
 const themeScript = `(function(){try{var s=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",s==="dark"||(!s&&window.matchMedia("(prefers-color-scheme: dark)").matches))}catch(e){}try{if(sessionStorage.getItem("${INTRO_KEY}"))document.documentElement.dataset.intro="off"}catch(e){}})()`;

@@ -21,17 +21,13 @@ const config: Config = {
         /* Botão sólido invertido: escuro sobre creme no claro, creme sobre escuro no escuro. */
         fill: "rgb(var(--fill) / <alpha-value>)",
         "fill-ink": "rgb(var(--fill-ink) / <alpha-value>)",
-        "fill-lip": "rgb(var(--fill-lip) / <alpha-value>)",
-        "surface-hover": "rgb(var(--surface-hover) / <alpha-value>)",
         accent: "rgb(var(--accent) / <alpha-value>)",
         "accent-hover": "rgb(var(--accent-hover) / <alpha-value>)",
         /* texto sobre o laranja: branco no claro, quase-preto no escuro, onde o laranja sobe */
         "accent-ink": "rgb(var(--accent-ink) / <alpha-value>)",
         danger: "rgb(var(--danger) / <alpha-value>)",
-        /* Par da ficha do dossiê. Não mora no :root: cada ficha o define no próprio article,
-           apontando para a página ou para o par `card-flip` — ver project-dossier.tsx. */
-        "card-ink": "rgb(var(--card-ink) / <alpha-value>)",
-        "card-paper": "rgb(var(--card-paper) / <alpha-value>)",
+        /* Creme dos cards de avaliação sobre a folha branca do site, que fica sempre no claro. */
+        paper: "#F6F4F1",
       },
       /* Três degraus de corpo e nada entre eles: meta (rótulos, legendas, faixas), ui (menus,
          botões, linhas de lista) e body (texto corrido). Títulos ficam no `clamp` de cada peça.
