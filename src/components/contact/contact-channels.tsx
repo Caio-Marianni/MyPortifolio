@@ -16,7 +16,9 @@ interface Channel {
    sem stroke, então o `strokeWidth` que o ladrilho passa junto não tem efeito aqui. */
 export function BrandIcon({ path, ...props }: SVGProps<SVGSVGElement> & { path: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    /* `overflow="visible"`: as marcas encostam na borda do quadro de 24 (o WhatsApp vai a 23.94) e,
+       numa posição de subpixel, o recorte padrão do SVG comia a curva da direita */
+    <svg viewBox="0 0 24 24" fill="currentColor" overflow="visible" {...props}>
       <path d={path} />
     </svg>
   );
@@ -55,33 +57,3 @@ export const CHANNELS: Channel[] = [
   { label: "LinkedIn", value: "caio-marianni", href: "https://www.linkedin.com/in/caio-marianni/", Icon: Linkedin },
   { label: "Upwork", value: "caio m.", href: "https://www.upwork.com/freelancers/~01e15c653dfbed2b29", Icon: Upwork },
 ];
-
-/** Grade 3×2 de ladrilhos: rótulo e valor por cima, ícone da plataforma sangrando
-    no canto como marca d'água — mesmo gesto do número em contorno do dossiê. */
-export function ContactChannels() {
-  return (
-    <div className="mt-8 grid grid-cols-2 gap-px border border-chrome-ink/[0.16] bg-chrome-ink/[0.16] sm:grid-cols-3">
-      {CHANNELS.map(({ label, value, href, Icon }) => (
-        <a
-          key={label}
-          href={href}
-          /* mailto abre no cliente do próprio visitante; só os links http saem para outra aba */
-          target={href.startsWith("http") ? "_blank" : undefined}
-          rel="noopener noreferrer"
-          className="group/tile relative flex min-h-[84px] flex-col gap-1.5 overflow-hidden bg-chrome px-[15px] py-3.5 text-chrome-ink transition-colors hover:bg-accent hover:text-accent-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-1px] focus-visible:outline-current"
-        >
-          <Icon
-            className="pointer-events-none absolute -bottom-[14px] -right-[12px] h-[74px] w-[74px] opacity-[0.13] transition-[opacity,transform] group-hover/tile:scale-[1.06] group-hover/tile:opacity-[0.32]"
-            strokeWidth={1.75}
-            aria-hidden
-          />
-
-          <span className="relative text-meta">{label}</span>
-          <span className="relative truncate text-meta tracking-[0.02em] text-chrome-ink/55 transition-colors group-hover/tile:text-accent-ink/85">
-            {value}
-          </span>
-        </a>
-      ))}
-    </div>
-  );
-}

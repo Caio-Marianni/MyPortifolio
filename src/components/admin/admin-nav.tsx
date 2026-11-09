@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, ExternalLink, FileText, Inbox, LayoutDashboard, LogOut, QrCode, Star, Users } from "lucide-react";
+import { BarChart3, ExternalLink, FileText, LayoutDashboard, LogOut, QrCode, Star, Users } from "lucide-react";
 import { LogoMark } from "@/components/ui/brand-marks";
 import { ThemeSwitch } from "@/components/ui/switches";
 import { logout } from "@/app/admin/actions";
@@ -17,7 +17,6 @@ const LINKS = [
   { href: "/admin/documentos", label: "Documentos", icon: FileText },
   { href: "/admin/relatorios", label: "Relatórios", icon: BarChart3 },
   { href: "/admin/avaliacoes", label: "Avaliações", icon: Star },
-  { href: "/admin/mensagens", label: "Mensagens", icon: Inbox },
   { href: "/admin/qr", label: "QR code", icon: QrCode },
 ];
 

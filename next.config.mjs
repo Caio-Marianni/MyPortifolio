@@ -11,6 +11,18 @@ const nextConfig = {
      /public, então cada visita revalidava o grão e as capas dos projetos. São arquivos que
      só mudam por commit; quando mudar, muda o nome. */
   poweredByHeader: false,
+  /* O Estilo B foi proposta em /estilo-b antes de virar a home; os links mandados a quem opinou
+     continuam abrindo. Temporário (307) de propósito: não grava no cache do navegador. */
+  async redirects() {
+    return [
+      { source: "/estilo-b", destination: "/", permanent: false },
+      { source: "/estilo-b/avaliacoes", destination: "/reviews", permanent: false },
+      /* Páginas que viraram parte da home: os projetos estão todos lá, e o contato é o WhatsApp
+         da tarja. Permanente (308) para a busca trocar o endereço indexado. */
+      { source: "/projects", destination: "/", permanent: true },
+      { source: "/contact", destination: "/", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

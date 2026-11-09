@@ -78,7 +78,6 @@ export default async function VisaoGeralPage() {
     data.awaitingSignature.length +
     data.expiring.length +
     (data.pendingReports ? 1 : 0) +
-    (data.newMessages ? 1 : 0) +
     (data.pendingReviews ? 1 : 0);
 
   return (
@@ -127,12 +126,6 @@ export default async function VisaoGeralPage() {
                   <span className="font-semibold">{account.clientName}</span> <span className="text-ink/60">· {account.service}</span>
                 </Item>
               ))}
-
-              {data.newMessages > 0 && (
-                <Item href="/admin/mensagens" aside={<Badge tone="accent">{data.newMessages}</Badge>}>
-                  {data.newMessages === 1 ? "Mensagem nova" : "Mensagens novas"} pelo site
-                </Item>
-              )}
 
               {data.pendingReviews > 0 && (
                 <Item href="/admin/avaliacoes?ver=pending" aside={<Badge tone="accent">{data.pendingReviews}</Badge>}>

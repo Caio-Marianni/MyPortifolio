@@ -91,6 +91,15 @@ export interface NewReview {
   date?: string;
 }
 
+/** Quantas avaliações de um convite entraram nos últimos `minutes` — o teto do formulário público. */
+export async function countRecent(invite: string, minutes: number): Promise<number> {
+  const [row] = (await db()`
+    select count(*)::int as n from reviews
+    where invite = ${invite} and created_at > now() - make_interval(mins => ${minutes})
+  `) as { n: number }[];
+  return row.n;
+}
+
 /** Pendente por padrão — publicar é decisão sua, no painel. A cadastrada à mão pode já nascer
     publicada e com a data de quando chegou de verdade. */
 export async function createReview(review: NewReview): Promise<void> {

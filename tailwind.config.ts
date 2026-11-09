@@ -54,23 +54,37 @@ const config: Config = {
           "0%, 70%, 100%": { filter: "brightness(1)" },
           "78%": { filter: "brightness(1.55) drop-shadow(0 0 0.3em rgb(var(--accent) / 0.75))" },
         },
-        /* estrela da nota acendendo no fim da contagem: cresce, passa um pouco do tamanho e assenta */
-        "star-pop": {
-          "0%": { opacity: "0", transform: "scale(0.3)" },
-          "70%": { opacity: "1", transform: "scale(1.18)" },
-          "100%": { opacity: "1", transform: "scale(1)" },
+        /* estrelas da nota enchendo da esquerda para a direita (Stars `reveal`); o fim é o recorte da nota */
+        "star-fill": {
+          from: { clipPath: "inset(0 100% 0 0)" },
+          to: { clipPath: "var(--fill-end)" },
         },
-        /* entrada dos cards de avaliação ao trocar o filtro: sobe um pouco e aparece */
-        "review-in": {
+        /* sobe um pouco e aparece: cards de avaliação ao trocar o filtro, conteúdo da home no fim da
+           intro, linhas do "Ver mais" e janelas (<dialog>) ao abrir */
+        rise: {
           from: { opacity: "0", transform: "translateY(12px)" },
           to: { opacity: "1", transform: "none" },
         },
+        /* o fundo escuro atrás de uma janela (<dialog>) aparecendo junto com ela */
+        "fade-in": { from: { opacity: "0" } },
+        /* intro "faixa partida": a linha laranja risca a borda da tarja de cima
+           para baixo e some; a capa preta sai para a direita (desktop) ou para baixo (celular) */
+        "faixa-draw": { from: { transform: "scaleY(0)" }, to: { transform: "scaleY(1)" } },
+        "fade-out": { to: { opacity: "0" } },
+        "faixa-open-x": { to: { transform: "translateX(101%)" } },
+        "faixa-open-y": { to: { transform: "translateY(101%)" } },
       },
       animation: {
         "star-shine": "star-shine 4.5s ease-in-out infinite",
-        "star-pop": "star-pop 380ms cubic-bezier(0.3, 0.7, 0.4, 1.3) both",
+        /* 800ms e ease-out cúbico: a mesma conta do use-count-up, então a cor anda junto com o número */
+        "star-fill": "star-fill 800ms cubic-bezier(0.33, 1, 0.68, 1) both",
         /* `both`: o card fica invisível durante o próprio atraso, senão piscava antes de entrar */
-        "review-in": "review-in 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both",
+        rise: "rise 450ms cubic-bezier(0.2, 0.7, 0.2, 1) both",
+        "fade-in": "fade-in 300ms ease-out both",
+        /* tempos da intro: linha em 0–450ms, capa abre de 520ms a 1270ms, conteúdo sobe a partir de 950ms */
+        "faixa-line": "faixa-draw 450ms cubic-bezier(0.7, 0, 0.2, 1) both, fade-out 300ms linear 1000ms forwards",
+        "faixa-open-x": "faixa-open-x 750ms cubic-bezier(0.7, 0, 0.2, 1) 520ms forwards",
+        "faixa-open-y": "faixa-open-y 750ms cubic-bezier(0.7, 0, 0.2, 1) 520ms forwards",
       },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],

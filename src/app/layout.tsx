@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/contexts/theme-context";
 import { getSummary } from "@/services/reviews";
 
 import localFont from "next/font/local";
+import { INTRO_KEY } from "@/components/estilo-b/intro-key";
 
 /* Os .woff2 saem daqui e não de /public por dois motivos que valem nota no PageSpeed:
    o Next os serve de /_next/static com cache imutável de 1 ano (em /public a resposta é
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
     template: "%s | Caio Marianni",
   },
   description:
-    "Desenvolvedor fullstack especializado em criar interfaces modernas, experiências web interativas e design visual. Confira meus projetos e entre em contato.",
+    "Desenvolvedor fullstack e designer: sites, sistemas e painéis sob medida, e thumbnails para YouTube. Veja os projetos e o que os clientes dizem.",
   keywords: [
     "desenvolvedor fullstack",
     "portfolio",
@@ -89,14 +90,12 @@ export const metadata: Metadata = {
     url: baseUrl,
     siteName: "Caio Marianni Portfolio",
     title: "Caio Marianni | Portfolio",
-    description:
-      "Desenvolvedor fullstack especializado em criar interfaces modernas, experiências web interativas e design visual.",
+    description: "Desenvolvedor fullstack e designer: sites, sistemas e painéis sob medida, e thumbnails para YouTube.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Caio Marianni | Portfolio",
-    description:
-      "Desenvolvedor fullstack especializado em criar interfaces modernas, experiências web interativas e design visual.",
+    description: "Desenvolvedor fullstack e designer: sites, sistemas e painéis sob medida, e thumbnails para YouTube.",
   },
   /* Sem `languages`: o inglês é toggle no cliente, na mesma URL — um hreflang para /en
      apontava o Google para uma página que não existe. */
@@ -122,7 +121,10 @@ export const viewport: Viewport = {
    primeiro frame só muda texto, trocar o tema é um flash creme na cara de quem pediu escuro.
    Sem valor salvo segue o SO; com valor salvo ele manda. try/catch porque localStorage
    lança em navegação restrita, e aí o site simplesmente fica no claro. */
-const themeScript = `(function(){try{var s=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",s==="dark"||(!s&&window.matchMedia("(prefers-color-scheme: dark)").matches))}catch(e){}})()`;
+/* Junto com o tema, a intro do Estilo B: quem já a viu nesta sessão não vê a capa piscar até o
+   React chegar (detalhes em hooks/use-intro.ts). Mora aqui, e não na página, porque um <script> num
+   componente de página não roda na navegação interna e o React avisa. */
+const themeScript = `(function(){try{var s=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",s==="dark"||(!s&&window.matchMedia("(prefers-color-scheme: dark)").matches))}catch(e){}try{if(sessionStorage.getItem("${INTRO_KEY}"))document.documentElement.dataset.intro="off"}catch(e){}})()`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -130,7 +132,7 @@ const jsonLd = {
   mainEntity: {
     "@type": "Person",
     name: "Caio Marianni",
-    jobTitle: "Desenvolvedor Fullstack",
+    jobTitle: "Desenvolvedor Fullstack e Designer",
     url: baseUrl,
     sameAs: [
       "https://github.com/Caio-Marianni",
@@ -144,6 +146,7 @@ const jsonLd = {
       "Tailwind CSS",
       "Web Development",
       "UI/UX Design",
+      "Thumbnail Design",
     ],
   },
 };

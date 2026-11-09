@@ -39,7 +39,18 @@ export interface Project {
   /** onde a capa é recortada quando aparece bem aproximada (rodapé dos cards de avaliação), em
       `object-position`: ex. "20% 35%" mira o logo ou o título do hero. Sem ele, o centro. */
   coverFocus?: string;
+  /** cor de fundo (hex) da capa e do tile gerados por `npm run covers` — escolhida para a logo
+      do projeto ler em cima dela, não necessariamente a cor principal do site */
+  brand?: string;
+  /** a logo sobre a cor `brand`, para as linhas pequenas do índice; sem ele o índice usa `cover` */
+  tile?: string;
+  /** loop curto do site no desktop (mp4, mudo, 16:10), que toca dentro da moldura do destaque
+      quando o mouse passa por cima; a tela do desktop vira o poster */
+  video?: string;
   demo: string;
+  /** ainda em construção: o card ganha o selo "em desenvolvimento" e o projeto fica fora das
+      contagens de publicados */
+  inProgress?: boolean;
   /** sem nota medida, o card simplesmente não mostra a rosca */
   lighthouse?: LighthouseScores;
 }
@@ -85,7 +96,9 @@ export const projects: Project[] = [
       },
     },
     logo: "/projects/icon/gopack.svg",
-    cover: "/projects/cover/gopack.webp",
+    cover: "/projects/cover/p1.webp",
+    tile: "/projects/tile/p1.webp",
+    brand: "#e8edf4",
     demo: "https://www.gopack.com.br",
     lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
   },
@@ -126,6 +139,8 @@ export const projects: Project[] = [
           en: "Static site with no exposed server of its own, editing restricted to the custom admin panel",
       },
     },
+    cover: "/projects/cover/p5.webp",
+    brand: "#efe8df",
     demo: "https://desapegoafilaanda.pages.dev",
   },
   {
@@ -166,7 +181,11 @@ export const projects: Project[] = [
       },
     },
     logo: "/projects/icon/losdrinks.svg",
-    cover: "/projects/cover/nogs3.webp",
+    cover: "/projects/cover/p4.webp",
+    tile: "/projects/tile/p4.webp",
+    /* ponytail: gravação de teste, 16,8 MB e 25 s — comprimir antes de publicar (meta: ~8 s, < 1,5 MB) */
+    video: "/projects/video/p4.mp4",
+    brand: "#1c1612",
     demo: "https://caionogueira.vercel.app",
     lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
   },
@@ -211,33 +230,79 @@ export const projects: Project[] = [
     },
     logo: "/projects/icon/usd-logo.webp",
     backgroundMark: "/projects/icon/usd-mark.webp",
-    cover: "/projects/cover/usd-cover-3.webp",
+    cover: "/projects/cover/p7.webp",
+    tile: "/projects/tile/p7.webp",
+    brand: "#0c120e",
     demo: "https://metodousd.com.br",
   },
-  /* Lumière — estúdio de gravação. Fica comentado até ter capa, link e texto revisado; o id 6
-     já é dele, e não deve ser reaproveitado: as avaliações no banco apontam para o projeto
-     pelo id.
+  {
+    id: 8,
+    title: "Rio Plus Transfer",
+    summary: {
+      pt: "Site de transfer executivo e turístico no Rio de Janeiro: frota, avaliações do Google e dúvidas na mesma página, com o orçamento fechado direto pelo WhatsApp.",
+      en: "A site for an executive and tourist transfer company in Rio de Janeiro: fleet, Google reviews and FAQ on one page, with quotes closed straight on WhatsApp.",
+    },
+    client: { pt: "Transfer", en: "Transfer" },
+    tags: ["Astro", "Cloudflare"],
+    features: {
+      pt: [
+        "Pedido de orçamento direto no WhatsApp, sem formulário intermediário",
+        "Frota, avaliações do Google, cadastro no Cadastur e FAQ como prova antes do contato",
+      ],
+      en: [
+        "Quote requests go straight to WhatsApp, with no form in between",
+        "Fleet, Google reviews, Cadastur registration and FAQ as proof before contact",
+      ],
+    },
+    devInfo: {
+      architecture: {
+        pt: "Site estático em Astro servido pela Cloudflare",
+        en: "Static Astro site served through Cloudflare",
+      },
+      security: {
+        pt: "Site estático, sem servidor próprio nem dados de cliente guardados no site",
+        en: "Static site with no server of its own and no customer data stored on the site",
+      },
+    },
+    logo: "/projects/icon/rioplus.webp",
+    cover: "/projects/cover/p8.webp",
+    tile: "/projects/tile/p8.webp",
+    brand: "#f2eded",
+    demo: "https://www.rioplustransfer.com",
+    lighthouse: { performance: 100, accessibility: 100, bestPractices: 100 },
+  },
+  /* o id 6 é da Lumière desde antes de ela entrar na lista — as avaliações no banco apontam
+     para o projeto pelo id, então ele não muda */
   {
     id: 6,
     title: "Lumière",
+    inProgress: true,
     summary: {
-      pt: "",
-      en: "",
+      pt: "Site de uma produtora audiovisual em Goiânia: portfólio de filmes por tipo de cliente, a história da marca e depoimentos, levando ao contato.",
+      en: "A site for a video production company in Goiânia: a film portfolio by type of client, the brand's story and testimonials, leading to contact.",
     },
-    tags: [],
+    client: { pt: "Produtora audiovisual", en: "Video production" },
+    tags: ["Astro", "Cloudflare Pages"],
     features: {
-      pt: [],
-      en: [],
+      pt: ["Portfólio com os filmes vindos do YouTube, sem hospedar vídeo no próprio site"],
+      en: ["Portfolio pulling the films from YouTube, with no video hosted on the site itself"],
     },
     devInfo: {
-      architecture: { pt: "", en: "" },
-      security: { pt: "", en: "" },
+      architecture: {
+        pt: "Site estático em Astro, publicado no Cloudflare Pages",
+        en: "Static Astro site, deployed on Cloudflare Pages",
+      },
+      security: {
+        pt: "Site estático, sem servidor próprio exposto",
+        en: "Static site with no exposed server of its own",
+      },
     },
     logo: "/projects/icon/lumiere.svg",
-    cover: "/projects/cover/lumiere.webp",
-    demo: "",
+    cover: "/projects/cover/p6.webp",
+    tile: "/projects/tile/p6.webp",
+    brand: "#141414",
+    demo: "https://lumiere-blc.pages.dev",
   },
-  */
 ];
 
 /** Projeto secundário: sem capa, sem ficha técnica — só o bastante pra uma linha na lista de
@@ -266,3 +331,14 @@ export const sideProjects: SideProject[] = [
 /** Principais e secundários juntos, para quem só precisa do par id/título: convite, rota e
     painel de avaliações. Uma avaliação pode ser de qualquer um dos dois. */
 export const allProjects: { id: number; title: string }[] = [...projects, ...sideProjects];
+
+/** O que a home mostra: os destaques, nesta ordem, com o site nas molduras e a avaliação inteira,
+    e embaixo o índice compacto. O que está em construção vai por último no índice: ele abre com
+    trabalho entregue. Projeto fora das duas listas não aparece no site; os secundários entram pelo "Ver mais". */
+export const HOME_FEATURED = [7, 4, 1, 5];
+export const HOME_INDEX = [8, 6];
+
+/** As telas cruas que `npm run covers` captura de todo projeto com `brand`: o mesmo caminho serve
+    ao script, que grava, e às molduras da home, que leem. */
+export const screens = (project: Pick<Project, "id" | "brand">) =>
+  project.brand ? { desktop: `/projects/screen/p${project.id}-desktop.webp`, mobile: `/projects/screen/p${project.id}-mobile.webp` } : null;

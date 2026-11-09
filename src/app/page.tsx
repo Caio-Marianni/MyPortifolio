@@ -1,178 +1,29 @@
-"use client";
+import type { Viewport } from "next";
+import { EstiloB } from "@/components/estilo-b/estilo-b";
+import type { ProjectReview } from "@/components/estilo-b/project-showcase";
+import { getReviews } from "@/services/reviews";
 
-import { useState, type ReactNode } from "react";
-import { ProposalSlide, type ProposalContent } from "@/components/home/proposal-slide";
-import { ProposalStack } from "@/components/home/proposal-stack";
-import { CvPanel } from "@/components/home/cv-panel";
-import { LangSwitch, ThemeSwitch } from "@/components/ui/switches";
-import { LogoMark, RatingLink, Stars } from "@/components/ui/brand-marks";
-import { type Track } from "@/data/reviews";
-import { projects } from "@/data/projects";
-import { niches, thumbnails } from "@/data/thumbnails";
-import { useLanguage } from "@/contexts/language-context";
-import { useHappyClients, useRating } from "@/contexts/reviews-context";
-import { useGoiasClock } from "@/hooks/use-goias-clock";
+/* Título, descrição e dados estruturados vêm do layout: a home é a página padrão do site. */
 
-/* Tudo em `em`: cada composição define o corpo do slot e as abas acompanham, sem duplicar estilo.
-   Mono, caixa alta e sem fundo de propósito — nada de pílula nem bold, pra não ler como mais um
-   CTA ao lado dos botões cheio/contorno logo abaixo. */
-const TAB_BASE = "pb-[0.7em] pt-[0.2em] font-mono uppercase tracking-[0.14em] transition-colors";
+/* No celular o topo da página é a tarja preta: a barra do navegador emenda com ela, nos dois temas
+   (o Estilo B fica sempre no claro, e a tarja do claro é --chrome #111111). */
+export const viewport: Viewport = { themeColor: "#111111" };
 
-const SCRIPT_FONT = "font-makaio";
-const WORDMARK_FONT = "font-makaio";
-/* Fica na mono: "Marianni" não é rótulo, é a segunda linha da assinatura — sai justificado
-   na largura do CAIO, e a caixa alta letra a letra é o desenho da marca, não micro-tipografia. */
-const DESCRIPTOR_FONT = "font-mono";
+/* mesmo ritmo da página de avaliações: depoimento novo aparece em até 5 min */
+export const revalidate = 300;
 
-export default function Home() {
-  const { t, language } = useLanguage();
-  const clock = useGoiasClock();
-  const [track, setTrack] = useState<Track>("web");
-  const [cvOpen, setCvOpen] = useState(false);
-  const pt = language === "pt";
-  /* Notas das avaliações publicadas: a geral fica no rail, a da trilha acompanha a pill.
-     Ausentes enquanto ninguém tiver avaliado — aí a nota simplesmente não aparece. */
-  const overall = useRating();
-  const trackRating = { web: useRating("web"), thumbs: useRating("thumbs") };
-  const happy = useHappyClients();
-  /* some enquanto ninguém tiver avaliado, como a nota — "0 clientes felizes" seria pior que nada */
-  const clients = happy ? `${happy} ${pt ? (happy === 1 ? "Cliente feliz" : "Clientes felizes") : happy === 1 ? "Happy client" : "Happy clients"}` : null;
+export default async function Home() {
+  /* Uma avaliação por projeto: a de maior nota e, no empate, o comentário mais longo — é a que
+     mais diz. Avaliação sem comentário não entra: a coluna mostra o que o cliente escreveu. */
+  const reviews: Record<number, ProjectReview> = {};
+  for (const r of await getReviews()) {
+    if (r.project === null || !r.comment.trim()) continue;
+    const current = reviews[r.project];
+    if (!current || r.rating > current.rating || (r.rating === current.rating && r.comment.length > current.comment.length)) {
+      reviews[r.project] = r;
+    }
+  }
 
-  /* Tudo que é contagem sai de data/: só o "+20 projetos" é número declarado, nas traduções. */
-  const tracks = {
-    web: {
-      label: t("lobby.web.label"),
-      stats: [t("status.stats"), `${projects.length} ${pt ? "em produção" : "in production"}`],
-      mark: trackRating.web,
-      link: { href: "/projects", label: t("lobby.web.cta") },
-    },
-    thumbs: {
-      label: t("status.thumbnails"),
-      stats: [`${niches} ${pt ? "nichos" : "niches"}`, `${thumbnails.length} ${pt ? "thumbnails feitas" : "thumbnails made"}`],
-      mark: trackRating.thumbs,
-      link: { href: "/thumbnails", label: t("lobby.thumbs.cta") },
-    },
-  } satisfies Record<Track, { label: string; stats: string[]; mark: { value: string; stars: number } | null; link: { href: string; label: string } }>;
-
-  const active = tracks[track];
-
-  const cvButton = (
-    <button
-      key="cv"
-      type="button"
-      onClick={() => setCvOpen((v) => !v)}
-      aria-expanded={cvOpen}
-      className="whitespace-nowrap transition-colors hover:text-chrome-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-chrome-ink/60"
-    >
-      {/* latim, então serve nos dois idiomas sem tradução */}
-      Curric. Vitae
-    </button>
-  );
-  const since = pt ? "Desde 2022" : "Since 2022";
-  /* versão curta só pra faixa do mobile; o rail do 16:9 tem espaço pra data inteira */
-  const sinceShort = pt ? "Desde '22" : "Since '22";
-  /* Uma nota só no rail, a geral, e ela é o caminho pra página de avaliações. */
-  const rating = overall ? { ...overall, href: "/reviews", label: t("reviews.see") } : undefined;
-  const ratingStat = active.mark && (
-    <RatingLink key="rating" href="/reviews" label={t("reviews.see")} className="inline-flex">
-      <Stars count={active.mark.stars} className="text-ink/60" />
-    </RatingLink>
-  );
-
-  const content: ProposalContent = {
-    priority: true,
-    image: "/image.webp",
-    imagePosition: "18% center",
-    tab: <LogoMark />,
-    /* cor por opacidade em cima de currentColor — serve no creme do 16:9 e no preto do mobile */
-    corner: (
-      <span className="flex items-center gap-[1.1em]">
-        <LangSwitch />
-        <ThemeSwitch />
-      </span>
-    ),
-    wordmark: "Caio",
-    /* Duas peças independentes, na diagonal e por trás do CAIO: `top` em `em` do corpo da própria
-       palavra, `left` em % da largura do CAIO, `rotate` em graus e `scale` em fração do corpo dele
-       (0.47 é o padrão). Cada peça gira em torno do próprio `top`/`left`, que é o pé da diagonal —
-       mexer nos dois arrasta a palavra inteira sem mudar a inclinação. */
-    script: [
-      { text: "Dev Fs +", top: "0.28em", left: "-5%", rotate: -30 },
-      { text: "Design", top: "0.24em", left: "63%", rotate: -30 },
-    ],
-    descriptor: "Marianni",
-    scriptFont: SCRIPT_FONT,
-    wordmarkFont: WORDMARK_FONT,
-    descriptorFont: DESCRIPTOR_FONT,
-    /* ponytail: termos que valem nos dois idiomas, então nada de tradução. Copy pra ajustar à vontade —
-       só evitar o que já aparece na faixa de cima (local, "desde", nota). */
-    strip: "Fullstack - Design",
-    rail: {
-      innerTop: [clock ? `${clock.time} ${clock.period}` : "--:--"],
-      innerBottom: [since],
-      outerTop: [t("status.location")],
-      outerBottom: [cvButton],
-      rating,
-    },
-    columns: [
-      { stats: active.stats, link: active.link },
-      {
-        stats: [ratingStat, clients].filter(Boolean) as ReactNode[],
-        /* contorno: o CTA cheio fica com a track que a pill governa, contato acompanha */
-        link: { href: "/contact", label: t("lobby.contact"), variant: "outline" as const },
-      },
-    ],
-    children: (
-      /* Controle, não CTA: abas tipográficas sobre um fio fino, o oposto dos botões
-         cheio/contorno logo abaixo. */
-      <div className="relative inline-flex border-b border-ink/15" role="group">
-        {/* Sublinhado único que desliza em vez de reaparecer na outra aba. Os rótulos são flex-1 e o
-            container não tem padding, então a distância entre as posições é exatamente a largura
-            dele — 100% de translate, sem medir nada em JS.
-            ponytail: a conta só fecha com duas opções; uma terceira track pede width/translate por índice. */}
-        <span
-          aria-hidden
-          className={`pointer-events-none absolute -bottom-px left-0 h-[2px] w-1/2 bg-ink transition-transform duration-300 ease-out motion-reduce:transition-none ${
-            track === "thumbs" ? "translate-x-full" : "translate-x-0"
-          }`}
-        />
-
-        {(Object.keys(tracks) as Track[]).map((key) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setTrack(key)}
-            aria-pressed={track === key}
-            className={`relative ${TAB_BASE} focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink ${track === key ? "text-ink" : "text-ink/60 hover:text-ink"}`}
-          >
-            {tracks[key].label}
-          </button>
-        ))}
-      </div>
-    ),
-  };
-
-  const cvLabels = { title: pt ? "Currículo" : "Resume", pt: "Português", en: pt ? "Inglês" : "English" };
-  const closeCv = () => setCvOpen(false);
-
-  return (
-    /* creme de borda a borda nas duas composições; lg:overflow-hidden segura a aba da logo,
-       que sangra até a borda da viewport e senão criaria rolagem horizontal. */
-    <main data-page="home" className="grain-cream flex min-h-screen items-start justify-center lg:items-center lg:overflow-hidden lg:p-6">
-      {/* pilha do mobile — faixa enxuta: só CV, nota e "desde".
-          Local, hora e diploma seguem no rail do 16:9. */}
-      <div className="w-full lg:hidden">
-        <ProposalStack
-          {...content}
-          rail={{ outerBottom: [cvButton], innerBottom: [sinceShort], rating }}
-          overlay={<CvPanel open={cvOpen} onClose={closeCv} labels={cvLabels} variant="sheet" />}
-        />
-      </div>
-
-      {/* 16:9 limitado pelos dois eixos: sempre o maior slide que cabe inteiro na viewport */}
-      <div className="hidden lg:block lg:w-[min(92vw,163vh)]">
-        <ProposalSlide {...content} overlay={<CvPanel open={cvOpen} onClose={closeCv} labels={cvLabels} variant="rail" />} />
-      </div>
-    </main>
-  );
+  /* o "já vi a intro" é lido antes da primeira pintura pelo themeScript do layout */
+  return <EstiloB reviews={reviews} />;
 }

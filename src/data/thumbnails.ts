@@ -1,3 +1,5 @@
+import type { ImageLoaderProps } from "next/image";
+
 export interface Thumbnail {
   id: number;
   image: string;
@@ -54,5 +56,19 @@ export const thumbnails: Thumbnail[] = [
   { id: 47, image: "/thumbnail/DanielNegreanu.webp", tags: ["Poker"] },
 ];
 
-/** Nichos atendidos: a primeira tag de cada peça é o assunto do canal (Sports, Finance…). */
-export const niches = new Set(thumbnails.map((thumb) => thumb.tags[0])).size;
+/** Nichos atendidos, na ordem em que aparecem: a primeira tag de cada peça é o assunto do canal
+    (Sports, Finance…). Viram as teclas de filtro da galeria. */
+export const NICHES = [...new Set(thumbnails.map((thumb) => thumb.tags[0]))];
+
+/* As versões saem prontas de `npm run thumbs` (AVIF em 640 e 1280, em public/thumbnail/<largura>/).
+   O loader só escolhe a mais próxima: sem ele, o otimizador do Next convertia cada peça para
+   AVIF no primeiro pedido, ~1s por imagem e por largura, com a galeria inteira na fila.
+   Thumbnail nova ou trocada: rodar `npm run thumbs` antes do commit, senão a imagem não aparece.
+   Mora aqui porque são dois a usar: a galeria e a faixa da home. */
+const THUMB_WIDTHS = [640, 1280];
+
+export function thumbLoader({ src, width }: ImageLoaderProps): string {
+  const name = src.slice(src.lastIndexOf("/") + 1).replace(/\.\w+$/, "");
+  const size = THUMB_WIDTHS.find((w) => w >= width) ?? THUMB_WIDTHS[THUMB_WIDTHS.length - 1];
+  return `/thumbnail/${size}/${name}.avif`;
+}

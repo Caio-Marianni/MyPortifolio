@@ -1,32 +1,39 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { LogoMark } from "@/components/ui/brand-marks";
-import { button } from "@/components/ui/styles";
+import { RATING_FONT } from "@/components/ui/brand-marks";
+import { FOCUS } from "@/components/ui/styles";
+import { DARK_3D, MONOGRAM, MarkBackdrop, Tarja, TarjaSheet } from "@/components/estilo-b/tarja";
+import { useLanguage } from "@/contexts/language-context";
 
-/* Mesma gramática das outras páginas: creme, Makaio no número, corpo na escala do site.
-   Texto fixo em PT — a 404 não monta o provider de idioma. */
+/* A 404 no Estilo B: a tarja com o monograma marcado a ferro e o número grande, a folha com o recado
+   e o caminho de volta. Mora dentro do layout raiz, então tem idioma e o PT/EN da tarja funciona. */
 export default function NotFound() {
+  const { language } = useLanguage();
+  const pt = language === "pt";
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-surface px-6 text-center font-inter text-ink">
-      <span className="mb-10 h-9 w-9">
-        <LogoMark />
-      </span>
+    <main data-page="estilo-b-404" className="theme-light flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
+      <Tarja homeHref="/" backdrop={<MarkBackdrop path={MONOGRAM} />}>
+        {/* o número no corpo do placar das avaliações: preenche a largura útil da tarja */}
+        <p className={`${RATING_FONT} mt-40 text-[min(calc((100vw-40px)/1.6),200px)] font-bold leading-[0.8] tracking-[-0.04em] lg:mt-auto lg:text-[200px]`} aria-hidden>
+          404
+        </p>
+      </Tarja>
 
-      <p className="text-meta text-ink/60">Erro</p>
-
-      <h1 className="my-2 font-makaio text-[26vw] font-black leading-[0.85] tracking-display md:text-[180px]">404</h1>
-
-      <p className="max-w-xs text-ui leading-[1.6] text-ink/60">
-        A página que você está procurando não existe ou foi removida.
-      </p>
-
-      <Link
-        href="/"
-        className={`mt-10 ${button("solid", "lg")}`}
-      >
-        <ArrowLeft className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
-        Voltar ao início
-      </Link>
+      <TarjaSheet>
+        <section className="flex max-w-[52ch] flex-col items-start gap-4 lg:my-auto">
+          <h1 className={`${RATING_FONT} text-[clamp(32px,4vw,44px)] font-bold uppercase leading-none`}>{pt ? "Página não encontrada" : "Page not found"}</h1>
+          <p className="text-body leading-relaxed text-ink/70">
+            {pt ? "A página que você procura não existe ou foi removida." : "The page you're looking for doesn't exist or was removed."}
+          </p>
+          <Link href="/" className={`${DARK_3D} ${FOCUS} mt-4`}>
+            <ArrowLeft className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+            {pt ? "Voltar ao início" : "Back to home"}
+          </Link>
+        </section>
+      </TarjaSheet>
     </main>
   );
 }

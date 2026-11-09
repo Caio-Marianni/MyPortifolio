@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { Star } from "lucide-react";
-import type { ReactNode } from "react";
 
 /* Peças de marca que apareciam copiadas em três arquivos cada (o slide 16:9, a pilha do
    mobile e a capa das páginas internas). Medem em `em` ou herdam classe, então continuam
@@ -14,11 +12,23 @@ export const RATING_FONT = "font-ricko";
    Tailwind lê o código-fonte — montadas em pedaços não seriam geradas. */
 const SHINE_DELAY = ["[animation-delay:0ms]", "[animation-delay:110ms]", "[animation-delay:220ms]", "[animation-delay:330ms]", "[animation-delay:440ms]"];
 
-/* Atraso de cada estrela ao acender (`reveal`): começam quando a contagem da nota termina
-   (~800ms, ver use-count-up) e vêm uma por uma. */
-const REVEAL_DELAY = ["[animation-delay:700ms]", "[animation-delay:790ms]", "[animation-delay:880ms]", "[animation-delay:970ms]", "[animation-delay:1060ms]"];
+/* Quanto do trilho fica cheio no fim, por nota (0 a 5): recorte da direita. Classes inteiras porque
+   o Tailwind lê o código-fonte.
+   ponytail: 20% por estrela ignora o vão entre elas; nota 4 recorta um tico da quarta. Só a 5
+   (a de sempre) fecha exata. */
+const FILL_END = [
+  "[--fill-end:inset(0_100%_0_0)]",
+  "[--fill-end:inset(0_80%_0_0)]",
+  "[--fill-end:inset(0_60%_0_0)]",
+  "[--fill-end:inset(0_40%_0_0)]",
+  "[--fill-end:inset(0_20%_0_0)]",
+  "[--fill-end:inset(0_0_0_0)]",
+];
 
-/** `reveal`: as estrelas acendem uma por uma ao montar, no fim da contagem da nota.
+/** `reveal`: as cinco estrelas ficam sempre visíveis, escuras, e a cor enche da esquerda para a
+    direita no ritmo da contagem da nota (800ms, mesma curva do use-count-up). Só existe na tarja
+    preta — o trilho escuro é calculado para ela. `--reveal-offset` atrasa o enchimento para quem
+    conta mais tarde (a home, depois da intro).
     `shine`: de tempos em tempos uma onda de luz passa pelas estrelas, da esquerda para a
     direita. Só para a nota em destaque — em toda lista de card viraria pisca-pisca. */
 export function Stars({
@@ -34,90 +44,38 @@ export function Stars({
   reveal?: boolean;
   className?: string;
 }) {
-  return (
-    <span
-      className={`inline-flex ${vertical ? "flex-col" : "flex-row"} items-center gap-[0.25em] ${className}`}
-      role="img"
-      aria-label={`${count} de 5`}
-    >
-      {Array.from({ length: count }, (_, i) => {
-        const star = (
-          <Star
-            key={i}
-            className={`h-[1em] w-[1em] fill-current ${shine ? `animate-star-shine motion-reduce:animate-none ${SHINE_DELAY[i]}` : ""}`}
-            strokeWidth={0}
-            aria-hidden
-          />
-        );
-        /* o acender vai num invólucro: duas animações no mesmo elemento brigariam pela mesma
-           propriedade `animation`, e o brilho sumiria */
-        return reveal ? (
-          <span key={i} className={`inline-flex animate-star-pop motion-reduce:animate-none ${REVEAL_DELAY[i]}`}>
-            {star}
-          </span>
-        ) : (
-          star
-        );
-      })}
-    </span>
-  );
-}
-
-/** Envelope que vira link quando recebe `href`, e continua um span quando não recebe. A nota
-    da faixa e a do rail do 16:9 desenham diferente mas apontam pro mesmo lugar, então o que
-    elas compartilham é só isto. O nome acessível vem de fora: as estrelas anunciam a nota,
-    não para onde o clique leva. */
-export function RatingLink({
-  href,
-  label,
-  className = "",
-  children,
-}: {
-  href?: string;
-  label?: string;
-  className?: string;
-  children: ReactNode;
-}) {
-  if (!href) return <span className={className}>{children}</span>;
-
-  return (
-    <Link
-      href={href}
-      aria-label={label}
-      className={`${className} transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current`}
-    >
-      {children}
-    </Link>
-  );
-}
-
-/** Algarismo grande e apagado atrás das estrelas, cortado pela altura da faixa preta que o
-    envolve — é fundo, não informação a ler, por isso o número vai em `aria-hidden` e quem
-    anuncia a nota é o `Stars`. Faixa da pilha do mobile e faixa das páginas internas. */
-export function RatingMark({
-  value,
-  stars,
-  starsClassName = "text-chrome-ink/75",
-  href,
-  label,
-}: {
-  value: string;
-  stars: number;
-  starsClassName?: string;
-  /** quando vem, a nota vira a porta da página de avaliações */
-  href?: string;
-  label?: string;
-}) {
-  return (
-    <RatingLink href={href} label={label} className="relative flex shrink-0 items-center justify-center">
-      <span
-        className={`absolute ${RATING_FONT} text-[48px] font-bold leading-none tracking-[-0.04em] text-chrome-ink opacity-10`}
+  const layout = `inline-flex ${vertical ? "flex-col" : "flex-row"} items-center gap-[0.25em]`;
+  const row = (length: number, glow: boolean) =>
+    Array.from({ length }, (_, i) => (
+      <Star
+        key={i}
+        className={`h-[1em] w-[1em] fill-current ${glow ? `animate-star-shine motion-reduce:animate-none ${SHINE_DELAY[i]}` : ""}`}
+        strokeWidth={0}
         aria-hidden
-      >
-        {value}
+      />
+    ));
+
+  if (!reveal) {
+    return (
+      <span className={`${layout} ${className}`} role="img" aria-label={`${count} de 5`}>
+        {row(count, !!shine)}
       </span>
-      <Stars count={stars} className={`relative ${starsClassName}`} />
-    </RatingLink>
+    );
+  }
+
+  return (
+    <span className={`relative ${layout} ${className}`} role="img" aria-label={`${count} de 5`}>
+      {/* trilho: as cinco, escuras, sempre ali */}
+      <span className={`${layout} text-chrome-ink/15`}>{row(5, false)}</span>
+      {/* A cor por cima, recortada pela direita. O recorte final mora em `--fill-end` também fora da
+          animação: com movimento reduzido ela não roda e a nota aparece cheia de cara. Brilho e
+          enchimento em elementos diferentes, senão disputariam a mesma propriedade `animation`. */}
+      <span
+        className={`absolute inset-0 ${layout} ${FILL_END[Math.max(0, Math.min(5, count))]} animate-star-fill [animation-delay:var(--reveal-offset,0ms)] [clip-path:var(--fill-end)] motion-reduce:animate-none`}
+      >
+        {row(5, !!shine)}
+      </span>
+    </span>
   );
 }
 

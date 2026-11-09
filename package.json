@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "check": "node scripts/check-reviews.ts && node scripts/check-clients.ts && node scripts/check-documents.ts && node scripts/check-reports.ts && node scripts/check-migrate.ts && node scripts/check-contrast.ts",
     "thumbs": "node scripts/thumbs.ts",
+    "covers": "node scripts/covers.ts",
     "invite": "node --env-file=.env.local scripts/invite.ts",
     "migrate": "node --env-file=.env.local scripts/migrate.ts"
   },

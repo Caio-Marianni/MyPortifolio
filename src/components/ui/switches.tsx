@@ -14,8 +14,8 @@ export function LangSwitch() {
     <button
       type="button"
       onClick={toggleLanguage}
-      aria-label={language === "pt" ? "Switch to English" : "Mudar para português"}
-      className="group flex items-center gap-[0.5em] font-bold focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
+      aria-label={language === "pt" ? "PT / EN: switch to English" : "PT / EN: mudar para português"}
+      className="group -m-2 flex items-center gap-[0.5em] p-2 font-bold focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
     >
       {(["pt", "en"] as const).map((code, i) => (
         <span key={code} className="flex items-center gap-[0.5em]">

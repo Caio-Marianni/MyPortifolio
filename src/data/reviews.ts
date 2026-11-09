@@ -109,6 +109,10 @@ export function ratingMark(stats: TrackStats): { value: string; stars: number } 
     guardada: ~4 caracteres por 3 bytes, então 80k ≈ 60KB e 600k ≈ 450KB. O navegador já
     redimensiona antes de enviar (services/image.ts); estes números são o teto de quem
     resolver mandar à mão. */
+/** O "convite" de quem avalia pelo formulário aberto do site, sem link. Os parênteses não saem de
+    `inviteId` (só letras, números e hífen), então nunca coincide com o convite de um cliente. */
+export const PUBLIC_INVITE = "(site)";
+
 export const LIMITS = {
   name: 80,
   company: 80,

@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode, SVGProps } from "react";
+import { ViewTransition, type ReactNode, type SVGProps } from "react";
 import { ArrowUpRight, Download, FileDown } from "lucide-react";
 import { BrandIcon, CHANNELS, WHATSAPP_URL } from "@/components/contact/contact-channels";
 import { LogoMark } from "@/components/ui/brand-marks";
 import { LangSwitch } from "@/components/ui/switches";
 import { FOCUS } from "@/components/ui/styles";
 import { useLanguage } from "@/contexts/language-context";
+import { skipIntro } from "@/hooks/use-intro";
+import { usePointerShift } from "@/hooks/use-pointer-shift";
 
 /* A tarja do Estilo B, compartilhada pela home e pelas avaliações: a faixa preta com o relevo,
    o cabeçalho (logo + PT/EN) e o contato no pé. O miolo e o fundo (retrato, marca) vêm de fora. */
@@ -18,17 +20,19 @@ export const ON_CHROME_FOCUS = "focus-visible:outline focus-visible:outline-2 fo
    sólido — a lateral da tecla, sempre a própria cor da face escurecida — e uma sombra difusa de
    verdade no chão. No clique a tecla desce o lábio inteiro e a sombra encolhe junto.
    Sem pílula de propósito: é a peça que mais tem que parecer tecla. Cada variante só define
-   `--face` e `--lip`; a mecânica é uma só. */
+   `--face` e `--lip`; a mecânica é uma só. `--drop` troca só a sombra do chão e `--hover` o filtro
+   do hover, para a variante que pede outro. */
 const PRESS_3D =
-  "inline-flex min-h-[52px] select-none items-center justify-center gap-2 rounded-lg bg-[var(--face)] px-7 text-ui font-bold transition-[transform,box-shadow,filter] duration-150 hover:brightness-110 " +
-  "[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_6px_0_0_var(--lip),0_14px_18px_-4px_rgb(0_0_0/0.6)] " +
+  "inline-flex min-h-[52px] select-none items-center justify-center gap-2 rounded-lg bg-[var(--face)] px-7 text-ui font-bold transition-[transform,box-shadow,filter,background-color] duration-150 hover:[filter:var(--hover,brightness(1.1))] " +
+  "[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_6px_0_0_var(--lip),var(--drop,0_14px_18px_-4px_rgb(0_0_0/0.6))] " +
   "active:translate-y-[6px] active:[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_0_0_0_var(--lip),0_3px_6px_-2px_rgb(0_0_0/0.6)]";
 /* laranja; o lábio é o próprio laranja com preto, não outro tom de laranja */
 export const CONTACT_3D = `${PRESS_3D} text-accent-ink [--face:rgb(var(--accent))] [--lip:color-mix(in_srgb,rgb(var(--accent))_60%,black)]`;
-/* creme: tecla clara sobre a tarja — grafite com lábio escuro sumia no preto e não lia como 3D */
-const CV_3D = `${PRESS_3D} text-chrome [--face:rgb(var(--chrome-ink))] [--lip:color-mix(in_srgb,rgb(var(--chrome-ink))_55%,black)]`;
-/* a mesma tecla em grafite para a barra do celular: creme sobre a folha branca não aparece */
-const CV_DARK_3D = `${PRESS_3D} text-chrome-ink [--face:rgb(var(--chrome))] [--lip:black]`;
+/* Creme: o CV da tarja e o "Ver o site" dos destaques, a mesma tecla nos dois. Na tarja,
+   grafite com lábio escuro sumia no preto; na folha branca é o lábio escuro que desenha a tecla. */
+export const CV_3D = `${PRESS_3D} text-chrome [--face:rgb(var(--chrome-ink))] [--lip:color-mix(in_srgb,rgb(var(--chrome-ink))_55%,black)]`;
+/* a mesma tecla em grafite, para a folha branca (CV da barra do celular) */
+export const DARK_3D = `${PRESS_3D} text-chrome-ink [--face:rgb(var(--chrome))] [--lip:black]`;
 /* Tecla pequena de alternar (o filtro de trilha da tarja): a mesma mecânica em escala menor.
    Solta é creme, como o CV; ligada fica laranja, como o contato, e meio afundada — o lábio desce
    pela metade, então dá para ver de longe qual está apertada. */
@@ -40,6 +44,13 @@ const TOGGLE_ON =
   "translate-y-[2px] text-accent-ink [--face:rgb(var(--accent))] [--lip:color-mix(in_srgb,rgb(var(--accent))_60%,black)] [box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_2px_0_0_var(--lip),0_5px_8px_-3px_rgb(0_0_0/0.6)]";
 export const toggleKey = (on: boolean) => `${TOGGLE_BASE} ${on ? TOGGLE_ON : TOGGLE_OFF} ${ON_CHROME_FOCUS}`;
 export const ON_CHROME_LINK = "hover:text-chrome-ink hover:underline";
+/* Cabeçalho de seção da folha: título à esquerda, número à direita e o fio embaixo de borda a borda
+   da folha — as margens negativas desfazem o padding dela (px-5 / lg:px-14) e o padding devolve o
+   alinhamento do texto. Toda seção da folha usa este, para o fio nunca parar antes da borda. */
+export const SHEET_HEADER =
+  "-mx-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-ink/15 px-5 pb-3 lg:-mx-14 lg:px-14";
+export const SHEET_TITLE = "text-ui font-bold uppercase tracking-[0.06em] text-ink";
+export const SHEET_COUNT = "font-mono text-meta text-ink/60";
 const ICON = "h-[1.1em] w-[1.1em]";
 /* Na tarja os ícones vão cheios; os da página de contato seguem em traço (lá são marca d'água).
    GitHub e LinkedIn da simpleicons.org, envelope do Material Icons. */
@@ -61,7 +72,9 @@ const SOCIALS = [
     label: "Contra",
     href: "https://contra.com/caio_marianni_amv4lse6/work",
     /* a estrela de quatro pontas côncavas do logo deles */
-    Icon: (props: SVGProps<SVGSVGElement>) => <BrandIcon {...props} path="M12 0C12 6.627 17.373 12 24 12 17.373 12 12 17.373 12 24 12 17.373 6.627 12 0 12 6.627 12 12 6.627 12 0Z" />,
+    Icon: (props: SVGProps<SVGSVGElement>) => (
+      <BrandIcon {...props} path="M12 0C12 6.627 17.373 12 24 12 17.373 12 12 17.373 12 24 12 17.373 6.627 12 0 12 6.627 12 12 6.627 12 0Z" />
+    ),
   },
   {
     label: "Wellfound",
@@ -77,14 +90,16 @@ const SOCIALS = [
 ];
 export const WhatsAppIcon = CHANNELS.find((c) => c.href === WHATSAPP_URL)?.Icon ?? ArrowUpRight;
 
-const MONOGRAM = "M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z";
+export const MONOGRAM =
+  "M105 1L211 139L213 1L500 379L446 378L255 130L255 197L392 380L339 378L148 130L147 195L158 210L289 380L238 380L235 377L42 130L42 373L126 266L153 302L0 499L0 2L105 139Z";
 
 /** O monograma marcado a ferro na tarja, como couro queimado: a forma cheia, não o contorno.
     Quatro passadas da mesma forma, do fundo para a frente: o chamuscado em volta (marrom-escuro,
     borrado e irregular), a quina de baixo pegando luz (é o que faz a marca parecer afundada), o
     queimado marrom e o carvão no miolo — a mesma forma encolhida por `feMorphology`, então a borda
     fica mais clara que o centro, como ferro que esquentou mais no meio.
-    O `feTurbulence` + `feDisplacementMap` é o que tira o traço de régua e deixa a borda comida. */
+    O `feTurbulence` + `feDisplacementMap` é o que tira o traço de régua e deixa a borda comida.
+    `evenodd`: forma com furo (o play vazado do ícone do YouTube) queima só a moldura. */
 /** a estrela das avaliações, no mesmo quadro de 500 do monograma */
 export const STAR = "M250 12L309 181L488 185L345 293L397 464L250 362L103 464L155 293L12 185L191 181Z";
 
@@ -110,135 +125,217 @@ export function BrandedMark({ className = "", path = MONOGRAM }: { className?: s
       </defs>
       {/* tudo mais escuro que a tarja, só um pouco quente: é textura, não segundo protagonista —
           o laranja da tarja fica com o monograma pequeno e o botão de contato */}
-      <path d={path} fill="#2b170c" stroke="#2b170c" strokeWidth={24} strokeLinejoin="round" opacity={0.55} filter="url(#estilo-b-burn-scorch)" />
+      <path d={path} fillRule="evenodd" fill="#2b170c" stroke="#2b170c" strokeWidth={24} strokeLinejoin="round" opacity={0.55} filter="url(#estilo-b-burn-scorch)" />
       <g filter="url(#estilo-b-burn-rough)">
-        <path d={path} fill="rgb(var(--chrome-ink))" opacity={0.06} transform="translate(0 2.5)" />
-        <path d={path} fill="#0b0705" />
+        <path d={path} fillRule="evenodd" fill="rgb(var(--chrome-ink))" opacity={0.06} transform="translate(0 2.5)" />
+        <path d={path} fillRule="evenodd" fill="#0b0705" />
       </g>
-      <path d={path} fill="#000" opacity={0.7} filter="url(#estilo-b-burn-core)" />
+      <path d={path} fillRule="evenodd" fill="#000" opacity={0.7} filter="url(#estilo-b-burn-core)" />
     </svg>
   );
 }
 
+/** O fundo grande da tarja nas páginas sem retrato (avaliações, avaliar, 404): uma forma marcada a
+    ferro — a estrela, por padrão. Inclinada e cortada pela borda direita, como o retrato cortado no
+    topo da home: enquadramento, não ícone centralizado. Fica atrás do conteúdo como textura.
+    Acompanha o cursor pela janela inteira: desliza até 14px e gira até 5° a mais, devagar
+    (`duration-700`), como placa com relevo pegando luz de outro ângulo. Sem mouse, fica parada na
+    pose de sempre (14°). `will-change-transform`: camada própria, para os filtros de queimado não
+    serem recalculados a cada movimento. */
+export function MarkBackdrop({ path = STAR }: { path?: string }) {
+  const ref = usePointerShift<HTMLSpanElement>();
+  return (
+    <span
+      ref={ref}
+      className="absolute -right-[28%] top-[4%] -z-10 h-[58%] will-change-transform transition-transform duration-700 ease-out [transform:translate(calc(var(--px,0)*14px),calc(var(--py,0)*10px))_rotate(calc(14deg+var(--px,0)*5deg))] lg:-right-[34%] lg:top-[6%] lg:h-[62%]"
+      aria-hidden
+    >
+      <BrandedMark path={path} className="h-full w-auto" />
+    </span>
+  );
+}
+
 /** link e rótulo do WhatsApp, com a mensagem pronta no idioma da página */
-function useWhatsapp() {
+export function useWhatsapp() {
   const { language } = useLanguage();
   const pt = language === "pt";
   return {
     href: `${WHATSAPP_URL}?text=${encodeURIComponent(pt ? "Oi Caio, vim pelo seu site." : "Hi Caio, I found you through your website.")}`,
-    label: pt ? "fale comigo" : "get in touch",
+    label: pt ? "Fale comigo" : "Get in touch",
   };
 }
 
 /** a tarja: relevo atrás, cabeçalho em cima, contato no pé. `backdrop` entra entre a luz rasante e
-    a vinheta (é onde mora o retrato da home); `homeHref` faz do logo o caminho de volta. */
-export function Tarja({ backdrop, homeHref, children }: { backdrop?: ReactNode; homeHref?: string; children: ReactNode }) {
+    a vinheta (é onde mora o retrato da home); `homeHref` faz do logo o caminho de volta.
+    `noContact` tira contato, CV e redes do pé: no convite de avaliação a página é uma tarefa só, e
+    mandar o cliente para outro lugar no meio dela é o jeito mais fácil de não receber a avaliação. */
+export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: ReactNode; homeHref?: string; noContact?: boolean; children: ReactNode }) {
   const { language } = useLanguage();
   const pt = language === "pt";
   const whatsapp = useWhatsapp();
 
   return (
-    <aside className="relative isolate z-10 flex shrink-0 flex-col gap-6 overflow-hidden bg-chrome px-5 py-6 text-chrome-ink shadow-[0_10px_24px_rgba(0,0,0,0.25)] lg:sticky lg:top-0 lg:h-screen lg:w-[440px] lg:gap-7 lg:px-12 lg:py-10 lg:shadow-[12px_0_28px_rgba(0,0,0,0.22)]">
-      {/* Relevo da tarja, do fundo para a frente: hachura fina na diagonal do monograma (a placa
+    /* Transição entre home e avaliações: a tarja é o mesmo elemento nas duas (`name`), então fica
+       parada e só o que muda dentro dela (retrato ↔ estrela, nome ↔ placar) faz crossfade. Logo,
+       PT/EN e contatos são iguais nos dois lados e o crossfade deles não aparece.
+       `default="none"`: sem isso ela animaria em qualquer transição da página. */
+    <ViewTransition name="estilo-b-tarja" share="estilo-b-tarja" default="none">
+      <aside className="relative isolate z-10 flex shrink-0 flex-col gap-6 overflow-hidden bg-chrome px-5 py-6 text-chrome-ink max-lg:pb-12 shadow-[0_10px_24px_rgba(0,0,0,0.25)] lg:sticky lg:top-0 lg:h-screen lg:w-[440px] lg:gap-7 lg:px-12 lg:py-10 lg:shadow-[12px_0_28px_rgba(0,0,0,0.22)]">
+        {/* Relevo da tarja, do fundo para a frente: hachura fina na diagonal do monograma (a placa
           gravada), luz rasante vindo do canto de baixo, o fundo de cada página, vinheta escurecendo
           as bordas, grão e a quina iluminada de 1px. Tudo atrás do conteúdo pelo `-z-10` + `isolate`. */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-[repeating-linear-gradient(-52deg,rgb(var(--chrome-ink)/0.018)_0_1px,transparent_1px_7px)]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(110%_60%_at_0%_100%,rgb(var(--chrome-ink)/0.13),transparent_70%)]"
-        aria-hidden
-      />
-      {backdrop}
-      {/* sombra no topo: o seletor de idioma cai em cima do cabelo e precisa de fundo escuro */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28 bg-gradient-to-b from-chrome/85 to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-0 -z-10 shadow-[inset_0_0_160px_rgb(0_0_0/0.85)]" aria-hidden />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/assets/images/noise.webp')] opacity-[0.14] mix-blend-screen" aria-hidden />
-      <div
-        className="pointer-events-none absolute inset-0 shadow-[inset_0_-1px_0_rgb(var(--chrome-ink)/0.14)] lg:shadow-[inset_-1px_0_0_rgb(var(--chrome-ink)/0.14),inset_0_1px_0_rgb(var(--chrome-ink)/0.06)]"
-        aria-hidden
-      />
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-[repeating-linear-gradient(-52deg,rgb(var(--chrome-ink)/0.018)_0_1px,transparent_1px_7px)]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(110%_60%_at_0%_100%,rgb(var(--chrome-ink)/0.13),transparent_70%)]"
+          aria-hidden
+        />
+        {backdrop}
+        {/* sombra no topo: o seletor de idioma cai em cima do cabelo e precisa de fundo escuro */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28 bg-gradient-to-b from-chrome/85 to-transparent" aria-hidden />
+        <div className="pointer-events-none absolute inset-0 -z-10 shadow-[inset_0_0_160px_rgb(0_0_0/0.85)]" aria-hidden />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/assets/images/noise.webp')] opacity-[0.14] mix-blend-screen" aria-hidden />
+        <div
+          className="pointer-events-none absolute inset-0 shadow-[inset_0_-1px_0_rgb(var(--chrome-ink)/0.14)] lg:shadow-[inset_-1px_0_0_rgb(var(--chrome-ink)/0.14),inset_0_1px_0_rgb(var(--chrome-ink)/0.06)]"
+          aria-hidden
+        />
 
-      <div className="flex items-center justify-between text-meta">
-        {homeHref ? (
-          <Link href={homeHref} aria-label={pt ? "Início" : "Home"} className={`h-8 w-8 ${ON_CHROME_FOCUS}`}>
-            <LogoMark />
-          </Link>
-        ) : (
-          <span className="h-8 w-8">
-            <LogoMark />
-          </span>
+        <div className="flex items-center justify-between text-meta">
+          {homeHref ? (
+            <Link href={homeHref} onClick={skipIntro} aria-label={pt ? "Início" : "Home"} className={`h-8 w-8 ${ON_CHROME_FOCUS}`}>
+              <LogoMark />
+            </Link>
+          ) : (
+            <span className="h-8 w-8">
+              <LogoMark />
+            </span>
+          )}
+          <LangSwitch />
+        </div>
+
+        {children}
+
+        {!noContact && (
+        <div className="flex flex-col gap-3.5 border-t border-chrome-ink/15 pt-5">
+          {/* no celular os dois botões descem para a barra presa no pé da folha (TarjaSheet) */}
+          <div className="flex items-center gap-3 pb-3 max-lg:hidden">
+            <a href={whatsapp.href} target="_blank" rel="noopener noreferrer" className={`${CONTACT_3D} ${ON_CHROME_FOCUS} flex-1 whitespace-nowrap`}>
+              {whatsapp.label}
+              <WhatsAppIcon className={ICON} aria-hidden />
+            </a>
+            {/* um arquivo só, no idioma em que a pessoa já está lendo */}
+            <a href={`/cv/caio-marianni-${language}.pdf`} download className={`${CV_3D} ${ON_CHROME_FOCUS}`}>
+              CV
+              <Download className={ICON} strokeWidth={2.5} aria-hidden />
+            </a>
+          </div>
+          <div className="flex flex-col gap-3">
+            {/* Na coluna do desktop os ícones preenchem a largura. Com a tarja no topo: no celular ficam
+              centrados, no meio da tela; do sm ao lg, largura cheia, iam ficar soltos de ponta a
+              ponta, então se juntam à esquerda, alinhados ao nome. */}
+            <nav aria-label={pt ? "Redes" : "Profiles"} className="-mx-2.5 flex items-center justify-center gap-1 sm:justify-start lg:justify-between lg:gap-0">
+              {SOCIALS.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={href.startsWith("http") ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  className={`flex h-10 w-10 items-center justify-center rounded-lg text-chrome-ink/70 transition-colors hover:bg-chrome-ink/10 hover:text-chrome-ink ${ON_CHROME_FOCUS}`}
+                >
+                  <Icon className="h-[18px] w-[18px]" strokeWidth={2} aria-hidden />
+                </a>
+              ))}
+            </nav>
+            <span className="text-center font-mono text-meta tracking-[0.06em] text-chrome-ink/55 sm:text-left lg:text-center">
+              {pt ? "Brasil-GO · desde 2022" : "Brazil-GO · since 2022"}
+            </span>
+          </div>
+        </div>
         )}
-        <LangSwitch />
-      </div>
-
-      {children}
-
-      <div className="flex flex-col gap-3.5 border-t border-chrome-ink/15 pt-5">
-        {/* no celular os dois botões descem para a barra presa no pé da folha (TarjaSheet) */}
-        <div className="flex items-center gap-3 pb-3 max-lg:hidden">
-          <a href={whatsapp.href} target="_blank" rel="noopener noreferrer" className={`${CONTACT_3D} ${ON_CHROME_FOCUS} flex-1 whitespace-nowrap`}>
-            {whatsapp.label}
-            <WhatsAppIcon className={ICON} aria-hidden />
-          </a>
-          {/* um arquivo só, no idioma em que a pessoa já está lendo */}
-          <a href={`/cv/caio-marianni-${language}.pdf`} download className={`${CV_3D} ${ON_CHROME_FOCUS}`}>
-            CV
-            <Download className={ICON} strokeWidth={2.5} aria-hidden />
-          </a>
-        </div>
-        <div className="flex flex-col gap-3">
-          <nav aria-label={pt ? "Redes" : "Profiles"} className="-mx-2.5 flex items-center justify-between">
-            {SOCIALS.map(({ label, href, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel="noopener noreferrer"
-                aria-label={label}
-                title={label}
-                className={`flex h-10 w-10 items-center justify-center rounded-lg text-chrome-ink/70 transition-colors hover:bg-chrome-ink/10 hover:text-chrome-ink ${ON_CHROME_FOCUS}`}
-              >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={2} aria-hidden />
-              </a>
-            ))}
-          </nav>
-          <span className="text-center font-mono text-meta tracking-[0.06em] text-chrome-ink/55">
-            {pt ? "Brasil-GO · desde 2022" : "Brazil-GO · since 2022"}
-          </span>
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </ViewTransition>
   );
 }
 
-/** a folha branca ao lado da tarja; no celular o contato fica preso no pé da tela */
-export function TarjaSheet({ children }: { children: ReactNode }) {
+/** O rodapé escuro que a folha revela no fim da rolagem (prop `footer` da TarjaSheet): a hachura e
+    o grão da tarja, um brilho laranja subindo do pé e o conteúdo centrado. Fechamento de página —
+    quem chegou ao fim é quem está mais perto de agir. O título vai em `title`, na Makaio. */
+export function SheetFooter({ id, title, text, children }: { id: string; title: string; text: string; children?: ReactNode }) {
+  return (
+    <section aria-labelledby={id} className="relative isolate overflow-hidden px-6 py-20 text-chrome-ink lg:px-14 lg:py-28">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-[repeating-linear-gradient(-52deg,rgb(var(--chrome-ink)/0.025)_0_1px,transparent_1px_7px)]"
+        aria-hidden
+      />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_50%_100%,rgb(var(--accent)/0.16),transparent_70%)]" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/assets/images/noise.webp')] opacity-[0.14] mix-blend-screen" aria-hidden />
+      <div className="flex flex-col items-center gap-6 text-center">
+        <h2 id={id} className="font-makaio text-[clamp(34px,5vw,64px)] font-black uppercase leading-[0.95] tracking-display">
+          {title}
+        </h2>
+        <p className="max-w-[44ch] text-body text-chrome-ink/70">{text}</p>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+/** A folha branca ao lado da tarja; no celular o contato fica preso no pé da tela.
+    `footer`: rodapé escuro revelado pela folha. Ele fica preso ao pé da tela (sticky) o tempo todo,
+    por baixo da folha, que está numa camada acima; no fim da rolagem a folha sobe e o descobre,
+    como uma cortina. A folha ganha cantos arredondados e sombra embaixo para ler como peça por cima.
+    Tem que caber na altura da tela, senão a parte de cima dele nunca aparece.
+    `noContact`: sem a barra de contato do celular, pelo mesmo motivo da tarja. */
+export function TarjaSheet({ children, footer, noContact }: { children: ReactNode; footer?: ReactNode; noContact?: boolean }) {
   const { language } = useLanguage();
   const whatsapp = useWhatsapp();
 
   return (
     /* é a tarja que faz sombra nela, para baixo no celular e para a direita no desktop */
-    <div className="flex min-w-0 flex-1 flex-col bg-white px-5 py-6 lg:px-14 lg:py-10">
-      {children}
-      {/* contato e CV dividem a barra; o CV vira só o ícone para o contato continuar sendo o botão principal */}
-      <div className="sticky bottom-6 mt-8 flex gap-3 lg:hidden">
-        <a href={whatsapp.href} target="_blank" rel="noopener noreferrer" className={`${CONTACT_3D} ${FOCUS} flex-1`}>
-          {whatsapp.label}
-          <WhatsAppIcon className={ICON} aria-hidden />
-        </a>
-        <a
-          href={`/cv/caio-marianni-${language}.pdf`}
-          download
-          aria-label={language === "pt" ? "Baixar CV" : "Download CV"}
-          title="CV"
-          className={`${CV_DARK_3D} ${FOCUS} w-[52px] shrink-0 !px-0`}
+    /* Na troca de página a folha antiga some rápido e a nova sobe, enquanto a tarja fica parada.
+       Classes em globals.css (".estilo-b-sheet-*"). */
+    <ViewTransition enter="estilo-b-sheet-in" exit="estilo-b-sheet-out" default="none">
+      <div className="flex min-w-0 flex-1 flex-col">
+        {/* No celular a folha sobe 24px sobre a tarja, com os cantos de cima arredondados (o pb-12 da
+          tarja deixa a folga): na primeira tela ela já aparece como uma peça por cima, convidando a
+          rolar, e repete o gesto do rodapé revelado. Lá ela precisa ficar acima da tarja (z-[15]).
+          z-[5] no desktop: acima do rodapé (z-0) e abaixo da tarja (z-10), que faz sombra na folha.
+          `overflow-clip` e não `hidden`: recorta a barra do celular no canto arredondado sem virar
+          contêiner de rolagem — com `hidden` a barra sticky parava de grudar. */}
+        <div
+          className={`relative z-[5] flex flex-1 flex-col bg-white px-5 py-6 max-lg:z-[15] max-lg:-mt-6 max-lg:rounded-t-[28px] lg:px-14 lg:py-10 ${
+            footer ? "overflow-clip rounded-b-[28px] shadow-[0_28px_40px_-16px_rgb(0_0_0/0.55)] lg:pb-16" : ""
+          }`}
         >
-          <FileDown className="h-5 w-5" strokeWidth={2.25} aria-hidden />
-        </a>
+          {children}
+          {/* Contato e CV dividem a barra; o CV vira só o ícone para o contato continuar sendo o botão
+          principal. Barra de verdade, não botões soltos: fundo translúcido com blur e fio no topo,
+          de borda a borda (as margens negativas desfazem o padding da folha) e com folga para a
+          área segura do iPhone. O conteúdo passa por baixo da barra, não por baixo dos botões. */}
+          {!noContact && (
+          <div className="sticky bottom-0 -mx-5 -mb-6 mt-8 flex gap-3 border-t border-ink/10 bg-white/85 px-5 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-md lg:hidden">
+            <a href={whatsapp.href} target="_blank" rel="noopener noreferrer" className={`${CONTACT_3D} ${FOCUS} flex-1`}>
+              {whatsapp.label}
+              <WhatsAppIcon className={ICON} aria-hidden />
+            </a>
+            <a
+              href={`/cv/caio-marianni-${language}.pdf`}
+              download
+              aria-label={language === "pt" ? "Baixar CV" : "Download CV"}
+              title="CV"
+              className={`${DARK_3D} ${FOCUS} w-[52px] shrink-0 !px-0`}
+            >
+              <FileDown className="h-5 w-5" strokeWidth={2.25} aria-hidden />
+            </a>
+          </div>
+          )}
+        </div>
+        {footer && <div className="sticky bottom-0 z-0">{footer}</div>}
       </div>
-    </div>
+    </ViewTransition>
   );
 }
-

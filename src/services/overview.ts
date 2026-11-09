@@ -32,7 +32,6 @@ export interface Overview {
   awaitingSignature: { id: number; title: string; clientName: string }[];
   /** relatórios do mês que acabou de fechar ainda não enviados */
   pendingReports: number;
-  newMessages: number;
   pendingReviews: number;
 }
 
@@ -94,7 +93,6 @@ export async function getOverview(): Promise<Overview> {
           where pl.status = 'active' and pl.reports and to_char(pl.first_due, 'YYYY-MM') <= $1
             and not exists (select 1 from reports r where r.plan_id = pl.id and r.month = $1 and r.sent_on is not null)
          ) as "pendingReports",
-         (select count(*)::int from messages where answered_at is null) as "newMessages",
          (select count(*)::int from reviews where status = 'pending') as "pendingReviews"`,
       [month],
     ),
@@ -102,7 +100,7 @@ export async function getOverview(): Promise<Overview> {
 
   return {
     ...(moneyRows[0] as Pick<Overview, "monthly" | "received" | "activeClients">),
-    ...(countRows[0] as Pick<Overview, "pendingReports" | "newMessages" | "pendingReviews">),
+    ...(countRows[0] as Pick<Overview, "pendingReports" | "pendingReviews">),
     overdueAmount: overdue.reduce((sum, due) => sum + due.amount, 0),
     overdue,
     upcoming,

@@ -66,7 +66,7 @@ export function Quote({
             </span>
           )}
           <span className="whitespace-nowrap">{formatMonth(review.month, language)}</span>
-          {tag && <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.08em] text-ink/50">· {tag}</span>}
+          {tag && <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.08em] text-ink/65">· {tag}</span>}
         </span>
       </span>
     </figcaption>

@@ -1,14 +1,13 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { translations, type Language, type TranslationKey } from "@/data/translations";
-
-export type { Language } from "@/data/translations";
+/* Cada componente escreve os dois idiomas ali mesmo (`pt ? … : …`): o texto fica ao lado de onde
+   aparece, e nenhuma chave de dicionário sobra órfã quando a página sai. */
+export type Language = "pt" | "en";
 
 interface LanguageContextType {
   language: Language;
   toggleLanguage: () => void;
-  t: (key: TranslationKey) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -42,12 +41,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [language, mounted]);
 
   /* Sem o memo, `value` é objeto novo a cada render e toda a árvore re-renderiza a cada
-     tecla digitada no formulário de contato. */
+     tecla digitada num formulário. */
   const value = useMemo<LanguageContextType>(
     () => ({
       language,
       toggleLanguage: () => setLanguage((prev) => (prev === "pt" ? "en" : "pt")),
-      t: (key) => translations[language][key],
     }),
     [language]
   );

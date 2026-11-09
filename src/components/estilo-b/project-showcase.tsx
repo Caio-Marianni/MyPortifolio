@@ -1,42 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
-import { LogoMark } from "@/components/ui/brand-marks";
-import { Quote, type QuoteReview } from "@/components/estilo-b/quote";
+import { ArrowUpRight, ChevronDown, Gauge, Plus, Star } from "lucide-react";
+import { DeviceShowcase } from "@/components/estilo-b/device-showcase";
+import { FeaturedQuote } from "@/components/estilo-b/featured-quote";
+import { CV_3D, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE } from "@/components/estilo-b/tarja";
+import { LogoMark, RATING_FONT } from "@/components/ui/brand-marks";
 import { FOCUS } from "@/components/ui/styles";
-import { projects, type Project } from "@/data/projects";
+import { HOME_FEATURED, HOME_INDEX, projects, screens, sideProjects, type Project } from "@/data/projects";
+import type { Review } from "@/data/reviews";
+import { useProjectVideo } from "@/hooks/use-project-video";
 
-/* A coluna de projetos do Estilo B, no formato "híbrido": um projeto em destaque contado como
-   estudo de caso (problema → solução → resultado, com a avaliação do cliente inteira) e os
-   outros num índice compacto, com a avaliação recolhida atrás de um botão. */
+/* A coluna de projetos do Estilo B, no formato "híbrido": os projetos em destaque com o site nas
+   molduras, uma frase e a avaliação do cliente inteira, e os outros num índice compacto, com a
+   avaliação recolhida atrás de um botão. */
 
-export type ProjectReview = QuoteReview;
+export type ProjectReview = Review;
 type Language = "pt" | "en";
 
-/* ponytail: escolha à mão enquanto o Estilo B é proposta. Quando virar a home, o destaque e a
-   ordem passam a morar em data/projects.ts. */
-const FEATURED_ID = 4;
-const INDEX_IDS = [1, 7, 5];
+/* a escolha e a ordem moram em data/projects.ts (HOME_FEATURED, HOME_INDEX) */
 const byId = (id: number) => projects.find((p) => p.id === id);
-const featured = byId(FEATURED_ID);
-const indexed = INDEX_IDS.map(byId).filter((p) => p !== undefined);
+const featured = HOME_FEATURED.map(byId).filter((p) => p !== undefined);
+const indexed = HOME_INDEX.map(byId).filter((p) => p !== undefined);
+/* Quantos secundários cada "Ver mais" carrega. Vão para o fim do índice, na mesma linha dos
+   outros, com o monograma no lugar da capa. */
+const PAGE = 6;
+/* atraso de cada linha de uma leva, em classes inteiras porque o Tailwind lê o código-fonte */
+const STAGGER = ["[animation-delay:0ms]", "[animation-delay:70ms]", "[animation-delay:140ms]", "[animation-delay:210ms]", "[animation-delay:280ms]", "[animation-delay:350ms]"];
+/* número declarado, não contado, como o das thumbnails: a home só mostra parte do que já foi feito */
+const MADE = 20;
+
+/** O que uma linha do índice usa: o projeto principal inteiro ou o secundário, que não tem capa nem nota. */
+type IndexProject = Pick<Project, "id" | "title" | "summary" | "demo"> & Partial<Pick<Project, "cover" | "tile" | "lighthouse">>;
 
 const LABEL = "text-meta font-semibold uppercase tracking-[0.06em] text-ink/70";
-const TERM = "font-mono text-[11px] uppercase tracking-[0.08em] text-ink/60";
+/* Entrada pela rolagem, sem JavaScript (`animation-timeline: view()`). Só longhands: o atalho
+   `animation` zeraria o timeline. Onde não há suporte (Firefox) a duração fica em 0s e o card já
+   aparece no lugar. Fica fora do primeiro destaque: ele sobe com a intro, e na dobra do celular
+   ficava a meio caminho (meio transparente) — o Lighthouse lia isso como contraste baixo. */
+const SCROLL_RISE =
+  "[animation-fill-mode:both] [animation-name:rise] [animation-range:entry_10%_cover_30%] [animation-timeline:view()] [animation-timing-function:ease-out] motion-reduce:[animation-name:none]";
 
 /** a nota Lighthouse do card é a menor das três: "100" só quando as três são 100 */
-const lighthouse = (project: Project) => (project.lighthouse ? Math.min(...Object.values(project.lighthouse)) : null);
+const lighthouse = (project: IndexProject) => (project.lighthouse ? Math.min(...Object.values(project.lighthouse)) : null);
+/** as três notas no tooltip: o número do card é só a menor delas */
+const lighthouseDetail = ({ lighthouse: l }: IndexProject) =>
+  l ? `Lighthouse — performance ${l.performance}, accessibility ${l.accessibility}, best practices ${l.bestPractices}` : undefined;
 const host = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 
-function Cover({ project, sizes, className }: { project: Pick<Project, "cover">; sizes: string; className: string }) {
+function Cover({ src, sizes, className }: { src?: string; sizes: string; className: string }) {
   return (
     <span className={`relative block shrink-0 overflow-hidden bg-chrome ${className}`}>
-      {project.cover ? (
+      {src ? (
         <Image
-          src={project.cover}
+          src={src}
           alt=""
           fill
           sizes={sizes}
@@ -54,85 +72,122 @@ function Cover({ project, sizes, className }: { project: Pick<Project, "cover">;
   );
 }
 
-function Featured({ project, review, language }: { project: Project; review?: ProjectReview; language: Language }) {
-  const pt = language === "pt";
+/** As insígnias ao lado do título, iguais no destaque e no índice — só o corpo muda, por
+    `className`. Subordinadas ao título por tamanho e cor: número apagado e só os ícones em cor.
+    Sem Lighthouse nem avaliação, não renderiza nada. */
+function Badges({ project, review, language, className }: { project: IndexProject; review?: ProjectReview; language: Language; className: string }) {
   const score = lighthouse(project);
-  const rows = [
-    project.problem && { term: pt ? "Problema" : "Problem", text: project.problem[language] },
-    project.solution && { term: pt ? "Solução" : "Solution", text: project.solution[language] },
-    project.results && { term: pt ? "Resultado" : "Result", text: project.results[language][0], strong: true },
-  ].filter((row) => row !== undefined);
+  if (score === null && !review) return null;
 
   return (
-    <article className="grid gap-5 pt-6 xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)] xl:gap-8">
-      <Link href={`/projects#p${project.id}`} className={`group block ${FOCUS}`} tabIndex={-1} aria-hidden>
-        <Cover project={project} sizes="(min-width: 1280px) 420px, 100vw" className="aspect-[4/3] w-full xl:aspect-auto xl:h-[340px]" />
-      </Link>
+    <span className={`flex items-center gap-[0.75em] text-ink/65 tabular-nums ${className}`}>
+      {score !== null && (
+        /* o verde é o do próprio Lighthouse para nota boa: lê como "medido", não como enfeite */
+        <span className="flex items-center gap-1" title={lighthouseDetail(project)}>
+          {score}
+          <Gauge className="h-[0.8em] w-[0.8em] text-[#0CCE6B]" strokeWidth={2.75} aria-hidden />
+          <span className="sr-only"> Lighthouse</span>
+        </span>
+      )}
+      {review && (
+        <span className="flex items-center gap-1">
+          {review.rating.toFixed(1)}
+          {/* SVG e não o caractere ★: o glifo segue a linha de base da fonte e sobrava para
+              baixo do número; o ícone centra pela caixa, igual ao do Lighthouse */}
+          <Star className="h-[0.8em] w-[0.8em] fill-current text-accent" strokeWidth={0} aria-hidden />
+          <span className="sr-only">{language === "pt" ? " de 5 na avaliação do cliente" : " out of 5 in the client's review"}</span>
+        </span>
+      )}
+    </span>
+  );
+}
+
+function Featured({ project, review, language, first }: { project: Project; review?: ProjectReview; language: Language; first: boolean }) {
+  const pt = language === "pt";
+  const screen = screens(project);
+  /* o card inteiro comanda o vídeo: hover com mouse, meio da tela no celular */
+  const { cardRef, videoRef, visible, cardEvents, videoEvents } = useProjectVideo();
+
+  return (
+    /* Site sempre à esquerda, de propósito: é uma lista para comparar, então título e botões
+       ficam no mesmo lugar em todos e o olho desce reto. O zigue-zague foi testado e saiu.
+       Duas colunas iguais no tablet (folha inteira) e de novo no xl; no lg a tarja come a largura e
+       a folha fica estreita demais, então empilha. No xl o mockup é metade da folha (menos meio
+       vão) até travar em 580px; dali em diante a folha esticada só alarga a coluna do texto. */
+    /* Sobe ao entrar na tela, pela rolagem e sem JavaScript (`animation-timeline: view()`). Só
+       longhands: o atalho `animation` zeraria o timeline. Onde não há suporte (Firefox) a duração
+       fica em 0s e o card já aparece no lugar. O que já está na tela ao abrir chega pronto. */
+    /* `id`: as avaliações apontam para /#p<id>, e o navegador desce até o projeto */
+    <article
+      ref={cardRef}
+      id={`p${project.id}`}
+      {...cardEvents}
+      className={`grid scroll-mt-6 gap-6 pt-6 ${first ? "" : SCROLL_RISE} md:grid-cols-2 md:gap-8 lg:grid-cols-1 lg:gap-6 xl:grid-cols-[minmax(0,min(calc(50%_-_16px),580px))_minmax(0,1fr)] xl:gap-8`}
+    >
+      {/* a moldura também abre o site; fora do Tab porque o "Ver o site" logo abaixo já é o mesmo link */}
+      <a href={project.demo} target="_blank" rel="noopener noreferrer" className={`group block self-start ${FOCUS}`} tabIndex={-1} aria-hidden>
+        {screen ? (
+          <DeviceShowcase
+            desktop={screen.desktop}
+            mobile={screen.mobile}
+            video={project.video}
+            videoRef={videoRef}
+            videoVisible={visible}
+            videoEvents={videoEvents}
+          />
+        ) : (
+          <Cover src={project.cover} sizes="(min-width: 1280px) 580px, (min-width: 768px) 50vw, 100vw" className="aspect-[4/3] w-full" />
+        )}
+      </a>
 
       <div className="flex flex-col gap-3.5">
-        <p className="flex flex-wrap items-center gap-2.5 font-mono text-meta text-ink/60">
-          {project.client && <span>{project.client[language]}</span>}
-          {score !== null && (
-            <span className="rounded-full border border-accent/50 px-2 py-0.5 text-[11px] leading-none text-accent">Lighthouse {score}</span>
-          )}
-        </p>
-        <h3 className="text-[28px] font-bold leading-none tracking-[-0.01em] sm:text-[34px]">{project.title}</h3>
+        {/* O título sozinho, e ao lado só o que é número: o Lighthouse e a nota de quem contratou,
+            os dois no mesmo formato, número e ícone depois. Tipo de cliente e ficha técnica ficam
+            de fora: quem contrata decide pelo site e pela avaliação.
+            Nome e notas na fonte do placar da página de avaliações (Ricko), no peso natural dela:
+            ela tem um peso só, e `font-bold` virava negrito sintetizado pelo navegador. */}
+        <h3 className={`${RATING_FONT} flex flex-wrap items-baseline gap-x-3 gap-y-1.5 text-[34px] font-normal leading-none sm:text-[40px]`}>
+          {project.title}
+          <Badges project={project} review={review} language={language} className="text-[22px]" />
+        </h3>
 
-        {rows.length > 0 ? (
-          <dl className="flex flex-col gap-2.5 text-[14px] leading-snug">
-            {rows.map((row) => (
-              <div key={row.term} className="flex flex-col gap-0.5 sm:grid sm:grid-cols-[82px_minmax(0,1fr)] sm:gap-2.5">
-                <dt className={`${TERM} sm:pt-[3px]`}>{row.term}</dt>
-                <dd className={"strong" in row ? "font-semibold text-accent" : ""}>{row.text}</dd>
-              </div>
-            ))}
-          </dl>
-        ) : (
-          <p className="text-[14px] leading-snug text-ink/75">{project.summary[language]}</p>
-        )}
+        {/* teto de ~65 caracteres: na tela de 2560 a coluna de texto passa de 1300px */}
+        <p className="max-w-[65ch] text-body leading-snug text-ink/85">{project.summary[language]}</p>
 
-        {review && <Quote review={review} language={language} withStars />}
+        {review && <FeaturedQuote review={review} projectTitle={project.title} language={language} />}
 
-        <div className="mt-1 flex flex-wrap items-center gap-x-5 gap-y-2">
-          <a
-            href={project.demo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-ink/25 px-5 text-ui font-bold transition-colors hover:border-ink hover:bg-ink hover:text-white ${FOCUS}`}
-          >
-            {pt ? "Ver o site" : "Visit site"}
-            <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
-          </a>
-          <Link href={`/projects#p${project.id}`} className="text-ui font-semibold hover:text-accent">
-            {pt ? "Ficha completa →" : "Full case →"}
-          </Link>
-        </div>
+        {/* uma ação só, abrir o site. A tecla do CV, com a sombra do chão mais curta (a dela foi feita para a tarja preta) e um
+            fio de borda: creme sobre o branco da folha precisa de um contorno para não se perder. */}
+        <a href={project.demo} target="_blank" rel="noopener noreferrer" className={`${CV_3D} ${FOCUS} mt-2 self-start border border-ink/15 [--drop:0_12px_16px_-6px_rgb(0_0_0/0.32)]`}>
+          {pt ? "Ver o site" : "Visit site"}
+          <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+        </a>
       </div>
     </article>
   );
 }
 
-function IndexRow({ project, review, number, language }: { project: Project; review?: ProjectReview; number: number; language: Language }) {
+/* Mesma linguagem do destaque em escala menor: título em Ricko com as insígnias ao lado, sem
+   numeração, rótulo de tipo de cliente nem etiqueta de "em desenvolvimento". A nota já está ao
+   lado do título, então a avaliação abre por um link de texto, no mesmo card dos destaques. */
+function IndexRow({ project, review, language, className = "" }: { project: IndexProject; review?: ProjectReview; language: Language; className?: string }) {
   const [open, setOpen] = useState(false);
   const pt = language === "pt";
-  const score = lighthouse(project);
-  const meta = [project.client?.[language], score !== null && `Lighthouse ${score}`].filter(Boolean).join(" · ");
 
   return (
-    <li className="border-b border-ink/15">
-      <div className="group grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3.5 py-3.5 sm:grid-cols-[32px_112px_minmax(0,1fr)_auto] sm:gap-5">
-        <span className="hidden font-mono text-meta text-ink/60 sm:block">{String(number).padStart(2, "0")}</span>
-        <Cover project={project} sizes="112px" className="h-[60px] w-[84px] sm:h-[70px] sm:w-[112px]" />
-        <span className="flex min-w-0 flex-col gap-1">
-          <Link href={`/projects#p${project.id}`} className="text-body font-semibold transition-colors hover:text-accent sm:text-[18px]">
+    <li id={`p${project.id}`} className={`scroll-mt-6 border-b border-ink/15 ${className}`}>
+      <div className="grid grid-cols-[84px_minmax(0,1fr)] items-center gap-3.5 py-3.5 sm:grid-cols-[112px_minmax(0,1fr)_auto] sm:gap-5">
+        {/* na linha pequena um mockup vira mancha: vai a logo sobre a cor do projeto */}
+        <Cover src={project.tile ?? project.cover} sizes="112px" className="h-[60px] w-[84px] sm:h-[70px] sm:w-[112px]" />
+        <span className="flex min-w-0 flex-col gap-1.5">
+          <span className={`${RATING_FONT} flex flex-wrap items-baseline gap-x-2.5 gap-y-1 text-[22px] leading-none`}>
             {project.title}
-          </Link>
+            <Badges project={project} review={review} language={language} className="text-[16px]" />
+          </span>
           <span className="line-clamp-2 text-meta leading-snug text-ink/70 sm:text-ui">{project.summary[language]}</span>
-          {meta && <span className="font-mono text-[11px] text-ink/60 sm:hidden">{meta}</span>}
         </span>
         <span className="col-span-2 flex flex-wrap items-center gap-x-4 gap-y-2 pl-[98px] sm:col-span-1 sm:flex-col sm:items-end sm:gap-1.5 sm:pl-0">
-          {meta && <span className="hidden font-mono text-[11px] text-ink/60 sm:block">{meta}</span>}
-          <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-meta font-semibold hover:text-accent">
+          <a href={project.demo} target="_blank" rel="noopener noreferrer" className="py-1 -my-1 text-meta font-semibold hover:text-accent">
             {host(project.demo)} ↗
           </a>
           {review && (
@@ -140,18 +195,27 @@ function IndexRow({ project, review, number, language }: { project: Project; rev
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
-              className={`inline-flex min-h-[32px] items-center gap-1.5 rounded-full border border-ink/20 px-3 text-meta font-semibold transition-colors hover:border-ink ${FOCUS}`}
+              className={`py-1 -my-1 inline-flex items-center gap-1 text-meta font-semibold text-ink/70 transition-colors hover:text-ink ${FOCUS}`}
             >
-              <span className="text-accent">★ {review.rating.toFixed(1)}</span>
-              {pt ? "Avaliação" : "Review"}
+              {open ? (pt ? "Fechar avaliação" : "Hide review") : pt ? "Ler avaliação" : "Read review"}
               <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} strokeWidth={2.5} aria-hidden />
             </button>
           )}
         </span>
       </div>
-      {review && open && (
-        <div className="pb-4 sm:pl-[52px]">
-          <Quote review={review} language={language} />
+      {review && (
+        /* Abre deslizando: a linha da grade vai de 0fr a 1fr, então a altura anima até a do conteúdo
+           sem medir nada em JS. Fechada, a citação continua no DOM, mas `inert` a tira do Tab e do
+           leitor de tela. Alinhada ao texto da linha, não à logo. */
+        <div
+          inert={!open}
+          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+        >
+          <div className="overflow-hidden">
+            <div className="pb-5 sm:pl-[132px]">
+              <FeaturedQuote review={review} projectTitle={project.title} language={language} />
+            </div>
+          </div>
         </div>
       )}
     </li>
@@ -160,31 +224,64 @@ function IndexRow({ project, review, number, language }: { project: Project; rev
 
 export function ProjectShowcase({ reviews, language }: { reviews: Record<number, ProjectReview>; language: Language }) {
   const pt = language === "pt";
+  const [shown, setShown] = useState(0);
+  const [target, setTarget] = useState<string | null>(null);
+
+  /* As avaliações linkam /#p<id>. Se o id é de um secundário, carrega até ele e desce — sem isso o
+     navegador pararia num item que ainda não existe na página. */
+  useEffect(() => {
+    const at = sideProjects.findIndex((p) => `#p${p.id}` === window.location.hash);
+    if (at < 0) return;
+    setShown(Math.ceil((at + 1) / PAGE) * PAGE);
+    setTarget(window.location.hash.slice(1));
+  }, []);
+  useEffect(() => {
+    if (target) document.getElementById(target)?.scrollIntoView();
+  }, [target]);
 
   return (
-    <section aria-labelledby="estilo-b-projetos" className="flex flex-col">
-      <div className="flex flex-col gap-2 border-b border-ink/15 pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-        <h2 id="estilo-b-projetos" className={LABEL}>
+    <section aria-labelledby="estilo-b-projetos" className="flex w-full flex-col">
+      <div className={SHEET_HEADER}>
+        <h2 id="estilo-b-projetos" className={SHEET_TITLE}>
           {pt ? "Projetos selecionados" : "Selected projects"}
         </h2>
-        <span className="flex flex-wrap gap-x-5 gap-y-1 text-ui font-semibold sm:justify-end">
-          <Link href="/thumbnails" className="whitespace-nowrap text-ink/60 hover:text-accent">
-            Thumbnails
-          </Link>
-          <Link href="/projects" className="whitespace-nowrap hover:text-accent">
-            {pt ? "Todos os projetos (+20) →" : "All projects (20+) →"}
-          </Link>
-        </span>
+        <span className={SHEET_COUNT}>{pt ? `+${MADE} projetos feitos` : `${MADE}+ projects made`}</span>
       </div>
 
-      {featured && <Featured project={featured} review={reviews[featured.id]} language={language} />}
+      {/* fio entre os destaques: sem ele o segundo parece continuação do primeiro */}
+      <div className="flex flex-col gap-6 divide-y divide-ink/15">
+        {featured.map((project, i) => (
+          <Featured key={project.id} project={project} review={reviews[project.id]} language={language} first={i === 0} />
+        ))}
+      </div>
 
       <h3 className={`${LABEL} mt-8`}>{pt ? "Mais projetos" : "More projects"}</h3>
       <ul>
-        {indexed.map((project, i) => (
-          <IndexRow key={project.id} project={project} review={reviews[project.id]} number={i + 2} language={language} />
+        {indexed.map((project) => (
+          <IndexRow key={project.id} project={project} review={reviews[project.id]} language={language} />
+        ))}
+        {/* os que chegam pelo "Ver mais" sobem em cascata, cada um um pouco depois do anterior */}
+        {sideProjects.slice(0, shown).map((project, i) => (
+          <IndexRow
+            key={project.id}
+            project={project}
+            review={reviews[project.id]}
+            language={language}
+            className={`animate-rise motion-reduce:animate-none ${STAGGER[i % PAGE]}`}
+          />
         ))}
       </ul>
+      {/* quem chegou ao fim da lista é quem mais quer ver o resto: carrega aqui mesmo, sem trocar de página */}
+      {shown < sideProjects.length && (
+        <button
+          type="button"
+          onClick={() => setShown((n) => n + PAGE)}
+          className={`group mt-5 inline-flex items-center gap-1.5 self-start py-1 text-ui font-semibold hover:text-accent ${FOCUS}`}
+        >
+          <Plus className="h-4 w-4 text-accent transition-transform duration-300 group-hover:rotate-90 motion-reduce:transition-none" strokeWidth={2.75} aria-hidden />
+          {pt ? "Ver mais projetos" : "See more projects"}
+        </button>
+      )}
     </section>
   );
 }
