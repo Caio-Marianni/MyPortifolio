@@ -1,0 +1,18 @@
+/* Worker do site na Cloudflare (Next.js via OpenNext). Segredos (DATABASE_URL etc.) ficam no painel
+   da Cloudflare como Secret, nunca aqui: o repositório é público. */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "myportifolio",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  /* otimização do next/image; sem o binding a imagem sai original, sem redimensionar */
+  "images": { "binding": "IMAGES" },
+  /* um namespace só pros dois caches (open-next.config.ts): as chaves não se cruzam */
+  "kv_namespaces": [
+    { "binding": "NEXT_INC_CACHE_KV", "id": "6e4d96ccae6c4f679257121f83887c4a" },
+    { "binding": "NEXT_TAG_CACHE_KV", "id": "6e4d96ccae6c4f679257121f83887c4a" }
+  ],
+  "observability": { "enabled": true }
+}
