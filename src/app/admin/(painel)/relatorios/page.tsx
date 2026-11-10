@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/admin/badge";
 import { FormError } from "@/components/admin/fields";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, BUTTON_SOLID, CARD, NUM } from "@/components/ui/styles";
+import { BUTTON, BUTTON_SOLID, NUM } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { br, monthLabel, previousMonth, todayInBrazil } from "@/services/dates";
 import { listQueue, readMonth, reportMonth, type QueueItem } from "@/services/reports";
@@ -87,9 +87,9 @@ export default async function RelatoriosPage(props: Params) {
       )}
 
       {queue && queue.length > 0 && (
-        <div className={`${CARD} overflow-x-auto p-0 md:p-0`}>
+        <div className="overflow-x-auto bg-paper">
           <table className="w-full min-w-[620px] text-left text-ui">
-            <thead className="border-b border-ink/10 text-meta text-ink/60">
+            <thead className="border-b border-ink/15 font-mono text-meta uppercase tracking-[0.06em] text-ink/60">
               <tr>
                 <th className="px-5 py-3 font-normal">Cliente</th>
                 <th className="px-5 py-3 font-normal">Plano</th>

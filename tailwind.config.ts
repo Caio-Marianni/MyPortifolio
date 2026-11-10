@@ -26,8 +26,10 @@ const config: Config = {
         /* texto sobre o laranja: branco no claro, quase-preto no escuro, onde o laranja sobe */
         "accent-ink": "rgb(var(--accent-ink) / <alpha-value>)",
         danger: "rgb(var(--danger) / <alpha-value>)",
-        /* Creme dos cards de avaliação sobre a folha branca do site, que fica sempre no claro. */
-        paper: "#F6F4F1",
+        /* A folha branca ao lado da tarja e o creme dos cards sobre ela. O site fica sempre no
+           claro; no painel os dois escurecem com o tema. */
+        sheet: "rgb(var(--sheet) / <alpha-value>)",
+        paper: "rgb(var(--paper) / <alpha-value>)",
       },
       /* Três degraus de corpo e nada entre eles: meta (rótulos, legendas, faixas), ui (menus,
          botões, linhas de lista) e body (texto corrido). Títulos ficam no `clamp` de cada peça.
@@ -69,6 +71,17 @@ const config: Config = {
         "fade-out": { to: { opacity: "0" } },
         "faixa-open-x": { to: { transform: "translateX(101%)" } },
         "faixa-open-y": { to: { transform: "translateY(101%)" } },
+        /* Painel. `flash`: o item que você acabou de salvar ou receber acende em laranja e apaga.
+           Só sombra: a de dentro tinge o item por cima do fundo, a de fora estende o tom 8px sem
+           mexer no layout — e a cor de fundo do próprio item (o creme de um card) fica intacta.
+           `reveal-x`: a barra de recebido enchendo da esquerda (o mesmo recorte do star-fill).
+           `grow-x`: o fio de cada etapa acendendo, um depois do outro. */
+        flash: {
+          "0%, 35%": { boxShadow: "0 0 0 8px rgb(var(--accent) / 0.12), inset 0 0 0 100vmax rgb(var(--accent) / 0.12)" },
+          "100%": { boxShadow: "0 0 0 8px transparent, inset 0 0 0 100vmax transparent" },
+        },
+        "reveal-x": { from: { clipPath: "inset(0 100% 0 0)" }, to: { clipPath: "inset(0 0 0 0)" } },
+        "grow-x": { from: { transform: "scaleX(0)" }, to: { transform: "scaleX(1)" } },
       },
       animation: {
         "star-shine": "star-shine 4.5s ease-in-out infinite",
@@ -81,6 +94,9 @@ const config: Config = {
         "faixa-line": "faixa-draw 450ms cubic-bezier(0.7, 0, 0.2, 1) both, fade-out 300ms linear 1000ms forwards",
         "faixa-open-x": "faixa-open-x 750ms cubic-bezier(0.7, 0, 0.2, 1) 520ms forwards",
         "faixa-open-y": "faixa-open-y 750ms cubic-bezier(0.7, 0, 0.2, 1) 520ms forwards",
+        flash: "flash 1.8s ease-out",
+        "reveal-x": "reveal-x 800ms cubic-bezier(0.33, 1, 0.68, 1) 150ms both",
+        "grow-x": "grow-x 400ms cubic-bezier(0.2, 0.7, 0.2, 1) both",
       },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],

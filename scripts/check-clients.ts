@@ -6,9 +6,10 @@ import assert from "node:assert/strict";
 import { formatDocument, formatWhatsapp, readClient, whatsappDigits } from "../src/services/clients.ts";
 import { longDate, monthLabel, monthRange, previousMonth, todayInBrazil } from "../src/services/dates.ts";
 import { moneyField, parseMoney } from "../src/services/money.ts";
-import { readInstallment } from "../src/services/payments.ts";
-import { readPlan } from "../src/services/plans.ts";
-import { readProject } from "../src/services/projects.ts";
+import { clientMoney, readInstallment, receivedByMonth, type Payment } from "../src/services/payments.ts";
+import { readAccount, renewal, serviceKind } from "../src/services/accounts.ts";
+import { readPlan, type Plan } from "../src/services/plans.ts";
+import { readProject, type Project } from "../src/services/projects.ts";
 
 // dinheiro: jeito brasileiro, com e sem milhar; vazio é zero, torto é erro e não zero
 assert.equal(parseMoney("1.500,00"), 150000);
@@ -81,5 +82,86 @@ assert.equal(monthLabel("2026-10"), "outubro de 2026");
 assert.equal(previousMonth("2026-01"), "2025-12");
 assert.deepEqual(monthRange("2028-02"), { start: "2028-02-01", end: "2028-02-29" }, "bissexto");
 assert.equal(todayInBrazil(new Date("2026-10-30T01:00:00Z")), "2026-10-29", "22h em Goiânia ainda é o dia anterior ao UTC");
+
+
+// resumo da ficha: mensal só de plano ativo, atraso soma mensalidades e parcelas vencidas,
+// projeto cancelado não conta, e o próximo vencimento é o mais cedo que ainda não passou
+{
+  const plan = (fields: Partial<Plan>): Plan => ({
+    id: 1, clientId: 1, name: "Manutenção", monthlyFee: 35000, firstDue: "2026-01-10", status: "active", includes: null,
+    reports: true, gaProperty: null, nextDue: "2026-12-10", overdue: false, overdueAmount: 0, ...fields,
+  });
+  const project = (fields: Partial<Project>): Project => ({
+    id: 1, clientId: 1, title: "Site", scope: null, total: 300000, deadline: null, status: "in_progress", notes: null,
+    paid: 0, scheduled: 0, overdue: false, ...fields,
+  });
+  const payment = (fields: Partial<Payment>): Payment => ({
+    id: 1, planId: null, projectId: 1, description: null, amount: 100000, dueOn: "2026-12-01", paidOn: null, overdue: false, ...fields,
+  });
+
+  const money = clientMoney(
+    [plan({ id: 1, overdue: true, nextDue: "2026-10-10", overdueAmount: 70000 }), plan({ id: 2, name: "Pausado", status: "paused", nextDue: "2026-11-20" })],
+    [project({ id: 1 }), project({ id: 2, title: "Cancelado", status: "canceled" })],
+    [
+      payment({ id: 1, amount: 150000, paidOn: "2026-10-01", dueOn: "2026-10-01" }),
+      payment({ id: 2, amount: 100000, dueOn: "2026-11-01", overdue: true }),
+      payment({ id: 3, amount: 50000, dueOn: "2026-12-01" }),
+      payment({ id: 4, projectId: 2, amount: 999900, dueOn: "2026-11-15" }),
+      payment({ id: 5, planId: 1, projectId: null, amount: 35000, paidOn: "2026-09-10", dueOn: "2026-09-10" }),
+    ],
+  );
+  assert.equal(money.monthly, 35000, "plano pausado fora do mensal");
+  assert.equal(money.activePlans, 1);
+  assert.equal(money.received, 185000);
+  assert.equal(money.overdue, 170000, "duas mensalidades atrasadas + a parcela vencida");
+  assert.equal(money.open, 220000, "o atraso mais a parcela que ainda vai vencer; a do cancelado não");
+  assert.deepEqual(money.next, { dueOn: "2026-12-01", label: "Parcela · Site", amount: 50000 }, "mensalidade atrasada não é próximo vencimento");
+  assert.equal(clientMoney([], [], []).next, null);
+}
+
+// recebido por mês: do mais recente pro mais antigo, com o total de cada mês; a receber fica de fora
+{
+  const pay = (id: number, amount: number, paidOn: string | null): Payment => ({
+    id, planId: null, projectId: 1, description: null, amount, dueOn: "2026-01-01", paidOn, overdue: false,
+  });
+  const months = receivedByMonth([pay(1, 100, "2026-10-01"), pay(2, 50, "2026-11-20"), pay(3, 25, "2026-10-15"), pay(4, 999, null)]);
+  assert.deepEqual(months.map((m) => [m.month, m.total, m.payments.map((p) => p.id)]), [
+    ["2026-11", 50, [2]],
+    ["2026-10", 125, [3, 1]],
+  ]);
+}
+
+// contas: o ícone sai do nome, e a ordem das regras desempata os nomes ambíguos
+assert.equal(serviceKind("Domínio (Registro.br)"), "domain");
+assert.equal(serviceKind("Hostinger"), "hosting");
+assert.equal(serviceKind("Google Search Console"), "search");
+assert.equal(serviceKind("Google Analytics 4"), "analytics");
+assert.equal(serviceKind("Meta Pixel"), "analytics", "pixel é medição, não rede social");
+assert.equal(serviceKind("E-mail (Google Workspace)"), "email");
+assert.equal(serviceKind("Instagram da loja"), "social");
+assert.equal(serviceKind("Certificado"), "other");
+
+// renovação em palavras, contada a partir de hoje
+assert.deepEqual(renewal("2026-11-08", "2026-11-10"), { text: "venceu há 2 dias", tone: "late" });
+assert.deepEqual(renewal("2026-11-10", "2026-11-10"), { text: "renova hoje", tone: "soon" });
+assert.deepEqual(renewal("2026-11-11", "2026-11-10"), { text: "renova amanhã", tone: "soon" });
+assert.deepEqual(renewal("2026-12-10", "2026-11-10"), { text: "renova em 30 dias", tone: "soon" });
+assert.deepEqual(renewal("2027-05-10", "2026-11-10"), { text: "renova em 6 meses", tone: "ok" });
+assert.deepEqual(renewal("2028-11-10", "2026-11-10"), { text: "renova em 2 anos", tone: "ok" });
+
+// link do painel: com ou sem https, mas só http(s) — ele vira href
+{
+  const account = (url: string) => {
+    const form = new FormData();
+    form.set("service", "Domínio");
+    form.set("owner", "client");
+    form.set("url", url);
+    return readAccount(form);
+  };
+  assert.ok("fields" in account("registro.br"));
+  assert.ok("fields" in account("https://hpanel.hostinger.com/websites"));
+  assert.ok("error" in account("javascript:alert(1)"), "esquema que não é http não passa");
+  assert.ok("error" in account("meu painel"));
+}
 
 console.log("clientes: ok");

@@ -2,7 +2,7 @@
    scripts/check-documents.ts` passa calado ou joga. */
 
 import assert from "node:assert/strict";
-import { documentValues, fillTemplate, parseBlocks, splitBold } from "../src/services/documents.ts";
+import { documentValues, fillTemplate, parseBlocks, pendingFields, splitBold, splitFields } from "../src/services/documents.ts";
 import { STARTERS } from "../src/data/document-starters.ts";
 import type { Client } from "../src/services/clients.ts";
 import type { Payment } from "../src/services/payments.ts";
@@ -63,6 +63,15 @@ assert.equal(values.endereco, undefined, "campo vazio fica de fora");
 // campo sem valor fica à vista, entre chaves; campo desconhecido também
 assert.equal(fillTemplate("{cliente}, {endereco} e {nada}", values), "Rio Plus Transfer, {endereco} e {nada}");
 
+// o que sobrou entre chaves é o aviso do rascunho: cada campo uma vez, na ordem do texto
+assert.deepEqual(pendingFields("{endereco}, {nada} e {endereco} de novo; {Maiuscula} não é campo"), ["endereco", "nada"]);
+assert.deepEqual(pendingFields("tudo preenchido"), []);
+assert.deepEqual(splitFields("de {cliente}, ok"), [
+  { text: "de ", field: false },
+  { text: "{cliente}", field: true },
+  { text: ", ok", field: false },
+]);
+
 const plan: Plan = {
   id: 2,
   clientId: 1,
@@ -75,6 +84,7 @@ const plan: Plan = {
   gaProperty: null,
   nextDue: "2026-11-10",
   overdue: false,
+  overdueAmount: 0,
 };
 const planValues = documentValues({ client, plan, today: "2026-10-29" });
 assert.equal(planValues.vencimento, "todo dia 10 de cada mês");

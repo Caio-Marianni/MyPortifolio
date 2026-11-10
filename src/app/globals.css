@@ -34,6 +34,8 @@
   --accent-hover: 184 61 0; /* #B83D00 */
   --accent-ink: 255 255 255; /* texto sobre o acento: 4.6:1 no #D14700 */
   --danger: 179 38 30; /* #B3261E */
+  --sheet: 255 255 255; /* folha ao lado da tarja, poço do campo */
+  --paper: 246 244 241; /* #F6F4F1 card creme sobre a folha */
 
   /* Sem isto o navegador assume que o site não sabe lidar com tema escuro e inverte
      as cores sozinho (auto dark theme) — era o que deixava a capa marrom no celular.
@@ -62,6 +64,9 @@
      branco abaixo do AA. Aqui o texto do botão laranja é a própria página. */
   --accent-ink: 18 17 16; /* #121110 */
   --danger: 242 184 181; /* #F2B8B5 */
+  /* o site fica preso no claro (.theme-light); estes dois só escurecem no painel */
+  --sheet: 18 17 16; /* #121110 */
+  --paper: 28 26 24; /* #1C1A18 */
 
   color-scheme: dark;
 }
@@ -105,8 +110,8 @@ body {
   }
 }
 
-/* Autofill do Chrome pinta a própria caixa; refaz no creme para não abrir um bloco
-   cinza no meio dos campos de linha fina do formulário. */
+/* Autofill do Chrome pinta a própria caixa; refaz na cor do poço para não abrir um bloco
+   cinza no meio do campo. */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -115,7 +120,7 @@ textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0px 1000px rgb(var(--surface)) inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgb(var(--sheet)) inset !important;
   -webkit-text-fill-color: rgb(var(--ink)) !important;
   transition: background-color 5000s ease-in-out 0s;
   caret-color: rgb(var(--ink));

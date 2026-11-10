@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Badge } from "@/components/admin/badge";
+import { Plus } from "lucide-react";
 import { ClientForm } from "@/components/admin/clients/client-form";
+import { ClientList } from "@/components/admin/clients/client-list";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
+import { BUTTON_SOLID, CARD, CARD_TITLE, rise } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
-import { formatWhatsapp, listClients, type ClientRow } from "@/services/clients";
+import { listClients } from "@/services/clients";
 import { brl } from "@/services/money";
 
 /* Lista de clientes. A conta de cada um — planos, projetos, pagamentos — fica na ficha
@@ -13,12 +14,6 @@ import { brl } from "@/services/money";
 export const metadata: Metadata = { title: "Clientes" };
 
 const PAGE = "/admin/clientes";
-
-function Situacao({ client }: { client: ClientRow }) {
-  if (client.overdue) return <Badge tone="danger">Atrasado</Badge>;
-  if (client.activePlans || client.openProjects) return <Badge tone="ok">Em dia</Badge>;
-  return <Badge>Sem contrato ativo</Badge>;
-}
 
 type Params = { searchParams: Promise<{ novo?: string; erro?: string }> };
 
@@ -42,6 +37,7 @@ export default async function ClientesPage(props: Params) {
         actions={
           searchParams.novo === undefined && (
             <Link href={`${PAGE}?novo`} className={BUTTON_SOLID}>
+              <Plus className="h-4 w-4" strokeWidth={2.5} aria-hidden />
               Novo cliente
             </Link>
           )
@@ -49,7 +45,7 @@ export default async function ClientesPage(props: Params) {
       />
 
       {searchParams.novo !== undefined && (
-        <section className={`${CARD} mb-8 border-ink`}>
+        <section className={`${CARD} mb-8 border-l-2 border-accent ${rise(0)}`}>
           <h2 className={`${CARD_TITLE} mb-5`}>Novo cliente</h2>
           <ClientForm erro={searchParams.erro} cancelHref={PAGE} />
         </section>
@@ -65,47 +61,7 @@ export default async function ClientesPage(props: Params) {
         <p className="text-ui text-ink/60">Nenhum cliente ainda. Cadastre o primeiro no botão aí em cima.</p>
       )}
 
-      {list.length > 0 && (
-        /* tabela de verdade: no celular ela rola de lado em vez de espremer as colunas */
-        <div className={`${CARD} overflow-x-auto p-0 md:p-0`}>
-          <table className="w-full min-w-[640px] text-left text-ui">
-            <thead className="border-b border-ink/10 text-meta text-ink/60">
-              <tr>
-                <th className="px-5 py-3 font-normal">Cliente</th>
-                <th className="px-5 py-3 font-normal">WhatsApp</th>
-                <th className="px-5 py-3 font-normal">Contratos</th>
-                <th className="px-5 py-3 text-right font-normal">Mensal</th>
-                <th className="px-5 py-3 font-normal">Situação</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-ink/10">
-              {list.map((client) => (
-                <tr key={client.id} className="hover:bg-ink/[0.03]">
-                  <td className="px-5 py-3">
-                    <Link href={`${PAGE}/${client.id}`} className="font-semibold underline-offset-4 hover:underline">
-                      {client.name}
-                    </Link>
-                    {client.site && <span className="block text-meta text-ink/55">{client.site}</span>}
-                  </td>
-                  <td className={`px-5 py-3 text-ink/75 ${NUM}`}>{client.whatsapp ? formatWhatsapp(client.whatsapp) : "—"}</td>
-                  <td className="px-5 py-3 text-ink/75">
-                    {[
-                      client.activePlans && `${client.activePlans} ${client.activePlans === 1 ? "plano" : "planos"}`,
-                      client.openProjects && `${client.openProjects} ${client.openProjects === 1 ? "projeto" : "projetos"}`,
-                    ]
-                      .filter(Boolean)
-                      .join(" · ") || "—"}
-                  </td>
-                  <td className={`px-5 py-3 text-right ${NUM}`}>{client.monthly ? brl(client.monthly) : "—"}</td>
-                  <td className="px-5 py-3">
-                    <Situacao client={client} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      {list.length > 0 && <ClientList clients={list} />}
     </>
   );
 }

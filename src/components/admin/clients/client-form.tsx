@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Field, FormError, TextArea } from "@/components/admin/fields";
+import { SubmitButton } from "@/components/admin/submit-button";
 import { BUTTON, BUTTON_SOLID } from "@/components/ui/styles";
 import { CLIENT_LIMITS, formatWhatsapp, type Client } from "@/services/clients";
 import { saveClient } from "@/app/admin/(painel)/clientes/actions";
@@ -36,10 +37,10 @@ export function ClientForm({ client, erro, cancelHref }: { client?: Client; erro
       <FormError message={erro} />
 
       <div className="flex flex-wrap gap-2">
-        <button type="submit" className={BUTTON_SOLID}>
+        <SubmitButton className={BUTTON_SOLID} icon="check">
           Salvar
-        </button>
-        <Link href={cancelHref} className={BUTTON}>
+        </SubmitButton>
+        <Link href={cancelHref} scroll={false} className={BUTTON}>
           Cancelar
         </Link>
       </div>

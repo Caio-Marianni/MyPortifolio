@@ -1,5 +1,5 @@
 import { TODAY, db } from "@/services/db";
-import { NEXT_DUE } from "@/services/plans";
+import { MONTHS_LATE, NEXT_DUE } from "@/services/plans";
 import { reportMonth } from "@/services/reports";
 import { todayInBrazil } from "@/services/dates";
 
@@ -42,11 +42,7 @@ async function dues(sql: ReturnType<typeof db>, from: string, to: string): Promi
     select * from (
       select c.id as "clientId", c.name as "clientName", 'Mensalidade · ' || plans.name as label,
              to_char(${NEXT_DUE}, 'YYYY-MM-DD') as "dueOn",
-             plans.monthly_fee * (
-               case when ${NEXT_DUE} < ${TODAY}
-                    then (extract(year from age(${TODAY}, ${NEXT_DUE})) * 12 + extract(month from age(${TODAY}, ${NEXT_DUE})) + 1)::int
-                    else 1 end
-             ) as amount
+             plans.monthly_fee * greatest(${MONTHS_LATE}, 1) as amount
       from plans join clients c on c.id = plans.client_id
       where plans.status = 'active' and ${NEXT_DUE} ${from} and ${NEXT_DUE} ${to}
       union all

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Badge } from "@/components/admin/badge";
 import { PageHeader } from "@/components/admin/page-header";
+import { Stat } from "@/components/admin/stat";
 import { CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { br, longDate, monthLabel, monthName, todayInBrazil } from "@/services/dates";
@@ -13,16 +14,6 @@ import { reportMonth } from "@/services/reports";
 /* Visão geral: o dinheiro do mês em quatro números e, embaixo, só o que pede ação — cobrar,
    mandar, renovar, responder. O que está em dia não aparece. */
 export const metadata: Metadata = { title: "Visão geral" };
-
-function Stat({ label, value, alert = false }: { label: string; value: string; alert?: boolean }) {
-  return (
-    <div className={`${CARD} flex flex-col gap-1 ${alert ? "border-danger" : ""}`}>
-      <span className="text-meta text-ink/60">{label}</span>
-      {/* escala com a tela: "R$ 12.500,00" precisa caber em meia largura de celular */}
-      <span className={`whitespace-nowrap text-[clamp(18px,4.8vw,28px)] font-semibold leading-tight ${alert ? "text-danger" : ""}`}>{value}</span>
-    </div>
-  );
-}
 
 /** Uma linha da lista de pendências: o quê, de quem, e o link pra resolver. */
 function Item({ href, children, aside }: { href: string; children: ReactNode; aside?: ReactNode }) {

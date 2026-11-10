@@ -74,7 +74,7 @@ export default async function AvaliacoesPage(props: Params) {
 
       {/* Avaliação que chegou por fora do site: o mesmo editor, vazio. */}
       {searchParams.nova !== undefined && (
-        <section className={`${CARD} mb-8 border-ink`}>
+        <section className={`${CARD} mb-8 border-l-2 border-accent`}>
           <h2 className={`${CARD_TITLE} mb-5`}>Nova avaliação (WhatsApp, e-mail…)</h2>
           <ReviewEditor />
         </section>

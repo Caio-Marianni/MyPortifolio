@@ -11,5 +11,6 @@ export default defineConfig([
        React Compiler. */
     rules: { "react-hooks/set-state-in-effect": "off" },
   },
-  globalIgnores([".next/**", "node_modules/**", "next-env.d.ts"]),
+  /* .open-next e .wrangler: saída do build da Cloudflare, código gerado */
+  globalIgnores([".next/**", ".open-next/**", ".wrangler/**", "node_modules/**", "next-env.d.ts"]),
 ]);

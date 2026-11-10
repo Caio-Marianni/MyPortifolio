@@ -63,7 +63,8 @@ export default async function RelatorioAdminPage(props: Params) {
       </div>
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <div className={`${CARD} min-w-0 bg-surface py-8 md:py-10`}>
+        {/* a prévia é a página do cliente: o fundo dela, numa moldura de fio como a prévia dos documentos */}
+        <div className="min-w-0 border border-ink/15 bg-surface px-5 py-8 md:px-6 md:py-10">
           {!report.data && (
             <p className="mx-auto mb-6 max-w-[760px] text-ui text-ink/60">
               Sem números: o plano não tem o ID da propriedade do GA4. O cliente vê só o recado.
@@ -109,7 +110,7 @@ export default async function RelatorioAdminPage(props: Params) {
                       value={section}
                       defaultChecked={report.sections.includes(section)}
                       disabled={section !== "note" && !report.data}
-                      className="h-4 w-4 accent-[rgb(var(--accent))]"
+                      className="h-4 w-4 accent-accent"
                     />
                     {SECTION_LABEL[section]}
                   </label>

@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { Badge, type Tone } from "@/components/admin/badge";
+import { FolderKanban, Pencil, Trash2 } from "lucide-react";
+import { AddRow } from "@/components/admin/add-row";
+import { Badge } from "@/components/admin/badge";
+import { CollapsibleCard } from "@/components/admin/collapsible-card";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { Field, FormError, Select, TextArea } from "@/components/admin/fields";
-import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, NUM } from "@/components/ui/styles";
+import { IconLink } from "@/components/admin/icon-link";
+import { Steps } from "@/components/admin/steps";
+import { SubmitButton } from "@/components/admin/submit-button";
+import { BUTTON, BUTTON_SOLID, CARD_TITLE, INLINE_FORM, ITEM_CARD, NUM, flash } from "@/components/ui/styles";
 import { br } from "@/services/dates";
 import { MONEY_PATTERN, brl, moneyField } from "@/services/money";
 import { PAYMENT_LIMITS, type Payment } from "@/services/payments";
@@ -10,21 +16,18 @@ import { PROJECT_LIMITS, PROJECT_STATUSES, PROJECT_STATUS_LABEL, type Project, t
 import { receivePayment, removePayment, removeProject, saveInstallment, saveProject } from "@/app/admin/(painel)/clientes/[id]/actions";
 
 /* Projetos de entrega única e as parcelas combinadas de cada um. A parcela nasce "a receber"
-   e o "Recebi" põe a data de hoje. */
+   e o "Recebi" põe a data de hoje. Os `id` (`projeto-3`, `parcela-7`) são as âncoras para onde as
+   actions voltam (clientes/[id]/actions.ts). */
 
-const STATUS_TONE: Record<ProjectStatus, Tone> = {
-  proposal: "neutral",
-  approved: "accent",
-  in_progress: "accent",
-  delivered: "ok",
-  canceled: "neutral",
-};
+/* o caminho do projeto; cancelado sai dele e aparece como etiqueta */
+const STEPS = PROJECT_STATUSES.filter((status): status is Exclude<ProjectStatus, "canceled"> => status !== "canceled");
 
 function ProjectForm({ clientId, project, erro, cancelHref }: { clientId: number; project?: Project; erro?: string; cancelHref: string }) {
   return (
-    <form action={saveProject} className="flex flex-col gap-5">
+    <form id={`projeto-${project?.id ?? "novo"}`} action={saveProject} className={`flex flex-col gap-5 ${INLINE_FORM}`}>
       <input type="hidden" name="clientId" value={clientId} />
       {project && <input type="hidden" name="id" value={project.id} />}
+      <h3 className={CARD_TITLE}>{project ? "Editar projeto" : "Novo projeto"}</h3>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field prefix="project-" label="Projeto" name="title" required placeholder="Site institucional" defaultValue={project?.title} maxLength={PROJECT_LIMITS.title} />
@@ -54,10 +57,10 @@ function ProjectForm({ clientId, project, erro, cancelHref }: { clientId: number
       <FormError message={erro} />
 
       <div className="flex flex-wrap gap-2">
-        <button type="submit" className={BUTTON_SOLID}>
+        <SubmitButton className={BUTTON_SOLID} icon="check">
           Salvar projeto
-        </button>
-        <Link href={cancelHref} className={BUTTON}>
+        </SubmitButton>
+        <Link href={cancelHref} scroll={false} className={BUTTON}>
           Cancelar
         </Link>
       </div>
@@ -67,9 +70,10 @@ function ProjectForm({ clientId, project, erro, cancelHref }: { clientId: number
 
 function InstallmentForm({ project, erro, cancelHref }: { project: Project; erro?: string; cancelHref: string }) {
   return (
-    <form action={saveInstallment} className="flex flex-col gap-4 border border-ink/15 p-4">
+    <form action={saveInstallment} className={`flex flex-col gap-4 ${INLINE_FORM}`}>
       <input type="hidden" name="clientId" value={project.clientId} />
       <input type="hidden" name="id" value={project.id} />
+      <h4 className={CARD_TITLE}>Nova parcela</h4>
       <div className="grid gap-4 sm:grid-cols-3">
         <Field prefix="parcela-" label="Descrição" name="description" placeholder="Entrada (50%)" maxLength={PAYMENT_LIMITS.description} />
         <Field prefix="parcela-" label="Valor (R$)" name="amount" required inputMode="decimal" pattern={MONEY_PATTERN} title="Formato 1.500,00" />
@@ -77,10 +81,10 @@ function InstallmentForm({ project, erro, cancelHref }: { project: Project; erro
       </div>
       <FormError message={erro} />
       <div className="flex flex-wrap gap-2">
-        <button type="submit" className={BUTTON_SOLID}>
+        <SubmitButton className={BUTTON_SOLID} icon="plus">
           Adicionar parcela
-        </button>
-        <Link href={cancelHref} className={BUTTON}>
+        </SubmitButton>
+        <Link href={cancelHref} scroll={false} className={BUTTON}>
           Cancelar
         </Link>
       </div>
@@ -88,13 +92,15 @@ function InstallmentForm({ project, erro, cancelHref }: { project: Project; erro
   );
 }
 
-function Installment({ payment, clientId, page, excluir }: { payment: Payment; clientId: number; page: string; excluir?: string }) {
-  if (excluir === `parcela-${payment.id}`) {
+function Installment({ payment, project, page, excluir, feito }: { payment: Payment; project: Project; page: string; excluir?: string; feito?: string }) {
+  const anchor = `parcela-${payment.id}`;
+
+  if (excluir === anchor) {
     return (
       <li className="py-2">
         <DeleteConfirm
           action={removePayment}
-          fields={{ clientId, id: payment.id }}
+          fields={{ clientId: project.clientId, id: payment.id, anchor: `projeto-${project.id}` }}
           message={payment.paidOn ? "Apaga o registro do recebimento." : "Apaga a parcela."}
           cancelHref={page}
         />
@@ -103,7 +109,7 @@ function Installment({ payment, clientId, page, excluir }: { payment: Payment; c
   }
 
   return (
-    <li className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2">
+    <li id={anchor} className={`flex scroll-mt-24 flex-wrap items-center gap-x-4 gap-y-1 py-2 ${flash(feito === anchor)}`}>
       <span className="text-ink/80">{payment.description ?? "Parcela"}</span>
       <span className={`ml-auto ${NUM}`}>{brl(payment.amount)}</span>
       {payment.paidOn ? (
@@ -113,17 +119,15 @@ function Installment({ payment, clientId, page, excluir }: { payment: Payment; c
           {payment.overdue ? "venceu" : "vence"} {br(payment.dueOn)}
         </span>
       )}
-      <form action={receivePayment} className="flex items-center gap-3">
-        <input type="hidden" name="clientId" value={clientId} />
+      <form action={receivePayment} className="-my-1 flex items-center gap-1">
+        <input type="hidden" name="clientId" value={project.clientId} />
         <input type="hidden" name="id" value={payment.id} />
         {!payment.paidOn && (
-          <button type="submit" className={BUTTON}>
+          <SubmitButton className={`${BUTTON} mr-1`} icon="check">
             Recebi
-          </button>
+          </SubmitButton>
         )}
-        <Link href={`${page}?excluir=parcela-${payment.id}`} className="text-meta text-ink/50 hover:text-danger">
-          excluir
-        </Link>
+        <IconLink href={`${page}?excluir=${anchor}`} label={payment.paidOn ? "Apagar recebimento" : "Apagar parcela"} icon={Trash2} danger />
       </form>
     </li>
   );
@@ -136,6 +140,7 @@ function ProjectCard({
   excluir,
   parcela,
   erro,
+  feito,
 }: {
   project: Project;
   payments: Payment[];
@@ -143,27 +148,65 @@ function ProjectCard({
   excluir?: string;
   parcela?: string;
   erro?: string;
+  feito?: string;
 }) {
   /* o que falta combinar: valor total menos as parcelas já marcadas */
   const unscheduled = project.total - project.scheduled;
+  const percent = project.total ? Math.min(100, Math.round((project.paid / project.total) * 100)) : 0;
+  const anchor = `projeto-${project.id}`;
 
   return (
-    <article className="flex flex-col gap-4 border-t border-ink/10 pt-5 first:border-t-0 first:pt-0">
+    <article id={anchor} className={`flex flex-col gap-4 ${ITEM_CARD} ${flash(feito === anchor)}`}>
       <header className="flex flex-wrap items-center gap-2">
         <h3 className="text-[16px] font-semibold">{project.title}</h3>
-        <Badge tone={STATUS_TONE[project.status]}>{PROJECT_STATUS_LABEL[project.status]}</Badge>
+        {project.status === "canceled" && <Badge>{PROJECT_STATUS_LABEL.canceled}</Badge>}
         {project.overdue && <Badge tone="danger">Parcela atrasada</Badge>}
+        <span className="-my-1 ml-auto flex">
+          <IconLink href={`${page}?projeto=${project.id}`} label="Editar projeto" icon={Pencil} />
+          <IconLink href={`${page}?excluir=projeto-${project.id}`} label="Excluir projeto" icon={Trash2} danger />
+        </span>
       </header>
 
-      <dl className="grid grid-cols-2 gap-x-6 gap-y-2 text-ui sm:grid-cols-4">
-        <div>
-          <dt className="text-meta text-ink/60">Valor</dt>
-          <dd className={NUM}>{project.total ? brl(project.total) : "a combinar"}</dd>
+      {project.status !== "canceled" && (
+        <Steps label="Etapa do projeto" steps={STEPS.map((status) => PROJECT_STATUS_LABEL[status])} current={STEPS.indexOf(project.status)} />
+      )}
+
+      {/* Recebido sobre o total: a barra é o <progress> nativo, que já diz o valor ao leitor de
+          tela. A trilha é a div de fora; a barra em si só pinta o laranja (pseudo-elementos do
+          WebKit e do Firefox) e entra se revelando da esquerda, como se enchesse. */}
+      {project.total > 0 && (
+        <div className="flex flex-col gap-2 text-ui">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+            <span>
+              <span className={`font-semibold ${NUM}`}>{brl(project.paid)}</span>
+              <span className="text-ink/60"> de {brl(project.total)} recebidos</span>
+            </span>
+            <span className={`font-mono text-meta text-ink/60 ${NUM}`}>{percent}%</span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-ink/10">
+            <progress
+              value={project.paid}
+              max={project.total}
+              aria-label="Recebido do valor total"
+              className="block h-full w-full animate-reveal-x appearance-none bg-transparent motion-reduce:animate-none [&::-moz-progress-bar]:bg-accent [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-value]:bg-accent"
+            />
+          </div>
         </div>
-        <div>
-          <dt className="text-meta text-ink/60">Recebido</dt>
-          <dd className={NUM}>{brl(project.paid)}</dd>
-        </div>
+      )}
+
+      <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-ui sm:grid-cols-4">
+        {project.total === 0 && (
+          <>
+            <div>
+              <dt className="text-meta text-ink/60">Valor</dt>
+              <dd>a combinar</dd>
+            </div>
+            <div>
+              <dt className="text-meta text-ink/60">Recebido</dt>
+              <dd className={NUM}>{brl(project.paid)}</dd>
+            </div>
+          </>
+        )}
         <div>
           <dt className="text-meta text-ink/60">Prazo</dt>
           <dd className={NUM}>{project.deadline ? br(project.deadline) : "—"}</dd>
@@ -183,34 +226,24 @@ function ProjectCard({
         <ul className="divide-y divide-ink/10 border-y border-ink/10 text-ui">
           {/* a consulta vem da mais recente pra mais antiga; parcela se lê na ordem do calendário */}
           {[...payments].reverse().map((payment) => (
-            <Installment key={payment.id} payment={payment} clientId={project.clientId} page={page} excluir={excluir} />
+            <Installment key={payment.id} payment={payment} project={project} page={page} excluir={excluir} feito={feito} />
           ))}
         </ul>
       )}
 
-      {parcela === String(project.id) && <InstallmentForm project={project} erro={erro} cancelHref={page} />}
-
-      {excluir === `projeto-${project.id}` ? (
+      {excluir === anchor ? (
         <DeleteConfirm
           action={removeProject}
           fields={{ clientId: project.clientId, id: project.id }}
           message="Exclui o projeto e as parcelas não recebidas."
           cancelHref={page}
         />
+      ) : parcela === String(project.id) ? (
+        <InstallmentForm project={project} erro={erro} cancelHref={page} />
       ) : (
-        <div className="flex flex-wrap items-center gap-2">
-          {parcela !== String(project.id) && (
-            <Link href={`${page}?parcela=${project.id}`} className={BUTTON}>
-              Nova parcela
-            </Link>
-          )}
-          <Link href={`${page}?projeto=${project.id}`} className={`${BUTTON} ml-auto`}>
-            Editar
-          </Link>
-          <Link href={`${page}?excluir=projeto-${project.id}`} className={`${BUTTON} text-danger`}>
-            Excluir
-          </Link>
-        </div>
+        <AddRow href={`${page}?parcela=${project.id}`} small>
+          Nova parcela
+        </AddRow>
       )}
     </article>
   );
@@ -224,6 +257,8 @@ export function ProjectSection({
   parcela,
   excluir,
   erro,
+  feito,
+  forceOpen,
 }: {
   clientId: number;
   projects: Project[];
@@ -234,24 +269,29 @@ export function ProjectSection({
   parcela?: string;
   excluir?: string;
   erro?: string;
+  /** `?feito=`: o item que a última ação mexeu, que pisca ao chegar */
+  feito?: string;
+  /** a URL aponta pra dentro do bloco: abre mesmo se estava recolhido */
+  forceOpen: boolean;
 }) {
   const page = `/admin/clientes/${clientId}`;
+  /* o que falta entrar dos projetos que seguem valendo */
+  const toReceive = projects
+    .filter((project) => project.status !== "canceled")
+    .reduce((sum, project) => sum + Math.max(project.total - project.paid, 0), 0);
 
   return (
-    <section className={`${CARD} flex flex-col gap-5`}>
-      <header className="flex items-center justify-between gap-3">
-        <h2 className={CARD_TITLE}>Projetos</h2>
-        {open !== "novo" && (
-          <Link href={`${page}?projeto=novo`} className={BUTTON}>
-            Novo projeto
-          </Link>
-        )}
-      </header>
-
-      {open === "novo" && <ProjectForm clientId={clientId} erro={erro} cancelHref={page} />}
-
+    <CollapsibleCard
+      id="projetos"
+      icon={<FolderKanban className="h-4 w-4" strokeWidth={2.25} />}
+      title="Projetos"
+      count={projects.length}
+      summary={toReceive > 0 && `${brl(toReceive)} a receber`}
+      forceOpen={forceOpen}
+    >
       {projects.length === 0 && open !== "novo" && <p className="text-ui text-ink/60">Nenhum projeto ainda.</p>}
 
+      {/* cada projeto um cartão; o formulário aberto entra no lugar dele */}
       {projects.map((project) =>
         open === String(project.id) ? (
           <ProjectForm key={project.id} clientId={clientId} project={project} erro={erro} cancelHref={page} />
@@ -264,9 +304,13 @@ export function ProjectSection({
             excluir={excluir}
             parcela={parcela}
             erro={erro}
+            feito={feito}
           />
         ),
       )}
-    </section>
+
+      {/* adicionar fica no fim, onde o projeto novo vai entrar; o formulário abre no lugar da faixa */}
+      {open === "novo" ? <ProjectForm clientId={clientId} erro={erro} cancelHref={page} /> : <AddRow href={`${page}?projeto=novo`}>Novo projeto</AddRow>}
+    </CollapsibleCard>
   );
 }

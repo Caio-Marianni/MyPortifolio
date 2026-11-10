@@ -2,6 +2,8 @@
 import { TODAY, db } from "./db.ts";
 import { field, optionalDate } from "./form-input.ts";
 import { parseMoney } from "./money.ts";
+import type { Plan } from "./plans.ts";
+import type { Project } from "./projects.ts";
 
 /* Pagamentos dos dois tipos de contrato. Do plano, cada linha é um mês recebido (gravada pelo
    "Recebi" em services/plans.ts). Do projeto, cada linha é uma parcela combinada — nasce sem
@@ -72,4 +74,67 @@ export async function receiveInstallment(id: number): Promise<void> {
 /** Desfaz um registro errado: parcela volta a não existir, mensalidade volta a ficar em aberto. */
 export async function deletePayment(id: number): Promise<void> {
   await db()`delete from payments where id = ${id}`;
+}
+
+/** O dinheiro do cliente de relance, no topo da ficha. */
+export interface ClientMoney {
+  /** soma dos planos ativos, por mês */
+  monthly: number;
+  activePlans: number;
+  /** tudo que já entrou, de plano e de projeto */
+  received: number;
+  /** a receber: parcelas de projeto em aberto mais mensalidades atrasadas */
+  open: number;
+  /** a parte de `open` que já venceu */
+  overdue: number;
+  /** o próximo vencimento que ainda não passou */
+  next: { dueOn: string; label: string; amount: number } | null;
+}
+
+/** Monta o resumo com o que a ficha já carregou — nada de consulta a mais. Projeto cancelado não
+    conta: parcela dele não é mais dinheiro a receber. */
+export function clientMoney(plans: Plan[], projects: Project[], payments: Payment[]): ClientMoney {
+  const active = plans.filter((plan) => plan.status === "active");
+  const liveProjects = new Map(projects.filter((project) => project.status !== "canceled").map((project) => [project.id, project]));
+  const open = payments.flatMap((payment) => {
+    const project = payment.projectId === null ? undefined : liveProjects.get(payment.projectId);
+    return project && !payment.paidOn ? [{ payment, project }] : [];
+  });
+  const sum = (amounts: number[]) => amounts.reduce((total, amount) => total + amount, 0);
+  const planOverdue = sum(active.map((plan) => plan.overdueAmount));
+
+  const upcoming = [
+    ...active.filter((plan) => !plan.overdue).map((plan) => ({ dueOn: plan.nextDue, label: `Mensalidade · ${plan.name}`, amount: plan.monthlyFee })),
+    ...open
+      .filter(({ payment }) => !payment.overdue)
+      .map(({ payment, project }) => ({ dueOn: payment.dueOn, label: `Parcela · ${project.title}`, amount: payment.amount })),
+  ].sort((a, b) => a.dueOn.localeCompare(b.dueOn));
+
+  return {
+    monthly: sum(active.map((plan) => plan.monthlyFee)),
+    activePlans: active.length,
+    received: sum(payments.filter((payment) => payment.paidOn).map((payment) => payment.amount)),
+    open: sum(open.map(({ payment }) => payment.amount)) + planOverdue,
+    overdue: sum(open.filter(({ payment }) => payment.overdue).map(({ payment }) => payment.amount)) + planOverdue,
+    next: upcoming[0] ?? null,
+  };
+}
+
+/** O que entrou, mês a mês, do mais recente pro mais antigo: a linha do tempo do "Recebido". */
+export function receivedByMonth(payments: Payment[]): { month: string; total: number; payments: (Payment & { paidOn: string })[] }[] {
+  const paid = payments
+    .filter((payment): payment is Payment & { paidOn: string } => payment.paidOn !== null)
+    .sort((a, b) => b.paidOn.localeCompare(a.paidOn));
+  const months: { month: string; total: number; payments: (Payment & { paidOn: string })[] }[] = [];
+  for (const payment of paid) {
+    const month = payment.paidOn.slice(0, 7);
+    const last = months.at(-1);
+    if (last?.month === month) {
+      last.payments.push(payment);
+      last.total += payment.amount;
+    } else {
+      months.push({ month, total: payment.amount, payments: [payment] });
+    }
+  }
+  return months;
 }

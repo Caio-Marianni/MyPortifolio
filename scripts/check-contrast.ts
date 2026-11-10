@@ -54,6 +54,8 @@ const PAIRS: Array<[string, string, string, number, number]> = [
   ["corpo esmaecido", "ink", "surface", 0.65, 4.5],
   ["rótulo mono", "ink", "surface", 0.6, 4.5],
   ["sobre superfície elevada", "ink", "surface-raised", 1, 4.5],
+  ["rótulo na folha", "ink", "sheet", 0.6, 4.5],
+  ["rótulo no card", "ink", "paper", 0.6, 4.5],
   ["texto na tarja", "chrome-ink", "chrome", 1, 4.5],
   ["botão sólido", "fill-ink", "fill", 1, 4.5],
   ["erro de formulário", "danger", "surface", 1, 4.5],

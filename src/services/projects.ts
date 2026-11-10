@@ -80,11 +80,14 @@ export async function getProject(id: number): Promise<Project | null> {
   return row ?? null;
 }
 
-export async function createProject(clientId: number, p: ProjectFields): Promise<void> {
-  await db()`
+/** Devolve o id do projeto novo: a ficha rola até ele. */
+export async function createProject(clientId: number, p: ProjectFields): Promise<number> {
+  const [row] = (await db()`
     insert into projects (client_id, title, scope, total, deadline, status, notes)
     values (${clientId}, ${p.title}, ${p.scope}, ${p.total}, ${p.deadline}, ${p.status}, ${p.notes})
-  `;
+    returning id
+  `) as { id: number }[];
+  return row.id;
 }
 
 export async function updateProject(id: number, p: ProjectFields): Promise<void> {

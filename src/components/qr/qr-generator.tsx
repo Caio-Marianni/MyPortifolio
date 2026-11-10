@@ -177,7 +177,7 @@ export function QrGenerator() {
 
         {/* checkbox nativo: teclado, foco e leitor de tela de graça; a cor vem do `accent-` */}
         <fieldset className="flex flex-col gap-3">
-          <legend className={`${LABEL} mb-3`}>Opções</legend>
+          <legend className={`${LABEL} pb-1.5`}>Opções</legend>
           <Check label="Inverter cores" checked={inverted} onChange={handleInverted} />
           <Check label="Ícone do site no centro" checked={showLogo} onChange={handleLogo} />
           {showLogo && <Check label="Ícone em preto e branco" checked={logoGrayscale} onChange={handleLogoGrayscale} />}
@@ -228,7 +228,7 @@ function Check({ label, checked, onChange }: { label: string; checked: boolean; 
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 accent-ink"
+        className="h-4 w-4 accent-accent"
       />
       {label}
     </label>

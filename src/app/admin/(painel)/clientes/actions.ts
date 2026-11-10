@@ -8,7 +8,8 @@ import { readId } from "@/services/form-input";
 
 const PAGE = "/admin/clientes";
 
-/** Cadastra (sem `id`) e abre a ficha, ou edita e volta pra ela. O erro volta na URL. */
+/** Cadastra (sem `id`) e abre a ficha, ou edita e volta pra ela, no bloco de contato, que pisca
+    (`#contato`, ver clientes/[id]/actions.ts). O erro volta na URL. */
 export async function saveClient(formData: FormData) {
   await requireAdmin();
 
@@ -22,7 +23,7 @@ export async function saveClient(formData: FormData) {
   if (id) await updateClient(id, read.fields);
 
   revalidatePath("/admin", "layout");
-  redirect(`${PAGE}/${target}`);
+  redirect(id ? `${PAGE}/${id}?feito=contato#contato` : `${PAGE}/${target}`);
 }
 
 /** Exclusão sem volta; a confirmação é a própria tela (`?excluir=cliente`). */

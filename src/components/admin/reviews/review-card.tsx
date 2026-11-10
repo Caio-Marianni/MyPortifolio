@@ -40,7 +40,7 @@ export function ReviewCard({ page, review, excluindo, editando }: { page: string
      publicar continua nos botões de baixo, depois de salvar. */
   if (editando) {
     return (
-      <article className={`${CARD} flex flex-col gap-4 border-ink`}>
+      <article className={`${CARD} flex flex-col gap-4 border-l-2 border-accent`}>
         <ReviewEditor review={review} />
       </article>
     );

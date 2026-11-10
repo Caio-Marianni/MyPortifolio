@@ -17,10 +17,18 @@ export default async function PainelLayout({ children }: { children: ReactNode }
   await requireAdmin();
 
   return (
-    <div className="min-h-screen bg-surface font-inter text-ink lg:flex">
+    /* A tarja à esquerda e a folha ao lado, como as páginas do site. Sem largura máxima na folha:
+       o fio do SHEET_HEADER vai de borda a borda dela. No celular a folha sobe 24px sobre a faixa
+       do menu, com os cantos de cima arredondados, e precisa ficar acima dela (z-[15]); no
+       desktop fica abaixo (z-[5]), para receber a sombra da tarja. `data-page` pinta de preto o
+       bounce do celular (globals.css). */
+    <div className="flex min-h-screen flex-col bg-chrome font-inter text-ink lg:flex-row">
       <AdminNav />
-      <main className="min-w-0 flex-1 px-5 py-8 md:px-10 md:py-10">
-        <div className="mx-auto max-w-[1200px]">{children}</div>
+      <main
+        data-page="painel"
+        className="relative z-[5] min-w-0 flex-1 bg-sheet px-5 py-6 max-lg:z-[15] max-lg:-mt-6 max-lg:rounded-t-[28px] lg:px-14 lg:py-10"
+      >
+        {children}
       </main>
     </div>
   );

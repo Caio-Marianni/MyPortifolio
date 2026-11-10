@@ -272,7 +272,7 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
 
       {!review && (
         <label className="flex items-center gap-2.5 text-ui text-ink/70">
-          <input type="checkbox" checked={publish} onChange={(e) => setPublish(e.target.checked)} className="h-4 w-4 accent-[rgb(var(--accent))]" />
+          <input type="checkbox" checked={publish} onChange={(e) => setPublish(e.target.checked)} className="h-4 w-4 accent-accent" />
           Publicar já (desmarcado, entra na fila como pendente)
         </label>
       )}
