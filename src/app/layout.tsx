@@ -7,6 +7,7 @@ import { getSummary } from "@/services/reviews";
 
 import localFont from "next/font/local";
 import { INTRO_KEY } from "@/components/site/intro-key";
+import { GoogleAnalytics } from "@/components/site/google-analytics";
 
 /* Os .woff2 saem daqui e não de /public por dois motivos que valem nota no PageSpeed:
    o Next os serve de /_next/static com cache imutável de 1 ano (em /public a resposta é
@@ -190,6 +191,7 @@ export default async function RootLayout({
             <ReviewsProvider summary={summary}>{children}</ReviewsProvider>
           </LanguageProvider>
         </ThemeProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   );

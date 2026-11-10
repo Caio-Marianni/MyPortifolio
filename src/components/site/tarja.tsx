@@ -7,6 +7,7 @@ import { BrandIcon, CHANNELS, WHATSAPP_URL } from "@/components/contact/contact-
 import { BrandedMark, LogoMark, STAR } from "@/components/ui/brand-marks";
 import { LangSwitch } from "@/components/ui/switches";
 import { CONTACT_3D, CV_3D, DARK_3D, FOCUS, ON_CHROME_FOCUS } from "@/components/ui/styles";
+import { TarjaRelief } from "@/components/ui/tarja-relief";
 import { useLanguage } from "@/contexts/language-context";
 import { skipIntro } from "@/hooks/use-intro";
 import { usePointerShift } from "@/hooks/use-pointer-shift";
@@ -78,7 +79,7 @@ export function MarkBackdrop({ path = STAR }: { path?: string }) {
     a vinheta (é onde mora o retrato da home); `homeHref` faz do logo o caminho de volta.
     `noContact` tira contato, CV e redes do pé: no convite de avaliação a página é uma tarefa só, e
     mandar o cliente para outro lugar no meio dela é o jeito mais fácil de não receber a avaliação. */
-export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: ReactNode; homeHref?: string; noContact?: boolean; children: ReactNode }) {
+export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: ReactNode; homeHref?: string; noContact?: boolean; children?: ReactNode }) {
   const { language } = useLanguage();
   const pt = language === "pt";
   const whatsapp = useWhatsapp();
@@ -90,26 +91,7 @@ export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: 
        `default="none"`: sem isso ela animaria em qualquer transição da página. */
     <ViewTransition name="tarja" share="tarja" default="none">
       <aside className="relative isolate z-10 flex shrink-0 flex-col gap-6 overflow-hidden bg-chrome px-5 py-6 text-chrome-ink max-lg:pb-12 shadow-[0_10px_24px_rgba(0,0,0,0.25)] lg:sticky lg:top-0 lg:h-screen lg:w-[440px] lg:gap-7 lg:px-12 lg:py-10 lg:shadow-[12px_0_28px_rgba(0,0,0,0.22)]">
-        {/* Relevo da tarja, do fundo para a frente: hachura fina na diagonal do monograma (a placa
-          gravada), luz rasante vindo do canto de baixo, o fundo de cada página, vinheta escurecendo
-          as bordas, grão e a quina iluminada de 1px. Tudo atrás do conteúdo pelo `-z-10` + `isolate`. */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[repeating-linear-gradient(-52deg,rgb(var(--chrome-ink)/0.018)_0_1px,transparent_1px_7px)]"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(110%_60%_at_0%_100%,rgb(var(--chrome-ink)/0.13),transparent_70%)]"
-          aria-hidden
-        />
-        {backdrop}
-        {/* sombra no topo: o seletor de idioma cai em cima do cabelo e precisa de fundo escuro */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-28 bg-gradient-to-b from-chrome/85 to-transparent" aria-hidden />
-        <div className="pointer-events-none absolute inset-0 -z-10 shadow-[inset_0_0_160px_rgb(0_0_0/0.85)]" aria-hidden />
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[url('/assets/images/noise.webp')] opacity-[0.14] mix-blend-screen" aria-hidden />
-        <div
-          className="pointer-events-none absolute inset-0 shadow-[inset_0_-1px_0_rgb(var(--chrome-ink)/0.14)] lg:shadow-[inset_-1px_0_0_rgb(var(--chrome-ink)/0.14),inset_0_1px_0_rgb(var(--chrome-ink)/0.06)]"
-          aria-hidden
-        />
+        <TarjaRelief backdrop={backdrop} />
 
         <div className="flex items-center justify-between text-meta">
           {homeHref ? (
@@ -160,7 +142,10 @@ export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: 
               ))}
             </nav>
             <span className="text-center font-mono text-meta tracking-[0.06em] text-chrome-ink/55 sm:text-left lg:text-center">
-              {pt ? "Brasil-GO · desde 2022" : "Brazil-GO · since 2022"}
+              {pt ? "Brasil-GO · desde 2022" : "Brazil-GO · since 2022"} ·{" "}
+              <Link href="/privacidade" className={`underline-offset-2 hover:text-chrome-ink hover:underline ${ON_CHROME_FOCUS}`}>
+                {pt ? "Privacidade" : "Privacy"}
+              </Link>
             </span>
           </div>
         </div>
