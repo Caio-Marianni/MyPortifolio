@@ -1,41 +1,52 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
+import { ArrowLeftIcon } from "@phosphor-icons/react/ssr";
 import type { ReactNode } from "react";
-import { RATING_FONT } from "@/components/ui/brand-marks";
-import { SHEET_HEADER } from "@/components/ui/styles";
+import { ICON_BUTTON } from "@/components/ui/styles";
 
-/** Topo de cada tela do painel: título, uma linha de contexto e as ações da tela à direita.
-    `back` é a tela de cima — a ficha do cliente volta pra lista, por exemplo.
-    Desenho das páginas do site: título em Ricko, a linha de contexto na voz mono e o fio do
-    SHEET_HEADER de borda a borda da folha. */
+/** Topo de cada tela do painel, numa linha só: ícone (cheio, como o da aba do trilho) e título,
+    uma barrinha e uma frase curta (`description`: a data, a situação do cliente, o que a tela
+    é). À direita as ações: o filtro da lista (FilterMenu) e a de criar algo em verde (BUTTON_ADD). `icon` é o mesmo do trilho, pra tela e menu se
+    reconhecerem; as telas de dentro (ficha, documento) usam `back`, a seta pra tela de cima, e
+    `leading` no lugar do ícone (a logo do cliente na ficha). `subtitle` é a linha miúda embaixo do
+    título (o site do cliente).
+    Números e detalhes não moram aqui: vão nos blocos da tela. */
 export function PageHeader({
   title,
+  icon: Icon,
+  leading,
+  subtitle,
   description,
   actions,
   back,
 }: {
   title: string;
+  icon?: PhosphorIcon;
+  leading?: ReactNode;
+  subtitle?: ReactNode;
   description?: ReactNode;
   actions?: ReactNode;
   back?: { href: string; label: string };
 }) {
   return (
-    <header className="mb-8">
-      {back && (
-        <Link href={back.href} className="mb-4 inline-flex items-center gap-1.5 text-meta font-semibold text-ink/60 hover:text-ink">
-          <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
-          {back.label}
-        </Link>
-      )}
-      <div className={SHEET_HEADER}>
-        <div className="min-w-0">
-          {/* Ricko tem um peso só: sem `font-bold`, que o navegador sintetizaria */}
-          <h1 className={`${RATING_FONT} break-words text-[clamp(36px,5vw,56px)] uppercase leading-[0.9]`}>{title}</h1>
-          {description && <div className="mt-2 font-mono text-meta tracking-[0.06em] text-ink/60">{description}</div>}
+    <header className="mb-6">
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+        <div className="flex min-w-0 items-center gap-2.5">
+          {back && (
+            <Link href={back.href} aria-label={`Voltar para ${back.label}`} title={back.label} className={`-ml-2 ${ICON_BUTTON}`}>
+              <ArrowLeftIcon className="h-4 w-4" aria-hidden weight="bold" />
+            </Link>
+          )}
+          {leading}
+          {Icon && <Icon className="h-[18px] w-[18px] shrink-0" aria-hidden weight="fill" />}
+          <div className="min-w-0">
+            <h1 className="break-words text-[18px] font-bold leading-tight">{title}</h1>
+            {subtitle && <div className="truncate text-meta text-ink/55">{subtitle}</div>}
+          </div>
         </div>
-        {/* `pt-2` e não margem: com `items-baseline` o padding some ao lado do título e só aparece
-            quando as ações quebram para baixo dele, no celular */}
-        {actions && <div className="flex flex-wrap items-center gap-2 pt-2">{actions}</div>}
+        {description && <span aria-hidden className="h-6 w-px shrink-0 bg-ink/20" />}
+        {description && <div className="min-w-0 font-mono text-meta tracking-[0.06em] text-ink/60">{description}</div>}
+        {actions && <div className="ml-auto flex flex-wrap items-center gap-2">{actions}</div>}
       </div>
     </header>
   );

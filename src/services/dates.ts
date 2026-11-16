@@ -52,3 +52,13 @@ export function monthRange(month: string): { start: string; end: string } {
     formata nessa ordem. */
 export const todayInBrazil = (now = new Date()): string =>
   new Intl.DateTimeFormat("en-CA", { timeZone: "America/Sao_Paulo" }).format(now);
+
+/** Distância de `iso` até `today` em palavras: "hoje", "amanhã", "há 5 dias", "em 2 dias". É a
+    pergunta que se faz olhando um vencimento — quão urgente —, sem fazer conta de calendário. */
+export function relativeDays(iso: string, today: string): string {
+  const days = Math.round((Date.parse(`${iso}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000);
+  if (days === 0) return "hoje";
+  if (days === 1) return "amanhã";
+  if (days === -1) return "ontem";
+  return days > 0 ? `em ${days} dias` : `há ${-days} dias`;
+}

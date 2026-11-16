@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeftIcon } from "@phosphor-icons/react/ssr";
 import { MONOGRAM, RATING_FONT } from "@/components/ui/brand-marks";
 import { DARK_3D, FOCUS } from "@/components/ui/styles";
 import { MarkBackdrop, Tarja, TarjaSheet } from "@/components/site/tarja";
@@ -29,7 +29,7 @@ export default function NotFound() {
             {pt ? "A página que você procura não existe ou foi removida." : "The page you're looking for doesn't exist or was removed."}
           </p>
           <Link href="/" className={`${DARK_3D} ${FOCUS} mt-4`}>
-            <ArrowLeft className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+            <ArrowLeftIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
             {pt ? "Voltar ao início" : "Back to home"}
           </Link>
         </section>

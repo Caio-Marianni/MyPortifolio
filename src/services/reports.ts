@@ -79,8 +79,9 @@ export interface QueueItem {
   sentOn: string | null;
 }
 
-/** Planos ativos com relatório que já valiam naquele mês, com o relatório do mês se houver. */
-export async function listQueue(month: string): Promise<QueueItem[]> {
+/** Planos ativos com relatório que já valiam naquele mês, com o relatório do mês se houver. Com
+    `clientId`, só os daquele cliente — o cartão do plano na ficha. */
+export async function listQueue(month: string, clientId: number | null = null): Promise<QueueItem[]> {
   return (await db().query(
     `select pl.id as "planId", pl.name as "planName", c.id as "clientId", c.name as "clientName",
             pl.ga_property is not null as "hasAnalytics",
@@ -89,8 +90,9 @@ export async function listQueue(month: string): Promise<QueueItem[]> {
      join clients c on c.id = pl.client_id
      left join reports r on r.plan_id = pl.id and r.month = $1
      where pl.status = 'active' and pl.reports and to_char(pl.first_due, 'YYYY-MM') <= $1
+       and ($2::int is null or c.id = $2)
      order by (r.sent_on is not null), c.name`,
-    [month],
+    [month, clientId],
   )) as QueueItem[];
 }
 

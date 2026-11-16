@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { CaretRightIcon } from "@phosphor-icons/react/ssr";
 import { DocStatusBadge } from "@/components/admin/documents/doc-status";
 import { NUM, ROW_FOCUS } from "@/components/ui/styles";
 import { DOC_KIND_LABEL, type Document } from "@/services/documents";
@@ -35,10 +35,10 @@ export function DocumentList({ docs }: { docs: Document[] }) {
               <span>
                 <DocStatusBadge status={doc.status} />
               </span>
-              <ChevronRight
+              <CaretRightIcon
                 className="h-4 w-4 text-ink/30 transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-ink max-md:hidden md:order-last"
-                strokeWidth={2}
                 aria-hidden
+                weight="bold"
               />
             </Link>
           </li>

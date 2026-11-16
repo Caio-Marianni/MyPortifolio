@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, PenLine, X } from "lucide-react";
+import { ArrowUpRightIcon, PencilLineIcon, XIcon } from "@phosphor-icons/react/ssr";
 import { RATING_FONT, Stars } from "@/components/ui/brand-marks";
 import { CARD_TITLE, CONTACT_3D, FOCUS, ON_CHROME_FOCUS, rise, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE, toggleKey } from "@/components/ui/styles";
 import { ReviewPhoto, ReviewShots } from "@/components/reviews/review-photo";
@@ -70,10 +70,10 @@ function ReviewCard({ review, project, tag }: { review: Review; project?: Review
         <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-chrome-ink/60">{pt ? "Projeto" : "Project"}</span>
         <span className="truncate text-ui font-semibold">{project.title}</span>
       </span>
-      <ArrowUpRight
+      <ArrowUpRightIcon
         className="relative h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-px group-hover:text-accent"
-        strokeWidth={2.5}
         aria-hidden
+        weight="bold"
       />
     </Link>
   );
@@ -178,7 +178,7 @@ export function ReviewsPage({
           {/* A nota vem primeiro e preenche a largura: número à esquerda, estrelas encostando na
               borda direita. Tudo medido em `em` do mesmo corpo — "4.9" na Ricko tem ~1.02em, as
               cinco estrelas a 0.14em dão 0.84em, mais o vão mínimo de 0.06em (`gap`, para o número
-              nunca encostar no "X avaliações") e a folga: ~2.01em no total. O corpo sai da
+              nunca encostar no "XIcon avaliações") e a folga: ~2.01em no total. O corpo sai da
               largura útil (tela menos o px-5 dos dois lados) dividida por isso; no desktop a tarja
               tem 344px úteis, daí os 171px. `justify-between` absorve a sobra do arredondamento. */}
           {/* Do sm ao lg a tarja é o topo da página em largura cheia e o corpo bate no teto de 240px:
@@ -242,7 +242,7 @@ export function ReviewsPage({
           >
             <button type="button" onClick={() => formDialog.current?.showModal()} className={`${CONTACT_3D} ${ON_CHROME_FOCUS} mt-2`}>
               {pt ? "Deixar avaliação" : "Leave a review"}
-              <PenLine className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+              <PencilLineIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
             </button>
             {/* quem já avaliou, ao pé do botão: o pedido chega com prova de que outros responderam */}
             {faces.length > 0 && (
@@ -317,7 +317,7 @@ export function ReviewsPage({
                   aria-label={pt ? "Fechar" : "Close"}
                   className={`-mr-2 -mt-2 flex h-10 w-10 items-center justify-center rounded-lg text-ink/60 transition-colors hover:bg-ink/[0.06] hover:text-ink ${FOCUS}`}
                 >
-                  <X className="h-5 w-5" strokeWidth={2.25} aria-hidden />
+                  <XIcon className="h-5 w-5" aria-hidden weight="bold" />
                 </button>
               </div>
               <ReviewForm name="" company="" track="web" project={null} projectTitle={null} />

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { CaretLeftIcon, CaretRightIcon, PlusIcon } from "@phosphor-icons/react/ssr";
 import { CAROUSEL_ARROW, FOCUS, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE } from "@/components/ui/styles";
 import { thumbLoader, thumbnails } from "@/data/thumbnails";
 import { useScrollStrip } from "@/hooks/use-scroll-strip";
@@ -87,7 +87,7 @@ export function ThumbStrip({ language }: { language: "pt" | "en" }) {
           <li className={ITEM}>
             <Link href="/thumbnails" className={`group block ${FOCUS}`}>
               <span className={`${THUMB_TILE} flex-col items-center justify-center gap-2 bg-chrome text-chrome-ink`}>
-                <Plus className="h-9 w-9 text-accent transition-transform duration-300 group-hover:rotate-90 motion-reduce:transition-none" strokeWidth={2.5} aria-hidden />
+                <PlusIcon className="h-9 w-9 text-accent transition-transform duration-300 group-hover:rotate-90 motion-reduce:transition-none" aria-hidden weight="bold" />
                 <span className="text-ui font-bold">{pt ? "Ver mais" : "See more"}</span>
               </span>
             </Link>
@@ -103,7 +103,7 @@ export function ThumbStrip({ language }: { language: "pt" | "en" }) {
           aria-label={pt ? "Thumbnails anteriores" : "Previous thumbnails"}
           className={`${CAROUSEL_ARROW} top-[calc(50%-4px)] z-10 focus-visible:outline-ink -left-2 lg:-left-5 ${atStart ? "pointer-events-none scale-90 opacity-0" : "opacity-100"}`}
         >
-          <ChevronLeft className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+          <CaretLeftIcon className="h-5 w-5" aria-hidden weight="bold" />
         </button>
         <button
           type="button"
@@ -112,7 +112,7 @@ export function ThumbStrip({ language }: { language: "pt" | "en" }) {
           aria-label={pt ? "Próximas thumbnails" : "Next thumbnails"}
           className={`${CAROUSEL_ARROW} top-[calc(50%-4px)] z-10 focus-visible:outline-ink -right-2 lg:-right-5 ${atEnd ? "pointer-events-none scale-90 opacity-0" : "opacity-100"}`}
         >
-          <ChevronRight className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+          <CaretRightIcon className="h-5 w-5" aria-hidden weight="bold" />
         </button>
       </div>
 

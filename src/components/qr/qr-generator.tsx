@@ -2,7 +2,7 @@
 
 import { useRef, useState, useCallback } from "react";
 import QRCode from "qrcode";
-import { Download, QrCode, Loader2 } from "lucide-react";
+import { CircleNotchIcon, DownloadSimpleIcon, QrCodeIcon } from "@phosphor-icons/react/ssr";
 import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, FIELD, LABEL } from "@/components/ui/styles";
 
 const SIZE = 400;
@@ -191,7 +191,7 @@ export function QrGenerator() {
         {logoWarning && <p className="text-meta text-ink/60">Não achei o ícone deste domínio — o QR saiu sem ele.</p>}
 
         <button type="button" onClick={handleGenerate} disabled={!url.trim() || loading} className={`self-start ${BUTTON_SOLID}`}>
-          {loading ? <Loader2 className="h-[1.1em] w-[1.1em] animate-spin" aria-hidden /> : <QrCode className="h-[1.1em] w-[1.1em]" aria-hidden />}
+          {loading ? <CircleNotchIcon className="h-[1.1em] w-[1.1em] animate-spin" aria-hidden weight="bold" /> : <QrCodeIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />}
           {loading ? "Gerando…" : "Gerar QR code"}
         </button>
       </section>
@@ -204,14 +204,14 @@ export function QrGenerator() {
             ref={canvasRef}
             className={`w-full [image-rendering:pixelated] ${generated ? "block" : "hidden"}`}
           />
-          {!generated && <QrCode className="h-12 w-12 text-ink/20" strokeWidth={1.5} aria-hidden />}
+          {!generated && <QrCodeIcon className="h-12 w-12 text-ink/20" aria-hidden weight="regular" />}
         </div>
 
         {generated && (
           <div className="flex flex-wrap gap-2">
             {(["png", "jpeg", "webp"] as Format[]).map((fmt) => (
               <button key={fmt} type="button" onClick={() => handleDownload(fmt)} className={BUTTON}>
-                <Download className="h-[1.1em] w-[1.1em]" aria-hidden />.{fmt}
+                <DownloadSimpleIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />.{fmt}
               </button>
             ))}
           </div>

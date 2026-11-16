@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { ExternalLink, MessageCircle } from "lucide-react";
+import { ArrowSquareOutIcon, WhatsappLogoIcon } from "@phosphor-icons/react/ssr";
 import { Badge } from "@/components/admin/badge";
 import { CopyField } from "@/components/admin/copy-field";
 import { FormError, TextArea } from "@/components/admin/fields";
@@ -53,7 +53,7 @@ export default async function RelatorioAdminPage(props: Params) {
         actions={
           <a href={link} target="_blank" rel="noopener noreferrer" className={`${BUTTON}`}>
             Abrir como o cliente
-            <ExternalLink className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+            <ArrowSquareOutIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
           </a>
         }
       />
@@ -84,7 +84,7 @@ export default async function RelatorioAdminPage(props: Params) {
               className={`${BUTTON_SOLID}`}
             >
               Mandar no WhatsApp
-              <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+              <WhatsappLogoIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
             </a>
             {!report.whatsapp && <p className="text-meta text-ink/55">Cliente sem WhatsApp na ficha: o WhatsApp abre pra você escolher a conversa.</p>}
             <form action={markReportSent}>

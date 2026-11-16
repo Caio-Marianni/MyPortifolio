@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Check, TriangleAlert } from "lucide-react";
+import { CheckIcon, WarningIcon } from "@phosphor-icons/react/ssr";
 import { DocumentBody } from "@/components/admin/documents/document-body";
 import { FIELD, FOCUS, LABEL, toggleKey } from "@/components/ui/styles";
 import { pendingFields } from "@/services/document-text";
@@ -29,7 +29,7 @@ function FieldsNote({ body, knownFields }: { body: string; knownFields?: string[
   if (problem.length > 0) {
     return (
       <p className="flex items-start gap-2 text-ui text-ink">
-        <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-accent" strokeWidth={2.25} aria-hidden />
+        <WarningIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden weight="bold" />
         <span>
           {knownFields
             ? `${problem.length === 1 ? "Campo que a ficha não conhece" : "Campos que a ficha não conhece"} — vão ficar entre chaves: `
@@ -42,7 +42,7 @@ function FieldsNote({ body, knownFields }: { body: string; knownFields?: string[
 
   return (
     <p className="flex items-center gap-2 text-ui text-ink/60">
-      <Check className="h-4 w-4 shrink-0" strokeWidth={2.25} aria-hidden />
+      <CheckIcon className="h-4 w-4 shrink-0" aria-hidden weight="bold" />
       {knownFields ? (fields.length ? `${fields.length} ${fields.length === 1 ? "campo" : "campos"} que a ficha preenche` : "Nenhum {campo} no texto") : "Nenhum campo pendente"}
     </p>
   );

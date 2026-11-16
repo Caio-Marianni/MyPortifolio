@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { LogIn } from "lucide-react";
+import { SignInIcon } from "@phosphor-icons/react/ssr";
 import { MarkBackdrop } from "@/components/site/tarja";
 import { LogoMark, MONOGRAM, RATING_FONT } from "@/components/ui/brand-marks";
 import { BUTTON_SOLID, FIELD, LABEL } from "@/components/ui/styles";
@@ -76,7 +76,7 @@ export default async function LoginPage(props: Params) {
 
           <button type="submit" className={`${BUTTON_SOLID} mt-1 w-full`}>
             Entrar
-            <LogIn className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+            <SignInIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
           </button>
         </form>
       </div>

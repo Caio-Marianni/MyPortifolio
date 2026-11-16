@@ -9,8 +9,8 @@ import { getReviews } from "@/services/reviews";
    (o site fica sempre no claro, e a tarja do claro é --chrome #111111). */
 export const viewport: Viewport = { themeColor: "#111111" };
 
-/* mesmo ritmo da página de avaliações: depoimento novo aparece em até 5 min */
-export const revalidate = 300;
+/* mesmo ritmo do layout: depoimento novo entra pela moderação, que já revalida */
+export const revalidate = 86400;
 
 export default async function Home() {
   /* o "já vi a intro" é lido antes da primeira pintura pelo themeScript do layout */

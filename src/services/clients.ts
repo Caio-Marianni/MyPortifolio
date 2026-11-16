@@ -2,12 +2,14 @@
    puro, que não conhece o alias `@/` */
 import { TODAY, db, isForeignKeyError } from "./db.ts";
 import { field, isEmail, tooLong } from "./form-input.ts";
-import { NEXT_DUE } from "./plans.ts";
+import { MONTHS_LATE, NEXT_DUE } from "./plans.ts";
+import { CLIENT_LIMITS, formatDocument, whatsappDigits } from "./client-format.ts";
+
+export * from "./client-format.ts";
 
 /* Clientes de web dev. Onde o site mora e quem é dono de cada conta ficam em "contas e acessos"
    (services/accounts.ts); dinheiro em planos, projetos e pagamentos. Senha não entra no banco. */
 
-export const CLIENT_LIMITS = { name: 160, document: 24, whatsapp: 24, email: 160, address: 300, site: 200, notes: 2000 } as const;
 
 export interface ClientFields {
   name: string;
@@ -35,42 +37,39 @@ export interface ClientRow {
   openProjects: number;
   /** soma dos planos ativos, em centavos */
   monthly: number;
+  /** o vencimento em aberto mais antigo, de plano ativo ou parcela ("YYYY-MM-DD"); no passado,
+      é desde quando o cliente está em atraso. null sem nada a receber. */
+  nextDue: string | null;
+  /** vencido e não recebido, em centavos: mensalidades atrasadas × meses + parcelas vencidas */
+  overdueAmount: number;
   /** plano com mensalidade vencida ou parcela de projeto vencida */
   overdue: boolean;
 }
 
-/** CPF (11 dígitos) ou CNPJ (14 posições) com a máscara de sempre; outra contagem é null.
-    O CNPJ aceita letra nas 12 primeiras posições — é o formato alfanumérico que a Receita
-    começou a emitir em julho de 2026. Dígito verificador não é conferido: um erro de
-    digitação aparece no contrato, que você revisa antes de mandar. */
-export function formatDocument(value: string): string | null {
-  const clean = value.toUpperCase().replace(/[^0-9A-Z]/g, "");
-  if (/^\d{11}$/.test(clean)) return clean.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
-  if (/^[0-9A-Z]{12}\d{2}$/.test(clean)) return clean.replace(/^(.{2})(.{3})(.{3})(.{4})(\d{2})$/, "$1.$2.$3/$4-$5");
-  return null;
+/* Os filtros da lista (`?ver=`); o primeiro é o padrão. "Ativo" é quem você atende hoje: contrato
+   andando (plano ativo, projeto aprovado/em andamento) ou dinheiro em atraso — um projeto entregue
+   com parcela vencida ainda é cliente. "Inativo" é o resto: ex-clientes, fora da lista padrão. */
+export const CLIENT_VIEWS = ["ativos", "atraso", "inativos", "todos"] as const;
+export type ClientView = (typeof CLIENT_VIEWS)[number];
+
+export const CLIENT_VIEW_LABEL: Record<ClientView, string> = {
+  ativos: "Ativos",
+  atraso: "Em atraso",
+  inativos: "Inativos",
+  todos: "Todos",
+};
+
+/** A lista com o filtro; o padrão é a lista sem parâmetro. */
+export const clientListHref = (view: ClientView): string => (view === "ativos" ? "/admin/clientes" : `/admin/clientes?ver=${view}`);
+
+const isCurrent = (c: ClientRow) => c.activePlans > 0 || c.openProjects > 0 || c.overdue;
+
+export function inView(client: ClientRow, view: ClientView): boolean {
+  if (view === "ativos") return isCurrent(client);
+  if (view === "atraso") return client.overdue;
+  if (view === "inativos") return !isCurrent(client);
+  return true;
 }
-
-/** Celular brasileiro com DDD, com ou sem o 55 → só dígitos com o 55. Outra contagem é null.
-    ponytail: só número do Brasil; número de fora pediria o código do país num campo próprio. */
-export function whatsappDigits(value: string): string | null {
-  const digits = value.replace(/\D/g, "");
-  if (digits.length === 10 || digits.length === 11) return `55${digits}`;
-  if ((digits.length === 12 || digits.length === 13) && digits.startsWith("55")) return digits;
-  return null;
-}
-
-/** "5562999998888" → "+55 62 99999-8888" */
-export function formatWhatsapp(digits: string): string {
-  const local = digits.slice(2);
-  return `+55 ${local.slice(0, 2)} ${local.slice(2, -4)}-${local.slice(-4)}`;
-}
-
-/** Conversa aberta com o cliente, já com o texto escrito quando houver. */
-export const whatsappLink = (digits: string, message?: string): string =>
-  `https://wa.me/${digits}${message ? `?text=${encodeURIComponent(message)}` : ""}`;
-
-/** site guardado como digitado ("loja.com.br"); o link precisa do protocolo */
-export const siteHref = (site: string): string => (/^https?:\/\//i.test(site) ? site : `https://${site}`);
 
 const LABELS: Record<keyof typeof CLIENT_LIMITS, string> = {
   name: "Nome",
@@ -130,7 +129,18 @@ export async function listClients(): Promise<ClientRow[]> {
            (select count(*)::int from plans p where p.client_id = c.id and p.status = 'active') as "activePlans",
            (select count(*)::int from projects pr where pr.client_id = c.id and pr.status in ('approved', 'in_progress')) as "openProjects",
            (select coalesce(sum(p.monthly_fee), 0)::int from plans p where p.client_id = c.id and p.status = 'active') as monthly,
-           ${OVERDUE} as overdue
+           ${OVERDUE} as overdue,
+           (select to_char(min(d), 'YYYY-MM-DD') from (
+              select ${NEXT_DUE} as d from plans where plans.client_id = c.id and plans.status = 'active'
+              union all
+              select pay.due_on from payments pay join projects pr on pr.id = pay.project_id
+              where pr.client_id = c.id and pr.status <> 'canceled' and pay.paid_on is null
+           ) dues) as "nextDue",
+           ((select coalesce(sum(plans.monthly_fee * ${MONTHS_LATE}), 0) from plans
+             where plans.client_id = c.id and plans.status = 'active')
+            + (select coalesce(sum(pay.amount), 0) from payments pay join projects pr on pr.id = pay.project_id
+               where pr.client_id = c.id and pr.status <> 'canceled' and pay.paid_on is null and pay.due_on < ${TODAY})
+           )::int as "overdueAmount"
     from clients c
     order by overdue desc, c.name
   `)) as ClientRow[];

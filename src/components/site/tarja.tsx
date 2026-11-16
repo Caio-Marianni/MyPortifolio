@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ViewTransition, type ReactNode, type SVGProps } from "react";
-import { ArrowUpRight, Download, FileDown } from "lucide-react";
+import { ArrowUpRightIcon, DownloadSimpleIcon, FileArrowDownIcon } from "@phosphor-icons/react/ssr";
 import { BrandIcon, CHANNELS, WHATSAPP_URL } from "@/components/contact/contact-channels";
 import { BrandedMark, LogoMark, STAR } from "@/components/ui/brand-marks";
 import { LangSwitch } from "@/components/ui/switches";
@@ -53,7 +53,7 @@ const SOCIALS = [
     ),
   },
 ];
-export const WhatsAppIcon = CHANNELS.find((c) => c.href === WHATSAPP_URL)?.Icon ?? ArrowUpRight;
+export const WhatsAppIcon = CHANNELS.find((c) => c.href === WHATSAPP_URL)?.Icon ?? ArrowUpRightIcon;
 
 /** O fundo grande da tarja nas páginas sem retrato (avaliações, avaliar, 404): uma forma marcada a
     ferro — a estrela, por padrão. Inclinada e cortada pela borda direita, como o retrato cortado no
@@ -119,7 +119,7 @@ export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: 
             {/* um arquivo só, no idioma em que a pessoa já está lendo */}
             <a href={`/cv/caio-marianni-${language}.pdf`} download className={`${CV_3D} ${ON_CHROME_FOCUS}`}>
               CV
-              <Download className={ICON} strokeWidth={2.5} aria-hidden />
+              <DownloadSimpleIcon className={ICON} aria-hidden weight="bold" />
             </a>
           </div>
           <div className="flex flex-col gap-3">
@@ -137,7 +137,7 @@ export function Tarja({ backdrop, homeHref, noContact, children }: { backdrop?: 
                   title={label}
                   className={`flex h-10 w-10 items-center justify-center rounded-lg text-chrome-ink/70 transition-colors hover:bg-chrome-ink/10 hover:text-chrome-ink ${ON_CHROME_FOCUS}`}
                 >
-                  <Icon className="h-[18px] w-[18px]" strokeWidth={2} aria-hidden />
+                  <Icon className="h-[18px] w-[18px]" aria-hidden />
                 </a>
               ))}
             </nav>
@@ -219,11 +219,11 @@ export function TarjaSheet({ children, footer, noContact }: { children: ReactNod
             <a
               href={`/cv/caio-marianni-${language}.pdf`}
               download
-              aria-label={language === "pt" ? "Baixar CV" : "Download CV"}
+              aria-label={language === "pt" ? "Baixar CV" : "DownloadSimpleIcon CV"}
               title="CV"
               className={`${DARK_3D} ${FOCUS} w-[52px] shrink-0 !px-0`}
             >
-              <FileDown className="h-5 w-5" strokeWidth={2.25} aria-hidden />
+              <FileArrowDownIcon className="h-5 w-5" aria-hidden weight="bold" />
             </a>
           </div>
           )}

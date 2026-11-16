@@ -26,18 +26,27 @@ const config: Config = {
         /* texto sobre o laranja: branco no claro, quase-preto no escuro, onde o laranja sobe */
         "accent-ink": "rgb(var(--accent-ink) / <alpha-value>)",
         danger: "rgb(var(--danger) / <alpha-value>)",
+        /* o botão de adicionar do painel (novo cliente, novo documento) */
+        add: "rgb(var(--add) / <alpha-value>)",
+        "add-ink": "rgb(var(--add-ink) / <alpha-value>)",
+        /* fundo do painel atrás da folha: trilho do menu, bloco das abas, cabeçalho da lista */
+        rail: "rgb(var(--rail) / <alpha-value>)",
         /* A folha branca ao lado da tarja e o creme dos cards sobre ela. O site fica sempre no
            claro; no painel os dois escurecem com o tema. */
         sheet: "rgb(var(--sheet) / <alpha-value>)",
         paper: "rgb(var(--paper) / <alpha-value>)",
+        /* o cabeçalho do bloco da ficha (SectionCard), destacado do corpo creme */
+        "paper-head": "rgb(var(--paper-head) / <alpha-value>)",
       },
       /* Três degraus de corpo e nada entre eles: meta (rótulos, legendas, faixas), ui (menus,
          botões, linhas de lista) e body (texto corrido). Títulos ficam no `clamp` de cada peça.
          Campo de formulário é 16px fixo no FIELD — piso do Safari, não degrau da escala. */
+      /* A variável (`--fs-*`) só existe no painel (.painel, globals.css), um degrau abaixo; no
+         site vale o número de reserva. */
       fontSize: {
-        meta: "12px",
-        ui: "13.5px",
-        body: "15px",
+        meta: "var(--fs-meta, 12px)",
+        ui: "var(--fs-ui, 13.5px)",
+        body: "var(--fs-body, 15px)",
       },
       /* Uma abertura só para a Makaio em caixa alta, em qualquer título do site e do painel. */
       letterSpacing: {
@@ -82,6 +91,22 @@ const config: Config = {
         },
         "reveal-x": { from: { clipPath: "inset(0 100% 0 0)" }, to: { clipPath: "inset(0 0 0 0)" } },
         "grow-x": { from: { transform: "scaleX(0)" }, to: { transform: "scaleX(1)" } },
+        /* o aviso do painel (ActionNotice): aparece, fica e some. Só opacidade, que vale também
+           para quem pediu menos movimento; o `visibility` no fim tira ele do clique e do Tab. */
+        /* a janela do painel (Modal) subindo de baixo ao abrir, e descendo ao fechar */
+        "modal-in": {
+          from: { opacity: "0", transform: "translateY(28px)" },
+          to: { opacity: "1", transform: "none" },
+        },
+        "modal-out": {
+          from: { opacity: "1", transform: "none" },
+          to: { opacity: "0", transform: "translateY(28px)" },
+        },
+        notice: {
+          "0%": { opacity: "0" },
+          "4%, 88%": { opacity: "1" },
+          "100%": { opacity: "0", visibility: "hidden" },
+        },
       },
       animation: {
         "star-shine": "star-shine 4.5s ease-in-out infinite",
@@ -97,6 +122,11 @@ const config: Config = {
         flash: "flash 1.8s ease-out",
         "reveal-x": "reveal-x 800ms cubic-bezier(0.33, 1, 0.68, 1) 150ms both",
         "grow-x": "grow-x 400ms cubic-bezier(0.2, 0.7, 0.2, 1) both",
+        notice: "notice 7s ease-out forwards",
+        "modal-in": "modal-in 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both",
+        /* 180ms: sair é mais rápido que entrar; `forwards` segura o fim até a janela sair de vez */
+        "modal-out": "modal-out 180ms cubic-bezier(0.4, 0, 1, 1) forwards",
+        "backdrop-out": "fade-out 180ms ease-in forwards",
       },
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],

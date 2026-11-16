@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ImagePlus, X } from "lucide-react";
+import { ImageSquareIcon, XIcon } from "@phosphor-icons/react/ssr";
 import { BUTTON, FIELD, LABEL } from "@/components/ui/styles";
 import { PickerButton } from "@/components/reviews/review-form";
 import { allProjects } from "@/data/projects";
@@ -241,7 +241,7 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
                 aria-label={`Tirar foto ${i + 1}`}
                 className={REMOVE}
               >
-                <X className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+                <XIcon className="h-3.5 w-3.5" aria-hidden weight="bold" />
               </button>
             </span>
           ))}
@@ -253,7 +253,7 @@ export function ReviewEditor({ review }: { review?: ReviewRecord }) {
               disabled={busy}
               className="flex aspect-[4/3] flex-col items-center justify-center gap-1.5 border border-dashed border-ink/30 text-ink/60 transition-colors hover:border-ink/70 hover:text-ink"
             >
-              <ImagePlus className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+              <ImageSquareIcon className="h-5 w-5" aria-hidden weight="regular" />
               <span className="text-meta">
                 {shots.length}/{LIMITS.shots}
               </span>

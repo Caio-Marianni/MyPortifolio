@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, RotateCw } from "lucide-react";
+import { ArrowClockwiseIcon, ArrowLeftIcon } from "@phosphor-icons/react/ssr";
 import { LogoMark } from "@/components/ui/brand-marks";
 import { button } from "@/components/ui/styles";
 
@@ -32,7 +32,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
           onClick={reset}
           className={button("solid", "lg")}
         >
-          <RotateCw className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+          <ArrowClockwiseIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
           Tentar de novo
         </button>
 
@@ -40,7 +40,7 @@ export default function ErrorPage({ reset }: { error: Error & { digest?: string 
           href="/"
           className={button("outline", "lg")}
         >
-          <ArrowLeft className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+          <ArrowLeftIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
           Voltar ao início
         </Link>
       </div>

@@ -3,6 +3,8 @@ import { MONTHS_LATE, NEXT_DUE } from "@/services/plans";
 import { reportMonth } from "@/services/reports";
 import { todayInBrazil } from "@/services/dates";
 
+export { chargeMessage } from "@/services/client-format";
+
 /* A visão geral do painel: o dinheiro do mês e a lista do que precisa de você. Cada pergunta é
    uma consulta pequena, todas em paralelo — com dezenas de clientes não há o que otimizar. */
 
@@ -15,6 +17,12 @@ export interface Due {
   dueOn: string;
   /** centavos */
   amount: number;
+  /** o "Recebi" da linha: mensalidade grava pelo plano, parcela pelo próprio pagamento */
+  kind: "plan" | "installment";
+  /** id do plano (`plan`) ou do pagamento (`installment`) */
+  refId: number;
+  /** dígitos, para o "Cobrar"; null sem WhatsApp cadastrado */
+  whatsapp: string | null;
 }
 
 export interface Overview {
@@ -29,7 +37,10 @@ export interface Overview {
   /** vence nos próximos 7 dias */
   upcoming: Due[];
   expiring: { clientId: number; clientName: string; service: string; expiresOn: string }[];
-  awaitingSignature: { id: number; title: string; clientName: string }[];
+  /** projeto ainda não entregue com o prazo no passado — a mesma regra do `deadlineNote` da ficha */
+  lateProjects: { id: number; clientId: number; clientName: string; title: string; deadline: string }[];
+  /** `sentOn`: enviado trava o texto, então o `updated_at` é o dia em que saiu ("YYYY-MM-DD") */
+  awaitingSignature: { id: number; title: string; clientName: string; sentOn: string }[];
   /** relatórios do mês que acabou de fechar ainda não enviados */
   pendingReports: number;
   pendingReviews: number;
@@ -42,11 +53,13 @@ async function dues(sql: ReturnType<typeof db>, from: string, to: string): Promi
     select * from (
       select c.id as "clientId", c.name as "clientName", 'Mensalidade · ' || plans.name as label,
              to_char(${NEXT_DUE}, 'YYYY-MM-DD') as "dueOn",
-             plans.monthly_fee * greatest(${MONTHS_LATE}, 1) as amount
+             plans.monthly_fee * greatest(${MONTHS_LATE}, 1) as amount,
+             'plan' as kind, plans.id as "refId", c.whatsapp
       from plans join clients c on c.id = plans.client_id
       where plans.status = 'active' and ${NEXT_DUE} ${from} and ${NEXT_DUE} ${to}
       union all
-      select c.id, c.name, 'Parcela · ' || pr.title, to_char(pay.due_on, 'YYYY-MM-DD'), pay.amount
+      select c.id, c.name, 'Parcela · ' || pr.title, to_char(pay.due_on, 'YYYY-MM-DD'), pay.amount,
+             'installment', pay.id, c.whatsapp
       from payments pay join projects pr on pr.id = pay.project_id join clients c on c.id = pr.client_id
       where pay.paid_on is null and pr.status <> 'canceled' and pay.due_on ${from} and pay.due_on ${to}
     ) d
@@ -58,7 +71,7 @@ export async function getOverview(): Promise<Overview> {
   const sql = db();
   const month = reportMonth(todayInBrazil());
 
-  const [moneyRows, overdue, upcoming, expiring, awaitingSignature, countRows] = await Promise.all([
+  const [moneyRows, overdue, upcoming, expiring, lateProjects, awaitingSignature, countRows] = await Promise.all([
     sql.query(`
       select
         (select coalesce(sum(monthly_fee), 0)::int from plans where status = 'active') as monthly,
@@ -78,7 +91,14 @@ export async function getOverview(): Promise<Overview> {
       order by a.expires_on
     `),
     sql.query(`
-      select d.id, d.title, c.name as "clientName"
+      select pr.id, c.id as "clientId", c.name as "clientName", pr.title, to_char(pr.deadline, 'YYYY-MM-DD') as deadline
+      from projects pr join clients c on c.id = pr.client_id
+      where pr.status not in ('delivered', 'canceled') and pr.deadline < ${TODAY}
+      order by pr.deadline
+    `),
+    sql.query(`
+      select d.id, d.title, c.name as "clientName",
+             to_char(d.updated_at at time zone 'America/Sao_Paulo', 'YYYY-MM-DD') as "sentOn"
       from documents d join clients c on c.id = d.client_id
       where d.status = 'sent'
       order by d.updated_at
@@ -101,6 +121,7 @@ export async function getOverview(): Promise<Overview> {
     overdue,
     upcoming,
     expiring: expiring as Overview["expiring"],
+    lateProjects: lateProjects as Overview["lateProjects"],
     awaitingSignature: awaitingSignature as Overview["awaitingSignature"],
   };
 }

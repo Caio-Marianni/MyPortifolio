@@ -22,9 +22,9 @@ export const metadata: Metadata = {
    (o site fica sempre no claro, e a tarja do claro é --chrome #111111). */
 export const viewport: Viewport = { themeColor: "#111111" };
 
-/* Avaliação nova entra pela moderação, não pelo minuto: 5 min de ISR é atualização de sobra
+/* Avaliação nova entra pela moderação, que já revalida: o dia de ISR é só rede de segurança,
    e a página continua servindo HTML pronto em vez de bater no Neon a cada visita. */
-export const revalidate = 300;
+export const revalidate = 86400;
 
 export default async function Reviews() {
   const reviews = await getReviews();

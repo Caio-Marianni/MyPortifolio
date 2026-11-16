@@ -56,12 +56,15 @@ const PAIRS: Array<[string, string, string, number, number]> = [
   ["sobre superfície elevada", "ink", "surface-raised", 1, 4.5],
   ["rótulo na folha", "ink", "sheet", 0.6, 4.5],
   ["rótulo no card", "ink", "paper", 0.6, 4.5],
+  ["cabeçalho do bloco", "ink", "paper-head", 0.65, 4.5],
   ["texto na tarja", "chrome-ink", "chrome", 1, 4.5],
   ["botão sólido", "fill-ink", "fill", 1, 4.5],
   ["erro de formulário", "danger", "surface", 1, 4.5],
   ["acento sobre a página", "accent", "surface", 1, 3],
   ["texto sobre o acento", "accent-ink", "accent", 1, 4.5],
   ["texto sobre o acento, hover", "accent-ink", "accent-hover", 1, 4.5],
+  ["botão de adicionar", "add-ink", "add", 1, 4.5],
+  ["texto no trilho do painel", "chrome-ink", "rail", 0.65, 4.5],
 ];
 
 let worst = Infinity;

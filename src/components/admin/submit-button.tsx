@@ -2,11 +2,11 @@
 
 import type { ReactNode } from "react";
 import { useFormStatus } from "react-dom";
-import { Check, FilePlus2, Loader2, Plus, Trash2 } from "lucide-react";
+import { ArrowRightIcon, ArrowUUpLeftIcon, CheckIcon, CircleNotchIcon, FilePlusIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react/ssr";
 
 /* O ícone vem pelo nome: componente de servidor não passa função (o componente do ícone) para
    componente de cliente, só dado. */
-const ICONS = { check: Check, plus: Plus, trash: Trash2, file: FilePlus2 };
+const ICONS = { check: CheckIcon, plus: PlusIcon, trash: TrashIcon, file: FilePlusIcon, next: ArrowRightIcon, undo: ArrowUUpLeftIcon };
 
 /** Botão de enviar que mostra o trabalho: enquanto a action roda, o ícone vira um círculo
     girando e o botão para de aceitar clique — um "Recebi" clicado duas vezes gravaria dois meses.
@@ -27,7 +27,7 @@ export function SubmitButton({ className, icon, children }: { className: string;
       }}
       className={`${className} ${pending ? "cursor-progress" : ""}`}
     >
-      {pending ? <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2.5} aria-hidden /> : Icon && <Icon className="h-4 w-4" strokeWidth={2.5} aria-hidden />}
+      {pending ? <CircleNotchIcon className="h-4 w-4 animate-spin" aria-hidden weight="bold" /> : Icon && <Icon className="h-4 w-4" aria-hidden weight="bold" />}
       {children}
     </button>
   );

@@ -1,4 +1,4 @@
-import { MessageCircle } from "lucide-react";
+import { WhatsappLogoIcon } from "@phosphor-icons/react/ssr";
 import { CopyField } from "@/components/admin/copy-field";
 import { BUTTON, BUTTON_SOLID, CARD, CARD_TITLE, FIELD, LABEL } from "@/components/ui/styles";
 import { allProjects } from "@/data/projects";
@@ -95,7 +95,7 @@ export function InviteForm({
             className={`${BUTTON} self-start`}
           >
             Mandar no WhatsApp
-            <MessageCircle className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+            <WhatsappLogoIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
           </a>
 
           <p className="text-ui leading-relaxed text-ink/65">

@@ -3,7 +3,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "myportifolio",
-  "main": ".open-next/worker.js",
+  /* o worker do OpenNext embrulhado com o cron do lembrete (custom-worker.ts) */
+  "main": "custom-worker.ts",
+  /* lembrete no celular todo dia às 9h de Brasília (12h UTC); desligado sem o secret NTFY_TOPIC */
+  "triggers": { "crons": ["0 12 * * *"] },
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },

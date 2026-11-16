@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeftIcon } from "@phosphor-icons/react/ssr";
 import { DocumentBody } from "@/components/admin/documents/document-body";
 import { PrintButton } from "@/components/admin/print-button";
 import { isAdmin, requireAdmin } from "@/services/admin-session";
@@ -34,7 +34,7 @@ export default async function ImprimirPage(props: Params) {
     <main className="min-h-screen bg-surface-sunken py-8 print:bg-white print:py-0">
       <div className="mx-auto mb-6 flex max-w-[210mm] flex-wrap items-center justify-between gap-3 px-4 font-inter text-ink print:hidden">
         <Link href={`/admin/documentos/${doc.id}`} className="inline-flex items-center gap-1.5 text-ui text-ink/70 hover:text-ink">
-          <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+          <ArrowLeftIcon className="h-3.5 w-3.5" aria-hidden weight="bold" />
           Voltar ao documento
         </Link>
         <PrintButton />

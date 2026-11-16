@@ -2,7 +2,7 @@
 
 import { useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 import Image from "next/image";
-import { ArrowUpRight, Camera, Check, ImagePlus, Star, UserRound, X } from "lucide-react";
+import { ArrowUpRightIcon, CameraIcon, CheckIcon, ImageSquareIcon, StarIcon, UserIcon, XIcon } from "@phosphor-icons/react/ssr";
 import { RATING_FONT } from "@/components/ui/brand-marks";
 import { CONTACT_3D, FOCUS } from "@/components/ui/styles";
 import { LIMITS, TRACKS, TRACK_LABEL, type Track } from "@/data/reviews";
@@ -176,7 +176,7 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
     return (
       <div className="flex animate-rise flex-col items-start gap-4 motion-reduce:animate-none">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-accent-ink shadow-[0_6px_0_0_color-mix(in_srgb,rgb(var(--accent))_60%,black)]">
-          <Check className="h-6 w-6" strokeWidth={3} aria-hidden />
+          <CheckIcon className="h-6 w-6" aria-hidden weight="bold" />
         </span>
         <h2 className={`${RATING_FONT} text-[clamp(30px,5vw,48px)] font-bold uppercase leading-none`}>{pt ? "Obrigado!" : "Thank you!"}</h2>
         <p className="max-w-[46ch] text-body leading-relaxed text-ink/70">
@@ -239,7 +239,7 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
       <div className={CARD}>
         <div className="flex items-start gap-4">
           {/* O avatar é o botão: tocar nele escolhe a foto. O selo da câmera diz que dá para tocar;
-              o X para tirar fica fora do label, senão o clique nele abriria a galeria. */}
+              o XIcon para tirar fica fora do label, senão o clique nele abriria a galeria. */}
           <div className="relative shrink-0">
             <PickerButton
               onPick={pickPhoto}
@@ -255,11 +255,11 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
                     {inicial}
                   </span>
                 ) : (
-                  <UserRound className="h-8 w-8 text-ink/25" strokeWidth={1.5} aria-hidden />
+                  <UserIcon className="h-8 w-8 text-ink/25" aria-hidden weight="regular" />
                 )}
               </span>
               <span className="absolute -bottom-0.5 -right-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-chrome text-chrome-ink ring-2 ring-paper transition-transform group-hover:scale-110">
-                <Camera className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+                <CameraIcon className="h-3.5 w-3.5" aria-hidden weight="bold" />
               </span>
             </PickerButton>
 
@@ -270,7 +270,7 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
                 aria-label={pt ? "Remover foto" : "Remove photo"}
                 className={`absolute -left-1 -top-1 flex h-7 w-7 items-center justify-center rounded-full bg-black/75 text-white transition-colors hover:bg-black ${FOCUS}`}
               >
-                <X className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+                <XIcon className="h-3.5 w-3.5" aria-hidden weight="bold" />
               </button>
             )}
           </div>
@@ -317,11 +317,11 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
               {[1, 2, 3, 4, 5].map((n) => (
                 <label key={n} className="cursor-pointer p-1" onMouseEnter={() => setHover(n)}>
                   <input type="radio" name="rating" value={n} checked={rating === n} onChange={() => setRating(n)} className="peer sr-only" />
-                  <Star
-                    className={`h-9 w-9 transition-[color,fill,transform] duration-150 peer-focus-visible:outline peer-focus-visible:outline-1 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-ink ${
-                      n <= shown ? "fill-accent text-accent" : "fill-ink/15 text-ink/15"
+                  <StarIcon
+                    className={`h-9 w-9 transition-[color,transform] duration-150 peer-focus-visible:outline peer-focus-visible:outline-1 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-ink ${
+                      n <= shown ? "text-accent" : "text-ink/15"
                     } ${n === hover ? "scale-110" : ""}`}
-                    strokeWidth={0}
+                    weight="fill"
                     aria-label={`${n} — ${RATING_WORD[language][n]}`}
                   />
                 </label>
@@ -371,7 +371,7 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
                     aria-label={pt ? `Remover foto ${i + 1}` : `Remove photo ${i + 1}`}
                     className={`absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-black/75 text-white transition-colors hover:bg-black ${FOCUS}`}
                   >
-                    <X className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+                    <XIcon className="h-3.5 w-3.5" aria-hidden weight="bold" />
                   </button>
                 </span>
               ))}
@@ -384,7 +384,7 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
                   label={pt ? "Adicionar fotos do projeto" : "Add project photos"}
                   className="flex aspect-[4/3] flex-col items-center justify-center gap-1.5 rounded-md border border-dashed border-ink/25 bg-white/60 text-ink/60 transition-colors hover:border-ink/60 hover:text-ink peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ink"
                 >
-                  <ImagePlus className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+                  <ImageSquareIcon className="h-5 w-5" aria-hidden weight="regular" />
                   <span className="font-mono text-meta">
                     {shots.length}/{LIMITS.shots}
                   </span>
@@ -408,7 +408,7 @@ export function ReviewForm({ invite, token, name: initialName, company: initialC
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
         <button type="submit" disabled={sending || busy} className={`${CONTACT_3D} ${FOCUS} w-full disabled:pointer-events-none disabled:opacity-60 sm:w-auto`}>
           {sending ? (pt ? "Enviando..." : "Sending...") : pt ? "Enviar avaliação" : "Send review"}
-          <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+          <ArrowUpRightIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
         </button>
         <p className="text-meta text-ink/55">{pt ? "Entra no site depois que eu conferir." : "Goes live once I check it."}</p>
       </div>

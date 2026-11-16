@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "check": "node scripts/check-reviews.ts && node scripts/check-clients.ts && node scripts/check-documents.ts && node scripts/check-reports.ts && node scripts/check-migrate.ts && node scripts/check-contrast.ts",
+    "check": "node scripts/check-reviews.ts && node scripts/check-clients.ts && node scripts/check-documents.ts && node scripts/check-reports.ts && node scripts/check-reminders.ts && node scripts/check-migrate.ts && node scripts/check-contrast.ts",
     "thumbs": "node scripts/thumbs.ts",
     "covers": "node scripts/covers.ts",
     "invite": "node --env-file=.env.local scripts/invite.ts",
     "migrate": "node --env-file=.env.local scripts/migrate.ts",
+    "backup": "node --env-file=.env.local scripts/backup.ts",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
@@ -29,7 +30,7 @@
   "homepage": "https://github.com/Caio-Marianni/MyPortifolio#readme",
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
-    "lucide-react": "^0.561.0",
+    "@phosphor-icons/react": "^2.1.10",
     "next": "^16.4.6",
     "qrcode": "^1.5.4",
     "react": "^19.3.1",

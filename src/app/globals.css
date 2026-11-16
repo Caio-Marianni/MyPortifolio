@@ -34,8 +34,14 @@
   --accent-hover: 184 61 0; /* #B83D00 */
   --accent-ink: 255 255 255; /* texto sobre o acento: 4.6:1 no #D14700 */
   --danger: 179 38 30; /* #B3261E */
+  /* verde de "adicionar" (painel): 5.4:1 com texto branco */
+  --add: 31 122 58; /* #1F7A3A */
+  /* fundo do painel atrás da folha (trilho do menu, abas): o laranja da marca bem escuro */
+  --rail: 92 33 8; /* #5C2108 */
+  --add-ink: 255 255 255;
   --sheet: 255 255 255; /* folha ao lado da tarja, poço do campo */
   --paper: 246 244 241; /* #F6F4F1 card creme sobre a folha */
+  --paper-head: 234 230 223; /* #EAE6DF cabeçalho do bloco da ficha: um degrau abaixo do card */
 
   /* Sem isto o navegador assume que o site não sabe lidar com tema escuro e inverte
      as cores sozinho (auto dark theme) — era o que deixava a capa marrom no celular.
@@ -64,9 +70,15 @@
      branco abaixo do AA. Aqui o texto do botão laranja é a própria página. */
   --accent-ink: 18 17 16; /* #121110 */
   --danger: 242 184 181; /* #F2B8B5 */
+  /* no escuro o verde sobe, como o laranja, e o texto vira a página */
+  --add: 95 203 133; /* #5FCB85 */
+  --rail: 58 20 5; /* #3A1405 — mais fundo, para a folha escura ainda se destacar */
+  --add-ink: 18 17 16; /* #121110 */
   /* o site fica preso no claro (.theme-light); estes dois só escurecem no painel */
   --sheet: 18 17 16; /* #121110 */
   --paper: 28 26 24; /* #1C1A18 */
+  /* no escuro o cabeçalho sobe em vez de descer: os itens dentro do card já são a folha, mais funda */
+  --paper-head: 38 35 32; /* #262320 */
 
   color-scheme: dark;
 }
@@ -102,11 +114,32 @@ body {
     background-color: rgb(var(--chrome));
   }
 
+  /* no painel o fundo atrás da folha é o laranja escuro, não o preto da tarja do site */
+  html:has(main[data-page="painel"]) {
+    background-color: rgb(var(--rail));
+  }
+
   /* O WebKit não lê o fundo do <html> direto: ele compõe o do body por cima e usa o
      resultado. Com o body creme opaco o preto acima nunca aparecia. Aqui o creme do body
      é redundante — main e section já pintam o próprio fundo —, então sai da frente. */
   html:has(main[data-page]) body {
     background-color: transparent;
+  }
+}
+
+/* Painel: a escala de texto um degrau abaixo da do site — ferramenta lida de perto, com muita
+   coisa na tela. No desktop o campo também desce para 14px; no celular fica nos 16px do FIELD,
+   piso do Safari (abaixo disso ele dá zoom na página ao focar). */
+.painel {
+  --fs-meta: 11.5px;
+  --fs-ui: 13px;
+  --fs-body: 14px;
+}
+@media (min-width: 1024px) {
+  .painel input,
+  .painel select,
+  .painel textarea {
+    font-size: 14px;
   }
 }
 

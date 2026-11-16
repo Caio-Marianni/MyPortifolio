@@ -154,9 +154,9 @@ const jsonLd = {
 
 /* A média das avaliações entra no cabeçalho de todas as páginas, então é buscada aqui, uma
    vez por revalidação — sem isso cada página viraria um par servidor/cliente só pra ler o
-   mesmo número. 5 min de ISR só conta com o banco ligado; no arquivo estático o deploy
-   já é a atualização. */
-export const revalidate = 300;
+   mesmo número. Quem atualiza é a moderação (revalidatePath("/", "layout")); o dia de ISR é só
+   rede de segurança — 5 min regravava o cache no KV o dia todo e gastava a cota grátis. */
+export const revalidate = 86400;
 
 export default async function RootLayout({
   children,

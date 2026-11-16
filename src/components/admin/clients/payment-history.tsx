@@ -1,5 +1,5 @@
-import { Wallet } from "lucide-react";
-import { CollapsibleCard } from "@/components/admin/collapsible-card";
+import { WalletIcon } from "@phosphor-icons/react/ssr";
+import { SectionCard } from "@/components/admin/section-card";
 import { CARD_TITLE, NUM } from "@/components/ui/styles";
 import { monthLabel } from "@/services/dates";
 import { brl } from "@/services/money";
@@ -13,7 +13,7 @@ export function PaymentHistory({ payments }: { payments: Payment[] }) {
   const count = months.reduce((sum, month) => sum + month.payments.length, 0);
 
   return (
-    <CollapsibleCard id="recebido" icon={<Wallet className="h-4 w-4" strokeWidth={2.25} />} title="Recebido" count={count} summary={brl(total)}>
+    <SectionCard id="recebido" icon={<WalletIcon className="h-4 w-4" weight="bold" aria-hidden />} title="Recebido" count={count} summary={brl(total)}>
       {months.length === 0 ? (
         <p className="text-ui text-ink/60">Nada recebido ainda.</p>
       ) : (
@@ -42,6 +42,6 @@ export function PaymentHistory({ payments }: { payments: Payment[] }) {
           ))}
         </ol>
       )}
-    </CollapsibleCard>
+    </SectionCard>
   );
 }

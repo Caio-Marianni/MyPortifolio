@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { ArrowDownRightIcon, ArrowUpRightIcon } from "@phosphor-icons/react/ssr";
 import type { ReactNode } from "react";
 import { LogoMark, LogoWatermark } from "@/components/ui/brand-marks";
 import { CARD_TITLE } from "@/components/ui/styles";
@@ -21,9 +21,9 @@ function Stat({ label, value, previous, before }: { label: string; value: number
       {delta !== null && (
         <span className="flex items-center gap-1 text-meta text-ink/65">
           {delta >= 0 ? (
-            <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+            <ArrowUpRightIcon className="h-3.5 w-3.5" aria-hidden weight="bold" />
           ) : (
-            <ArrowDownRight className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
+            <ArrowDownRightIcon className="h-3.5 w-3.5" aria-hidden weight="bold" />
           )}
           {delta > 0 ? "+" : ""}
           {delta}% vs. {before}

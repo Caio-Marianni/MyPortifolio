@@ -50,13 +50,18 @@ export async function removeTemplate(formData: FormData) {
 
 /* ---------- documentos ---------- */
 
-/** Gera o rascunho a partir da ficha do cliente. O vínculo chega como "projeto:3" ou "plano:2". */
+/** Gera o rascunho — da ficha do cliente ou do "Novo documento" da lista. O vínculo chega como
+    "projeto:3" ou "plano:2". */
 export async function generate(formData: FormData) {
   await requireAdmin();
   const clientId = readId(formData.get("clientId"));
   const templateId = readId(formData.get("templateId"));
   if (!clientId) redirect("/admin/clientes");
-  if (!templateId) done(withError(`/admin/clientes/${clientId}`, "Escolha um modelo."));
+  /* `from`: a tela da janela do formulário (ficha ou lista de documentos). Só caminho do painel —
+     endereço de fora aqui viraria um redirecionamento aberto. */
+  const from = String(formData.get("from") ?? "");
+  const back = from.startsWith("/admin/") ? from : `/admin/clientes/${clientId}`;
+  if (!templateId) done(withError(back, "Escolha um modelo."));
 
   const [kind, linkId] = String(formData.get("link") ?? "").split(":");
   const id = await generateDocument({
@@ -65,7 +70,7 @@ export async function generate(formData: FormData) {
     projectId: kind === "projeto" ? readId(linkId) : null,
     planId: kind === "plano" ? readId(linkId) : null,
   });
-  if (!id) done(withError(`/admin/clientes/${clientId}`, "Modelo ou cliente não encontrado."));
+  if (!id) done(withError(back, "Modelo ou cliente não encontrado."));
   done(`${PAGE}/${id}`);
 }
 

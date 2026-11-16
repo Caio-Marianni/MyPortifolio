@@ -1,5 +1,6 @@
 /* caminho relativo com extensão: o `npm run check` roda isto no node puro */
 import { TODAY, db, isForeignKeyError } from "./db.ts";
+import { relativeDays } from "./dates.ts";
 import { field, oneOf, optionalDate, tooLong } from "./form-input.ts";
 import { parseMoney } from "./money.ts";
 
@@ -88,6 +89,32 @@ export async function createProject(clientId: number, p: ProjectFields): Promise
     returning id
   `) as { id: number }[];
   return row.id;
+}
+
+/* O caminho de um projeto, na ordem; cancelado fica fora dele. */
+const FLOW: ProjectStatus[] = ["proposal", "approved", "in_progress", "delivered"];
+
+/** A etapa seguinte do caminho; null no fim (entregue) ou fora dele (cancelado). */
+export function nextProjectStatus(status: ProjectStatus): ProjectStatus | null {
+  const index = FLOW.indexOf(status);
+  return index >= 0 && index < FLOW.length - 1 ? FLOW[index + 1] : null;
+}
+
+/** O prazo em palavras enquanto o projeto não foi entregue: "entrega em 12 dias", ou "prazo
+    passou há 3 dias", que a ficha pinta de vermelho. Entregue ou cancelado não tem prazo a cumprir. */
+export function deadlineNote(project: Pick<Project, "deadline" | "status">, today: string): { text: string; late: boolean } | null {
+  if (!project.deadline || project.status === "delivered" || project.status === "canceled") return null;
+  const late = project.deadline < today;
+  return { text: `${late ? "prazo passou" : "entrega"} ${relativeDays(project.deadline, today)}`, late };
+}
+
+/** "Avançar para …": a próxima etapa sem abrir o formulário. Só muda se a etapa ainda for a que
+    estava na tela — dois cliques seguidos não pulam duas etapas. */
+export async function advanceProject(id: number): Promise<void> {
+  const sql = db();
+  const [row] = (await sql`select status from projects where id = ${id}`) as { status: ProjectStatus }[];
+  const next = row ? nextProjectStatus(row.status) : null;
+  if (next) await sql`update projects set status = ${next} where id = ${id} and status = ${row.status}`;
 }
 
 export async function updateProject(id: number, p: ProjectFields): Promise<void> {

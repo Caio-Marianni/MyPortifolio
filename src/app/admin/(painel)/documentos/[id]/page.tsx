@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Check, ChevronRight, ExternalLink, Lock, Printer, Send, Signature, Trash2, TriangleAlert, Undo2 } from "lucide-react";
+import { ArrowSquareOutIcon, ArrowUUpLeftIcon, CaretRightIcon, CheckIcon, LockIcon, PaperPlaneTiltIcon, PrinterIcon, SignatureIcon, TrashIcon, WarningIcon } from "@phosphor-icons/react/ssr";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { BodyEditor } from "@/components/admin/documents/body-editor";
 import { DocumentBody } from "@/components/admin/documents/document-body";
@@ -32,7 +32,7 @@ function SignForm({ doc }: { doc: Document }) {
       <Field label="Assinado em" name="signedOn" type="date" required defaultValue={todayInBrazil()} />
       <Field label="Link do PDF assinado (Drive…) — opcional" name="signedUrl" type="url" placeholder="https://" maxLength={DOC_LIMITS.signedUrl} />
       <button type="submit" className={`${BUTTON_SOLID} sm:min-h-[46px]`}>
-        <Signature className={ICON} strokeWidth={2.25} aria-hidden />
+        <SignatureIcon className={ICON} aria-hidden weight="bold" />
         Assinado — travar
       </button>
     </form>
@@ -50,7 +50,7 @@ function Status({ doc }: { doc: Document }) {
       {doc.status === "signed" && (
         <div className="flex flex-wrap items-center justify-between gap-4 text-ui">
           <p className="flex items-center gap-2">
-            <Lock className={ICON} strokeWidth={2.5} aria-hidden />
+            <LockIcon className={ICON} aria-hidden weight="bold" />
             <span>
               <span className="font-semibold">Assinado em {doc.signedOn && br(doc.signedOn)}.</span>{" "}
               <span className="text-ink/65">O texto não muda mais — mudança agora é um aditivo, um documento novo.</span>
@@ -59,7 +59,7 @@ function Status({ doc }: { doc: Document }) {
           {doc.signedUrl && (
             <a href={doc.signedUrl} target="_blank" rel="noopener noreferrer" className={BUTTON_SOLID}>
               Abrir PDF assinado
-              <ExternalLink className={ICON} strokeWidth={2.25} aria-hidden />
+              <ArrowSquareOutIcon className={ICON} aria-hidden weight="bold" />
             </a>
           )}
         </div>
@@ -71,7 +71,7 @@ function Status({ doc }: { doc: Document }) {
               mais passa batido, e daqui em diante o texto só muda voltando para rascunho */}
           {pending.length > 0 && (
             <p className="flex items-start gap-2 border-l-2 border-accent bg-sheet px-4 py-3 text-ui">
-              <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0 text-accent" strokeWidth={2.25} aria-hidden />
+              <WarningIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden weight="bold" />
               <span>
                 <span className="font-semibold">
                   {pending.length} {pending.length === 1 ? "campo ficou sem preencher" : "campos ficaram sem preencher"}:
@@ -89,7 +89,7 @@ function Status({ doc }: { doc: Document }) {
               <input type="hidden" name="id" value={doc.id} />
               <input type="hidden" name="sent" value="1" />
               <button type="submit" className={BUTTON_SOLID}>
-                <Send className={ICON} strokeWidth={2.25} aria-hidden />
+                <PaperPlaneTiltIcon className={ICON} aria-hidden weight="bold" />
                 {pending.length > 0 ? "Marcar como enviado mesmo assim" : "Marcar como enviado"}
               </button>
             </form>
@@ -110,7 +110,7 @@ function Status({ doc }: { doc: Document }) {
             <input type="hidden" name="id" value={doc.id} />
             <input type="hidden" name="sent" value="0" />
             <button type="submit" className={BUTTON}>
-              <Undo2 className={ICON} strokeWidth={2.25} aria-hidden />
+              <ArrowUUpLeftIcon className={ICON} aria-hidden weight="bold" />
               Voltar para rascunho
             </button>
           </form>
@@ -122,7 +122,7 @@ function Status({ doc }: { doc: Document }) {
       {doc.status !== "signed" && (
         <details open={doc.status === "sent"} className="group border-t border-ink/10 pt-4">
           <summary className={`${CARD_TITLE} flex cursor-pointer list-none items-center gap-2 hover:text-ink [&::-webkit-details-marker]:hidden`}>
-            <ChevronRight className="h-3.5 w-3.5 transition-transform group-open:rotate-90" strokeWidth={2.5} aria-hidden />
+            <CaretRightIcon className="h-3.5 w-3.5 transition-transform group-open:rotate-90" aria-hidden weight="bold" />
             Registrar assinatura
           </summary>
           <div className="pt-4">
@@ -163,10 +163,10 @@ export default async function DocumentoPage(props: Params) {
         actions={
           <>
             <Link href={`/admin/imprimir/${doc.id}`} target="_blank" className={BUTTON}>
-              <Printer className={ICON} strokeWidth={2.25} aria-hidden />
+              <PrinterIcon className={ICON} aria-hidden weight="bold" />
               Ver PDF
             </Link>
-            {doc.status !== "signed" && <IconLink href={`${page}?excluir`} label="Excluir documento" icon={Trash2} danger />}
+            {doc.status !== "signed" && <IconLink href={`${page}?excluir`} label="Excluir documento" icon={TrashIcon} danger />}
           </>
         }
       />
@@ -191,7 +191,7 @@ export default async function DocumentoPage(props: Params) {
           <Field label="Título" name="title" required defaultValue={doc.title} maxLength={DOC_LIMITS.title} />
           <BodyEditor name="body" label="Texto — # título · ## seção · - item · **negrito**" defaultValue={doc.body} rows={28} maxLength={DOC_LIMITS.body} />
           <button type="submit" className={`${BUTTON_SOLID} self-start`}>
-            <Check className={ICON} strokeWidth={2.5} aria-hidden />
+            <CheckIcon className={ICON} aria-hidden weight="bold" />
             Salvar texto
           </button>
         </form>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Mail } from "lucide-react";
+import { EnvelopeSimpleIcon, GithubLogoIcon, LinkedinLogoIcon } from "@phosphor-icons/react/ssr";
 import type { ComponentType, SVGProps } from "react";
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement>>;
@@ -12,8 +12,8 @@ interface Channel {
   Icon: IconComponent;
 }
 
-/* Marcas que o lucide não traz, em traçado da simpleicons.org — desenho sólido de 24×24,
-   sem stroke, então o `strokeWidth` que o ladrilho passa junto não tem efeito aqui. */
+/* As marcas de verdade, em traçado da simpleicons.org — desenho sólido de 24×24. O Phosphor tem
+   WhatsApp e Discord, mas redesenhados no traço dele, e não tem Upwork. */
 export function BrandIcon({ path, ...props }: SVGProps<SVGSVGElement> & { path: string }) {
   return (
     /* `overflow="visible"`: as marcas encostam na borda do quadro de 24 (o WhatsApp vai a 23.94) e,
@@ -50,10 +50,10 @@ export const WHATSAPP_URL = "https://wa.me/5562981160081";
 /* Índice de canais: cada um entra com a marca real da plataforma. O rótulo continua visível
    porque o ícone é marca d'água de canto, não legenda. */
 export const CHANNELS: Channel[] = [
-  { label: "E-mail", value: "caiomarianni@gmail.com", href: "mailto:caiomarianni@gmail.com", Icon: Mail },
+  { label: "E-mail", value: "caiomarianni@gmail.com", href: "mailto:caiomarianni@gmail.com", Icon: EnvelopeSimpleIcon },
   { label: "WhatsApp", value: "+55 62 98116-0081", href: WHATSAPP_URL, Icon: WhatsApp },
   { label: "Discord", value: "marinomad", href: "https://discord.com/users/marinomad", Icon: Discord },
-  { label: "GitHub", value: "Caio-Marianni", href: "https://github.com/Caio-Marianni", Icon: Github },
-  { label: "LinkedIn", value: "caio-marianni", href: "https://www.linkedin.com/in/caio-marianni/", Icon: Linkedin },
+  { label: "GitHub", value: "Caio-Marianni", href: "https://github.com/Caio-Marianni", Icon: GithubLogoIcon },
+  { label: "LinkedIn", value: "caio-marianni", href: "https://www.linkedin.com/in/caio-marianni/", Icon: LinkedinLogoIcon },
   { label: "Upwork", value: "caio m.", href: "https://www.upwork.com/freelancers/~01e15c653dfbed2b29", Icon: Upwork },
 ];

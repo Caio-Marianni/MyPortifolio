@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Check, Copy } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react/ssr";
 import { BUTTON, FIELD, ICON_BUTTON } from "@/components/ui/styles";
 
 /* Copiar não tem equivalente em HTML: é o pedaço de JavaScript do painel. */
@@ -36,7 +36,7 @@ export function CopyField({ value, className = "" }: { value: string; className?
       <input readOnly value={value} onFocus={(e) => e.target.select()} className={`${FIELD} min-w-0 flex-1`} />
       <button type="button" onClick={copy} className={`shrink-0 ${BUTTON}`}>
         {copied ? "Copiado" : "Copiar"}
-        {copied ? <Check className={ICON} strokeWidth={2.5} aria-hidden /> : <Copy className={ICON} strokeWidth={2.5} aria-hidden />}
+        {copied ? <CheckIcon className={ICON} aria-hidden weight="bold" /> : <CopyIcon className={ICON} aria-hidden weight="bold" />}
       </button>
     </div>
   );
@@ -50,7 +50,7 @@ export function CopyButton({ value, label, className = ICON_BUTTON, children }: 
   return (
     <button type="button" onClick={copy} aria-label={children ? undefined : label} title={copied ? "Copiado" : label} className={className}>
       {children}
-      {copied ? <Check className="h-4 w-4 shrink-0 text-accent" strokeWidth={2.5} aria-hidden /> : !children && <Copy className="h-4 w-4" strokeWidth={2} aria-hidden />}
+      {copied ? <CheckIcon className="h-4 w-4 shrink-0 text-accent" aria-hidden weight="bold" /> : !children && <CopyIcon className="h-4 w-4" aria-hidden weight="bold" />}
       <span className="sr-only" aria-live="polite">
         {copied ? "Copiado" : ""}
       </span>

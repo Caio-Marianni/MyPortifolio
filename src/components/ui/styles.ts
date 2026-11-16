@@ -38,20 +38,25 @@ const BUTTON_SIZE = {
 export const button = (variant: keyof typeof BUTTON_VARIANT = "outline", size: keyof typeof BUTTON_SIZE = "sm") =>
   `inline-flex items-center justify-center gap-2 rounded-full transition-[color,background-color,border-color,opacity,gap] disabled:opacity-40 ${FOCUS} ${BUTTON_SIZE[size]} ${BUTTON_VARIANT[variant]}`;
 
-/** contorno: ação secundária */
-export const BUTTON = button();
-
-/** Ação principal da tela — uma por bloco. É a tecla 3D do site (ver PRESS_3D, abaixo) na escala
-    do painel: 40px e lábio de 4px, como a tecla de alternar. A face é o `fill` — grafite no
-    claro, creme no escuro —, então ela se desenha na folha nos dois temas. */
-export const BUTTON_SOLID =
-  "inline-flex min-h-[40px] select-none items-center justify-center gap-2 rounded-lg bg-[var(--face)] px-5 text-meta font-bold text-fill-ink transition-[transform,box-shadow,filter] duration-150 hover:brightness-110 disabled:pointer-events-none disabled:opacity-40 " +
-  "[--face:rgb(var(--fill))] [--lip:color-mix(in_srgb,rgb(var(--fill))_55%,black)] " +
-  "[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_4px_0_0_var(--lip),0_9px_12px_-4px_rgb(0_0_0/0.45)] " +
-  "active:translate-y-[4px] active:[box-shadow:inset_0_1px_0_rgb(255_255_255/0.22),0_0_0_0_var(--lip),0_2px_4px_-2px_rgb(0_0_0/0.45)] " +
+/* Botões do painel. Chapados, 36px de altura, cantos de 8px — os quatro do mesmo tamanho e
+   formato, que só mudam de cor. A tecla 3D (lábio e sombra no chão) fica para o site: no painel,
+   com dez botões na tela, ela pesava e cada clique afundava. Um fio claro em cima e uma sombra de
+   1px dão o volume que basta; o clique só encolhe 2%. `button()`, acima, continua para o site. */
+const PANEL_BUTTON =
+  "inline-flex h-9 shrink-0 select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg px-3.5 text-ui font-semibold transition-[background-color,border-color,color,filter,transform] duration-100 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40 " +
   FOCUS;
 
-export const BUTTON_DANGER = button("danger");
+/** contorno: ação secundária (cancelar, abrir, editar) */
+export const BUTTON = `${PANEL_BUTTON} border border-ink/15 bg-sheet text-ink shadow-[0_1px_2px_rgb(0_0_0/0.06)] hover:border-ink/30 hover:bg-ink/[0.04]`;
+
+/** Ação principal do bloco — salvar, receber, gerar. O `fill`: grafite no claro, creme no escuro. */
+export const BUTTON_SOLID = `${PANEL_BUTTON} bg-fill text-fill-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25)] hover:bg-fill/85`;
+
+/** Criar algo (novo cliente, novo documento): o mesmo botão em verde. Verde é só "adicionar". */
+export const BUTTON_ADD = `${PANEL_BUTTON} bg-add text-add-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.18),0_1px_2px_rgb(0_0_0/0.25)] hover:brightness-110`;
+
+/** Excluir de verdade (a segunda etapa, DeleteConfirm). */
+export const BUTTON_DANGER = `${PANEL_BUTTON} border border-danger/40 bg-sheet text-danger hover:border-danger hover:bg-danger hover:text-surface`;
 
 /* Ação de linha só com ícone — editar, excluir, desfazer, copiar: quadrado de 36px, discreto até o
    hover, para dez itens numa ficha não virarem vinte botões disputando o olho. Sempre com
@@ -85,15 +90,22 @@ const STAGGER = [
 ];
 export const rise = (i: number) => `animate-rise motion-reduce:animate-none ${STAGGER[Math.min(i, STAGGER.length - 1)]}`;
 
+/* Lista em forma de tabela do painel (clientes, relatórios): um cartão de canto arredondado com
+   fio fino. As linhas são da cor da folha (branco no claro); o cabeçalho e o rodapé (total) são o
+   creme dos cards, com um fio entre eles e as linhas — dois tons, então nada se mistura. Rótulos
+   pequenos em caixa alta, na fonte do texto. As colunas vêm de quem usa. */
+export const TABLE = "overflow-hidden rounded-xl border border-ink/10 bg-sheet shadow-[0_1px_3px_rgb(0_0_0/0.05)]";
+export const TABLE_HEAD = "border-b border-ink/10 bg-paper px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-ink/55";
+export const TABLE_FOOT = "border-t border-ink/10 bg-paper px-5 py-3 text-ui";
+
 /** Item dentro de um bloco da ficha (plano, projeto, conta): um cartão na cor da folha sobre o
     creme do bloco, para cada item se separar do vizinho; ganha sombra no hover. `scroll-mt-24`:
     é a âncora para onde as actions voltam, e ela para com folga abaixo do topo da tela. */
 export const ITEM_CARD =
   "scroll-mt-24 rounded-lg border border-ink/10 bg-sheet p-4 transition-shadow hover:shadow-[0_10px_24px_-14px_rgb(0_0_0/0.35)] md:p-5";
 
-/** Formulário aberto no lugar do item (novo plano, editar projeto, parcela): o mesmo cartão, com
-    a borda e um halo laranja de "aberto para edição", entrando subindo. */
-export const INLINE_FORM = `scroll-mt-24 rounded-lg border border-accent/60 bg-sheet p-4 shadow-[0_0_0_3px_rgb(var(--accent)/0.1)] md:p-5 ${rise(0)}`;
+/** Uma opção dentro de um menu suspenso (Dropdown): o filtro das listas, o "⋯" da ficha. */
+export const MENU_ITEM = `flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-ui hover:bg-ink/[0.05] ${FOCUS}`;
 
 /** O item que a última ação mexeu (`?feito=`): acende em laranja e apaga. */
 export const flash = (on: boolean) => (on ? "animate-flash motion-reduce:animate-none" : "");

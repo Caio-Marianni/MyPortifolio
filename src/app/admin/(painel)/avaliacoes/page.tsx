@@ -1,12 +1,13 @@
+import { StarIcon } from "@phosphor-icons/react/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
-import { FilterTabs } from "@/components/admin/filter-tabs";
+import { FilterMenu } from "@/components/admin/filter-menu";
 import { PageHeader } from "@/components/admin/page-header";
 import { InviteForm } from "@/components/admin/reviews/invite-form";
 import { ReviewCard } from "@/components/admin/reviews/review-card";
 import { ReviewEditor } from "@/components/admin/reviews/review-editor";
-import { BUTTON_SOLID, CARD, CARD_TITLE } from "@/components/ui/styles";
+import { BUTTON_ADD, CARD, CARD_TITLE } from "@/components/ui/styles";
 import { TRACKS, type ReviewRecord, type Status, type Track } from "@/data/reviews";
 import { allProjects } from "@/data/projects";
 import { requireAdmin } from "@/services/admin-session";
@@ -62,13 +63,26 @@ export default async function AvaliacoesPage(props: Params) {
     <>
       <PageHeader
         title="Avaliações"
+        icon={StarIcon}
         description="Web e thumbnails. O que você publica aqui aparece no site."
         actions={
-          searchParams.nova === undefined && (
-            <Link href={`${PAGE}?nova`} className={BUTTON_SOLID}>
-              Nova avaliação
-            </Link>
-          )
+          <>
+            <FilterMenu
+              base={PAGE}
+              current={ver}
+              options={[
+                { value: "todas", label: "Todas", count: reviews.length },
+                { value: "pending", label: "Pendentes", count: count("pending"), alert: true },
+                { value: "approved", label: "No site", count: count("approved") },
+                { value: "rejected", label: "Recusadas", count: count("rejected") },
+              ]}
+            />
+            {searchParams.nova === undefined && (
+              <Link href={`${PAGE}?nova`} className={BUTTON_ADD}>
+                Nova avaliação
+              </Link>
+            )}
+          </>
         }
       />
 
@@ -82,16 +96,6 @@ export default async function AvaliacoesPage(props: Params) {
 
       <InviteForm page={PAGE} nome={nome} empresa={empresa} trilha={trilha} projeto={projeto} link={link} />
 
-      <FilterTabs
-        base={PAGE}
-        current={ver}
-        options={[
-          { value: "todas", label: "Todas", count: reviews.length },
-          { value: "pending", label: "Pendentes", count: count("pending") },
-          { value: "approved", label: "No site", count: count("approved") },
-          { value: "rejected", label: "Recusadas", count: count("rejected") },
-        ]}
-      />
 
       {erro && (
         <p role="alert" className="text-ui text-danger">

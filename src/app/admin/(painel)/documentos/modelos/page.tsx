@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check, Pencil, Plus, Trash2 } from "lucide-react";
+import { CheckIcon, PencilSimpleIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react/ssr";
 import { CopyButton } from "@/components/admin/copy-field";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { BodyEditor } from "@/components/admin/documents/body-editor";
@@ -67,7 +67,7 @@ function TemplateForm({ id, template, erro }: { id?: number; template: TemplateF
       <FormError message={erro} />
       <div className="flex flex-wrap gap-2">
         <button type="submit" className={BUTTON_SOLID}>
-          <Check className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+          <CheckIcon className="h-4 w-4" aria-hidden weight="bold" />
           Salvar modelo
         </button>
         <Link href={PAGE} className={BUTTON}>
@@ -90,8 +90,8 @@ function TemplateRow({ template, excluindo }: { template: Template; excluindo: b
         <DeleteConfirm action={removeTemplate} fields={{ id: template.id }} message="Documentos já gerados não mudam." cancelHref={PAGE} />
       ) : (
         <span className="-my-1 ml-auto flex">
-          <IconLink href={`${PAGE}?editar=${template.id}`} label="Editar modelo" icon={Pencil} />
-          <IconLink href={`${PAGE}?excluir=${template.id}`} label="Excluir modelo" icon={Trash2} danger />
+          <IconLink href={`${PAGE}?editar=${template.id}`} label="Editar modelo" icon={PencilSimpleIcon} />
+          <IconLink href={`${PAGE}?excluir=${template.id}`} label="Excluir modelo" icon={TrashIcon} danger />
         </span>
       )}
     </li>
@@ -137,7 +137,7 @@ export default async function ModelosPage(props: Params) {
               <div className="flex flex-wrap gap-2">
                 {Object.entries(STARTERS).map(([key, value]) => (
                   <Link key={key} href={`${PAGE}?novo=${key}`} className={BUTTON}>
-                    <Plus className="h-4 w-4" strokeWidth={2.25} aria-hidden />
+                    <PlusIcon className="h-4 w-4" aria-hidden weight="bold" />
                     {value.name || "Em branco"}
                   </Link>
                 ))}

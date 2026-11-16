@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Users } from "lucide-react";
+import { UsersIcon } from "@phosphor-icons/react/ssr";
 import { BrandedMark, Stars } from "@/components/ui/brand-marks";
 import { useLanguage } from "@/contexts/language-context";
 import { useHappyClients, useRating } from "@/contexts/reviews-context";
@@ -104,7 +104,7 @@ export function HomePage({ reviews }: { reviews: Record<number, Review> }) {
                 <Stars count={rating.stars} shine reveal className="text-accent" />
                 {happy > 0 && (
                   <span className="ml-1.5 inline-flex items-center gap-1.5 text-chrome-ink/70">
-                    <Users className="h-[1.15em] w-[1.15em]" strokeWidth={2} aria-hidden />
+                    <UsersIcon className="h-[1.15em] w-[1.15em]" aria-hidden weight="bold" />
                     {happy} {pt ? (happy === 1 ? "cliente feliz" : "clientes felizes") : happy === 1 ? "happy client" : "happy clients"}
                   </span>
                 )}

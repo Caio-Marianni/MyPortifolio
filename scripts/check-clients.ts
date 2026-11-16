@@ -3,13 +3,15 @@
    calado ou joga. */
 
 import assert from "node:assert/strict";
-import { formatDocument, formatWhatsapp, readClient, whatsappDigits } from "../src/services/clients.ts";
-import { longDate, monthLabel, monthRange, previousMonth, todayInBrazil } from "../src/services/dates.ts";
+import { maskWhatsapp } from "../src/services/client-format.ts";
+import { formatDocument, formatWhatsapp, inView, initials, readClient, siteHost, whatsappDigits, type ClientRow } from "../src/services/clients.ts";
+import { longDate, monthLabel, monthRange, previousMonth, relativeDays, todayInBrazil } from "../src/services/dates.ts";
+import { paidOn } from "../src/services/form-input.ts";
 import { moneyField, parseMoney } from "../src/services/money.ts";
 import { clientMoney, readInstallment, receivedByMonth, type Payment } from "../src/services/payments.ts";
 import { readAccount, renewal, serviceKind } from "../src/services/accounts.ts";
 import { readPlan, type Plan } from "../src/services/plans.ts";
-import { readProject, type Project } from "../src/services/projects.ts";
+import { deadlineNote, nextProjectStatus, readProject, type Project } from "../src/services/projects.ts";
 
 // dinheiro: jeito brasileiro, com e sem milhar; vazio é zero, torto é erro e não zero
 assert.equal(parseMoney("1.500,00"), 150000);
@@ -112,11 +114,12 @@ assert.equal(todayInBrazil(new Date("2026-10-30T01:00:00Z")), "2026-10-29", "22h
   );
   assert.equal(money.monthly, 35000, "plano pausado fora do mensal");
   assert.equal(money.activePlans, 1);
-  assert.equal(money.received, 185000);
   assert.equal(money.overdue, 170000, "duas mensalidades atrasadas + a parcela vencida");
   assert.equal(money.open, 220000, "o atraso mais a parcela que ainda vai vencer; a do cancelado não");
   assert.deepEqual(money.next, { dueOn: "2026-12-01", label: "Parcela · Site", amount: 50000 }, "mensalidade atrasada não é próximo vencimento");
+  assert.equal(money.overdueSince, "2026-10-10", "a mensalidade atrasada vence antes da parcela atrasada");
   assert.equal(clientMoney([], [], []).next, null);
+  assert.equal(clientMoney([], [], []).overdueSince, null);
 }
 
 // recebido por mês: do mais recente pro mais antigo, com o total de cada mês; a receber fica de fora
@@ -165,3 +168,58 @@ assert.deepEqual(renewal("2028-11-10", "2026-11-10"), { text: "renova em 2 anos"
 }
 
 console.log("clientes: ok");
+
+// vencimento em palavras: a conta atravessa mês e ano sem fuso no meio
+assert.equal(relativeDays("2026-11-10", "2026-11-10"), "hoje");
+assert.equal(relativeDays("2026-11-11", "2026-11-10"), "amanhã");
+assert.equal(relativeDays("2026-11-09", "2026-11-10"), "ontem");
+assert.equal(relativeDays("2026-12-02", "2026-11-28"), "em 4 dias");
+assert.equal(relativeDays("2025-12-30", "2026-01-04"), "há 5 dias");
+
+// dia do recebimento: vazio é hoje, passado vale, futuro e data torta são erro
+assert.equal(paidOn("", "2026-11-10"), "2026-11-10");
+assert.equal(paidOn("2026-11-07", "2026-11-10"), "2026-11-07");
+assert.equal(paidOn("2026-11-11", "2026-11-10"), undefined, "recebido amanhã não existe");
+assert.equal(paidOn("2026-02-30", "2026-11-10"), undefined);
+
+// logo da lista: domínio que o /api/favicon aceita, ou as iniciais
+assert.equal(siteHost("loja.com.br"), "loja.com.br");
+assert.equal(siteHost("https://www.loja.com.br/contato?x=1"), "www.loja.com.br");
+assert.equal(siteHost("  loja.com.br "), "loja.com.br");
+assert.equal(siteHost("sem ponto"), null);
+assert.equal(siteHost(null), null);
+assert.equal(initials("Rio Plus Transfer"), "RP");
+assert.equal(initials("gabriel"), "GA");
+
+// filtros da lista: atraso também é ativo; sem contrato é quem não tem plano nem projeto andando
+const row = (over: Partial<ClientRow>): ClientRow => ({
+  id: 1, name: "X", site: null, whatsapp: null, activePlans: 0, openProjects: 0, monthly: 0, overdue: false, nextDue: null, overdueAmount: 0, ...over,
+});
+assert.ok(inView(row({ activePlans: 1, overdue: true }), "ativos"));
+assert.ok(inView(row({ activePlans: 1, overdue: true }), "atraso"));
+assert.ok(inView(row({ overdue: true }), "ativos"), "projeto entregue com parcela vencida ainda é cliente ativo");
+assert.ok(inView(row({}), "inativos"));
+assert.ok(!inView(row({ openProjects: 1 }), "inativos"));
+assert.ok(!inView(row({ overdue: true }), "inativos"));
+
+// máscara do WhatsApp enquanto digita: cresce com o número e tira o 55 da frente
+assert.equal(maskWhatsapp("62"), "62");
+assert.equal(maskWhatsapp("629999"), "62 9999");
+assert.equal(maskWhatsapp("62999998888"), "62 99999-8888");
+assert.equal(maskWhatsapp("+55 (62) 99999-8888"), "62 99999-8888");
+assert.equal(maskWhatsapp("6233334444"), "62 3333-4444");
+assert.equal(whatsappDigits(maskWhatsapp("5562999998888")), "5562999998888", "o servidor relê o que a máscara deixou");
+
+// etapas do projeto: uma de cada vez, e nada depois de entregue ou cancelado
+assert.equal(nextProjectStatus("proposal"), "approved");
+assert.equal(nextProjectStatus("in_progress"), "delivered");
+assert.equal(nextProjectStatus("delivered"), null);
+assert.equal(nextProjectStatus("canceled"), null);
+
+// prazo em palavras: só enquanto falta entregar, e o que passou vem marcado
+assert.deepEqual(deadlineNote({ deadline: "2026-11-23", status: "in_progress" }, "2026-11-11"), { text: "entrega em 12 dias", late: false });
+assert.deepEqual(deadlineNote({ deadline: "2026-11-11", status: "approved" }, "2026-11-11"), { text: "entrega hoje", late: false });
+assert.deepEqual(deadlineNote({ deadline: "2026-11-08", status: "in_progress" }, "2026-11-11"), { text: "prazo passou há 3 dias", late: true });
+assert.equal(deadlineNote({ deadline: "2026-11-08", status: "delivered" }, "2026-11-11"), null);
+assert.equal(deadlineNote({ deadline: "2026-11-08", status: "canceled" }, "2026-11-11"), null);
+assert.equal(deadlineNote({ deadline: null, status: "proposal" }, "2026-11-11"), null);

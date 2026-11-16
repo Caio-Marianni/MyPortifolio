@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { StarIcon } from "@phosphor-icons/react/ssr";
 
 /* Peças de marca que apareciam copiadas em três arquivos cada (o slide 16:9, a pilha do
    mobile e a capa das páginas internas). Medem em `em` ou herdam classe, então continuam
@@ -47,11 +47,11 @@ export function Stars({
   const layout = `inline-flex ${vertical ? "flex-col" : "flex-row"} items-center gap-[0.25em]`;
   const row = (length: number, glow: boolean) =>
     Array.from({ length }, (_, i) => (
-      <Star
+      <StarIcon
         key={i}
-        className={`h-[1em] w-[1em] fill-current ${glow ? `animate-star-shine motion-reduce:animate-none ${SHINE_DELAY[i]}` : ""}`}
-        strokeWidth={0}
+        className={`h-[1em] w-[1em] ${glow ? `animate-star-shine motion-reduce:animate-none ${SHINE_DELAY[i]}` : ""}`}
         aria-hidden
+        weight="fill"
       />
     ));
 
@@ -93,9 +93,10 @@ export function LogoWatermark({ className = "-left-1.5" }: { className?: string 
 
 /* Monograma vetorial do Logo-outline.svg, preenchido em vez de contornado — em ~30px o stroke some.
    O laranja entra por `currentColor`: atributo `fill` com hex não enxerga variável de tema. */
-export function LogoMark() {
+/** `className` é a cor: o laranja da marca por padrão; o trilho do painel, laranja, pede branca. */
+export function LogoMark({ className = "text-accent" }: { className?: string }) {
   return (
-    <svg viewBox="-6 -6 512 512" className="h-full w-full text-accent" aria-hidden>
+    <svg viewBox="-6 -6 512 512" className={`h-full w-full ${className}`} aria-hidden>
       <path d={MONOGRAM} fill="currentColor" />
     </svg>
   );

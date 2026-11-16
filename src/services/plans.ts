@@ -127,12 +127,15 @@ export async function deletePlan(id: number): Promise<boolean> {
   }
 }
 
-/** "Recebi": grava o pagamento do mês que vence a seguir, com o valor atual do plano. */
-export async function receivePlanPayment(id: number): Promise<void> {
-  await db().query(
+/** "Recebi": grava o pagamento do mês que vence a seguir, com o valor atual do plano, no dia
+    `paidOn`. Devolve o id do pagamento, para o "Desfazer". */
+export async function receivePlanPayment(id: number, paidOn: string): Promise<number | null> {
+  const rows = await db().query(
     `insert into payments (plan_id, description, amount, due_on, paid_on)
-     select id, 'Mensalidade ' || to_char(${NEXT_DUE}, 'MM/YYYY'), monthly_fee, ${NEXT_DUE}, ${TODAY}
-     from plans where id = $1`,
-    [id],
+     select id, 'Mensalidade ' || to_char(${NEXT_DUE}, 'MM/YYYY'), monthly_fee, ${NEXT_DUE}, $2::date
+     from plans where id = $1
+     returning id`,
+    [id, paidOn],
   );
+  return (rows[0] as { id: number } | undefined)?.id ?? null;
 }

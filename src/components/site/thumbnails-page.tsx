@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { CaretLeftIcon, CaretRightIcon, XIcon } from "@phosphor-icons/react/ssr";
 import { RATING_FONT, Stars } from "@/components/ui/brand-marks";
 import { CAROUSEL_ARROW, CONTACT_3D, FOCUS, ON_CHROME_FOCUS, ON_CHROME_LINK, SHEET_COUNT, SHEET_HEADER, SHEET_TITLE, toggleKey } from "@/components/ui/styles";
 import { MarkBackdrop, SheetFooter, Tarja, TarjaSheet, WhatsAppIcon } from "@/components/site/tarja";
@@ -154,10 +154,10 @@ export function ThumbnailsPage() {
                 {visible.length > 1 && (
                   <>
                     <button type="button" onClick={() => step(-1)} aria-label={pt ? "Anterior" : "Previous"} className={`${CAROUSEL_ARROW} top-1/2 focus-visible:outline-white left-2 sm:-left-5`}>
-                      <ChevronLeft className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+                      <CaretLeftIcon className="h-5 w-5" aria-hidden weight="bold" />
                     </button>
                     <button type="button" onClick={() => step(1)} aria-label={pt ? "Próxima" : "Next"} className={`${CAROUSEL_ARROW} top-1/2 focus-visible:outline-white right-2 sm:-right-5`}>
-                      <ChevronRight className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+                      <CaretRightIcon className="h-5 w-5" aria-hidden weight="bold" />
                     </button>
                   </>
                 )}
@@ -173,7 +173,7 @@ export function ThumbnailsPage() {
                   aria-label={pt ? "Fechar" : "Close"}
                   className="-mr-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
                 >
-                  <X className="h-5 w-5" strokeWidth={2.25} aria-hidden />
+                  <XIcon className="h-5 w-5" aria-hidden weight="bold" />
                 </button>
               </figcaption>
             </figure>

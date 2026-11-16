@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Plus } from "lucide-react";
+import { PlusIcon } from "@phosphor-icons/react/ssr";
 import { FOCUS } from "@/components/ui/styles";
 
 /* `small`: a de dentro de um item (nova parcela de um projeto), um degrau abaixo da da seção, para
@@ -11,8 +11,9 @@ const SIZE = {
   small: "py-2 text-meta",
 };
 
-/** Adicionar, no fim da lista: a faixa tracejada fica onde o item novo vai entrar, e o formulário
-    abre ali mesmo, no lugar dela. `scroll={false}`: abrir não rola a ficha pro topo. */
+/** O convite de um bloco vazio da ficha ("Novo plano", "Nova parcela"): a faixa tracejada que
+    abre o formulário na janela. Com itens no bloco, quem cria é o "+" do título. `scroll={false}`:
+    abrir não rola a ficha pro topo. */
 export function AddRow({ href, small = false, children }: { href: string; small?: boolean; children: ReactNode }) {
   return (
     <Link
@@ -20,7 +21,7 @@ export function AddRow({ href, small = false, children }: { href: string; small?
       scroll={false}
       className={`group flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-ink/25 px-4 font-semibold text-ink/60 transition-colors hover:border-accent hover:bg-accent/[0.06] hover:text-ink ${SIZE[small ? "small" : "normal"]} ${FOCUS}`}
     >
-      <Plus className="h-4 w-4 text-ink/45 transition-[color,transform] group-hover:rotate-90 group-hover:text-accent" strokeWidth={2.5} aria-hidden />
+      <PlusIcon className="h-4 w-4 text-ink/45 group-hover:text-accent" aria-hidden weight="bold" />
       {children}
     </Link>
   );

@@ -1,27 +1,39 @@
 import Link from "next/link";
-import { ChevronRight, FileText } from "lucide-react";
-import { CollapsibleCard } from "@/components/admin/collapsible-card";
+import { FilePlusIcon, FileTextIcon, LinkSimpleIcon } from "@phosphor-icons/react/ssr";
+import { AddRow } from "@/components/admin/add-row";
 import { DocStatusBadge } from "@/components/admin/documents/doc-status";
-import { Select } from "@/components/admin/fields";
+import { FormError, Select } from "@/components/admin/fields";
+import { FormCard } from "@/components/admin/form-card";
+import { IconLink } from "@/components/admin/icon-link";
+import { ModalActions } from "@/components/admin/modal-actions";
+import { SectionCard } from "@/components/admin/section-card";
 import { SubmitButton } from "@/components/admin/submit-button";
-import { BUTTON, BUTTON_SOLID, ROW_FOCUS } from "@/components/ui/styles";
-import { DOC_KIND_LABEL, type Document, type Template } from "@/services/documents";
+import { BUTTON, BUTTON_SOLID, NUM, ROW_FOCUS } from "@/components/ui/styles";
+import { br } from "@/services/dates";
+import { DOC_KIND_LABEL, type DocKind, type Document, type Template } from "@/services/documents";
 import type { Plan } from "@/services/plans";
 import type { Project } from "@/services/projects";
 import { generate } from "@/app/admin/(painel)/documentos/actions";
 
-/** Gerar um rascunho: modelo + o projeto ou plano de onde saem valor, escopo e vencimento. Na
-    ficha do cliente e no "Novo documento" da lista de documentos. */
+/** Gerar um rascunho: modelo + o projeto ou plano de onde saem valor, escopo e vencimento. Sempre
+    numa janela — o "Novo documento" da lista e o "Gerar documento" da ficha. `cancelHref` fecha
+    a janela; `from` é a tela dela, pra onde o erro da action volta. */
 export function GenerateForm({
   clientId,
   templates,
   projects,
   plans,
+  cancelHref,
+  from,
+  erro,
 }: {
   clientId: number;
   templates: Template[];
   projects: Project[];
   plans: Plan[];
+  cancelHref: string;
+  from?: string;
+  erro?: string;
 }) {
   if (templates.length === 0) {
     return (
@@ -35,80 +47,92 @@ export function GenerateForm({
   }
 
   return (
-    /* flex que quebra, não grade fixa: na coluna da ficha os dois campos descem um embaixo do
-       outro, na lista de documentos ficam lado a lado com o botão */
-    <form action={generate} className="flex flex-wrap items-end gap-4">
+    <form action={generate} className="flex flex-col gap-4">
       <input type="hidden" name="clientId" value={clientId} />
-      <Select
-        prefix="doc-"
-        label="Modelo"
-        name="templateId"
-        className="min-w-[240px] flex-1"
-        options={templates.map((template) => ({ value: String(template.id), label: `${DOC_KIND_LABEL[template.kind]} · ${template.name}` }))}
-      />
-      <Select
-        prefix="doc-"
-        label="Dados de"
-        name="link"
-        className="min-w-[240px] flex-1"
-        options={[
-          ...projects.map((project) => ({ value: `projeto:${project.id}`, label: `Projeto · ${project.title}` })),
-          ...plans.map((plan) => ({ value: `plano:${plan.id}`, label: `Plano · ${plan.name}` })),
-          { value: "", label: "Só os dados do cliente" },
-        ]}
-      />
-      {/* mesma altura do campo ao lado, para a linha fechar reta */}
-      <SubmitButton className={`${BUTTON_SOLID} sm:min-h-[46px]`} icon="file">
-        Gerar rascunho
-      </SubmitButton>
+      {from && <input type="hidden" name="from" value={from} />}
+      <FormCard icon={FileTextIcon} title="Documento" hint="o rascunho sai preenchido com os dados escolhidos">
+        <Select
+          prefix="doc-"
+          icon={FileTextIcon}
+          label="Modelo"
+          name="templateId"
+          options={templates.map((template) => ({ value: String(template.id), label: `${DOC_KIND_LABEL[template.kind]} · ${template.name}` }))}
+        />
+        <Select
+          prefix="doc-"
+          icon={LinkSimpleIcon}
+          label="Dados de"
+          name="link"
+          options={[
+            ...projects.map((project) => ({ value: `projeto:${project.id}`, label: `Projeto · ${project.title}` })),
+            ...plans.map((plan) => ({ value: `plano:${plan.id}`, label: `Plano · ${plan.name}` })),
+            { value: "", label: "Só os dados do cliente" },
+          ]}
+        />
+      </FormCard>
+      <FormError message={erro} />
+      <ModalActions cancelHref={cancelHref}>
+        <SubmitButton className={BUTTON_SOLID} icon="file">
+          Gerar rascunho
+        </SubmitButton>
+      </ModalActions>
     </form>
   );
 }
 
-/** Documentos do cliente, na ficha: a lista e, embaixo, gerar um novo. */
-export function ClientDocuments({
-  clientId,
-  documents,
-  templates,
-  projects,
-  plans,
-}: {
-  clientId: number;
-  documents: Document[];
-  templates: Template[];
-  projects: Project[];
-  plans: Plan[];
-}) {
+/* "Proposta" é feminino, "Contrato" é masculino: o particípio concorda */
+const ENDING: Record<DocKind, string> = { proposal: "a", contract: "o" };
+
+/** "Contrato · assinado em 05/11", "Proposta · enviada em 03/11", "Proposta · rascunho". Enviado e
+    assinado travam o texto, então o `updatedAt` deles é o dia em que mudaram de situação. */
+function docLine(doc: Document): string {
+  const ending = ENDING[doc.kind];
+  const status =
+    doc.status === "signed" && doc.signedOn
+      ? `assinad${ending} em ${br(doc.signedOn).slice(0, 5)}`
+      : doc.status === "sent"
+        ? `enviad${ending} em ${doc.updatedAt.slice(0, 5)}`
+        : "rascunho";
+  return `${DOC_KIND_LABEL[doc.kind]} · ${status}`;
+}
+
+/** Documentos do cliente, na aba Documentos da ficha: a lista, e o "Gerar documento" que abre a
+    janela (`?aba=documentos&gerar`, ClientModals). */
+export function ClientDocuments({ clientId, documents }: { clientId: number; documents: Document[] }) {
   const sent = documents.filter((doc) => doc.status === "sent").length;
   const drafts = documents.filter((doc) => doc.status === "draft").length;
+  const generateHref = `/admin/clientes/${clientId}?aba=documentos&gerar`;
 
   return (
-    <CollapsibleCard
+    <SectionCard
       id="documentos"
-      icon={<FileText className="h-4 w-4" strokeWidth={2.25} />}
+      icon={<FileTextIcon className="h-4 w-4" weight="bold" aria-hidden />}
       title="Documentos"
       count={documents.length}
       summary={[sent > 0 && `${sent} aguardando assinatura`, drafts > 0 && `${drafts} ${drafts === 1 ? "rascunho" : "rascunhos"}`].filter(Boolean).join(" · ")}
+      action={documents.length > 0 && <IconLink href={generateHref} label="Gerar documento" icon={FilePlusIcon} />}
     >
-      {/* linhas rentes às bordas do bloco, logo abaixo do fio do cabeçalho */}
-      {documents.length > 0 && (
-        <ul className="-mx-5 -mt-5 divide-y divide-ink/10 border-b border-ink/10 text-ui md:-mx-6">
+      {documents.length === 0 ? (
+        <AddRow href={generateHref}>Gerar proposta ou contrato</AddRow>
+      ) : (
+        /* linhas rentes às bordas do bloco, logo abaixo do fio do cabeçalho */
+        <ul className="-mx-5 -my-5 divide-y divide-ink/10 text-ui md:-mx-6 md:-my-6">
           {documents.map((doc) => (
             <li key={doc.id}>
               <Link
                 href={`/admin/documentos/${doc.id}`}
-                className={`group flex flex-wrap items-center gap-x-3 gap-y-1 px-5 py-3 transition-colors hover:bg-ink/[0.04] md:px-6 ${ROW_FOCUS}`}
+                className={`group flex flex-wrap items-center gap-x-3 gap-y-1 px-5 py-3 hover:bg-ink/[0.04] md:px-6 ${ROW_FOCUS}`}
               >
-                <span className="min-w-0 flex-1 font-semibold group-hover:underline group-hover:underline-offset-4">{doc.title}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold group-hover:underline group-hover:underline-offset-4">{doc.title}</span>
+                  <span className={`block text-meta text-ink/55 ${NUM}`}>{docLine(doc)}</span>
+                </span>
                 <DocStatusBadge status={doc.status} />
-                <ChevronRight className="h-4 w-4 text-ink/30 transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-ink" strokeWidth={2} aria-hidden />
               </Link>
             </li>
           ))}
         </ul>
       )}
-
-      <GenerateForm clientId={clientId} templates={templates} projects={projects} plans={plans} />
-    </CollapsibleCard>
+    </SectionCard>
   );
 }

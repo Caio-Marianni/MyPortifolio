@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { MoonIcon, SunIcon } from "@phosphor-icons/react/ssr";
 import { useLanguage } from "@/contexts/language-context";
 import { useTheme } from "@/contexts/theme-context";
 
@@ -44,8 +44,8 @@ export function ThemeSwitch() {
       aria-label={language === "pt" ? "Alternar tema claro e escuro" : "Toggle light and dark theme"}
       className="opacity-50 transition-opacity hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-current"
     >
-      <Moon className="h-[1.35em] w-[1.35em] dark:hidden" strokeWidth={2.5} aria-hidden />
-      <Sun className="hidden h-[1.35em] w-[1.35em] dark:block" strokeWidth={2.5} aria-hidden />
+      <MoonIcon className="h-[1.35em] w-[1.35em] dark:hidden" aria-hidden weight="bold" />
+      <SunIcon className="hidden h-[1.35em] w-[1.35em] dark:block" aria-hidden weight="bold" />
     </button>
   );
 }

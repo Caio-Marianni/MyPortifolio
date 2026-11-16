@@ -1,3 +1,4 @@
+import { QrCodeIcon } from "@phosphor-icons/react/ssr";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/admin/page-header";
 import { QrGenerator } from "@/components/qr/qr-generator";
@@ -11,7 +12,7 @@ export default async function QrPage() {
 
   return (
     <>
-      <PageHeader title="QR code" description="Cole uma URL e gere o QR code com o ícone do site no meio." />
+      <PageHeader icon={QrCodeIcon} title="QR code" description="Cole uma URL e gere o QR code com o ícone do site no meio." />
       <QrGenerator />
     </>
   );

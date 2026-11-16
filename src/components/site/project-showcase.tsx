@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowUpRight, ChevronDown, Gauge, Plus, Star } from "lucide-react";
+import { ArrowUpRightIcon, CaretDownIcon, GaugeIcon, PlusIcon, StarIcon } from "@phosphor-icons/react/ssr";
 import { DeviceShowcase } from "@/components/site/device-showcase";
 import { FeaturedQuote } from "@/components/site/featured-quote";
 import { LogoMark, RATING_FONT } from "@/components/ui/brand-marks";
@@ -80,7 +80,7 @@ function Badges({ project, review, language, className }: { project: IndexProjec
         /* o verde é o do próprio Lighthouse para nota boa: lê como "medido", não como enfeite */
         <span className="flex items-center gap-1" title={lighthouseDetail(project)}>
           {score}
-          <Gauge className="h-[0.8em] w-[0.8em] text-[#0CCE6B]" strokeWidth={2.75} aria-hidden />
+          <GaugeIcon className="h-[0.8em] w-[0.8em] text-[#0CCE6B]" aria-hidden weight="bold" />
           <span className="sr-only"> Lighthouse</span>
         </span>
       )}
@@ -89,7 +89,7 @@ function Badges({ project, review, language, className }: { project: IndexProjec
           {review.rating.toFixed(1)}
           {/* SVG e não o caractere ★: o glifo segue a linha de base da fonte e sobrava para
               baixo do número; o ícone centra pela caixa, igual ao do Lighthouse */}
-          <Star className="h-[0.8em] w-[0.8em] fill-current text-accent" strokeWidth={0} aria-hidden />
+          <StarIcon className="h-[0.8em] w-[0.8em] text-accent" aria-hidden weight="fill" />
           <span className="sr-only">{language === "pt" ? " de 5 na avaliação do cliente" : " out of 5 in the client's review"}</span>
         </span>
       )}
@@ -155,7 +155,7 @@ function Featured({ project, review, language, first }: { project: Project; revi
             fio de borda: creme sobre o branco da folha precisa de um contorno para não se perder. */}
         <a href={project.demo} target="_blank" rel="noopener noreferrer" className={`${CV_3D} ${FOCUS} mt-2 self-start border border-ink/15 [--drop:0_12px_16px_-6px_rgb(0_0_0/0.32)]`}>
           {pt ? "Ver o site" : "Visit site"}
-          <ArrowUpRight className="h-[1.1em] w-[1.1em]" strokeWidth={2.5} aria-hidden />
+          <ArrowUpRightIcon className="h-[1.1em] w-[1.1em]" aria-hidden weight="bold" />
         </a>
       </div>
     </article>
@@ -193,7 +193,7 @@ function IndexRow({ project, review, language, className = "" }: { project: Inde
               className={`py-1 -my-1 inline-flex items-center gap-1 text-meta font-semibold text-ink/70 transition-colors hover:text-ink ${FOCUS}`}
             >
               {open ? (pt ? "Fechar avaliação" : "Hide review") : pt ? "Ler avaliação" : "Read review"}
-              <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} strokeWidth={2.5} aria-hidden />
+              <CaretDownIcon className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden weight="bold" />
             </button>
           )}
         </span>
@@ -273,7 +273,7 @@ export function ProjectShowcase({ reviews, language }: { reviews: Record<number,
           onClick={() => setShown((n) => n + PAGE)}
           className={`group mt-5 inline-flex items-center gap-1.5 self-start py-1 text-ui font-semibold hover:text-accent ${FOCUS}`}
         >
-          <Plus className="h-4 w-4 text-accent transition-transform duration-300 group-hover:rotate-90 motion-reduce:transition-none" strokeWidth={2.75} aria-hidden />
+          <PlusIcon className="h-4 w-4 text-accent transition-transform duration-300 group-hover:rotate-90 motion-reduce:transition-none" aria-hidden weight="bold" />
           {pt ? "Ver mais projetos" : "See more projects"}
         </button>
       )}

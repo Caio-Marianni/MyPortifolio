@@ -5,7 +5,7 @@ import { monthLabel } from "@/services/dates";
 import { getReport, readReportToken } from "@/services/reports";
 
 /* O relatório que o cliente abre pelo link do WhatsApp — sem login: quem tem o link assinado vê
-   aquele relatório e só ele. Fora do índice. Sempre lido na hora, sem o cache de 5 minutos do
+   aquele relatório e só ele. Fora do índice. Sempre lido na hora, sem o cache (ISR) do
    site, pra que a correção feita antes de enviar já apareça. */
 export const dynamic = "force-dynamic";
 

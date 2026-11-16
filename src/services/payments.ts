@@ -66,9 +66,19 @@ export async function addInstallment(projectId: number, i: InstallmentFields): P
   `;
 }
 
-/** Parcela recebida hoje. Só a que ainda estava em aberto: clicar duas vezes não muda a data. */
-export async function receiveInstallment(id: number): Promise<void> {
-  await db().query(`update payments set paid_on = ${TODAY} where id = $1 and paid_on is null`, [id]);
+/** Parcela recebida no dia `paidOn`. Só a que ainda estava em aberto: clicar duas vezes não muda a data. */
+export async function receiveInstallment(id: number, paidOn: string): Promise<void> {
+  await db().query(`update payments set paid_on = $2::date where id = $1 and paid_on is null`, [id, paidOn]);
+}
+
+/** "Desfazer" do aviso de recebido: mensalidade é apagada (o mês volta a ficar em aberto), parcela
+    volta a "a receber" — ao contrário do `deletePayment`, a parcela combinada continua lá. */
+export async function undoReceipt(id: number): Promise<void> {
+  await db().query(
+    `with plan_payment as (delete from payments where id = $1 and plan_id is not null)
+     update payments set paid_on = null where id = $1 and project_id is not null`,
+    [id],
+  );
 }
 
 /** Desfaz um registro errado: parcela volta a não existir, mensalidade volta a ficar em aberto. */
@@ -81,14 +91,14 @@ export interface ClientMoney {
   /** soma dos planos ativos, por mês */
   monthly: number;
   activePlans: number;
-  /** tudo que já entrou, de plano e de projeto */
-  received: number;
   /** a receber: parcelas de projeto em aberto mais mensalidades atrasadas */
   open: number;
   /** a parte de `open` que já venceu */
   overdue: number;
   /** o próximo vencimento que ainda não passou */
   next: { dueOn: string; label: string; amount: number } | null;
+  /** o vencimento atrasado mais antigo ("YYYY-MM-DD"): desde quando o cliente deve; null em dia */
+  overdueSince: string | null;
 }
 
 /** Monta o resumo com o que a ficha já carregou — nada de consulta a mais. Projeto cancelado não
@@ -113,10 +123,14 @@ export function clientMoney(plans: Plan[], projects: Project[], payments: Paymen
   return {
     monthly: sum(active.map((plan) => plan.monthlyFee)),
     activePlans: active.length,
-    received: sum(payments.filter((payment) => payment.paidOn).map((payment) => payment.amount)),
     open: sum(open.map(({ payment }) => payment.amount)) + planOverdue,
     overdue: sum(open.filter(({ payment }) => payment.overdue).map(({ payment }) => payment.amount)) + planOverdue,
     next: upcoming[0] ?? null,
+    overdueSince:
+      [
+        ...active.filter((plan) => plan.overdue).map((plan) => plan.nextDue),
+        ...open.filter(({ payment }) => payment.overdue).map(({ payment }) => payment.dueOn),
+      ].sort()[0] ?? null,
   };
 }
 

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CaretLeftIcon, CaretRightIcon, ChartBarIcon } from "@phosphor-icons/react/ssr";
 import { Badge } from "@/components/admin/badge";
 import { FormError } from "@/components/admin/fields";
 import { PageHeader } from "@/components/admin/page-header";
-import { BUTTON, BUTTON_SOLID, NUM } from "@/components/ui/styles";
+import { BUTTON, BUTTON_SOLID, NUM, TABLE, TABLE_HEAD } from "@/components/ui/styles";
 import { requireAdmin } from "@/services/admin-session";
 import { br, monthLabel, previousMonth, todayInBrazil } from "@/services/dates";
 import { listQueue, readMonth, reportMonth, type QueueItem } from "@/services/reports";
@@ -15,6 +15,9 @@ import { generate } from "./actions";
 export const metadata: Metadata = { title: "Relatórios" };
 
 const PAGE = "/admin/relatorios";
+
+/* colunas fixas no desktop, para o cabeçalho e as linhas — grades separadas — caírem alinhados */
+const COLUMNS = "md:grid md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_190px_110px] md:items-center md:gap-x-4";
 
 /** "2026-12" → "2027-01" */
 const nextMonth = (month: string) => {
@@ -50,15 +53,16 @@ export default async function RelatoriosPage(props: Params) {
     <>
       <PageHeader
         title="Relatórios"
+        icon={ChartBarIcon}
         description={`${monthLabel(month)} · ${pending ? `${pending} por enviar` : "nada pendente"}`}
         actions={
           <>
             <Link href={`${PAGE}?mes=${previousMonth(month)}`} className={`${BUTTON}`} aria-label="Mês anterior">
-              <ChevronLeft className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+              <CaretLeftIcon className="h-4 w-4" aria-hidden weight="bold" />
             </Link>
             {month < current && (
               <Link href={`${PAGE}?mes=${nextMonth(month)}`} className={`${BUTTON}`} aria-label="Mês seguinte">
-                <ChevronRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                <CaretRightIcon className="h-4 w-4" aria-hidden weight="bold" />
               </Link>
             )}
           </>
@@ -87,51 +91,47 @@ export default async function RelatoriosPage(props: Params) {
       )}
 
       {queue && queue.length > 0 && (
-        <div className="overflow-x-auto bg-paper">
-          <table className="w-full min-w-[620px] text-left text-ui">
-            <thead className="border-b border-ink/15 font-mono text-meta uppercase tracking-[0.06em] text-ink/60">
-              <tr>
-                <th className="px-5 py-3 font-normal">Cliente</th>
-                <th className="px-5 py-3 font-normal">Plano</th>
-                <th className="px-5 py-3 font-normal">Situação</th>
-                <th className="px-5 py-3 text-right font-normal">
-                  <span className="sr-only">Ação</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-ink/10">
-              {queue.map((item) => (
-                <tr key={item.planId}>
-                  <td className="px-5 py-3">
-                    <Link href={`/admin/clientes/${item.clientId}`} className="font-semibold underline-offset-4 hover:underline">
-                      {item.clientName}
+        /* a grade por linha da lista de clientes: no celular cada relatório vira um cartão —
+           cliente em cima, plano, situação e ação embaixo — em vez de uma tabela rolando de lado */
+        <div className={TABLE}>
+          <div className={`hidden ${TABLE_HEAD} ${COLUMNS}`} aria-hidden>
+            <span>Cliente</span>
+            <span>Plano</span>
+            <span>Situação</span>
+            <span />
+          </div>
+          <ul className="divide-y divide-ink/10">
+            {queue.map((item) => (
+              <li key={item.planId} className={`flex flex-wrap items-center gap-x-3 gap-y-2 px-5 py-4 text-ui md:py-3 ${COLUMNS}`}>
+                <span className="min-w-0 basis-full md:basis-auto">
+                  <Link href={`/admin/clientes/${item.clientId}`} className="font-semibold underline-offset-4 hover:underline">
+                    {item.clientName}
+                  </Link>
+                  {!item.hasAnalytics && <span className="block text-meta text-ink/55">sem GA4 — só o recado</span>}
+                </span>
+                <span className="text-ink/75">{item.planName}</span>
+                <span className={NUM}>
+                  <Situacao item={item} />
+                </span>
+                <span className="ml-auto md:text-right">
+                  {item.reportId ? (
+                    <Link href={`${PAGE}/${item.reportId}`} className={BUTTON}>
+                      Abrir
                     </Link>
-                    {!item.hasAnalytics && <span className="block text-meta text-ink/55">sem GA4 — só o recado</span>}
-                  </td>
-                  <td className="px-5 py-3 text-ink/75">{item.planName}</td>
-                  <td className={`px-5 py-3 ${NUM}`}>
-                    <Situacao item={item} />
-                  </td>
-                  <td className="px-5 py-3 text-right">
-                    {item.reportId ? (
-                      <Link href={`${PAGE}/${item.reportId}`} className={BUTTON}>
-                        Abrir
-                      </Link>
-                    ) : (
-                      <form action={generate}>
-                        <input type="hidden" name="planId" value={item.planId} />
-                        <input type="hidden" name="month" value={month} />
-                        <input type="hidden" name="from" value={here} />
-                        <button type="submit" className={BUTTON_SOLID}>
-                          Gerar
-                        </button>
-                      </form>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  ) : (
+                    <form action={generate}>
+                      <input type="hidden" name="planId" value={item.planId} />
+                      <input type="hidden" name="month" value={month} />
+                      <input type="hidden" name="from" value={here} />
+                      <button type="submit" className={BUTTON_SOLID}>
+                        Gerar
+                      </button>
+                    </form>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </>

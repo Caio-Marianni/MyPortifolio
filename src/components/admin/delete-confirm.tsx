@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SubmitButton } from "@/components/admin/submit-button";
-import { BUTTON, BUTTON_DANGER, rise } from "@/components/ui/styles";
+import { BUTTON, BUTTON_DANGER } from "@/components/ui/styles";
 
 /** Segunda etapa de toda exclusão do painel. A primeira é só um link que reabre a tela marcando
     o item (`?excluir=`); esta é a pergunta, no lugar do item — sem `confirm()` do navegador, que
@@ -19,7 +19,7 @@ export function DeleteConfirm({
   cancelHref: string;
 }) {
   return (
-    <form action={action} className={`flex flex-wrap items-center gap-3 ${rise(0)}`}>
+    <form action={action} className="flex flex-wrap items-center gap-3">
       {Object.entries(fields).map(([name, value]) => (
         <input key={name} type="hidden" name={name} value={value} />
       ))}
